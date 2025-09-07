@@ -1,0 +1,15 @@
+@startuml DomainModel
+!include .\astah-min.puml
+
+class A
+{
+    +field1: int
+    -field2: String
+    #field3: float
+
+    +method1(): void
+    -method2(param: int): String
+    #method3(): float
+}
+
+@enduml
