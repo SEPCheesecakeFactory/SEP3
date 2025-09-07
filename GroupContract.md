@@ -1,8 +1,10 @@
 # Group Contract
 
 ## SEP2 Group Contract  
-**Course:** Software Technology Engineering  
+**Course:** Software Technology Engineering 
+
 **Semester:** 3rd Semester
+
 **Date:** 8. September 2025
 
 **Group Members (GMs):**  
@@ -11,8 +13,6 @@
 - Alexandru Savin  
 - Halil Ibrahim Aygun  
 - Eduard Fekete  
-
----
 
 ## 1. Core Values and Priorities
 
@@ -23,8 +23,6 @@ The group shall adhere to the following principles to guide its work:
 - **Efficiency:** Striving for productivity in task completion.  
 - **Fairness:** Recognizing and balancing individual strengths and weaknesses.  
 - **Peace:** Fostering a harmonious group dynamic.  
-
----
 
 ## 2. Purpose
 
@@ -52,8 +50,6 @@ The objectives are as follows:
 - Members must respect and accommodate others’ participation by attending meetings, meeting deadlines, and collaborating during classes.  
 - Group members should allocate time to assist others as necessary, as no task is entirely individual.  
 
----
-
 ## 3. Group Expectations
 
 1. **Communication**  
@@ -76,14 +72,10 @@ The objectives are as follows:
 4. **Code Standards**  
    - Adhere to principles taught in all sessions so far taught in our class.  
 
----
-
 ## 4. Conflict Resolution
 
 - Disputes will be discussed as a group.  
 - If unresolved, the matter will be escalated to the project supervisor(s).  
-
----
 
 ## 5. Accountability
 
@@ -104,7 +96,6 @@ To ensure accountability and maintain harmony, a point-based system will track r
 ### Tracking System
 - Points will be tracked and managed in the main **FigJam page on Figma**.  
 
----
 
 ## Signatures
 
