@@ -12,11 +12,11 @@ This repository contains a project developed for the Semester Project 3 (SEP3) c
 
 # Timeline
 
-8. September 2025 - Project proposal submission
+**8th September 2025** - Project proposal submission
 
-15-ish September 2025 - Project kickoff
+**15th-ish September 2025** - Project kickoff
 
-1.-20. December 2025 - Project submission
+**1st-20th December 2025** - Project submission
 
 # Requirements
 
