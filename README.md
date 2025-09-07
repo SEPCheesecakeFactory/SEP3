@@ -41,8 +41,101 @@ This repository contains a project developed for the Semester Project 3 (SEP3) c
 
 20 min / per person group examination (including evaluation)
 
-# Tools needed for working on the project
+# Tools
 
-- IDE (Visual Studio, IntelliJ, etc.)
+The following tools are needed for working on the project:
+
+- IDE (Visual Studio, IntelliJ, etc.) - VS Code is recommended
 - Markdown Preview extension of choice
 - PlantUML Preview extension of choice
+- PDF Preview extension of choice
+- Pandoc
+- MikTeX
+- Graphviz
+- PlantUML
+- Dotnet SDK
+
+# Setup
+
+Make sure to have [Chocolatey](https://chocolatey.org/install) installed, then run the following commands in an elevated (admin) PowerShell/CMD terminal:
+
+```powershell
+choco install pandoc
+choco install miktex
+choco install graphviz
+choco install openjdk
+
+choco install qpdf -y
+```
+
+Verify your installations (except QPDF) by running the following commands:
+
+```powershell
+pandoc -v
+pdflatex --version
+dot -V
+java -jar plantuml.jar -version
+```
+
+Then, install the following VSCode extensions:
+- Markdown Preview Enhanced
+- PlantUML
+
+# Building the documentation
+
+Make sure that you are in the Documentation directory, probably you need to run
+```powershell
+cd Documentation
+```
+
+## Project Description PDF
+
+```powershell
+  pandoc --metadata-file=Styles\ptd-meta.yaml ProjectDescription.md `
+  --include-before-body=Styles\ptd.tex `
+  --include-in-header=Styles\ptd-hdr-ftr.tex `
+  -V geometry:margin=25mm `
+  --pdf-engine=pdflatex `
+  --toc --number-sections `
+  -o Final\ProjectDescription.pdf
+  ```
+
+## Process Report PDF
+
+```powershell
+  pandoc --metadata-file=Styles\psr-meta.yaml ProcessReport.md `
+  --include-before-body=Styles\psr.tex `
+  --include-in-header=Styles\psr-hdr-ftr.tex `
+  -V geometry:margin=25mm `
+  --pdf-engine=pdflatex `
+  --toc --number-sections `
+  -o Final\ProcessReport.pdf
+  ```
+  
+## Project Report PDF
+
+```powershell
+  pandoc --metadata-file=Styles\ptr-meta.yaml ProjectReport.md `
+  --include-before-body=Styles\ptr.tex `
+  --include-in-header=Styles\ptr-hdr-ftr.tex `
+  -V geometry:margin=25mm `
+  --pdf-engine=pdflatex `
+  --toc --number-sections `
+  -o Final\ProjectReport.pdf
+  ```
+
+## Final Combined PDF
+
+Make sure to export the documents individually before, and then run:
+
+```powershell
+  qpdf --empty --pages Final\ProjectDescription.pdf 1-z Final\ProcessReport.pdf 1-z Final\ProjectReport.pdf 1-z -- Final\FinalDocument.pdf
+  ```
+
+## Full Source Code ZIP
+
+For this one, don't be inside the Documentation directory, but rather in the root of the repository, then run:
+
+```powershell
+$zip = "$PWD\$(Split-Path -Leaf $PWD).zip"; if (Test-Path $zip) {Remove-Item $zip -Force}; Compress-Archive * -DestinationPath $zip
+  ```
