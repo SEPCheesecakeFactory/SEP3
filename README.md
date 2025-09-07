@@ -38,4 +38,5 @@ This repository contains a project developed for the Semester Project 3 (SEP3) c
 # Examination
 
 20 min group presentation of the project
+
 20 min / per person group examination (including evaluation)
