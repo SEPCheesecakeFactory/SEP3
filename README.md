@@ -4,11 +4,11 @@ This repository contains a project developed for the Semester Project 3 (SEP3) c
 
 # Team Members
 
-- Guillermo Sanchez Martinez
-- Piotr Wiktor Junosz
-- Halil Ibrahim Aygun
-- Alexandru Savin
-- Eduard Fekete
+- Guillermo Sanchez Martinez (355442)
+- Piotr Wiktor Junosz (355502)
+- Halil Ibrahim Aygun (355770)
+- Alexandru Savin (354790)
+- Eduard Fekete (355323)
 
 # Timeline
 
