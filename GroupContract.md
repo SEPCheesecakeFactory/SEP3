@@ -1,6 +1,6 @@
 # Group Contract
 
-## SEP2 Group Contract  
+## SEP3 Group Contract  
 **Course:** Software Technology Engineering 
 
 **Semester:** 3rd Semester
@@ -26,7 +26,7 @@ The group shall adhere to the following principles to guide its work:
 
 ## 2. Purpose
 
-Our group aims to successfully complete the SEP2 project and other second-semester group assignments.  
+Our group aims to successfully complete the SEP3 project and other third-semester group assignments.  
 The objectives are as follows:
 
 - Deliver a project that meets acceptable standards, ideally achieving high grades (10–12).  
@@ -71,13 +71,18 @@ The objectives are as follows:
 
 4. **Code Standards**  
    - Adhere to principles taught in all sessions so far taught in our class.  
+   - Learn from and accept others' feedback on code quality.
+   - Follow the agreed-upon coding style and conventions.
 
 ## 4. Conflict Resolution
 
-- Disputes will be discussed as a group.  
-- If unresolved, the matter will be escalated to the project supervisor(s).  
+- If possible, address conflicts directly with the involved party.
+- Unresolved disputes will be discussed as a group.  
+- If still unresolved, the matter will be escalated to the project supervisor(s).  
 
 ## 5. Accountability
+
+Each team member holds ultimate accountability for the quality, accuracy, and integrity of all work they contribute to the project and all their actions taken within the semester project scope. While assistance may be sought from external sources (including AI tools, other individuals, or online resources), the contributing member is solely accountable for verifying all information and deliverables before integration into the project. The direct responsibility of a source for an error does not transfer or mitigate the team member's ultimate accountability for their submitted work.
 
 To ensure accountability and maintain harmony, a point-based system will track rule violations.  
 *The purpose of this system is to bond in the team, not to punish the “bad apples”.*  
