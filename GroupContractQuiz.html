@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SEP3 Group Contract Quiz</title>
+<style>
+  :root { --bg:#0b0c10; --card:#15171c; --ink:#e9edf1; --muted:#9aa4b2; --ok:#2fb170; --bad:#ff5d5d; --accent:#4ea1ff;}
+  html,body{background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0}
+  .wrap{max-width:900px;margin:32px auto;padding:0 16px}
+  h1{font-weight:750;letter-spacing:.2px;margin:0 0 .25rem}
+  .sub{color:var(--muted);margin:0 0 1rem}
+  .card{background:var(--card);border:1px solid #252932;border-radius:14px;padding:18px 18px 12px;margin:14px 0}
+  .qtitle{font-weight:660;margin:0 0 .35rem}
+  .options{margin:.25rem 0 .5rem 0}
+  .options label{display:block;padding:.28rem .5rem;border-radius:8px;cursor:pointer}
+  .options label:hover{background:#1d2027}
+  .explain{display:none;margin:.35rem 0 0 0;color:var(--muted)}
+  .explain b{color:var(--ink)}
+  .pill{display:inline-block;font-size:.8rem;padding:.18rem .5rem;border-radius:999px;background:#1d2027;color:var(--muted);margin-left:.4rem}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+  button{background:var(--accent);color:#06101d;border:0;border-radius:10px;padding:.6rem .9rem;font-weight:650;cursor:pointer}
+  button.secondary{background:#222733;color:var(--ink)}
+  .score{font-weight:750;margin-left:8px}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  input[type="text"], textarea{width:100%;background:#0f1116;color:var(--ink);border:1px solid #2a2f39;border-radius:8px;padding:.55rem .65rem}
+  small.hint{color:var(--muted)}
+  .footer{color:var(--muted);font-size:.9rem;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SEP3 Group Contract Quiz</h1>
+  <p class="sub">Interactive, offline-friendly. Progress auto-saves. Use <em>Reveal answers</em> for self-check.</p>
+
+  <!-- Q1 -->
+  <section class="card" data-q="1" data-type="single" data-answer="d">
+    <div class="qtitle">1) Which of the following is **not** listed as one of the group’s core values? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q1" value="a"> a) Democracy</label>
+      <label><input type="radio" name="q1" value="b"> b) Respect</label>
+      <label><input type="radio" name="q1" value="c"> c) Efficiency</label>
+      <label><input type="radio" name="q1" value="d"> d) Innovation</label>
+      <label><input type="radio" name="q1" value="e"> e) Peace</label>
+    </div>
+    <div class="explain"><b>Correct:</b> d) Innovation (not listed among core values).</div>
+  </section>
+
+  <!-- Q2 -->
+  <section class="card" data-q="2" data-type="single" data-answer="d">
+    <div class="qtitle">2) What percentage of members must approve **amendments to the contract**? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q2" value="a"> a) 50%</label>
+      <label><input type="radio" name="q2" value="b"> b) 66%</label>
+      <label><input type="radio" name="q2" value="c"> c) 75%</label>
+      <label><input type="radio" name="q2" value="d"> d) 80%</label>
+    </div>
+    <div class="explain"><b>Correct:</b> d) 80% for amendments/significant decisions.</div>
+  </section>
+
+  <!-- Q3 -->
+  <section class="card" data-q="3" data-type="single" data-answer="c">
+    <div class="qtitle">3) How long do members have to respond to messages under normal circumstances? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q3" value="a"> a) 24 hours</label>
+      <label><input type="radio" name="q3" value="b"> b) 48 hours</label>
+      <label><input type="radio" name="q3" value="c"> c) 72 hours</label>
+      <label><input type="radio" name="q3" value="d"> d) 1 week</label>
+    </div>
+    <div class="explain"><b>Correct:</b> c) 72 hours (with faster response for imminent hand-ins).</div>
+  </section>
+
+  <!-- Q4 -->
+  <section class="card" data-q="4" data-type="single" data-answer="b">
+    <div class="qtitle">4) Arriving late to a meeting **without notifying** anyone counts as: <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q4" value="a"> a) Nothing</label>
+      <label><input type="radio" name="q4" value="b"> b) 0.5 missed attendance</label>
+      <label><input type="radio" name="q4" value="c"> c) 1 missed attendance</label>
+      <label><input type="radio" name="q4" value="d"> d) Immediate karaoke penalty</label>
+    </div>
+    <div class="explain"><b>Correct:</b> b) 0.5 missed attendance if late without notifying.</div>
+  </section>
+
+  <!-- Q5 -->
+  <section class="card" data-q="5" data-type="single" data-answer="d">
+    <div class="qtitle">5) Which principle takes precedence when distributing work? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q5" value="a"> a) Equality</label>
+      <label><input type="radio" name="q5" value="b"> b) Seniority</label>
+      <label><input type="radio" name="q5" value="c"> c) Availability only</label>
+      <label><input type="radio" name="q5" value="d"> d) Fairness</label>
+    </div>
+    <div class="explain"><b>Correct:</b> d) Fairness takes precedence over equality.</div>
+  </section>
+
+  <!-- Q6 -->
+  <section class="card" data-q="6" data-type="single" data-answer="b">
+    <div class="qtitle">6) What’s expected regarding coding conventions and feedback? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q6" value="a"> a) Everyone codes however they like</label>
+      <label><input type="radio" name="q6" value="b"> b) Follow class principles and accept feedback</label>
+      <label><input type="radio" name="q6" value="c"> c) Only the most experienced coder sets the standard</label>
+      <label><input type="radio" name="q6" value="d"> d) Use AI code without review</label>
+    </div>
+    <div class="explain"><b>Correct:</b> b) Follow principles taught; accept feedback; follow agreed style.</div>
+  </section>
+
+  <!-- Q7 -->
+  <section class="card" data-q="7" data-type="single" data-answer="c">
+    <div class="qtitle">7) How many points does a **missed deadline** result in? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q7" value="a"> a) 0.25 points</label>
+      <label><input type="radio" name="q7" value="b"> b) 0.5 points</label>
+      <label><input type="radio" name="q7" value="c"> c) 1 point</label>
+      <label><input type="radio" name="q7" value="d"> d) 2 points</label>
+    </div>
+    <div class="explain"><b>Correct:</b> c) 1 point.</div>
+  </section>
+
+  <!-- Q8 -->
+  <section class="card" data-q="8" data-type="single" data-answer="c">
+    <div class="qtitle">8) What happens at **1 point** in violations? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q8" value="a"> a) Written warning</label>
+      <label><input type="radio" name="q8" value="b"> b) Mandatory extra task</label>
+      <label><input type="radio" name="q8" value="c"> c) Sing a song at a public karaoke session</label>
+      <label><input type="radio" name="q8" value="d"> d) Meeting with supervisor</label>
+    </div>
+    <div class="explain"><b>Correct:</b> c) Karaoke.</div>
+  </section>
+
+  <!-- Q9 -->
+  <section class="card" data-q="9" data-type="single" data-answer="d">
+    <div class="qtitle">9) Where are violation points tracked and managed? <span class="pill">single choice</span></div>
+    <div class="options">
+      <label><input type="radio" name="q9" value="a"> a) Jira board</label>
+      <label><input type="radio" name="q9" value="b"> b) Google Sheets</label>
+      <label><input type="radio" name="q9" value="c"> c) Notion</label>
+      <label><input type="radio" name="q9" value="d"> d) Main FigJam page on Figma</label>
+    </div>
+    <div class="explain"><b>Correct:</b> d) Main FigJam page on Figma.</div>
+  </section>
+
+  <div class="actions">
+    <button id="scoreBtn">Check score</button>
+    <button id="revealBtn" class="secondary">Reveal answers</button>
+    <button id="resetBtn" class="secondary">Reset</button>
+    <span id="score" class="score"></span>
+  </div>
+</div>
+
+<script>
+(function(){
+  const KEY = 'sep3-quiz-v1';
+  const names = ["guillermo","piotr","alexandru","halil","eduard","sánchez","sanchez","martínez","martinez","junosz","savin","aygun","aygün","fekete"];
+  const normalize = s => s
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9\s,.-]/g," ");
+
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+  // Restore state
+  const saved = JSON.parse(localStorage.getItem(KEY) || "{}");
+  for (const sec of $$(".card")) {
+    const q = sec.dataset.q;
+    const type = sec.dataset.type;
+    if (type === "single") {
+      const val = saved["q"+q];
+      if (val) {
+        const el = sec.querySelector(`input[value="${val}"]`);
+        if (el) el.checked = true;
+      }
+    } else if (type === "text") {
+      const v = saved["q"+q] || "";
+      sec.querySelector("input,textarea").value = v;
+    }
+  }
+
+  // Persist changes
+  for (const sec of $$(".card")) {
+    const q = sec.dataset.q;
+    const type = sec.dataset.type;
+    if (type === "single") {
+      sec.addEventListener("change", e=>{
+        if (e.target.name === "q"+q) {
+          saved["q"+q] = e.target.value;
+          localStorage.setItem(KEY, JSON.stringify(saved));
+        }
+      });
+    } else if (type === "text") {
+      const input = sec.querySelector("input,textarea");
+      input.addEventListener("input", ()=>{
+        saved["q"+q] = input.value;
+        localStorage.setItem(KEY, JSON.stringify(saved));
+      });
+    }
+  }
+
+  function evaluate(showPerQ=false){
+    let score = 0, total = 9;
+    for (const sec of $$(".card")) {
+      const type = sec.dataset.type;
+      const q = sec.dataset.q;
+      // reset styles
+      sec.style.borderColor = "#252932";
+      if (showPerQ) sec.querySelector(".explain").style.display = "block";
+
+      if (type === "single") {
+        const correct = sec.dataset.answer;
+        const chosen = (saved["q"+q] || "");
+        const ok = chosen === correct;
+        if (ok) { score++; sec.style.borderColor = "rgba(47,177,112,.85)"; }
+        else if (showPerQ && chosen) { sec.style.borderColor = "rgba(255,93,93,.75)"; }
+      } else if (type === "text") {
+        const v = normalize(saved["q"+q] || "");
+        const found = new Set();
+        for (const name of names){
+          if (v.includes(normalize(name))) found.add(name);
+        }
+        // Count as correct if at least two distinct roster names appear
+        if (found.size >= 2){ score++; sec.style.borderColor = "rgba(47,177,112,.85)"; }
+        else if (showPerQ && v.trim()) { sec.style.borderColor = "rgba(255,93,93,.75)"; }
+      }
+    }
+    const scoreEl = $("#score");
+    scoreEl.textContent = `Score: ${score}/${total}`;
+    scoreEl.className = "score " + (score===total ? "ok" : (score>=7 ? "" : "bad"));
+  }
+
+  $("#scoreBtn").addEventListener("click", ()=>evaluate(true));
+  $("#revealBtn").addEventListener("click", ()=>{
+    $$(".explain").forEach(x=>x.style.display="block");
+  });
+  $("#resetBtn").addEventListener("click", ()=>{
+    localStorage.removeItem(KEY);
+    location.reload();
+  });
+
+  // First render
+  evaluate(false);
+})();
+</script>
+</body>
+</html>
