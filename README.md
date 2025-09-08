@@ -139,3 +139,16 @@ For this one, don't be inside the Documentation directory, but rather in the roo
 ```powershell
 $zip = "$PWD\$(Split-Path -Leaf $PWD).zip"; if (Test-Path $zip) {Remove-Item $zip -Force}; Compress-Archive * -DestinationPath $zip
   ```
+
+## General Document PDF
+
+Include --toc if needed for table of contents
+
+```powershell
+  pandoc <doc-name>.md `
+  --include-in-header=Styles\general-hdr-ftr.tex `
+  -V geometry:margin=25mm `
+  --pdf-engine=pdflatex `
+  --number-sections `
+  -o Final\<doc-name>.pdf
+  ```
