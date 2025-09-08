@@ -5,25 +5,26 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>SEP3 Group Contract Quiz</title>
 <style>
-  :root { --bg:#0b0c10; --card:#15171c; --ink:#e9edf1; --muted:#9aa4b2; --ok:#2fb170; --bad:#ff5d5d; --accent:#4ea1ff;}
+  :root { --bg:#0b0c10; --card:#15171c; --ink:#e9edf1; --muted:#9aa4b2; --ok:#2fb170; --bad:#ff5d5d; --accent:#4ea1ff; --bg-light:#f8f9fa; --card-light:#ffffff; --ink-light:#212529; --muted-light:#6c757d; --ok-light:#28a745; --bad-light:#dc3545; --accent-light:#007bff; --secondary-bg:#222733; --secondary-bg-light:#e9ecef; --input-bg:#0f1116; --input-bg-light:#ffffff; --input-border:#2a2f39; --input-border-light:#ced4da; --hover-bg:#1d2027; --hover-bg-light:#e9ecef; --pill-bg:#1d2027; --pill-bg-light:#e9ecef; --card-border:#252932; --card-border-light:#dee2e6;}
   html,body{background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0}
   .wrap{max-width:900px;margin:32px auto;padding:0 16px}
   h1{font-weight:750;letter-spacing:.2px;margin:0 0 .25rem}
   .sub{color:var(--muted);margin:0 0 1rem}
-  .card{background:var(--card);border:1px solid #252932;border-radius:14px;padding:18px 18px 12px;margin:14px 0}
+  .card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:18px 18px 12px;margin:14px 0}
   .qtitle{font-weight:660;margin:0 0 .35rem}
   .options{margin:.25rem 0 .5rem 0}
   .options label{display:block;padding:.28rem .5rem;border-radius:8px;cursor:pointer}
-  .options label:hover{background:#1d2027}
+  .options label:hover{background:var(--hover-bg)}
   .explain{display:none;margin:.35rem 0 0 0;color:var(--muted)}
   .explain b{color:var(--ink)}
-  .pill{display:inline-block;font-size:.8rem;padding:.18rem .5rem;border-radius:999px;background:#1d2027;color:var(--muted);margin-left:.4rem}
+  .pill{display:inline-block;font-size:.8rem;padding:.18rem .5rem;border-radius:999px;background:var(--pill-bg);color:var(--muted);margin-left:.4rem}
   .actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
   button{background:var(--accent);color:#06101d;border:0;border-radius:10px;padding:.6rem .9rem;font-weight:650;cursor:pointer}
-  button.secondary{background:#222733;color:var(--ink)}
+  button.secondary{background:var(--secondary-bg);color:var(--ink)}
+  #themeBtn{position:fixed;top:10px;right:10px;z-index:1000}
   .score{font-weight:750;margin-left:8px}
   .ok{color:var(--ok)} .bad{color:var(--bad)}
-  input[type="text"], textarea{width:100%;background:#0f1116;color:var(--ink);border:1px solid #2a2f39;border-radius:8px;padding:.55rem .65rem}
+  input[type="text"], textarea{width:100%;background:var(--input-bg);color:var(--ink);border:1px solid var(--input-border);border-radius:8px;padding:.55rem .65rem}
   small.hint{color:var(--muted)}
   .footer{color:var(--muted);font-size:.9rem;margin-top:12px}
 </style>
@@ -149,6 +150,7 @@
     <span id="score" class="score"></span>
   </div>
 </div>
+<button id="themeBtn" class="secondary">Light Theme</button>
 
 <script>
 (function(){
@@ -205,7 +207,7 @@
       const type = sec.dataset.type;
       const q = sec.dataset.q;
       // reset styles
-      sec.style.borderColor = "#252932";
+      sec.style.borderColor = "var(--card-border)";
       if (showPerQ) sec.querySelector(".explain").style.display = "block";
 
       if (type === "single") {
@@ -237,6 +239,51 @@
   $("#resetBtn").addEventListener("click", ()=>{
     localStorage.removeItem(KEY);
     location.reload();
+  });
+
+  // Theme toggle
+  const themeBtn = $("#themeBtn");
+  let isLight = saved.theme === 'light';
+  function applyTheme() {
+    const root = document.documentElement.style;
+    if (isLight) {
+      root.setProperty('--bg', 'var(--bg-light)');
+      root.setProperty('--card', 'var(--card-light)');
+      root.setProperty('--ink', 'var(--ink-light)');
+      root.setProperty('--muted', 'var(--muted-light)');
+      root.setProperty('--ok', 'var(--ok-light)');
+      root.setProperty('--bad', 'var(--bad-light)');
+      root.setProperty('--accent', 'var(--accent-light)');
+      root.setProperty('--secondary-bg', 'var(--secondary-bg-light)');
+      root.setProperty('--input-bg', 'var(--input-bg-light)');
+      root.setProperty('--input-border', 'var(--input-border-light)');
+      root.setProperty('--hover-bg', 'var(--hover-bg-light)');
+      root.setProperty('--pill-bg', 'var(--pill-bg-light)');
+      root.setProperty('--card-border', 'var(--card-border-light)');
+    } else {
+      root.setProperty('--bg', '#0b0c10');
+      root.setProperty('--card', '#15171c');
+      root.setProperty('--ink', '#e9edf1');
+      root.setProperty('--muted', '#9aa4b2');
+      root.setProperty('--ok', '#2fb170');
+      root.setProperty('--bad', '#ff5d5d');
+      root.setProperty('--accent', '#4ea1ff');
+      root.setProperty('--secondary-bg', '#222733');
+      root.setProperty('--input-bg', '#0f1116');
+      root.setProperty('--input-border', '#2a2f39');
+      root.setProperty('--hover-bg', '#1d2027');
+      root.setProperty('--pill-bg', '#1d2027');
+      root.setProperty('--card-border', '#252932');
+    }
+  }
+  applyTheme();
+  themeBtn.textContent = isLight ? 'Dark Theme' : 'Light Theme';
+  themeBtn.addEventListener("click", () => {
+    isLight = !isLight;
+    saved.theme = isLight ? 'light' : 'dark';
+    localStorage.setItem(KEY, JSON.stringify(saved));
+    applyTheme();
+    themeBtn.textContent = isLight ? 'Dark Theme' : 'Light Theme';
   });
 
   // First render
