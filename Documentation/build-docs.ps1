@@ -30,36 +30,60 @@ $FinalDir = Join-Path $PWD "Final"
 if (-not (Test-Path $FinalDir)) { New-Item -ItemType Directory -Path $FinalDir | Out-Null }
 
 function Build-ProjectDescription {
+  $content = Get-Content "ProjectDescription.md" -Raw
+  $charCount = $content.Length
+  $wordCount = ($content -split '\s+').Where({$_ -ne ''}).Count
+  $texContent = Get-Content "Styles\ptd.tex" -Raw
+  $texContent = $texContent -replace '\$charcount\$', $charCount -replace '\$wordcount\$', $wordCount
+  $tempTex = "temp-ptd.tex"
+  $texContent | Out-File $tempTex -Encoding UTF8
   pandoc --metadata-file="Styles\ptd-meta.yaml" "ProjectDescription.md" `
-    --include-before-body="Styles\ptd.tex" `
+    --include-before-body=$tempTex `
     --include-before-body="Styles\toc.tex" `
     --include-in-header="Styles\ptd-hdr-ftr.tex" `
     -V geometry:margin=25mm `
     --pdf-engine=pdflatex `
     --number-sections `
     -o "Final\ProjectDescription.pdf"
+  Remove-Item $tempTex
 }
 
 function Build-ProcessReport {
+  $content = Get-Content "ProcessReport.md" -Raw
+  $charCount = $content.Length
+  $wordCount = ($content -split '\s+').Where({$_ -ne ''}).Count
+  $texContent = Get-Content "Styles\psr.tex" -Raw
+  $texContent = $texContent -replace '\$charcount\$', $charCount -replace '\$wordcount\$', $wordCount
+  $tempTex = "temp-psr.tex"
+  $texContent | Out-File $tempTex -Encoding UTF8
   pandoc --metadata-file="Styles\psr-meta.yaml" "ProcessReport.md" `
-    --include-before-body="Styles\psr.tex" `
+    --include-before-body=$tempTex `
     --include-before-body="Styles\toc.tex" `
     --include-in-header="Styles\psr-hdr-ftr.tex" `
     -V geometry:margin=25mm `
     --pdf-engine=pdflatex `
     --number-sections `
     -o "Final\ProcessReport.pdf"
+  Remove-Item $tempTex
 }
 
 function Build-ProjectReport {
+  $content = Get-Content "ProjectReport.md" -Raw
+  $charCount = $content.Length
+  $wordCount = ($content -split '\s+').Where({$_ -ne ''}).Count
+  $texContent = Get-Content "Styles\ptr.tex" -Raw
+  $texContent = $texContent -replace '\$charcount\$', $charCount -replace '\$wordcount\$', $wordCount
+  $tempTex = "temp-ptr.tex"
+  $texContent | Out-File $tempTex -Encoding UTF8
   pandoc --metadata-file="Styles\ptr-meta.yaml" "ProjectReport.md" `
-    --include-before-body="Styles\ptr.tex" `
+    --include-before-body=$tempTex `
     --include-before-body="Styles\toc.tex" `
     --include-in-header="Styles\ptr-hdr-ftr.tex" `
     -V geometry:margin=25mm `
     --pdf-engine=pdflatex `
     --number-sections `
     -o "Final\ProjectReport.pdf"
+  Remove-Item $tempTex
 }
 
 function Build-Combined {
