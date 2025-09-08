@@ -1,0 +1,87 @@
+<#
+.SYNOPSIS
+  Rebuilds PDFs with pandoc and composes the final combined PDF with qpdf.
+
+.PARAMETER Target
+  One of: ProjectDescription | ProcessReport | ProjectReport | All | Combined
+#>
+
+param(
+  [ValidateSet("ProjectDescription","ProcessReport","ProjectReport","All","Combined")]
+  [string]$Target = "All"
+)
+
+$ErrorActionPreference = "Stop"
+
+function Require-Tool($name) {
+  if (-not (Get-Command $name -ErrorAction SilentlyContinue)) {
+    throw "Missing tool: $name not found in PATH."
+  }
+}
+
+# Ensure deps
+Require-Tool pandoc
+Require-Tool qpdf
+
+# cd to this script's folder (Documentation)
+Set-Location -Path (Split-Path -Parent $MyInvocation.MyCommand.Path)
+
+$FinalDir = Join-Path $PWD "Final"
+if (-not (Test-Path $FinalDir)) { New-Item -ItemType Directory -Path $FinalDir | Out-Null }
+
+function Build-ProjectDescription {
+  pandoc --metadata-file="Styles\ptd-meta.yaml" "ProjectDescription.md" `
+    --include-before-body="Styles\ptd.tex" `
+    --include-before-body="Styles\toc.tex" `
+    --include-in-header="Styles\ptd-hdr-ftr.tex" `
+    -V geometry:margin=25mm `
+    --pdf-engine=pdflatex `
+    --number-sections `
+    -o "Final\ProjectDescription.pdf"
+}
+
+function Build-ProcessReport {
+  pandoc --metadata-file="Styles\psr-meta.yaml" "ProcessReport.md" `
+    --include-before-body="Styles\psr.tex" `
+    --include-before-body="Styles\toc.tex" `
+    --include-in-header="Styles\psr-hdr-ftr.tex" `
+    -V geometry:margin=25mm `
+    --pdf-engine=pdflatex `
+    --number-sections `
+    -o "Final\ProcessReport.pdf"
+}
+
+function Build-ProjectReport {
+  pandoc --metadata-file="Styles\ptr-meta.yaml" "ProjectReport.md" `
+    --include-before-body="Styles\ptr.tex" `
+    --include-before-body="Styles\toc.tex" `
+    --include-in-header="Styles\ptr-hdr-ftr.tex" `
+    -V geometry:margin=25mm `
+    --pdf-engine=pdflatex `
+    --number-sections `
+    -o "Final\ProjectReport.pdf"
+}
+
+function Build-Combined {
+  $pd = "Final\ProjectDescription.pdf"
+  $ps = "Final\ProcessReport.pdf"
+  $pr = "Final\ProjectReport.pdf"
+  foreach ($f in @($pd,$ps,$pr)) {
+    if (-not (Test-Path $f)) { throw "Missing input for combined PDF: $f" }
+  }
+  qpdf --empty --pages $pd 1-z $ps 1-z $pr 1-z -- "Final\FinalDocument.pdf"
+}
+
+switch ($Target) {
+  "ProjectDescription" { Build-ProjectDescription }
+  "ProcessReport"      { Build-ProcessReport }
+  "ProjectReport"      { Build-ProjectReport }
+  "Combined"           { Build-Combined }
+  "All" {
+    Build-ProjectDescription
+    Build-ProcessReport
+    Build-ProjectReport
+    Build-Combined
+  }
+}
+Write-Host "✅ Done: $Target"

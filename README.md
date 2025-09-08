@@ -54,6 +54,7 @@ The following tools are needed for working on the project:
 - Graphviz
 - PlantUML
 - Dotnet SDK
+- Powershell extension for VS Code (optional, but recommended)
 
 # Setup
 
@@ -83,12 +84,16 @@ Then, install the following VSCode extensions:
 
 # Building the documentation
 
+All building is automated and can be done in VS Code with CTRL+SHIFT+B, and selecting Docs: Rebuild, and options. Alternatively, all parts can be built manually as described below.
+
+## Manual Building
+
 Make sure that you are in the Documentation directory, probably you need to run
 ```powershell
 cd Documentation
 ```
 
-## Project Description PDF
+### Project Description PDF
 
 ```powershell
   pandoc --metadata-file=Styles\ptd-meta.yaml ProjectDescription.md `
@@ -101,7 +106,7 @@ cd Documentation
   -o Final\ProjectDescription.pdf
   ```
 
-## Process Report PDF
+### Process Report PDF
 
 ```powershell
   pandoc --metadata-file=Styles\psr-meta.yaml ProcessReport.md `
@@ -114,7 +119,7 @@ cd Documentation
   -o Final\ProcessReport.pdf
   ```
   
-## Project Report PDF
+### Project Report PDF
 
 ```powershell
   pandoc --metadata-file=Styles\ptr-meta.yaml ProjectReport.md `
@@ -127,7 +132,7 @@ cd Documentation
   -o Final\ProjectReport.pdf
   ```
 
-## Final Combined PDF
+### Final Combined PDF
 
 Make sure to export the documents individually before, and then run:
 
@@ -135,7 +140,7 @@ Make sure to export the documents individually before, and then run:
   qpdf --empty --pages Final\ProjectDescription.pdf 1-z Final\ProcessReport.pdf 1-z Final\ProjectReport.pdf 1-z -- Final\FinalDocument.pdf
   ```
 
-## Full Source Code ZIP
+### Full Source Code ZIP
 
 For this one, don't be inside the Documentation directory, but rather in the root of the repository, then run:
 
@@ -143,7 +148,7 @@ For this one, don't be inside the Documentation directory, but rather in the roo
 $zip = "$PWD\$(Split-Path -Leaf $PWD).zip"; if (Test-Path $zip) {Remove-Item $zip -Force}; Compress-Archive * -DestinationPath $zip
   ```
 
-## General Document PDF
+### General Document PDF
 
 Include --toc if needed for table of contents
 
