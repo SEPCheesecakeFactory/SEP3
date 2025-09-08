@@ -108,4 +108,4 @@ switch ($Target) {
     Build-Combined
   }
 }
-Write-Host "✅ Done: $Target"
+Write-Host "Done: $Target"
