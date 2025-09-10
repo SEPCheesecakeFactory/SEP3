@@ -4,6 +4,10 @@ Education is one of the most important aspects of a life in the civilized popula
 #### Stakeholders
 The primiry stakeholders in the field of education include both learners and knowledge providers from all over the world. 
 
+Many of the current digital educational platforms, like Brilliant, Coursera, Udemy require subscriptions or course fees. As a result, low income learners in developing regions cannot afford them.
+
+Another challenge people across the globe still face is the need of stable internet and modern devices that can could reliably access digital platforms in rural areas with weak connectiviry or while using basic computing devices. 
+
 
 _For more information, see “Guidelines – Project Description”._  
 
