@@ -1,6 +1,7 @@
 @startuml DomainModel
 !include .\astah-min.puml
 
+
 class A
 {
     +field1: int
@@ -11,5 +12,31 @@ class A
     -method2(param: int): String
     #method3(): float
 }
+
+class B
+{
+    +field1: int
+    -field2: String
+    #field3: float
+
+    +method1(): void
+    -method2(param: int): String
+    #method3(): float
+}
+
+class C
+{
+    +field1: int
+    -field2: String
+    #field3: float
+
+    +method1(): void
+    -method2(param: int): String
+    #method3(): float
+}
+
+A --> B
+B --> C
+C --> A
 
 @enduml
