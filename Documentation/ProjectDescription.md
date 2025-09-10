@@ -1,5 +1,46 @@
-# Project Description
+# Problem Domain  
+[Insert your text here]  
 
-This document describes the project for the Semester Project 3 (SEP3) course at VIA University College.
+_For more information, see “Guidelines – Project Description”._  
 
-![Diagram](Figures\diagram.png)
+---
+
+# Problem Statement  
+[Insert your text here]  
+
+_For more information, see “Guidelines – Project Description”._  
+
+---
+
+# Delimitation  
+[Insert your text here]  
+
+_For more information, see “Guidelines – Project Description”._  
+
+---
+
+# Choice of Methods  
+[Insert your text here]  
+
+_For more information, see “Guidelines – Project Description”._  
+
+---
+
+# Time Schedule  
+[Insert your text here]  
+
+_For more information, see “Guidelines – Project Description”._  
+
+---
+
+# Risk Assessment  
+[Insert your text here]  
+
+_For more information, see “Guidelines – Project Description”._  
+
+---
+
+# References  
+[Insert your text here]  
+
+_For more information, see “Guidelines – Project Description”._

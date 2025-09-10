@@ -1,5 +1,53 @@
-# Process Report
+# Introduction  
+[Insert your text here]  
 
-This document describes the process of developing the project for the Semester Project 3 (SEP3) course at VIA University College. It outlines the steps taken, challenges faced, and solutions implemented during the project lifecycle.
+_For more information, see “Guidelines - Process Report”._  
 
-![Diagram](Figures\diagram.png)
+---
+
+# Group Work  
+[Insert your text here]  
+
+_For more information, see “Guidelines - Process Report”._  
+
+---
+
+# Project Initiation  
+[Insert your text here]  
+
+_For more information, see “Guidelines - Process Report”._  
+
+---
+
+# Project Execution  
+[Insert your text here]  
+
+_For more information, see “Guidelines - Process Report”._  
+
+---
+
+# Personal Reflections  
+[Insert your text here]  
+
+_For more information, see “Guidelines - Process Report”._  
+
+---
+
+# Reflect on Supervision  
+[Insert your text here]  
+
+_For more information, see “Guidelines - Process Report”._  
+
+---
+
+# Conclusion  
+[Insert your text here]  
+
+_For more information, see “Guidelines - Process Report”._  
+
+---
+
+# References  
+[Insert your text here]  
+
+_For more information, see “Guidelines - Process Report”._ 
