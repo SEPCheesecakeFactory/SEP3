@@ -52,9 +52,40 @@ _For more information, see “Guidelines – Project Description”._
 ---
 
 # Time Schedule  
-[Insert your text here]  
 
-_For more information, see “Guidelines – Project Description”._  
+Final Deadline
+Date: December 19, 2025
+Milestones
+1.Weekly Reporting and Task Assignment
+When:Every Sunday
+Details: Submit a weekly report on the project’s progress and assign new tasks for the upcoming week to maintain continuous progress and team accountability.
+2.Weekly Meeting
+When: Onceperweek
+Platform: Meetings will be conducted either via Discord or at school.
+Purpose: These meetings will act as checkpoints to discuss progress, address challenges, and adjust tasks as necessary.
+3. Completion of Formal Project Part
+○ Target Date: End of November, 2025
+○ Details: Aim to complete the formal writing and documentation aspect by this date, allowing time for final revisions before the deadline.
+Expected Time Commitment Based on 10 ECTS
+Each student is expected to contribute a total of 275 hours to meet the 10 ECTS workload requirement, with increased hours in October and November to minimize the workload in December.
+Breakdown of Hours for 10 ECTS:
+● October:
+○ Weeklycommitment: 20 hours per student
+○ Total for October: 4×20=80 hours per student
+● November:
+○ Weeklycommitment: 20 hours per student
+○ Total for November: 4×20=80 hours per student
+● December(up to December 20):
+○ Remaining:115 hours
+○ Weeklycommitment: 115/3 ≈ 38 hours per student
+○ Total for December: 3×38 =114 hours per student
+Total Hours Calculation for 10 ECTS
+● Total Hours: 275 hours per student
+● Calculation:
+○ Total hours = 10×27.5=275 hours
+● Thisdistribution ensures the project meets the workload requirement for 10 ECTS, with a reduced workload in December due to a higher time commitment in October and November.
+Summary
+For each student, it amounts to 275 hours of work to achieve 10 ECTS.   
 
 ---
 
