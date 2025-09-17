@@ -2,7 +2,7 @@
 
 ## Education problem
 
-Education is one of the most important aspects of a life in the civilized population (source). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (source). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). That is why digital free-for-all educational platforms have been on the rise in the recent years, as they can provide knowledge to anyone with an internet connection and a device; thus, minimizing the inequalities in education. (source - fx Duolingo studies)
+Education is one of the most important aspects of a life in the civilized population (source). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (source). "Nowadays around 40% of the global population does not have an access to proper education in a language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). That is why digital free-for-all educational platforms have been on the rise in the recent years, as they can provide knowledge to anyone with an internet connection and a device; thus, minimizing the inequalities in education. (source - fx Duolingo studies)
 
 Many of the current digital educational platforms, like Brilliant, Coursera, Udemy require subscriptions or course fees. As a result, low income learners in developing regions cannot afford them.
 
@@ -38,9 +38,11 @@ How to provide and maintain security?
 ---
 
 # Delimitation  
-[Insert your text here]  
+The project focuses on helping individuals who cannot attend a proper education, this can be due to income reasons or geographical problems.
+Men and women will have the same opportunities to get educated on our platform since we belive that everyone should be able to get educated as they wish.
+To ensure a good quality education and that there are no errors in their contect, courses will be revised by experts and AI.
+We are not going to help people with no internet access.
 
-_For more information, see “Guidelines – Project Description”._  
 
 ---
 
