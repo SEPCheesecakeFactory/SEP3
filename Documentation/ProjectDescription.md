@@ -23,7 +23,7 @@ _For more information, see “Guidelines – Project Description”._
 
 # Problem Statement  
 ##### Main problem: 
-How to provide proper digital education to people all over the world?
+How to provide proper education to people all over the world?
 ##### Sub-questions:
 How to ensure that clients are actively persuing their learning goals?
 Is there any way to fasten the learning process?
