@@ -36,9 +36,9 @@ How to provide and maintain security?
 
 # Delimitation  
 The project focuses on helping individuals who cannot attend a proper education, this can be due to income reasons or geographical problems.
-Men and women will have the same opportunities to get educated on our platform since we belive that everyone should be able to get educated as they wish.
-To ensure a good quality education and that there are no errors in their contect, courses will be revised by experts and AI.
-We are not going to help people with no internet access.
+Men and women will have the same opportunities to get educated on the digital platform since everyone should be able to get educated as they wish and it is the most convenient way.
+To ensure a good quality education and that there are no errors in their content, courses will be revised by experts and AI.
+The project is not going to help people with no internet access.
 
 
 ---
