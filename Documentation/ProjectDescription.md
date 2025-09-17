@@ -22,9 +22,18 @@ _For more information, see “Guidelines – Project Description”._
 ---
 
 # Problem Statement  
-[Insert your text here]  
-
-_For more information, see “Guidelines – Project Description”._  
+##### Main problem: 
+How to provide proper digital education to people all over the world?
+##### Sub-questions:
+How to ensure that clients are actively persuing their learning goals?
+Is there any way to fasten the learning process?
+How to make the learning process efficient and user friendly?
+How to ensure that both genders can require proper knowledge?
+What design principles can be used to make digital learning app more convinient?
+How can accessibility features (e.g., screen readers, voice commands, adaptive interfaces) be integrated for users with disabilities?
+How can trust in the system be established and mantained?
+How can the correctness of knowledge be ensured?
+How to provide and maintain security?
 
 ---
 
