@@ -2,22 +2,19 @@
 
 ## Education problem
 
-Education is one of the most important aspects of a life in the civilized population (source). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (source). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). That is why digital free-for-all educational platforms have been on the rise in the recent years, as they can provide knowledge to anyone with an internet connection and a device; thus, minimizing the inequalities in education. (source - fx Duolingo studies)
+Education is one of the most important aspects of a life in the civilized population (source). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (source). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). 
 
-Many of the current digital educational platforms, like Brilliant, Coursera, Udemy require subscriptions or course fees. As a result, low income learners in developing regions cannot afford them.
+## Current Situation
 
-Despite digital technologies advancing fast, another challenge that persists, is that 2.6 billion people remain offline. The digital divide is a major barrier to economic growth and sustainable development, with only 27% of the population in low-income countries that has access to the internet, compared to 93% in high-income ones. (The Digital Divide: A Barrier to Social, Economic and Political Equity | ISPI, 2025)
+That is why digital free-for-all educational platforms have been on the rise in the recent years, as they can provide knowledge to anyone with an internet connection and a device; thus, minimizing the inequalities in education. (source - fx Duolingo studies)
+
+However, various platforms currently operating focus on different aspects of education, such as language learning, coding, mathematics, science, etc. (source). This leaves many gaps and does not provide a consistent learning experience for users. Additionally, some platforms provide less content that is accessible for free, which can be a significant barrier for low-income users. (source)
+
+Despite digital technologies advancing quickly, another challenge that persists, is that 2.6 billion people remain offline (source). The digital divide is a major barrier to economic growth and sustainable development, with only 27% of the population in low-income countries that has access to the internet, compared to 93% in high-income ones. (Poggi, 2025).
 
 ## Stakeholders
 
-The primary stakeholders in the field of education include both learners and knowledge providers from all over the world.
-
-Many of the current digital educational platforms, like Brilliant, Coursera, Udemy require subscriptions or course fees. As a result, low income learners in developing regions cannot afford them.
-
-Another challenge people across the globe still face is the need of stable internet and modern devices that can could reliably access digital platforms in rural areas with weak connectivity or while using basic computing devices.
-
-
-_For more information, see “Guidelines – Project Description”._  
+The primary stakeholders in the field of education include both learners and knowledge providers from all over the world. Learners can be individuals of all ages, backgrounds, and locations who seek to acquire new skills or knowledge. Knowledge providers can include educational institutions, teachers, tutors, and online platforms that offer educational content and resources. Other stakeholders may include governments, non-profit organizations, and businesses that have an interest in promoting education and improving access to learning opportunities.
 
 ---
 
