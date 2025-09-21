@@ -156,13 +156,13 @@ For each student, it amounts to 275 hours of work to achieve 10 ECTS.
 
 # Risk Assessment
 
-| Risk                     | Likelihood | Severity | Normalized Product | Preventive Actions                                                               | Identifiers                                            | Responsible |
-| ------------------------ | ---------- | -------- | ------------------ | -------------------------------------------------------------------------------- | ------------------------------------------------------ | ----------- |
-| Limited resources        | 3          | 3        | 2.3                | Prioritize essential features, manage scope carefully, and allocate workload     | Missed deadlines, unfinished features, team burnout    | Eduard      |
-| Poor communication       | 3          | 2        | 1.7                | Use clear communication channels, hold regular sync meetings, document decisions | Misunderstandings in tasks, duplicated work            | Piotr       |
-| Unrealistic expectations | 2          | 3        | 1.5                | Define realistic milestones, align scope with resources, clarify goals early     | Frequent re-scoping, dissatisfaction from stakeholders | Alexandru   |
-| Knowledge gaps           | 2          | 2        | 1.5                | Encourage skill-sharing, study relevant topics, consult supervisors when needed  | Incorrect implementation, delays in development        | Giullermo   |
-| Unclear requirements     | 3          | 3        | 2.3                | Refine problem statement with stakeholders, document requirements clearly        | Confusion during development, frequent rework          | Ibrahim     |
+| Risk | \thead{Likelihood} | \thead{Severity} | Normalized Product | Preventive Actions | Identifiers | Responsible |
+|:------------|:-------:|:-------:|:-------:|:-------------------|:-----------------|:-----------:|
+| Limited resources        | 3 | 3 | 2.3 | Prioritize essential features, manage scope carefully, and allocate workload | Missed deadlines, unfinished features, team burnout | Eduard |
+| Poor communication       | 3 | 2 | 1.7 | Use clear communication channels, hold regular sync meetings, document decisions | Misunderstandings in tasks, duplicated work | Piotr |
+| Unrealistic expectations | 2 | 3 | 1.5 | Define realistic milestones, align scope with resources, clarify goals early | Frequent re-scoping, dissatisfaction from stakeholders | Alexandru |
+| Knowledge gaps           | 2 | 2 | 1.5 | Encourage skill-sharing, study relevant topics, consult supervisors when needed | Incorrect implementation, delays in development | Giullermo |
+| Unclear requirements     | 3 | 3 | 2.3 | Refine problem statement with stakeholders, document requirements clearly | Confusion during development, frequent rework | Ibrahim |
 
 ---
 
