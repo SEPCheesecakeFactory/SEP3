@@ -17,7 +17,6 @@ That is why digital free-for-all educational platforms have been on the rise in 
 However, various platforms currently operating focus on different aspects of education, such as language learning, coding, mathematics, science, etc. (source). This leaves many gaps and does not provide a consistent learning experience for users. Additionally, some platforms provide less content that is accessible for free, which can be a significant barrier for low-income users. (source)
 
 Despite digital technologies advancing quickly, another challenge that persists, is that 2.6 billion people remain offline (Poggi, 2025). The digital divide is a major barrier to economic growth and sustainable development, with only 27% of the population in low-income countries that has access to the internet, compared to 93% in high-income ones. (Poggi, 2025).
-Despite digital technologies advancing quickly, another challenge that persists, is that 2.6 billion people remain offline (Poggi, 2025). The digital divide is a major barrier to economic growth and sustainable development, with only 27% of the population in low-income countries that has access to the internet, compared to 93% in high-income ones. (Poggi, 2025).
 
 ## Stakeholders
 
