@@ -6,7 +6,7 @@ Education is one of the most important aspects of a life in the civilized popula
 
 ## Current Situation
 
-That is why digital free-for-all educational platforms have been on the rise in the recent years, as they can provide knowledge to anyone with an internet connection and a device; thus, minimizing the inequalities in education. (source - fx Duolingo studies)
+That is why digital free-for-all educational platforms have been on the rise in the recent years, as they can provide knowledge to anyone with an internet connection and a device; thus, minimizing the inequalities in education. (Duolingo, 2025)
 
 However, various platforms currently operating focus on different aspects of education, such as language learning, coding, mathematics, science, etc. (source). This leaves many gaps and does not provide a consistent learning experience for users. Additionally, some platforms provide less content that is accessible for free, which can be a significant barrier for low-income users. (source)
 
@@ -154,4 +154,5 @@ For each student, it amounts to 275 hours of work to achieve 10 ECTS.
 - Lin, M.-H., Chen, H.-C., & Liu, K.-S. (2017). A Study of the Effects of Digital Learning on Learning Motivation and Learning Outcome. EURASIA Journal of Mathematics, Science and Technology Education, 13(7), 3553–3564. https://doi.org/10.12973/eurasia.2017.00744a
 - Poggi, A. (2025, April 4). The Digital Divide: A Barrier to Social, Economic and Political Equity | ISPI. ISPI. https://www.ispionline.it/en/publication/the-digital-divide-a-barrier-to-social-economic-and-political-equity-204564
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
+Duolingo. (2025). Company Strategy Overview | Duolingo, Inc. Duolingo, Inc. https://investors.duolingo.com/company-strategy-overview-0
 
