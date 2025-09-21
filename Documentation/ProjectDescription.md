@@ -2,7 +2,13 @@
 
 ## Education problem
 
-Education is one of the most important aspects of a life in the civilized population (NAICU - NAICU - Improves Quality of Life, 2025). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (Burke, 2023). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). 
+Education is one of the most important aspects of a life in the civilized population (NAICU - NAICU - Improves Quality of Life, 2025). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (Burke, 2023). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). 
+
+Many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality, men and women should be able to choose their educational paths without being constrained by gender norms or stereotypes. (Gender Equality in a Changing World, 2025). 
+
+In addition to unequal access, gender inequality is also visible in the socialization and education of boys and girls, even when both boys and girls have equal formal opportunities. Gender norms and stereotypes at an early stage influence the types of skills children are motivated to learn and the careers they will be likely to have. For example, international test scores show that around age ten, girls read more effectively than boys, while boys perform better in mathematics and science (OECD, 2022). These patterns reflect not only differences in ability but also the effects of socialization, classroom processes, and cultural expectations about "appropriate" fields of study for each sex. 
+
+These inequalities are also shaped by intersecting variables, including socioeconomic status, physical ability, and social status (source).
 
 ## Current Situation
 
@@ -10,7 +16,7 @@ That is why digital free-for-all educational platforms have been on the rise in 
 
 However, various platforms currently operating focus on different aspects of education, such as language learning, coding, mathematics, science, etc. (source). This leaves many gaps and does not provide a consistent learning experience for users. Additionally, some platforms provide less content that is accessible for free, which can be a significant barrier for low-income users. (source)
 
-Despite digital technologies advancing quickly, another challenge that persists, is that 2.6 billion people remain offline (source). The digital divide is a major barrier to economic growth and sustainable development, with only 27% of the population in low-income countries that has access to the internet, compared to 93% in high-income ones. (Poggi, 2025).
+Despite digital technologies advancing quickly, another challenge that persists, is that 2.6 billion people remain offline (Poggi, 2025). The digital divide is a major barrier to economic growth and sustainable development, with only 27% of the population in low-income countries that has access to the internet, compared to 93% in high-income ones. (Poggi, 2025).
 
 ## Stakeholders
 
@@ -154,6 +160,6 @@ For each student, it amounts to 275 hours of work to achieve 10 ECTS.
 - Lin, M.-H., Chen, H.-C., & Liu, K.-S. (2017). A Study of the Effects of Digital Learning on Learning Motivation and Learning Outcome. EURASIA Journal of Mathematics, Science and Technology Education, 13(7), 3553–3564. https://doi.org/10.12973/eurasia.2017.00744a
 - Poggi, A. (2025, April 4). The Digital Divide: A Barrier to Social, Economic and Political Equity | ISPI. ISPI. https://www.ispionline.it/en/publication/the-digital-divide-a-barrier-to-social-economic-and-political-equity-204564
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
-Duolingo. (2025). Company Strategy Overview | Duolingo, Inc. Duolingo, Inc. https://investors.duolingo.com/company-strategy-overview-0
+- Gender gaps in educational attainment and outcomes remain: Gender Equality in a Changing World. (2025). OECD. https://www.oecd.org/en/publications/gender-equality-in-a-changing-world_e808086f-en/full-report/gender-gaps-in-educational-attainment-and-outcomes-remain_33ea8a2f.htmlDuolingo. (2025). Company Strategy Overview | Duolingo, Inc. Duolingo, Inc. https://investors.duolingo.com/company-strategy-overview-0
 NAICU - NAICU - Improves Quality of Life. (2025). Naicu.edu. https://www.naicu.edu/research/shaping-lives-and-anchoring-communities/improves-quality-of-life
 Burke, C. (2023, October 4). Why Is Education Important? The Power Of An Educated Society. Unity Environmental University; Unity Environmental University. https://unity.edu/articles/why-education-is-important/
