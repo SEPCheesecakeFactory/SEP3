@@ -157,10 +157,24 @@ For each student, it amounts to 275 hours of work to achieve 10 ECTS.
 
 # References  
 
+- ReferencesBurke, C. (2023, October 4). Why Is Education Important? The Power Of An Educated Society. Unity Environmental University; Unity Environmental University. https://unity.edu/articles/why-education-is-important/
+
+- Duolingo. (2025). Company Strategy Overview | Duolingo, Inc. Duolingo, Inc. https://investors.duolingo.com/company-strategy-overview-0
+
+- Gender gaps in educational attainment and outcomes remain: Gender Equality in a Changing World. (2025). OECD. https://www.oecd.org/en/publications/gender-equality-in-a-changing-world_e808086f-en/full-report/gender-gaps-in-educational-attainment-and-outcomes-remain_33ea8a2f.html
+
 - Lin, M.-H., Chen, H.-C., & Liu, K.-S. (2017). A Study of the Effects of Digital Learning on Learning Motivation and Learning Outcome. EURASIA Journal of Mathematics, Science and Technology Education, 13(7), 3553–3564. https://doi.org/10.12973/eurasia.2017.00744a
-- Poggi, A. (2025, April 4). The Digital Divide: A Barrier to Social, Economic and Political Equity | ISPI. ISPI. https://www.ispionline.it/en/publication/the-digital-divide-a-barrier-to-social-economic-and-political-equity-204564
-- PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
-- Gender gaps in educational attainment and outcomes remain: Gender Equality in a Changing World. (2025). OECD. https://www.oecd.org/en/publications/gender-equality-in-a-changing-world_e808086f-en/full-report/gender-gaps-in-educational-attainment-and-outcomes-remain_33ea8a2f.htmlDuolingo. (2025). Company Strategy Overview | Duolingo, Inc. Duolingo, Inc. https://investors.duolingo.com/company-strategy-overview-0
-NAICU - NAICU - Improves Quality of Life. (2025). Naicu.edu. https://www.naicu.edu/research/shaping-lives-and-anchoring-communities/improves-quality-of-life
-Burke, C. (2023, October 4). Why Is Education Important? The Power Of An Educated Society. Unity Environmental University; Unity Environmental University. https://unity.edu/articles/why-education-is-important/
+
+- NAICU - NAICU - Improves Quality of Life. (2025). Naicu.edu. https://www.naicu.edu/research/shaping-lives-and-anchoring-communities/improves-quality-of-life
+
 - OECD. (2024). Early Learning and Child Well-being. OECD. https://www.oecd.org/en/publications/early-learning-and-child-well-being_3990407f-en.html
+
+- Organisation For Economic Co-Operation And Development (OECD). (2020). PISA 2018 Results (Volume IV) : Are Students Smart about Money. Oecd.
+
+- Poggi, A. (2025, April 4). The Digital Divide: A Barrier to Social, Economic and Political Equity | ISPI. ISPI. https://www.ispionline.it/en/publication/the-digital-divide-a-barrier-to-social-economic-and-political-equity-204564
+
+- PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
+
+- Singh, J., Fernando, Z. T., & Chawla, S. (2015). LearnWeb-OER: Improving Accessibility of Open Educational Resources. ArXiv.org. https://arxiv.org/abs/1509.02739
+
+- World Bank Group. (2025, January 29). Digital Pathways for Education: Enabling Greater Impact for All. World Bank; World Bank Group. https://www.worldbank.org/en/topic/edutech/publication/digital-pathways-education-enabling-learning-impact
