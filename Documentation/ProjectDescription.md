@@ -2,7 +2,7 @@
 
 ## Education problem
 
-Education is one of the most important aspects of a life in the civilized population (NAICU - NAICU - Improves Quality of Life, 2025). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (Burke, 2023). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). 
+Education is one of the most important aspects of a life in the civilized population (NAICU - NAICU - Improves Quality of Life, 2025). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (Burke, 2023). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (OECD,2020). 
 
 ## Current Situation
 
