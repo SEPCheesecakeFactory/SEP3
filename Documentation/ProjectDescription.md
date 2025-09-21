@@ -19,9 +19,9 @@ The primary stakeholders in the field of education include both learners and kno
 ---
 
 # Problem Statement  
-##### Main problem: 
+## Main problem: 
 How to provide proper education to people all over the world?
-##### Sub-questions:
+## Sub-questions:
 How to ensure that clients are actively persuing their learning goals?
 Is there any way to fasten the learning process?
 How to make the learning process efficient and user friendly?
@@ -43,10 +43,9 @@ The project is not going to help people with no internet access.
 
 ---
 
-# Choice of Methods  
-4. Selection of Methods
+# Choice of Methods
 
-4.1 Knowledge and Data Collection
+## Knowledge and Data Collection
 
 To identify the educational and technical issues of digital learning platforms, we will:
 
@@ -54,83 +53,89 @@ To identify the educational and technical issues of digital learning platforms, 
 - Review academic reports and papers on the digital divide and language learning strategies.
 - Identify user needs from informal questionnaires and discussions within the project team to define user needs.
 
-4.2 Analysis and Modelling
+## Analysis and Modelling
 
 For distributed system planning and design, UML diagrams will be used to model system functionality and interaction.
 
--Architectural patterns such as Client–Server and REST-based distributed systems to be part of the design.
--Threat modelling to be conducted and potential security threats in authentication and data communication to be analysed
+- Architectural patterns such as Client–Server and REST-based distributed systems to be part of the design.
+- Threat modelling to be conducted and potential security threats in authentication and data communication to be analysed
 
-4.3 Design, Construction and Implementation
+## Design, Construction and Implementation
 
 The system will be developed based on standard software development methods:
 
--Agile methodology with short iterations to ensure continuous progress and responsiveness.
--UI/UX prototyping with Figma for wireframing and user flows prior to coding.
+- Agile methodology with short iterations to ensure continuous progress and responsiveness.
+- UI/UX prototyping with Figma for wireframing and user flows prior to coding.
 
 - Backend services implementation in Java/C# with RESTful? web services.
 - Authentication and authorization mechanisms will be used to ensure secure access.
 
-4.4 Testing
+## Testing
 
 The testing will be carried out continuously during the project to ensure robustness and functionality:
 
--Unit testing (Java: JUnit / C#: ???).
--Integration testing to check interactions between client and server.
--Manual testing of UI components and learning flows for usability and accessibility checks.
+- Unit testing (Java: JUnit / C#: ???).
+- Integration testing to check interactions between client and server.
+- Manual testing of UI components and learning flows for usability and accessibility checks.
 - Security testing with emphasis on authentication and authorization.
 
-4.5 Planning and Management
+## Planning and Management
 
 To facilitate organized collaboration and progress monitoring:
 
-Git with GitHub/GitLab for version control, feature branching, and code reviews.
+Git with GitHub for version control, feature branching, and code reviews.
 
-Task distribution and workload management will be done using a Kanban board (GitHub Projects or Trello).
+Task distribution and workload management will be done using a Kanban board (Figma/GitHub Projects/Trello).
 
 Meetings for the group will be organized regularly to check on progress, resolve problems, and plan next moves.
 
 Documentation will be written in the formal academic voice, with correct referencing and adherence to plagiarism standards.
 
-_For more information, see “Guidelines – Project Description”._  
-
 ---
 
-# Time Schedule  
+# Time Schedule
 
-Final Deadline
+## Final Deadline
 Date: December 19, 2025
-Milestones
-1.Weekly Reporting and Task Assignment
-When:Every Sunday
-Details: Submit a weekly report on the project’s progress and assign new tasks for the upcoming week to maintain continuous progress and team accountability.
-2.Weekly Meeting
-When: Onceperweek
-Platform: Meetings will be conducted either via Discord or at school.
-Purpose: These meetings will act as checkpoints to discuss progress, address challenges, and adjust tasks as necessary.
-3. Completion of Formal Project Part
-○ Target Date: End of November, 2025
-○ Details: Aim to complete the formal writing and documentation aspect by this date, allowing time for final revisions before the deadline.
-Expected Time Commitment Based on 10 ECTS
+
+## Milestones
+1. **Weekly Reporting and Task Assignment**  
+    When: Every Sunday  
+    Details: Submit a weekly report on the project’s progress and assign new tasks for the upcoming week to maintain continuous progress and team accountability.
+
+2. **Weekly Meeting**  
+    When: Once per week  
+    Platform: Meetings will be conducted either via Discord or at school.  
+    Purpose: These meetings will act as checkpoints to discuss progress, address challenges, and adjust tasks as necessary.
+
+3. **Completion of Formal Project Part**  
+    Target Date: End of November, 2025  
+    Details: Aim to complete the formal writing and documentation aspect by this date, allowing time for final revisions before the deadline.
+
+## Expected Time Commitment Based on 10 ECTS
 Each student is expected to contribute a total of 275 hours to meet the 10 ECTS workload requirement, with increased hours in October and November to minimize the workload in December.
-Breakdown of Hours for 10 ECTS:
-● October:
-○ Weeklycommitment: 20 hours per student
-○ Total for October: 4×20=80 hours per student
-● November:
-○ Weeklycommitment: 20 hours per student
-○ Total for November: 4×20=80 hours per student
-● December(up to December 20):
-○ Remaining:115 hours
-○ Weeklycommitment: 115/3 ≈ 38 hours per student
-○ Total for December: 3×38 =114 hours per student
-Total Hours Calculation for 10 ECTS
-● Total Hours: 275 hours per student
-● Calculation:
-○ Total hours = 10×27.5=275 hours
-● Thisdistribution ensures the project meets the workload requirement for 10 ECTS, with a reduced workload in December due to a higher time commitment in October and November.
-Summary
-For each student, it amounts to 275 hours of work to achieve 10 ECTS.   
+
+### Breakdown of Hours for 10 ECTS
+- **October:**  
+    - Weekly commitment: 16 hours per student  
+    - Total for October: 4 × 16 = 64 hours per student
+
+- **November:**  
+    - Weekly commitment: 16 hours per student  
+    - Total for November: 4 × 16 = 64 hours per student
+
+- **December (up to December 20):**  
+    - Remaining: 147 hours  
+    - Weekly commitment: 147 / 3 ≈ 49 hours per student  
+    - Total for December: 3 × 49 = 147 hours per student
+
+### Total Hours Calculation for 10 ECTS
+- Total Hours: 275 hours per student
+- Calculation: Total hours = 10 × 27.5 = 275 hours
+- This distribution ensures the project meets the workload requirement for 10 ECTS, with a reduced workload in October and November and increased hours in December.
+
+## Summary
+For each student, it amounts to 275 hours of work to achieve 10 ECTS.
 
 ---
 
