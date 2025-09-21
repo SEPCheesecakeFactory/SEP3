@@ -8,7 +8,7 @@ Many countries and communities around the world struggle with gender equality in
 
 In addition to unequal access, gender inequality is also visible in the socialization and education of boys and girls, even when both boys and girls have equal formal opportunities. Gender norms and stereotypes at an early stage influence the types of skills children are motivated to learn and the careers they will be likely to have. For example, international test scores show that around age ten, girls read more effectively than boys, while boys perform better in mathematics and science (OECD, 2022). These patterns reflect not only differences in ability but also the effects of socialization, classroom processes, and cultural expectations about "appropriate" fields of study for each sex. 
 
-These inequalities are also shaped by intersecting variables, including socioeconomic status, physical ability, and social status (source).
+These inequalities are also shaped by intersecting variables, including socioeconomic status, physical ability, and social status (OECD,2020).
 
 ## Current Situation
 
