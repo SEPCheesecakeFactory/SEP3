@@ -80,7 +80,7 @@ The system will be developed based on standard software development methods:
 
 The testing will be carried out continuously during the project to ensure robustness and functionality:
 
-- Unit testing (Java: JUnit / C#: ???).
+- Unit testing (Java: JUnit / C#: NUnit).
 - Integration testing to check interactions between client and server.
 - Manual testing of UI components and learning flows for usability and accessibility checks.
 - Security testing with emphasis on authentication and authorization.
