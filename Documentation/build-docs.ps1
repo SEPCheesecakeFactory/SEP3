@@ -38,9 +38,10 @@ function Build-ProjectDescription {
   $tempTex = "temp-ptd.tex"
   $texContent | Out-File $tempTex -Encoding UTF8
   pandoc --metadata-file="Styles\ptd-meta.yaml" "ProjectDescription.md" `
+    --include-in-header="Styles\preamble.tex" `
+    --include-in-header="Styles\ptd-hdr-ftr.tex" `
     --include-before-body=$tempTex `
     --include-before-body="Styles\toc.tex" `
-    --include-in-header="Styles\ptd-hdr-ftr.tex" `
     -V geometry:margin=25mm `
     --pdf-engine=pdflatex `
     --number-sections `
@@ -57,9 +58,10 @@ function Build-ProcessReport {
   $tempTex = "temp-psr.tex"
   $texContent | Out-File $tempTex -Encoding UTF8
   pandoc --metadata-file="Styles\psr-meta.yaml" "ProcessReport.md" `
+    --include-in-header="Styles\preamble.tex" `
+    --include-in-header="Styles\psr-hdr-ftr.tex" `
     --include-before-body=$tempTex `
     --include-before-body="Styles\toc.tex" `
-    --include-in-header="Styles\psr-hdr-ftr.tex" `
     -V geometry:margin=25mm `
     --pdf-engine=pdflatex `
     --number-sections `
@@ -76,9 +78,10 @@ function Build-ProjectReport {
   $tempTex = "temp-ptr.tex"
   $texContent | Out-File $tempTex -Encoding UTF8
   pandoc --metadata-file="Styles\ptr-meta.yaml" "ProjectReport.md" `
+    --include-in-header="Styles\preamble.tex" `
+    --include-in-header="Styles\ptr-hdr-ftr.tex" `
     --include-before-body=$tempTex `
     --include-before-body="Styles\toc.tex" `
-    --include-in-header="Styles\ptr-hdr-ftr.tex" `
     -V geometry:margin=25mm `
     --pdf-engine=pdflatex `
     --number-sections `
