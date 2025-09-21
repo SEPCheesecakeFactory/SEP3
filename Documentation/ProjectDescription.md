@@ -83,13 +83,10 @@ The testing will be carried out continuously during the project to ensure robust
 
 To facilitate organized collaboration and progress monitoring:
 
-Git with GitHub for version control, feature branching, and code reviews.
-
-Task distribution and workload management will be done using a Kanban board (Figma/GitHub Projects/Trello).
-
-Meetings for the group will be organized regularly to check on progress, resolve problems, and plan next moves.
-
-Documentation will be written in the formal academic voice, with correct referencing and adherence to plagiarism standards.
+- Git with GitHub for version control, feature branching, and code reviews.
+- Task distribution and workload management will be done using a Kanban board (Figma/GitHub Projects).
+- Meetings for the group will be organized regularly to check on progress, resolve problems, and plan next moves.
+- Documentation will be written in the formal academic voice, with correct referencing and adherence to plagiarism standards.
 
 ---
 
