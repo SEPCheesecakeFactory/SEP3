@@ -2,7 +2,7 @@
 
 ## Education problem
 
-Education is one of the most important aspects of a life in the civilized population (source). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (source). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). 
+Education is one of the most important aspects of a life in the civilized population (NAICU - NAICU - Improves Quality of Life, 2025). Humans need knowledge in order to function correctly in todays world - from simple communication to career growth, knowledge can improve quality of life in many ways (Burke, 2023). "Nowadays around 40% of the global population does not have an access to proper education in language they understand"(PTI & PTI, 2025). In addition, many countries and communities around the world struggle with gender equality in opportunities for education, which ultimately results in educational disparities and economic inequality (source). These inequalities are not always related to gender, but also physical abilities, social status, and other factors (source). 
 
 ## Current Situation
 
@@ -155,4 +155,5 @@ For each student, it amounts to 275 hours of work to achieve 10 ECTS.
 - Poggi, A. (2025, April 4). The Digital Divide: A Barrier to Social, Economic and Political Equity | ISPI. ISPI. https://www.ispionline.it/en/publication/the-digital-divide-a-barrier-to-social-economic-and-political-equity-204564
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
 Duolingo. (2025). Company Strategy Overview | Duolingo, Inc. Duolingo, Inc. https://investors.duolingo.com/company-strategy-overview-0
-
+NAICU - NAICU - Improves Quality of Life. (2025). Naicu.edu. https://www.naicu.edu/research/shaping-lives-and-anchoring-communities/improves-quality-of-life
+Burke, C. (2023, October 4). Why Is Education Important? The Power Of An Educated Society. Unity Environmental University; Unity Environmental University. https://unity.edu/articles/why-education-is-important/
