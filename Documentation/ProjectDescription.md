@@ -44,7 +44,53 @@ The project is not going to help people with no internet access.
 ---
 
 # Choice of Methods  
-[Insert your text here]  
+4. Selection of Methods
+
+4.1 Knowledge and Data Collection
+
+To identify the educational and technical issues of digital learning platforms, we will:
+
+- Review existing platforms (e.g., Coursera, Duolingo, Udemy) to ascertain their strengths and weaknesses.
+- Review academic reports and papers on the digital divide and language learning strategies.
+- Identify user needs from informal questionnaires and discussions within the project team to define user needs.
+
+4.2 Analysis and Modelling
+
+For distributed system planning and design, UML diagrams will be used to model system functionality and interaction.
+
+-Architectural patterns such as Client–Server and REST-based distributed systems to be part of the design.
+-Threat modelling to be conducted and potential security threats in authentication and data communication to be analysed
+
+4.3 Design, Construction and Implementation
+
+The system will be developed based on standard software development methods:
+
+-Agile methodology with short iterations to ensure continuous progress and responsiveness.
+-UI/UX prototyping with Figma for wireframing and user flows prior to coding.
+
+- Backend services implementation in Java/C# with RESTful? web services.
+- Authentication and authorization mechanisms will be used to ensure secure access.
+
+4.4 Testing
+
+The testing will be carried out continuously during the project to ensure robustness and functionality:
+
+-Unit testing (Java: JUnit / C#: ???).
+-Integration testing to check interactions between client and server.
+-Manual testing of UI components and learning flows for usability and accessibility checks.
+- Security testing with emphasis on authentication and authorization.
+
+4.5 Planning and Management
+
+To facilitate organized collaboration and progress monitoring:
+
+Git with GitHub/GitLab for version control, feature branching, and code reviews.
+
+Task distribution and workload management will be done using a Kanban board (GitHub Projects or Trello).
+
+Meetings for the group will be organized regularly to check on progress, resolve problems, and plan next moves.
+
+Documentation will be written in the formal academic voice, with correct referencing and adherence to plagiarism standards.
 
 _For more information, see “Guidelines – Project Description”._  
 
