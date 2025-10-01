@@ -108,6 +108,15 @@ To facilitate organized collaboration and progress monitoring:
 
 Date: December 19, 2025
 
+# Project Timeline
+
+| Date / Period            | Milestone / Activity             | Details |
+|---------------------------|----------------------------------|---------|
+| Every Sunday              | Weekly Reporting & Task Assignment | Submit progress report + assign new tasks |
+| Weekly                    | Weekly Meeting                   | Checkpoint via Discord or at school |
+| End of November 2025      | Completion of Formal Project Part | Finish writing & documentation for review |
+| December 19, 2025         | Final Deadline                   | Submission of full project |
+
 ## Milestones
 
 1. **Weekly Reporting and Task Assignment**  
