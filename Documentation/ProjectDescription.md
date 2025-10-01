@@ -32,13 +32,11 @@ How to provide easily accesible learning platform?
 
 ## Sub-questions:
 
-- How to ensure that clients are actively pursuing their learning goals?
-
 - Is there any way to speed up the learning process?
 
 - How to make the learning process efficient and user friendly?
 
-- How to ensure that both genders can acquire proper knowledge?
+- How to ensure that all genders can acquire proper knowledge?
 
 - What design principles can be used to make digital learning app more convenient?
 
@@ -48,7 +46,7 @@ How to provide easily accesible learning platform?
 
 - How can the correctness of knowledge be ensured?
 
-- How to provide and maintain security?
+- How to provide and maintain security within the app?
 
 ---
 
@@ -110,6 +108,15 @@ To facilitate organized collaboration and progress monitoring:
 
 Date: December 19, 2025
 
+# Project Timeline
+
+| Date / Period            | Milestone / Activity             | Details |
+|---------------------------|----------------------------------|---------|
+| Every Sunday              | Weekly Reporting & Task Assignment | Submit progress report + assign new tasks |
+| Weekly                    | Weekly Meeting                   | Checkpoint via Discord or at school |
+| End of November 2025      | Completion of Formal Project Part | Finish writing & documentation for review |
+| December 19, 2025         | Final Deadline                   | Submission of full project |
+
 ## Milestones
 
 1. **Weekly Reporting and Task Assignment**  
@@ -153,13 +160,12 @@ Each student is expected to contribute a total of 275 hours to meet the 10 ECTS 
 
 # Risk Assessment
 
-| Risk | \thead{Likelihood} | \thead{Severity} | Normalized Product | Preventive Actions | Identifiers | Responsible |
-|:------------|:-------:|:-------:|:-------:|:-------------------|:-----------------|:-----------:|
-| Limited resources        | 3 | 3 | 2.3 | Prioritize essential features, manage scope carefully, and allocate workload among team members | Missed deadlines, unfinished features, team burnout | Eduard |
-| Poor communication       | 3 | 2 | 1.7 | Use clear communication channels, hold regular sync meetings, document decisions | Misunderstandings in tasks, duplicated work | Piotr |
-| Unrealistic expectations | 2 | 3 | 1.5 | Define realistic milestones, align scope with resources, clarify goals early | Frequent re-scoping, dissatisfaction from stakeholders | Alexandru |
-| Knowledge gaps           | 2 | 2 | 1.5 | Encourage skill-sharing, study relevant topics, consult supervisors when needed | Incorrect implementation, delays in development | Giullermo |
-| Unclear requirements     | 3 | 3 | 2.3 | Refine problem statement with stakeholders, document requirements clearly | Confusion during development, frequent rework | Ibrahim |
+| Risk | Likelihood | Severity | Normalized | Preventive Actions |
+|------|-----------|---------|------------|-----------------|
+| Data storage issues | 3 | 3 | 3.0 | Secure datasets early, create backups, use redundant storage |
+| Local server failure | 3 | 3 | 3.0 | Regular backups, spare devices, monitor hardware health |
+| Synchronization failures between distributed parts | 2 | 3 | 2.0 | Use messaging queues, retries, health checks, test synchronization |
+
 
 ---
 
