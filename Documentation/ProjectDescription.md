@@ -28,7 +28,7 @@ The primary stakeholders in the field of education include both learners and kno
 
 ## Main problem:
 
-How to provide quality education to people all over the world?
+How to provide easily accesible learning platform?
 
 ## Sub-questions:
 
