@@ -54,6 +54,37 @@ How to provide easily accesible learning platform?
 
 The project focuses on helping individuals who cannot access formal education. This may be due to income reasons or geographic constraints. Men and women will have equal opportunities on the digital platform, since everyone should be able to pursue education as they wish. To ensure high-quality, accurate content, courses will be reviewed by experts and AI. 
 
+The project is limited to the development of a simple digital distributed learning platform for students, teachers, and its aadminitrators. Features such as high-scale performance, complete accessibility, AI-based learning, and enterprise-level security are not part of it. 
+
+Delimitations Related to Sub-questions
+
+Speeding up the learning process:
+The system will not be based on any researches evaluating optimal learning speeds. It will provide an basic platform where exercises can be accomplished and tracked.
+
+Efficiency and friendliness of the learning process:
+Intuitive navigation and role-based design will be implemented. Deep UX testing, advanced personalization, or industry-level research of design is beyond the scope.
+
+Gender neutrality in learning:
+The platform won't include gender-specific functionality. The platform will assume equal opportunity and neutrality for every user.
+
+Principles of convenience design:
+The platform will use common UI design patterns suitable for desktop learning solutions. Research and comparison of other design philosophies (gamified vs. traditional layout) won't be cunducted.
+
+Accessibility features (screen readers, voice commands, adaptive interfaces):
+The application will provide only limited accessibility. Advanced adaptive interfaces won't be implemented.
+
+Active pursuit of learning goals:
+The system will offer basic monitoring of progress. High-level motivational features (gamification, AI reminders) will not be part of it.
+
+Trust in the system
+Trust will be addressed primarily by role-based access control and secure authentication. Broader features such as institutional certification or pedagogical authentication are out of scope.
+
+Correctness of knowledge:
+Correctness of the course material will be assumed. The system will not include AI fact-checking, peer-review workflows, or third-party verification of material.
+
+Security
+Security will be guaranteed on a low level (password hashing, simple role-based permissions). Advanced protection (multi-factor authentication) is beyond the project.
+
 ---
 
 # Choice of Methods
