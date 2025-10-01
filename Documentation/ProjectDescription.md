@@ -59,7 +59,7 @@ The project is limited to the development of a simple digital distributed learni
 Delimitations Related to Sub-questions
 
 Speeding up the learning process:
-The system will not be based on any researches evaluating optimal learning speeds. It will provide an basic platform where exercises can be accomplished and tracked.
+The system will not be based on any researches evaluating optimal learning speeds. It will provide a basic platform where exercises can be accomplished and tracked.
 
 Efficiency and friendliness of the learning process:
 Intuitive navigation and role-based design will be implemented. Deep UX testing, advanced personalization, or industry-level research of design is beyond the scope.
