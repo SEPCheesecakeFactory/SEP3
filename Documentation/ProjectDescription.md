@@ -54,7 +54,7 @@ How to provide easily accesible learning platform?
 
 The project focuses on helping individuals who cannot access formal education. This may be due to income reasons or geographic constraints. Men and women will have equal opportunities on the digital platform, since everyone should be able to pursue education as they wish. To ensure high-quality, accurate content, courses will be reviewed by experts and AI. 
 
-The project is limited to the development of a simple digital distributed learning platform for students, teachers, and its aadminitrators. Features such as high-scale performance, complete accessibility, AI-based learning, and enterprise-level security are not part of it. 
+The project is limited to the development of a simple digital distributed learning platform for students, teachers, and its adminitrators. Features such as high-scale performance, complete accessibility, AI-based learning, and enterprise-level security are not part of it. 
 
 Delimitations Related to Sub-questions
 
