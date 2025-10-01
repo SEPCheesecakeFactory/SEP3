@@ -32,13 +32,11 @@ How to provide easily accesible learning platform?
 
 ## Sub-questions:
 
-- How to ensure that clients are actively pursuing their learning goals?
-
 - Is there any way to speed up the learning process?
 
 - How to make the learning process efficient and user friendly?
 
-- How to ensure that both genders can acquire proper knowledge?
+- How to ensure that all genders can acquire proper knowledge?
 
 - What design principles can be used to make digital learning app more convenient?
 
@@ -48,7 +46,7 @@ How to provide easily accesible learning platform?
 
 - How can the correctness of knowledge be ensured?
 
-- How to provide and maintain security?
+- How to provide and maintain security within the app?
 
 ---
 
