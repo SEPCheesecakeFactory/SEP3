@@ -2,6 +2,7 @@
 
 hide circle
 skinparam linetype ortho
+hide empty methods
 
 skinparam Shadowing false
 skinparam BackgroundColor white

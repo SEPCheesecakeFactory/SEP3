@@ -1,42 +1,47 @@
 @startuml DomainModel
 !include .\astah-min.puml
+scale 0.5
+' ▶ ◀ ▲ ▼
 
+skinparam ranksep 80
+skinparam nodesep 80
+skinparam ArrowFontSize 9
 
-class A
-{
-    +field1: int
-    -field2: String
-    #field3: float
-
-    +method1(): void
-    -method2(param: int): String
-    #method3(): float
+together {
+    class User
+    class Teacher
+    class Administrator
 }
 
-class B
+class User
 {
-    +field1: int
-    -field2: String
-    #field3: float
-
-    +method1(): void
-    -method2(param: int): String
-    #method3(): float
+    id
 }
 
-class C
-{
-    +field1: int
-    -field2: String
-    #field3: float
-
-    +method1(): void
-    -method2(param: int): String
-    #method3(): float
+together {
+    class Course
+    class LearningStep
+}
+class Course {
+    id
+    language
+    category
+    title
+    description
+}
+class LearningStep {
+    type
+    content
 }
 
-A --> B
-B --> C
-C --> A
+
+
+Teacher "*" -down- "*" Course : Is assigned to ▼
+Administrator "*" -down- "*" Course : Manages ▼
+LearningStep "*" -down- "1" Course : Belongs to ▼
+Teacher -up-|> User
+Administrator -up-|> User
+User "*" -left- "*" LearningStep : ◀ Completes
+Administrator "*" -right- "*" Teacher : Manages ▶
 
 @enduml
