@@ -1,0 +1,31 @@
+@startuml SSD02 Create Course
+title SSD02 – Create course
+!include .\astah-min.puml
+
+actor Teacher
+participant Server
+
+Teacher -> Server: Login/register
+Server --> Teacher: Auth OK / session
+
+Teacher -> Server: Request list of created courses
+Server --> Teacher: Display created courses
+
+Teacher -> Server: Select "Create course"
+Server --> Teacher: Present course creation option
+
+Teacher -> Server: Submit course meta (title, tags, etc.)
+Server --> Teacher: Acknowledge / draft created
+
+loop For each step to be created
+  Teacher -> Server: Present step creation option (choose type)
+  Server --> Teacher: Step template / form
+
+  Teacher -> Server: Fill step's needed data
+  Server --> Teacher: Validation result / preview
+end
+
+Teacher -> Server: Confirm course creation
+Server --> Teacher: Course created
+
+@enduml

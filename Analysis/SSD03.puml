@@ -1,0 +1,31 @@
+@startuml SSD03 Correct Course
+title SSD03 – Correct course
+!include .\astah-min.puml
+
+actor Administrator
+participant Server
+
+Administrator -> Server: Login/register
+Server --> Administrator: Auth OK / session
+
+Administrator -> Server: Request list of courses
+Server --> Administrator: Display list of courses
+
+Administrator -> Server: Select course to correct
+Server --> Administrator: Present course correction option
+
+Administrator -> Server: Submit corrected course information
+Server --> Administrator: Acknowledge changes saved (draft)
+
+loop For each step to correct
+  Administrator -> Server: Present step correction option (choose step)
+  Server --> Administrator: Step data / edit form
+
+  Administrator -> Server: Correct step's needed data
+  Server --> Administrator: Validation result / preview
+end
+
+Administrator -> Server: Confirm course correction
+Server --> Administrator: Correction committed
+
+@enduml
