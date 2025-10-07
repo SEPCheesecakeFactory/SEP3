@@ -47,7 +47,6 @@ function Build-Generic($mdFile) {
     --include-in-header="Styles\preamble.tex" `
     --include-in-header="Styles\general-hdr-ftr.tex" `
     --include-before-body=$tempTex `
-    --include-before-body="Styles\toc.tex" `
     -V geometry:margin=25mm `
     --pdf-engine=pdflatex `
     --number-sections `
