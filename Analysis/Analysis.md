@@ -2,7 +2,7 @@
 
 1. As a Student, I want to be able to see my progress in a course so that I can track my learning journey.
  
-2. As a Teacher I want to be able to create a course, so that I can share my knowledge
+2. As a Teacher I want to be able to create a course description, so that I can share my knowledge
 
 3. As an Administrator I want to be able to approve created courses, so that there is no bullshit
 
