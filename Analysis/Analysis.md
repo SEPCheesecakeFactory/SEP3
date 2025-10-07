@@ -29,11 +29,11 @@
 
 # Use Case Diagram
 
-![Use Case Diagram](../out/Analysis/UseCaseDiagram/UseCaseDiagram.svg)
+![Use Case Diagram](../out/Analysis/UseCaseDiagram/UseCaseDiagram.png)
 
 # Domain Model
 
-![Domain Model](../out/Analysis/DomainModel/DomainModel.svg)
+![Domain Model](../out/Analysis/DomainModel/DomainModel.png)
 
 # FAA (Frequently Answered Answers)
 

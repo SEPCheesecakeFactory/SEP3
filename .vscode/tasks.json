@@ -41,6 +41,23 @@
       "options": { "cwd": "${workspaceFolder}\\Documentation" },
       "group": "build",
       "problemMatcher": []
+    },
+    {
+      "label": "Docs: Build Current Markdown",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-ExecutionPolicy","Bypass",
+        "-File",
+        "${workspaceFolder}\\Documentation\\build-docs.ps1",
+        "-Target","Generic",
+        "-File","${file}"
+      ],
+      "options": { "cwd": "${workspaceFolder}\\Documentation" },
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }

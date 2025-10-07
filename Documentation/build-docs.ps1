@@ -3,12 +3,16 @@
   Rebuilds PDFs with pandoc and composes the final combined PDF with qpdf.
 
 .PARAMETER Target
-  One of: ProjectDescription | ProcessReport | ProjectReport | All | Combined
+  One of: ProjectDescription | ProcessReport | ProjectReport | Generic | All | Combined
+
+.PARAMETER File
+  The markdown file to build when Target is Generic
 #>
 
 param(
-  [ValidateSet("ProjectDescription","ProcessReport","ProjectReport","All","Combined")]
-  [string]$Target = "All"
+  [ValidateSet("ProjectDescription","ProcessReport","ProjectReport","Generic","All","Combined")]
+  [string]$Target = "All",
+  [string]$File
 )
 
 $ErrorActionPreference = "Stop"
@@ -28,6 +32,28 @@ Set-Location -Path (Split-Path -Parent $MyInvocation.MyCommand.Path)
 
 $FinalDir = Join-Path $PWD "Final"
 if (-not (Test-Path $FinalDir)) { New-Item -ItemType Directory -Path $FinalDir | Out-Null }
+
+function Build-Generic($mdFile) {
+  if (-not $mdFile) { throw "File parameter required for Generic build" }
+  $content = Get-Content $mdFile -Raw
+  $charCount = $content.Length
+  $wordCount = ($content -split '\s+').Where({$_ -ne ''}).Count
+  $texContent = Get-Content "Styles\general.tex" -Raw
+  $texContent = $texContent -replace '\$charcount\$', $charCount -replace '\$wordcount\$', $wordCount
+  $tempTex = "temp-general.tex"
+  $texContent | Out-File $tempTex -Encoding UTF8
+  $baseName = [System.IO.Path]::GetFileNameWithoutExtension([System.IO.Path]::GetFileName($mdFile))
+  pandoc --metadata-file="Styles\general-meta.yaml" $mdFile `
+    --include-in-header="Styles\preamble.tex" `
+    --include-in-header="Styles\general-hdr-ftr.tex" `
+    --include-before-body=$tempTex `
+    --include-before-body="Styles\toc.tex" `
+    -V geometry:margin=25mm `
+    --pdf-engine=pdflatex `
+    --number-sections `
+    -o "$FinalDir\$baseName.pdf"
+  Remove-Item $tempTex
+}
 
 function Build-ProjectDescription {
   $content = Get-Content "ProjectDescription.md" -Raw
@@ -109,6 +135,9 @@ switch ($Target) {
     Build-ProcessReport
     Build-ProjectReport
     Build-Combined
+  }
+  "Generic" {
+    Build-Generic $File
   }
 }
 Write-Host "Done: $Target"
