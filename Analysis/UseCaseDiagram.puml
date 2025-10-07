@@ -1,0 +1,33 @@
+@startuml UseCaseDiagram
+!include .\astah-min.puml
+
+scale 0.5
+left to right direction
+
+actor "Student" as s
+package Internal {
+    actor "Teacher" as t
+    actor "Administrator" as a
+}
+
+t --|> s
+a --|> s
+
+usecase "See Course Progress" as UC1
+usecase "Create Course Description" as UC2
+usecase "Approve Created Courses" as UC3
+usecase "Create Learning Steps" as UC4
+
+usecase "Authenticate User" as auth
+
+s -- UC1
+t -- UC2
+a -- UC3
+t -- UC4
+
+UC1 ..> auth : <<include>>
+UC2 ..> auth : <<include>>
+UC3 ..> auth : <<include>>
+UC4 ..> auth : <<include>>
+
+@enduml

@@ -14,7 +14,7 @@
 
 4. As a Teacher I want to be able to create Learning Steps for the courses, so that the course has relevant steps which makes tracking progress easier
 
-# Use Case Diagrams
+# Use Case Descriptions
 
 3. 
 | **Use Case** | **Manage Draft** |
@@ -27,6 +27,13 @@
 | **Alternate Sequence** | [*ALT0] The process can be cancelled in all steps if a user desires to. Use case ends.<br>[ALT1] If login credentials are invalid, access is denied and the Administrator is prompted to retry (Go to step 1).<br>[ALT2] Administrator disapproves the draft. |
 | **Note** | This use case covers requirement [TODO]. |
 
+# Use Case Diagram
+
+![Use Case Diagram](../out/Analysis/UseCaseDiagram/UseCaseDiagram.svg)
+
+# Domain Model
+
+![Domain Model](../out/Analysis/DomainModel/DomainModel.svg)
 
 # FAA (Frequently Answered Answers)
 
