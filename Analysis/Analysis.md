@@ -8,6 +8,9 @@
 
 4. As a Teacher I want to be able to create Learning Steps for the courses, so that the course has relevant steps which makes tracking progress easier
 
+# Use Case Diagrams
+
+
 # FAA (Frequently Answered Answers)
 
 Administrators and Teachers can also learn on the platform (they don't need to have separate accounts for that).
