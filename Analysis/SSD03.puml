@@ -1,5 +1,5 @@
-@startuml SSD03 Approve Course
-title SSD03 – Approve course
+@startuml SSD03 Approve Draft
+title SSD03 – Approve Draft
 !include .\astah-min.puml
 
 actor Administrator
@@ -8,11 +8,11 @@ participant Server
 Administrator -> Server: Login/register
 Server --> Administrator: Auth OK / session
 
-Administrator -> Server: Request list of courses
-Server --> Administrator: Display list of courses
+Administrator -> Server: Request list of waiting for approval courses
+Server --> Administrator: Display list of waiting for approval courses
 
 Administrator -> Server: Select course to approve
-Server --> Administrator: Present the course's information and data
+Server --> Administrator: Present the course's information
 
 Administrator -> Server: Approve the course to be created
 Server --> Administrator: Confirmation of approval
