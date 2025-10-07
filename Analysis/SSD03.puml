@@ -1,5 +1,5 @@
-@startuml SSD03 Correct Course
-title SSD03 – Correct course
+@startuml SSD03 Approve Course
+title SSD03 – Approve course
 !include .\astah-min.puml
 
 actor Administrator
@@ -11,21 +11,10 @@ Server --> Administrator: Auth OK / session
 Administrator -> Server: Request list of courses
 Server --> Administrator: Display list of courses
 
-Administrator -> Server: Select course to correct
-Server --> Administrator: Present course correction option
+Administrator -> Server: Select course to approve
+Server --> Administrator: Present the course's information and data
 
-Administrator -> Server: Submit corrected course information
-Server --> Administrator: Acknowledge changes saved (draft)
-
-loop For each step to correct
-  Administrator -> Server: Present step correction option (choose step)
-  Server --> Administrator: Step data / edit form
-
-  Administrator -> Server: Correct step's needed data
-  Server --> Administrator: Validation result / preview
-end
-
-Administrator -> Server: Confirm course correction
-Server --> Administrator: Correction committed
+Administrator -> Server: Approve the course to be created
+Server --> Administrator: Confirmation of approval
 
 @enduml
