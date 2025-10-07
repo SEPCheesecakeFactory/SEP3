@@ -1,3 +1,9 @@
+# Actors
+
+- Students - can learn from courses
+- Teachers - can create course content
+- Administrators - assign teachers to courses and approve course drafts, manage users
+
 # User Stories
 
 1. As a Student, I want to be able to see my progress in a course so that I can track my learning journey.
