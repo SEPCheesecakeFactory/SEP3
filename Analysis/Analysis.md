@@ -1,12 +1,12 @@
 # Actors
 
-- Students - can learn from courses
+- Learners - can learn from courses
 - Teachers - can create course content
 - Administrators - assign teachers to courses and approve course drafts, manage users
 
 # User Stories
 
-1. As a Student, I want to be able to see my progress in a course so that I can track my learning journey.
+1. As a Learner, I want to be able to see my progress in a course so that I can track my learning journey.
  
 2. As a Teacher I want to be able to create a course description, so that I can share my knowledge
 
@@ -39,8 +39,8 @@
 
 Administrators and Teachers can also learn on the platform (they don't need to have separate accounts for that).
 
-Teachers can create courses but they need to be approved by an Administrator before they are visible to Students.
+Teachers can create courses but they need to be approved by an Administrator before they are visible to Learners.
 
 Teachers can edit any course they are assigned to. They are automatically assigned to any course they create.
 
-Students can not create or edit courses.
+Learners can not create or edit courses.
