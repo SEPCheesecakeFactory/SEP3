@@ -17,6 +17,7 @@
 # Use Case Descriptions
 
 3. 
+
 | **Use Case** | **Manage Draft** |
 |---------------|------------------|
 | **Summary** | Administrator reviews and then approves or disapproves new drafts so that only approved drafts are made available for teachers to fill with course data. |
