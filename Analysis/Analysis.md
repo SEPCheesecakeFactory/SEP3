@@ -16,6 +16,20 @@
 
 # Use Case Descriptions
 
+2. 
+| **Use Case** | **Submit Course Description for Approval** |
+|---------------|---------------------------------------------|
+| **Summary** | A Teacher submits a course description for a new course. The Administrator reviews it and either approves it for content creation or disapproves it with feedback. |
+| **Actor** | Teacher, Administrator |
+| **Precondition** | The Teacher has a valid account and is logged into the system. |
+| **Postcondition** | Scenario A: The course description is approved and marked as ready for content creation.<br>Scenario B: The course description is disapproved and the Teacher receives feedback. |
+| **Base Sequence** | 1. The Teacher logs into the system.<br>2. The system authenticates the Teacher. [ALT1]<br>3. The Teacher navigates to “Propose New Course.”<br>4. The system displays required course details and prerequisites.<br>5. The Teacher fills in and submits the course description.<br>6. The system stores the submission and notifies the Administrator for review.<br>7. The Administrator reviews the course description.<br>8. The Administrator approves the course description.<br>9. The system marks the course as *Approved* and notifies the Teacher. |
+| **Alternate Sequence** | [*ALT0] The process can be cancelled at any time.<br>[ALT1] If login credentials are invalid, access is denied and the Teacher is prompted to retry (Go to step 1).<br>[ALT2] **Administrator Disapproves Course Description:**<br> 7a. The Administrator disapproves the course description.<br> 7b. The Administrator provides feedback explaining the reason for disapproval.<br> 7c. The system updates the course status to *Rejected* and sends feedback to the Teacher.<br> 7d. The Teacher may revise and submit a new course description later. |
+| **Note** | This use case covers requirement for User Story #2 |
+
+
+
+
 3. 
 | **Use Case** | **Manage Draft** |
 |---------------|------------------|
