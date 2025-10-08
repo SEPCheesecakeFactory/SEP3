@@ -27,9 +27,13 @@
 | **Alternate Sequence** | [*ALT0] The process can be cancelled in all steps if a user desires to. Use case ends.<br>[ALT1] If login credentials are invalid, access is denied and the Administrator is prompted to retry (Go to step 1).<br>[ALT2] Administrator disapproves the draft. |
 | **Note** | This use case covers requirement [TODO]. |
 
+\newpage
+
 # Use Case Diagram
 
 ![Use Case Diagram](../out/Analysis/UseCaseDiagram/UseCaseDiagram.png)
+
+\newpage
 
 # Domain Model
 
