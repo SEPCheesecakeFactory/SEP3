@@ -21,9 +21,9 @@
 | **Summary** | The learner logs in and successfully completes a learning step. |
 | **Actor** | Learner |
 | **Precondition** | 1. The learner already has an account.<br> 2. There are available courses. |
-| **Postcondition** | **Scenario A:** The learner completes the learning step correctly. |
-| **Base Sequence** | 1. The Learner logs into the system.<br>2. The system authenticates the Learner. [ALT1]<br>3. The Learner requests available courses.<br>4. The system displays the list of courses.<br>5. The Learner selects the desired course.<br>6. The system displays the course learning paths.<br>7. The Learner requests the current learning path.<br>8. The system displays the current learning path.<br>9. The Learner submits their step answers or actions (e.g., quiz answers, code submission, interactive task completion, etc.).<br>10. The system evaluates the step.<br>11. The Learner requests feedback.<br>12. The system displays the feedback. [ALT2] |
-| **Alternate Sequence** | **[ALT0]** The process can be cancelled at any step if the user desires to. Use case ends.<br>**[ALT1]** If login credentials are invalid, access is denied and the Learner is prompted to retry (return to Step 1).<br>**[ALT2]** If the answers or actions are incorrect, the Learner is redirected back to the start of the learning step (return to Step 7). |
+| **Postcondition** | **Scenario A:** The learner completes the learning step correctly.<br> **Scenario B:** The learner cancels the process without completing the learning step, and the use case ends. |
+| **Base Sequence** | 1. The Learner logs into the system.<br>2. The system authenticates the Learner. **[ALT1]**<br>3. The Learner requests available courses.<br>4. The system displays the list of courses.<br>5. The Learner selects the desired course.<br>6. The system displays the course learning paths.<br>7. The Learner requests the current learning path.<br>8. The system displays the current learning path.<br>9. The Learner submits their step answers.<br>10. The system evaluates the step.<br>11. The Learner requests feedback.<br>12. The system displays the feedback. **[ALT2]** |
+| **Alternate Sequence** | **[ALT0]** The process can be cancelled at any step if the user desires to. Use case ends.<br>**[ALT1]** If login credentials are invalid, access is denied and the Learner is prompted to retry (return to Step 1).<br>**[ALT2]** If the answers are incorrect, the Learner goes back to the start of the learning step (return to Step 7). |
 | **Note** | This use case covers requirement **[TODO]**. |
 
 
