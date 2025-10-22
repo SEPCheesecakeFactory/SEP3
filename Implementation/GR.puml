@@ -1,0 +1,4 @@
+@startuml DomainModel
+!include .\astah-min.puml
+scale 2
+
