@@ -108,6 +108,6 @@ To ensure accountability and maintain harmony, a point-based system will track r
 |----------------------------|----------------------------------------------------------|------------|
 | Guillermo Sanchez Martinez |                                                          |            |
 | Piotr Wiktor Junosz        |                                                          |            |
-| Halil Ibrahim Aygun        |                                                          |            |
+| Halil Ibrahim Aygun        | ![](Signatures/Halil_Ibrahim_Aygun.png)                  | 22.10.2025 |
 | Alexandru Savin            |                                                          |            |
 | Eduard Fekete              | ![](Signatures/Eduard_Fekete.png)                        | 22.10.2025 |
