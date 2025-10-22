@@ -104,10 +104,10 @@ To ensure accountability and maintain harmony, a point-based system will track r
 
 ## Signatures
 
-| Name                       | Signature                | Date       |
-|----------------------------|--------------------------|------------|
-| Guillermo Sanchez Martinez |                          |            |
-| Piotr Wiktor Junosz        |                          |            |
-| Halil Ibrahim Aygun        |                          |            |
-| Alexandru Savin            |                          |            |
-| Eduard Fekete              |                          |            |
+| Name                       | Signature                                                | Date       |
+|----------------------------|----------------------------------------------------------|------------|
+| Guillermo Sanchez Martinez |                                                          |            |
+| Piotr Wiktor Junosz        |                                                          |            |
+| Halil Ibrahim Aygun        |                                                          |            |
+| Alexandru Savin            |                                                          |            |
+| Eduard Fekete              | ![](Signatures/Eduard_Fekete.png)                        | 22.10.2025 |
