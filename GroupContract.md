@@ -107,7 +107,7 @@ To ensure accountability and maintain harmony, a point-based system will track r
 | Name                       | Signature                                                | Date       |
 |----------------------------|----------------------------------------------------------|------------|
 | Guillermo Sanchez Martinez |                                                          |            |
-| Piotr Wiktor Junosz        |                                                          |            |
+| Piotr Wiktor Junosz        | Piotr Junosz                                             | 22.10.2025 |
 | Halil Ibrahim Aygun        | ![](Signatures/Halil_Ibrahim_Aygun.png)                  | 22.10.2025 |
 | Alexandru Savin            |                                                          |            |
 | Eduard Fekete              | ![](Signatures/Eduard_Fekete.png)                        | 22.10.2025 |
