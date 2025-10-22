@@ -55,3 +55,36 @@ Refactoring or increasing the test coverage can be done outside of the main feat
 
 All tasks should be reviewed. If not necessary, the whole development team does not have to be involved in a review. The reviewer should either apply their own knowledge and expertise or consult with another party to ensure the quality of the work being reviewed.
 
+# Version Control
+
+The project uses Git for version control. All features and bug fixes should be developed in separate branches, which are then merged into the main branch. The main branch can be considered always deployable.
+
+For simplicity, the branches can either rebase from main before merging or use merge commits. Squashing commits is only encouraged when the feature development has many trivial commits that do not add value to the project history. 
+
+The process of merging should be primarily done by the person reviewing as the main branch should only consist of reviewed and approved code. It is not the reviewer's responsibility to resolve the merge conflicts if any arise but minor conflicts should be resolved by the reviewer when possible to speed up the process.
+
+For commit messages, guidelines such as Commit Principles (Fekete, 2025) can be followed.
+
+# Responsibility and Ownership
+
+When someone bears the responsibility of a task, it means they are accountable for its completion. 
+
+Ownership automatically implies responsibility, but not vice versa. A person can be responsible for the completion of a task without being responsible for the actual implementation if it was delegated to someone else.
+
+Ownership can't be delegated, so the owner of code can not blame the tools or sources they used if something goes wrong. The owner is always ultimately responsible for the code they own. Ownership stems from implementing, creating, or updating something within the project context.
+
+# Code Standards
+
+The project follows established coding standards to ensure consistency and readability across the codebase. All team members are expected to adhere to these standards when contributing code.
+
+The standards are:
+
+- DRY (Don't Repeat Yourself): Avoid code duplication by abstracting common functionality into reusable components or functions.
+
+- KISS (Keep It Simple, Stupid): Strive for simplicity in design and implementation. Avoid unnecessary complexity.
+
+- YAGNI (You Aren't Gonna Need It): Do not implement functionality until it is necessary. Avoid over-engineering.
+
+- SOLID Principles: Follow the SOLID principles of object-oriented design to create maintainable and scalable code.
+
+- Language / Framework Specific Standards: Adhere to the coding conventions and best practices specific to the programming languages and frameworks used in the project. Refer to the documentation for each language/framework for detailed guidelines.
