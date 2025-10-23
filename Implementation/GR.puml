@@ -1,4 +1,28 @@
 @startuml DomainModel
 !include .\astah-min.puml
-scale 2
+scale 1
 
+class Course
+{
+    id {PK}
+    language {FK}
+    title
+    description
+    category {FK}
+}
+
+class CourseCategory
+{
+    id {PK}
+    name
+    description
+}
+
+class Language
+{
+    code {PK}
+    name
+}
+
+Course "*" -- "1" CourseCategory
+Course "*" -- "1" Language
