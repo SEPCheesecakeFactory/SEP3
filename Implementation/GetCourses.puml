@@ -1,5 +1,5 @@
 @startuml GetCoursesSD
-!include .\astah-min.puml
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 scale 1
 
 actor "Client" as C1

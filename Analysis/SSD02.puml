@@ -1,6 +1,6 @@
 @startuml SSD02 Create Course
 title SSD02 – Create course
-!include .\astah-min.puml
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 
 actor Teacher
 participant Server

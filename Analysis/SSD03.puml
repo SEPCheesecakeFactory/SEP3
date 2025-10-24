@@ -1,6 +1,6 @@
 @startuml SSD03 Approve Draft
 title SSD03 – Approve Draft
-!include .\astah-min.puml
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 
 actor Administrator
 participant Server
