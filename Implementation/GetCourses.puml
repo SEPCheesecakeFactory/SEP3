@@ -2,10 +2,10 @@
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 scale 1
 
-actor "Client" as C1
-participant "LogicServer" as S1
-participant "DataServer" as S2
-participant "Database" as DB
+actor ":Client" as C1
+participant ":LogicServer" as S1
+participant ":DataServer" as S2
+database ":Database" as DB
 
 C1 -> S1: (HTTPS) GET .../courses
 S1 -> S2: (gRPC) GetCourses()
