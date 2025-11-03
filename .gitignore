@@ -12,6 +12,7 @@ System/DataServer.project
 System/DataServer.settings
 System/DataServer.springBeans
 System/DataServer.sts4-cache
+System/DataServer/DataServer/src/main/resources/application.properties
 
 ### IntelliJ IDEA ###
 .idea
