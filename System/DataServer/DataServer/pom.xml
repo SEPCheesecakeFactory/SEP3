@@ -28,9 +28,9 @@
         <url/>
     </scm>
     <properties>
-        <java.version>17</java.version>
-        <grpc.version>1.74.0</grpc.version>
-        <protobuf-java.version>4.31.1</protobuf-java.version>
+        <java.version>21</java.version>
+        <grpc.version>1.75.0</grpc.version>
+        <protobuf-java.version>4.32.0</protobuf-java.version>
         <spring-grpc.version>0.11.0</spring-grpc.version>
     </properties>
     <dependencies>
@@ -82,25 +82,24 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>io.github.ascopes</groupId>
+                <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>0.6.1</version>
                 <configuration>
-                    <protocVersion>${protobuf-java.version}</protocVersion>
-                    <binaryMavenPlugins>
-                        <binaryMavenPlugin>
-                            <groupId>io.grpc</groupId>
-                            <artifactId>protoc-gen-grpc-java</artifactId>
-                            <version>${grpc.version}</version>
-                            <options>@generated=omit</options>
-                        </binaryMavenPlugin>
-                    </binaryMavenPlugins>
+                    <protocArtifact>com.google.protobuf:protoc:4.32.0:exe:windows-x86_64</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>
+                        io.grpc:protoc-gen-grpc-java:1.75.0:exe:windows-x86_64
+                    </pluginArtifact>
+                    <outputDirectory>./src/main/java</outputDirectory>
+                    <protoSourceRoot>./src/main/proto</protoSourceRoot>
+                    <clearOutputDirectory>false</clearOutputDirectory>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>generate</id>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
                         </goals>
                     </execution>
                 </executions>
