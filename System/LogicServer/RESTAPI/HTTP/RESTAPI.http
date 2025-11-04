@@ -1,0 +1,8 @@
+@hostname = localhost
+@port = 5161
+@baseURL = http://{{hostname}}:{{port}}
+
+GET {{baseURL}}/courses/
+Accept: application/json
+
+###

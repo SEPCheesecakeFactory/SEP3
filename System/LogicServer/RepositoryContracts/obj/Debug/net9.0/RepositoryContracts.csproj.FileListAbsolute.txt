@@ -1,0 +1,12 @@
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\bin\Debug\net9.0\RepositoryContracts.deps.json
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\bin\Debug\net9.0\RepositoryContracts.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\bin\Debug\net9.0\RepositoryContracts.pdb
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\RepositoryContracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\RepositoryContracts.AssemblyInfoInputs.cache
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\RepositoryContracts.AssemblyInfo.cs
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\RepositoryContracts.csproj.CoreCompileInputs.cache
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\RepositoryContracts.sourcelink.json
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\RepositoryContracts.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\refint\RepositoryContracts.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\RepositoryContracts.pdb
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RepositoryContracts\obj\Debug\net9.0\ref\RepositoryContracts.dll
