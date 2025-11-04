@@ -1,0 +1,30 @@
+﻿@page "/courses"
+@using BlazorApp.Entities
+@using BlazorApp.Services
+@rendermode InteractiveServer
+<PageTitle>Courses</PageTitle>
+@inject ICourseService CourseService
+
+<h1>Courses</h1>
+<ul>
+
+@foreach (var course in courses)
+{
+    <li> 
+    @*TODO: display information from courses here*@
+    </li>
+}</ul>
+@code {
+
+    private List<Course> courses = new List<Course>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DisplayCourses();
+    }
+
+    private async Task DisplayCourses()
+    {
+        courses = await CourseService.GetCourses();
+    }
+}
