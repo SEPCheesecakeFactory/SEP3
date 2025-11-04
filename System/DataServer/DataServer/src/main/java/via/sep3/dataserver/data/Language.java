@@ -1,11 +1,7 @@
-package via.sep3.dataserver;
+package via.sep3.dataserver.data;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import javax.annotation.processing.Generated;
 
 @Entity
 public class Language

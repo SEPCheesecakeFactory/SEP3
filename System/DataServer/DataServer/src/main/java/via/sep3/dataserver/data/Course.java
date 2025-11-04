@@ -1,4 +1,4 @@
-package via.sep3.dataserver;
+package via.sep3.dataserver.data;
 
 import jakarta.persistence.*;
 
