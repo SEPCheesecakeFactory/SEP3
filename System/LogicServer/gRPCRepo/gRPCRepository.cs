@@ -9,9 +9,9 @@ public abstract class gRPCRepository<T> : IRepository<T> where T : class, IIdent
 {
     public DataRetrievalService.DataRetrievalServiceClient Client { protected get; init; }
 
-    public gRPCRepository(string host, int port)
+    public gRPCRepository(string host, int port, bool useTls = false)
     {
-        var channel = GrpcChannel.ForAddress($"http://{host}:{port}");
+        var channel = GrpcChannel.ForAddress($"http{(useTls ? "s" : "")}://{host}:{port}");
         Client = new DataRetrievalService.DataRetrievalServiceClient(channel);
     }
     public gRPCRepository(DataRetrievalService.DataRetrievalServiceClient client)
