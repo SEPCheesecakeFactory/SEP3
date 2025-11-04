@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "6/vHiB0sP9dso36rMPvE0Cc5w0s1xOg+cVaWe2EQJ54=",
-  "Source": "RESTAPI",
-  "BasePath": "_content/RESTAPI",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"qd+sBC2n55krdKBlxZ6yppi2+OP48pGBJyS2Ngoqwro=","Source":"RESTAPI","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

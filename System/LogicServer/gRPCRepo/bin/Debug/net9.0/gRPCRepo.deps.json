@@ -11,7 +11,6 @@
           "Entities": "1.0.0",
           "Google.Protobuf": "3.33.0",
           "Grpc.Net.Client": "2.71.0",
-          "Grpc.Tools": "2.76.0",
           "Microsoft.Extensions.Http.Polly": "8.0.21",
           "RepositoryContracts": "1.0.0"
         },
@@ -58,7 +57,6 @@
           }
         }
       },
-      "Grpc.Tools/2.76.0": {},
       "Microsoft.Extensions.Configuration/8.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
@@ -247,7 +245,7 @@
       "Entities/1.0.0": {
         "runtime": {
           "Entities.dll": {
-            "assemblyVersion": "1.0.0",
+            "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -255,7 +253,7 @@
       "RepositoryContracts/1.0.0": {
         "runtime": {
           "RepositoryContracts.dll": {
-            "assemblyVersion": "1.0.0",
+            "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -295,13 +293,6 @@
       "sha512": "sha512-v0c8R97TwRYwNXlC8GyRXwYTCNufpDfUtj9la+wUrZFzVWkFJuNAltU+c0yI3zu0jl54k7en6u2WKgZgd57r2Q==",
       "path": "grpc.net.common/2.71.0",
       "hashPath": "grpc.net.common.2.71.0.nupkg.sha512"
-    },
-    "Grpc.Tools/2.76.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-goRzYZVMgQtyLvkWdgTnPycg49hlNxnMkqGGgR3l7nCOm0bUh0YeAneiJ9JFk3XLgF4suQUdETYkl2Mg/TBr0w==",
-      "path": "grpc.tools/2.76.0",
-      "hashPath": "grpc.tools.2.76.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/8.0.0": {
       "type": "package",

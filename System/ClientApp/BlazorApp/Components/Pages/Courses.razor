@@ -8,10 +8,10 @@
 <h1>Courses</h1>
 <ul>
 
-@foreach (var course in courses)
+@foreach (Course course in courses)
 {
     <li> 
-    @*TODO: display information from courses here*@
+        ID: @course.Id, <br /> Title: @course.Title <br /> Description: @course.Description <br /> Category:@course.Category <br /> Language:@course.Language
     </li>
 }</ul>
 @code {

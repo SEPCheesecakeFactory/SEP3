@@ -16,3 +16,21 @@ D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\InMemoryRepo\obj\Debug\net9
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\refint\InMemoryRepo.dll
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.pdb
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\ref\InMemoryRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\bin\Debug\net9.0\InMemoryRepo.deps.json
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\bin\Debug\net9.0\InMemoryRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\bin\Debug\net9.0\InMemoryRepo.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\bin\Debug\net9.0\Entities.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\bin\Debug\net9.0\RepositoryContracts.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\bin\Debug\net9.0\Entities.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\bin\Debug\net9.0\RepositoryContracts.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.csproj.AssemblyReference.cache
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.GeneratedMSBuildEditorConfig.editorconfig
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.AssemblyInfoInputs.cache
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.AssemblyInfo.cs
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.csproj.CoreCompileInputs.cache
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.sourcelink.json
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemory.8E17B3C9.Up2Date
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\refint\InMemoryRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\InMemoryRepo.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\InMemoryRepo\obj\Debug\net9.0\ref\InMemoryRepo.dll

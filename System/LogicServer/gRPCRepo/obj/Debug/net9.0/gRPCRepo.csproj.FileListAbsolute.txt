@@ -16,3 +16,21 @@ D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\gRPCRepo\obj\Debug\net9.0\g
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\gRPCRepo\obj\Debug\net9.0\refint\gRPCRepo.dll
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.pdb
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\gRPCRepo\obj\Debug\net9.0\ref\gRPCRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\bin\Debug\net9.0\gRPCRepo.deps.json
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\bin\Debug\net9.0\gRPCRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\bin\Debug\net9.0\gRPCRepo.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\bin\Debug\net9.0\Entities.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\bin\Debug\net9.0\RepositoryContracts.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\bin\Debug\net9.0\Entities.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\bin\Debug\net9.0\RepositoryContracts.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.csproj.AssemblyReference.cache
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.GeneratedMSBuildEditorConfig.editorconfig
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.AssemblyInfoInputs.cache
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.AssemblyInfo.cs
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.csproj.CoreCompileInputs.cache
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.sourcelink.json
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.csproj.Up2Date
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\refint\gRPCRepo.dll
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\gRPCRepo.pdb
+S:\University\Semester 3\SEP3Project\System\LogicServer\gRPCRepo\obj\Debug\net9.0\ref\gRPCRepo.dll
