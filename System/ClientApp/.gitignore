@@ -1,0 +1,23 @@
+# build outputs
+bin/
+obj/
+
+# VS / Rider
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# debug/profiles
+*.psess
+*.vsp
+*.vspx
+
+# secrets / local configs
+appsettings*.json
+Properties/launchSettings.json
+
+# keep templates
+!appsettings*.template.json
+!Properties/launchSettings.template.json
