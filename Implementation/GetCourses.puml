@@ -1,0 +1,15 @@
+@startuml GetCoursesSD
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+scale 1
+
+actor ":Client" as C1
+participant ":LogicServer" as S1
+participant ":DataServer" as S2
+database ":Database" as DB
+
+C1 -> S1: (HTTPS) GET .../courses
+S1 -> S2: (gRPC) GetCourses()
+S2 -> DB: (SQL) SELECT * FROM Course
+DB --> S2: List of Course records
+S2 --> S1: (gRPC) (BIN) List of Course objects
+S1 --> C1: (HTTP) 200 OK + (JSON) List of Course objects

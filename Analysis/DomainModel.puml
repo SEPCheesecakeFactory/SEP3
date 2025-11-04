@@ -1,5 +1,5 @@
 @startuml DomainModel
-!include .\astah-min.puml
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 scale 2
 ' ▶ ◀ ▲ ▼
 
@@ -47,6 +47,11 @@ class CourseDraft
     title
     description
 }
+class CourseCategory
+{
+    name
+    description
+}
 
 Teacher "*" -down- "*" Course : Is assigned to ▼
 LearningStep "1" -right- "*" Teacher : IsCreatedBy ◀
@@ -58,7 +63,7 @@ Teacher -up-|> User
 Administrator -up-|> User
 User "*" -left- "*" LearningStep : ◀ Completes
 Administrator "*" -left- "*" Teacher : Manages ◀
-Course "1" -down- "1" CourseCategory : has ▼ 
+Course "*" -down- "1" CourseCategory : has ▼ 
 CourseDraft "1" -down- "1" Course : versionOf ▼
 Teacher "1" -down- "*" CourseDraft : creates ▼
 

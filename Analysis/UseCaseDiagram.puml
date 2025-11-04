@@ -1,5 +1,5 @@
 @startuml UseCaseDiagram
-!include .\astah-min.puml
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 
 scale 2
 left to right direction
@@ -25,9 +25,7 @@ t -- UC2
 a -- UC3
 t -- UC4
 
-UC1 ..> auth : <<include>>
-UC2 ..> auth : <<include>>
-UC3 ..> auth : <<include>>
-UC4 ..> auth : <<include>>
+' Description of the diagram
+footer all use cases include user authentication
 
 @enduml
