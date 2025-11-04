@@ -1,0 +1,20 @@
+@startuml FolderStructure
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+scale 1
+
+
+
+folder "System" {
+    folder "ClientApp" {
+        
+    }
+    folder "LogicServer" {
+        
+    } 
+    folder "Database" {
+        
+    }
+    folder "DataServer" {
+        
+    }
+}
