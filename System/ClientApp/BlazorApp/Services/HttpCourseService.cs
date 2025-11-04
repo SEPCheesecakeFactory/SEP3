@@ -1,5 +1,4 @@
 using System;
-using BlazorApp.Entities;
 
 namespace BlazorApp.Services;
 
@@ -10,9 +9,9 @@ public class HttpCourseService : ICourseService
     {
         this.client = client;
     }
-    public async Task<List<Course>> GetCourses()
+    public async Task<List<Entities.Course>> GetCourses()
     {
-        var result = await client.GetFromJsonAsync<List<Course>>("courses");
-        return new List<Course>(result ?? new List<Course>());
+        var result = await client.GetFromJsonAsync<List<Entities.Course>>("courses");
+        return new List<Entities.Course>(result ?? new List<Entities.Course>());
     }
 }
