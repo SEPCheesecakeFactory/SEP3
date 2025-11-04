@@ -50,5 +50,8 @@ INSERT INTO Course (language, title, description, category) VALUES
 ('ENG', 'Digital Marketing', 'Master SEO, social media, and online advertising.', 4),
 ('SPA', 'Diseño UX/UI', 'Aprende a diseñar interfaces centradas en el usuario.', 2),
 ('FRA', 'Artificial Intelligence Basics', 'Understand the basics of AI and machine learning.', 5),
-('ENG', 'Effective Communication', 'Improve your communication and presentation skills.', 4);
+('ENG', 'Effective Communication', 'Improve your communication and presentation skills.', 4),
+('ENG', 'New Course', 'Brand new course.', 4);
 
+
+INSERT INTO Course (language, title, description, category) VALUES ('ENG', 'New Course #2', 'Brand new course #2', 4);
