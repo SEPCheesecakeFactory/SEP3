@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj" />
+    <ProjectReference Include="..\gRPCRepo\gRPCRepo.csproj" />
     <ProjectReference Include="..\InMemoryRepo\InMemoryRepo.csproj" />
     <ProjectReference Include="..\RepositoryContracts\RepositoryContracts.csproj" />
   </ItemGroup>

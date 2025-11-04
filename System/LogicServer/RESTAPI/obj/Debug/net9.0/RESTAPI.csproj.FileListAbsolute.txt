@@ -38,3 +38,12 @@ D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\obj\Debug\net9.0\re
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\obj\Debug\net9.0\RESTAPI.pdb
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\obj\Debug\net9.0\RESTAPI.genruntimeconfig.cache
 D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\obj\Debug\net9.0\ref\RESTAPI.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\Google.Protobuf.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\Grpc.Core.Api.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\Grpc.Net.Client.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\Grpc.Net.Common.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\Microsoft.Extensions.Http.Polly.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\Polly.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\Polly.Extensions.Http.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\gRPCRepo.dll
+D:\UltimateStorage\GitSynced\SEP3\System\LogicServer\RESTAPI\bin\Debug\net9.0\gRPCRepo.pdb

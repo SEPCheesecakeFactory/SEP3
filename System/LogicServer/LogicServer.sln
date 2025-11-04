@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemoryRepo", "InMemoryRep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C83D3D17-0917-4944-BEDA-5CC9FB641C16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPCRepo", "gRPCRepo\gRPCRepo.csproj", "{2CDE40C6-8BB8-45EA-AA4E-882EBDE7B6A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C83D3D17-0917-4944-BEDA-5CC9FB641C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C83D3D17-0917-4944-BEDA-5CC9FB641C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C83D3D17-0917-4944-BEDA-5CC9FB641C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CDE40C6-8BB8-45EA-AA4E-882EBDE7B6A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CDE40C6-8BB8-45EA-AA4E-882EBDE7B6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CDE40C6-8BB8-45EA-AA4E-882EBDE7B6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CDE40C6-8BB8-45EA-AA4E-882EBDE7B6A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

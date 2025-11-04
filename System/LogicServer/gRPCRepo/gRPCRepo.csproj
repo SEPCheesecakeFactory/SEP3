@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj" />
+    <ProjectReference Include="..\RepositoryContracts\RepositoryContracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Net.Client" Version="2.*" />
+    <PackageReference Include="Grpc.Tools" Version="2.*" PrivateAssets="all" />
+    <PackageReference Include="Google.Protobuf" Version="3.*" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\data_protocol.proto" GrpcServices="Client" />
+  </ItemGroup>
+</Project>
