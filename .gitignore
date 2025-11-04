@@ -1,31 +1,31 @@
 HELP.md
 target/
-System/DataServer/.mvn/wrapper/maven-wrapper.jar
+**/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### STS ###
-System/DataServer.apt_generated
-System/DataServer.classpath
-System/DataServer.factorypath
-System/DataServer.project
-System/DataServer.settings
-System/DataServer.springBeans
-System/DataServer.sts4-cache
-System/DataServer/DataServer/src/main/resources/application.properties
+**.apt_generated
+**.classpath
+**.factorypath
+**.project
+**.settings
+**.springBeans
+**.sts4-cache
+**/DataServer/src/main/resources/application.properties
 
 ### IntelliJ IDEA ###
-.idea
+**/.idea
 *.iws
 *.iml
 *.ipr
 
 ### NetBeans ###
-System/DataServer/nbproject/private/
-System/DataServer/nbbuild/
-System/DataServer/dist/
-System/DataServer/nbdist/
-System/DataServer/.nb-gradle/
-System/DataServer/build/
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
+**/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
