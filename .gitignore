@@ -12,7 +12,7 @@ target/
 **.settings
 **.springBeans
 **.sts4-cache
-**/src/main/resources/application.properties
+**/application.properties
 
 ### IntelliJ IDEA ###
 **/.idea
@@ -29,3 +29,16 @@ target/
 **/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+# dotnet / C#
+bin/
+obj/
+*.user
+*.suo
+*.pdb
+*.mdb
+*.cache
+*.vs/
+*.csproj.user
+
+appsettings*.json
