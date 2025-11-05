@@ -142,7 +142,7 @@ Date: December 19, 2025
 # Project Timeline
 
 | Date / Period            | Milestone / Activity             | Details |
-|---------------------------|----------------------------------|---------|
+|-----------------------|-------------------------------|--------------------|
 | Every Sunday              | Weekly Reporting & Task Assignment | Submit progress report + assign new tasks |
 | Weekly                    | Weekly Meeting                   | Checkpoint via Discord or at school |
 | End of November 2025      | Completion of Formal Project Part | Finish writing & documentation for review |
@@ -192,10 +192,10 @@ Each student is expected to contribute a total of 275 hours to meet the 10 ECTS 
 # Risk Assessment
 
 | Risk | Likelihood | Severity | Normalized | Preventive Actions |
-|------|-----------|---------|------------|-----------------|
-| Data storage issues | 3 | 3 | 3.0 | Secure datasets early, create backups, use redundant storage |
-| Local server failure | 3 | 3 | 3.0 | Regular backups, spare devices, monitor hardware health |
-| Synchronization failures between distributed parts | 2 | 3 | 2.0 | Use messaging queues, retries, health checks, test synchronization |
+|-----------|:--------:|:------:|:---------:|-----------------|
+| Data storage issues | 3 | 3 | 2.0 | Secure datasets early, create backups, use redundant storage |
+| Local server failure | 3 | 3 | 2.0 | Regular backups, spare devices, monitor hardware health |
+| Synchronization failures between distributed parts | 2 | 3 | 1.5 | Use messaging queues, retries, health checks, test synchronization |
 
 
 ---

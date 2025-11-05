@@ -42,8 +42,12 @@ To visualize commit activity over time, refer to the following plot generated fr
 
 ![Repository Commit History](UseOfVersionControl/image.png)
 
+\newpage
+
 ## Documentation
 
-![Git Tree/Log](UseOfVersionControl/image-1.png){ width=250px }
+![Git Tree/Log](UseOfVersionControl/image-1.png){ width=260px }
 
-![Git Tree/Log, deeper](UseOfVersionControl/image-2.png){ width=250px }
+![Git Tree/Log, deeper](UseOfVersionControl/image-2.png){ width=260px }
+
+
