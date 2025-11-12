@@ -24,5 +24,13 @@ class Language
     name
 }
 
+class User
+{
+    id {PK}
+    username
+    password_hash
+    role
+}
+
 Course "*" -- "1" CourseCategory
 Course "*" -- "1" Language

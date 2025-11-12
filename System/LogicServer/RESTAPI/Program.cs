@@ -38,12 +38,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // === Simple map for GetCourses ===
+//(been moved to coursescontroller class)
 
-app.MapGet("/courses", (IRepository<Entities.Course> courseRepo) =>
-{
-    var courses = courseRepo.GetMany();
-    return Results.Ok(courses);
-});
+// app.MapGet("/courses", (IRepository<Entities.Course> courseRepo) =>
+// {
+//     var courses = courseRepo.GetMany();
+//     return Results.Ok(courses);
+// });
 
 // === RUN ===
 
