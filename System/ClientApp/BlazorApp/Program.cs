@@ -1,5 +1,8 @@
+using BlazorApp.Auth;
 using BlazorApp.Components;
 using BlazorApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,10 @@ builder.Services.AddRazorComponents()
 var hostUri = builder.Configuration["HostUri"] ?? "http://localhost:5161";
 
 builder.Services.AddHttpClient<ICourseService, HttpCourseService>(c => c.BaseAddress = new Uri(hostUri));
+builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthProvider>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

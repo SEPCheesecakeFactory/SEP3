@@ -1,8 +1,9 @@
 using System;
+using Entities;
 
 namespace RepositoryContracts;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T> where T : class, Entities.IIdentifiable
 {
     Task<T> AddAsync(T entity); // Takes an entity and returns the created entity
     Task UpdateAsync(T entity); // Takes an entity and replaces it by ID or throws an exception if ID not present

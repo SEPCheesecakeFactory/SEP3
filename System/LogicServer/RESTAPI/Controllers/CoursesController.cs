@@ -8,8 +8,8 @@ namespace RESTAPI.Controllers;
 [ApiController]
 public class CoursesController : ControllerBase
 {
-    private readonly IRepository<Course> courseRrepository;
-    public CoursesController(IRepository<Course> courseRepository)
+    private readonly IRepository<Entities.Course> courseRrepository;
+    public CoursesController(IRepository<Entities.Course> courseRepository)
     {
         this.courseRrepository = courseRepository;
     }

@@ -4,6 +4,6 @@ namespace Entities;
 
 public class UserDto
 {
-    public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public string Username { set; get; }
+    public int Id { get; set; }
+    public string Username { get; set; }
 }

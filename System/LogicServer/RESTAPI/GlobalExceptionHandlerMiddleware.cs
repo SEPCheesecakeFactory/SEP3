@@ -1,7 +1,7 @@
 using System;
 using RepositoryContracts;
 
-namespace WebAPI;
+namespace RESTAPI;
 
 public class GlobalExceptionHandlerMiddleware(ILogger<GlobalExceptionHandlerMiddleware> logger) : IMiddleware
 {

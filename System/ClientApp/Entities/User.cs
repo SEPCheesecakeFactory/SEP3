@@ -2,9 +2,9 @@ using System;
 
 namespace Entities;
 
-public class User : IIdentifiable
+public class User
 {
-    public int Id { get; set; }
+    public int Id { set; get; }
     public string Username { set; get; }
     public string Password { set; get; }
     public string Role { set; get; }

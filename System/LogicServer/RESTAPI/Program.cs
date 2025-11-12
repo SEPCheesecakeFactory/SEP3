@@ -2,7 +2,9 @@ using Entities;
 using gRPCRepo;
 using InMemoryRepositories;
 using RepositoryContracts;
-using WebAPI;
+using RESTAPI;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IRepository<Entities.Course>>(sp => new gRPCCourseRepository("localhost", 9090));
 
+// Register in-memory user repository for testing and seed data
+builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
+
 // ===
 
 var app = builder.Build();
@@ -37,14 +42,24 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// === Simple map for GetCourses ===
-//(been moved to coursescontroller class)
-
-// app.MapGet("/courses", (IRepository<Entities.Course> courseRepo) =>
-// {
-//     var courses = courseRepo.GetMany();
-//     return Results.Ok(courses);
-// });
+// Seed test users into the in-memory repository so the Blazor app can log in
+using (var scope = app.Services.CreateScope())
+{
+    var provider = scope.ServiceProvider;
+    var logger = provider.GetRequiredService<ILogger<Program>>();
+    var userRepo = provider.GetRequiredService<IRepository<Entities.User>>();
+    try
+    {
+        userRepo.ClearAsync().GetAwaiter().GetResult();
+        userRepo.AddAsync(new Entities.User { Username = "alice", Password = "password1", Role = "User" }).GetAwaiter().GetResult();
+        userRepo.AddAsync(new Entities.User { Username = "bob", Password = "password2", Role = "User" }).GetAwaiter().GetResult();
+        logger.LogInformation("Seeded 2 test users for authentication: alice, bob");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Error seeding in-memory users");
+    }
+}
 
 // === RUN ===
 
