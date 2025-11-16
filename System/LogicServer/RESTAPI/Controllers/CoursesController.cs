@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RESTAPI.Controllers;
 
@@ -14,7 +15,7 @@ public class CoursesController : ControllerBase
         this.courseRrepository = courseRepository;
     }
 
-    [HttpGet]
+    [HttpGet, Authorize("MustBeLearner")]
     public async Task<IResult> GetAllCourses()
     {
         var courses = courseRrepository.GetMany();

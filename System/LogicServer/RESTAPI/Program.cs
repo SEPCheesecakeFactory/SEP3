@@ -51,8 +51,8 @@ using (var scope = app.Services.CreateScope())
     try
     {
         userRepo.ClearAsync().GetAwaiter().GetResult();
-        userRepo.AddAsync(new Entities.User { Username = "alice", Password = "password1", Role = "User" }).GetAwaiter().GetResult();
-        userRepo.AddAsync(new Entities.User { Username = "bob", Password = "password2", Role = "User" }).GetAwaiter().GetResult();
+        userRepo.AddAsync(new Entities.User { Username = "alice", Password = "password1", Role = "FakeLearner" }).GetAwaiter().GetResult();
+        userRepo.AddAsync(new Entities.User { Username = "bob", Password = "password2", Role = "Learner" }).GetAwaiter().GetResult();
         logger.LogInformation("Seeded 2 test users for authentication: alice, bob");
     }
     catch (Exception ex)

@@ -1,21 +1,29 @@
 ﻿@page "/courses"
-@attribute [Authorize]
 @using BlazorApp.Entities
 @using BlazorApp.Services
 @using Microsoft.AspNetCore.Authorization
 @rendermode InteractiveServer
 <PageTitle>Courses</PageTitle>
 @inject ICourseService CourseService
+<AuthorizeView>
 
-<h1>Courses</h1>
-<ul>
+    <NotAuthorized>
+    
+    </NotAuthorized>
+    <Authorized>
+    <h1>Courses</h1>
+    <ul>
 
-@foreach (Course course in courses)
-{
-    <li> 
-        ID: @course.Id, <br /> Title: @course.Title <br /> Description: @course.Description <br /> Category:@course.Category <br /> Language:@course.Language
-    </li>
-}</ul>
+        @foreach (Course course in courses)
+        {
+            <li>
+                ID: @course.Id, <br /> Title: @course.Title <br /> Description: @course.Description <br />
+                Category:@course.Category <br /> Language:@course.Language
+            </li>
+        }
+    </ul>
+    </Authorized>
+</AuthorizeView>
 @code {
 
     private List<Course> courses = new List<Course>();
