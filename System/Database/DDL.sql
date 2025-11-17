@@ -24,7 +24,7 @@ CREATE TABLE Course
     category    INT REFERENCES CourseCategory (id)
 );
 
-CREATE TABLE User
+CREATE TABLE SystemUser
 (
     id SERIAL PRIMARY KEY,
     username VARCHAR(20),
@@ -65,8 +65,8 @@ INSERT INTO Course (language, title, description, category) VALUES
 
 INSERT INTO Course (language, title, description, category) VALUES ('ENG', 'New Course #2', 'Brand new course #2', 4);
 
--- Insert into User
-INSERT INTO User (username, password_hash, role)
+-- Insert into SystemUser
+INSERT INTO SystemUser (username, password_hash, role)
 VALUES ('admin_user', '123', 'admin');
 VALUES ('alice_smith', '123', 'learner');
 VALUES ('jane_doe', '123', 'teacher');
