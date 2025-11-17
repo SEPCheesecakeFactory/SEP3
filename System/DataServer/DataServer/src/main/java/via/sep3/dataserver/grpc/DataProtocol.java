@@ -41,6 +41,21 @@ public final class DataProtocol {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Course_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetUsersRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetUsersRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetUsersResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetUsersResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SystemUser_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SystemUser_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -54,10 +69,15 @@ public final class DataProtocol {
       "st\".\n\022GetCoursesResponse\022\030\n\007courses\030\001 \003(" +
       "\0132\007.Course\"\\\n\006Course\022\n\n\002id\030\001 \001(\005\022\r\n\005titl" +
       "e\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\020\n\010language" +
-      "\030\004 \001(\t\022\020\n\010category\030\005 \001(\t2M\n\024DataRetrieva" +
-      "lService\0225\n\nGetCourses\022\022.GetCoursesReque" +
-      "st\032\023.GetCoursesResponseB\034\n\030via.sep3.data" +
-      "server.grpcP\001b\006proto3"
+      "\030\004 \001(\t\022\020\n\010category\030\005 \001(\t\"\021\n\017GetUsersRequ" +
+      "est\".\n\020GetUsersResponse\022\032\n\005users\030\001 \003(\0132\013" +
+      ".SystemUser\"O\n\nSystemUser\022\n\n\002id\030\001 \001(\005\022\020\n" +
+      "\010username\030\002 \001(\t\022\025\n\rpassword_hash\030\003 \001(\t\022\014" +
+      "\n\004role\030\004 \001(\t2~\n\024DataRetrievalService\0225\n\n" +
+      "GetCourses\022\022.GetCoursesRequest\032\023.GetCour" +
+      "sesResponse\022/\n\010GetUsers\022\020.GetUsersReques" +
+      "t\032\021.GetUsersResponseB\034\n\030via.sep3.dataser" +
+      "ver.grpcP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -81,6 +101,24 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Course_descriptor,
         new java.lang.String[] { "Id", "Title", "Description", "Language", "Category", });
+    internal_static_GetUsersRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_GetUsersRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetUsersRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_GetUsersResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_GetUsersResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetUsersResponse_descriptor,
+        new java.lang.String[] { "Users", });
+    internal_static_SystemUser_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_SystemUser_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_SystemUser_descriptor,
+        new java.lang.String[] { "Id", "Username", "PasswordHash", "Role", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

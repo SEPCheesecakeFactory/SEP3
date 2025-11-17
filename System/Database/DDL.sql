@@ -23,6 +23,15 @@ CREATE TABLE Course
     description VARCHAR(300),
     category    INT REFERENCES CourseCategory (id)
 );
+
+CREATE TABLE User
+(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(20),
+    password_hash VARCHAR(512),
+    role VARCHAR(7) NOT NULL CHECK (role IN ('learner', 'teacher', 'admin'))
+);
+
 -- Insert into Language
 INSERT INTO Language (code, name) VALUES
 ('ENG', 'English'),
@@ -55,3 +64,9 @@ INSERT INTO Course (language, title, description, category) VALUES
 
 
 INSERT INTO Course (language, title, description, category) VALUES ('ENG', 'New Course #2', 'Brand new course #2', 4);
+
+-- Insert into User
+INSERT INTO User (username, password_hash, role)
+VALUES ('admin_user', '123', 'admin');
+VALUES ('alice_smith', '123', 'learner');
+VALUES ('jane_doe', '123', 'teacher');

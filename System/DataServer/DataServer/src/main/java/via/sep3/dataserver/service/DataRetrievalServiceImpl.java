@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import via.sep3.dataserver.data.Course;
 import via.sep3.dataserver.data.CourseRepository;
-import via.sep3.dataserver.grpc.DataRetrievalServiceGrpc;
-import via.sep3.dataserver.grpc.GetCoursesRequest;
-import via.sep3.dataserver.grpc.GetCoursesResponse;
+import via.sep3.dataserver.data.SystemUser;
+import via.sep3.dataserver.data.SystemUserRepository;
+import via.sep3.dataserver.grpc.*;
 import org.springframework.grpc.server.service.GrpcService;
 
 import java.util.ArrayList;
@@ -20,6 +20,8 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private SystemUserRepository userRepository;
 
     @Override
     public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -51,4 +53,36 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
                 .setCategory(course.getCategory() != null ? course.getCategory().getName() : "")
                 .build();
     }
+
+  @Override public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver)
+  {
+    try {
+      List<SystemUser> users = userRepository.findAll();
+      List<via.sep3.dataserver.grpc.SystemUser> grpcUsers = new ArrayList<>();
+
+      for (SystemUser user : users) {
+        via.sep3.dataserver.grpc.SystemUser grpcUser = convertToGrpcUser(user);
+        grpcUsers.add(grpcUser);
+      }
+      GetUsersResponse response = GetUsersResponse.newBuilder()
+          .addAllUsers(grpcUsers)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(e);
+    }
+  }
+
+  private via.sep3.dataserver.grpc.SystemUser convertToGrpcUser(SystemUser user)
+  {
+    return via.sep3.dataserver.grpc.SystemUser.newBuilder()
+        .setId(user.getId())
+        .setUsername(user.getUsername() != null ? user.getUsername() : "")
+        .setPasswordHash(user.getPassword_hash() != null ? user.getPassword_hash() : "")
+        .setRole(user.getRole() != null ? user.getRole() : "")
+        .build();
+  }
+
 }
