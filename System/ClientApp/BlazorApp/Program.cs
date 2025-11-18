@@ -17,7 +17,9 @@ builder.Services.AddScoped(sp => new HttpClient
 });
 
 // builder.Services.AddHttpClient<ICourseService, HttpCourseService>(c => c.BaseAddress = new Uri(hostUri));
-builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthProvider>();
+builder.Services.AddScoped<IAuthService, JwtAuthService>();
+builder.Services.AddScoped<ICourseService,HttpCourseService>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
 builder.Services.AddAuthorization();

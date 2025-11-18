@@ -1,58 +1,88 @@
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
 using Entities;
-using Microsoft.Extensions.Logging;  // Add this
+using Microsoft.Extensions.Logging;
+using RESTAPI.Services;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace RESTAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(IConfiguration config, IAuthService authService, IRepository<Entities.User> userRepository, ILogger<AuthController> logger) : ControllerBase
 {
-    private readonly IRepository<Entities.User> userRepository;
-    private readonly ILogger<AuthController> logger;  // Add this
-
-    public AuthController(IRepository<Entities.User> userRepository, ILogger<AuthController> logger)  // Update constructor
-    {
-        this.userRepository = userRepository;
-        this.logger = logger;
-    }
+    private readonly IConfiguration _config = config;
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserDto>> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult> Login([FromBody] LoginRequest request)
     {
-        Entities.User? foundUser = await FindUserAsync(request.Username);
-        if (foundUser == null)
+        try
         {
-            logger.LogInformation("198273678126783"); 
-            return Unauthorized();
+            Entities.User foundUser = await authService.ValidateUser(request.Username, request.Password);
+            string token = GenerateJwt(foundUser);
+            return Ok(token);
         }
-        if (request.Password != foundUser.Password)
+        catch (Exception e)
         {
-            return Unauthorized();
+            return BadRequest(e.Message);
         }
-        UserDto dto = new()
-        {
-            Id = foundUser.Id,
-            Username = foundUser.Username
-        };
-        return dto;
+
+        //old implementation without jwt token
+        // if (foundUser == null)
+        // {
+        //     logger.LogInformation("198273678126783");
+        //     return Unauthorized();
+        // }
+        // if (request.Password != foundUser.Password)
+        // {
+        //     return Unauthorized();
+        // }
+        // UserDto dto = new()
+        // {
+        //     Id = foundUser.Id,
+        //     Username = foundUser.Username
+        // };
+        // return dto;
     }
 
-    private async Task<Entities.User?> FindUserAsync(string userName)
+
+    private string GenerateJwt(Entities.User user)
     {
-        IEnumerable<Entities.User> users = userRepository.GetMany();
-        logger.LogInformation("Finding user: {UserName}, Users count: {Count}", userName, users.Count());  // Add this
-        foreach (Entities.User user in users)
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(config["Jwt:Key"] ?? "");
+
+        List<Claim> claims = GenerateClaims(user);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
         {
-            logger.LogInformation("Checking user: {Username}", user.Username);  // Add this
-            if (user.Username.Equals(userName))
-            {
-                logger.LogInformation("Found user: {Username}", user.Username);  // Add this
-                return user;
-            }
-        }
-        logger.LogInformation("User not found: {UserName}", userName);  // Add this
-        return null;
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddHours(1),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Issuer = config["Jwt:Issuer"],
+            Audience = config["Jwt:Audience"]
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+
+    private List<Claim> GenerateClaims(Entities.User user)
+    {
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, config["Jwt:Subject"] ?? ""),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim("Username", user.Username),
+            new Claim("Role", user.Role),
+            // new Claim("Email", user.Email),
+        };
+        return [.. claims];
     }
 }

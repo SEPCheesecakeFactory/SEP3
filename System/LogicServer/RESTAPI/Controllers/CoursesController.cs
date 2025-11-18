@@ -15,7 +15,7 @@ public class CoursesController : ControllerBase
         this.courseRrepository = courseRepository;
     }
 
-    [HttpGet, Authorize("MustBeLearner")]
+    [HttpGet]
     public async Task<IResult> GetAllCourses()
     {
         var courses = courseRrepository.GetMany();

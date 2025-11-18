@@ -1,6 +1,6 @@
 using System;
 
-namespace Entities;
+namespace BlazorApp.Entities;
 
 public class User
 {

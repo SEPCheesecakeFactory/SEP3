@@ -1,7 +1,7 @@
 using System;
 using System.Security.Claims;
 using System.Text.Json;
-using Entities;
+using BlazorApp.Entities;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 

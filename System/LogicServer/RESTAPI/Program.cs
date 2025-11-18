@@ -3,6 +3,7 @@ using gRPCRepo;
 using InMemoryRepositories;
 using RepositoryContracts;
 using RESTAPI;
+using RESTAPI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -25,7 +26,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IRepository<Entities.Course>>(sp => new gRPCCourseRepository("localhost", 9090));
 
 // Register in-memory user repository for testing and seed data
-builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
+// builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
+builder.Services.AddScoped<IRepository<Entities.User>>(sp => new gRPCUserRepository("localhost",9090));
+
+builder.Services.AddScoped<IAuthService, RESTAPI.Services.AuthService>();
 
 // ===
 

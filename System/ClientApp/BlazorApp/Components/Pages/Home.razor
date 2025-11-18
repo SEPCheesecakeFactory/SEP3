@@ -1,27 +1,28 @@
 ﻿@page "/"
-
 @using BlazorApp.Auth
 @using Microsoft.AspNetCore.Components.Authorization
+@using BlazorApp.Services
 @inject AuthenticationStateProvider AuthProvider
+@inject IAuthService AuthService
 @inject NavigationManager NavMgr
 <PageTitle>Home</PageTitle>
 
-<h1>Hello</h1>
+<h1>Reddit Clone</h1>
 
 <AuthorizeView>
     <Authorized>
-        <h3>Hello, @context.User.Identity.Name</h3>
+        <h3>Hello, @context.User.Claims.First(claim => claim.Type.Equals("Username")).Value</h3>
         <button @onclick="Logout">Logout</button>
     </Authorized>
     <NotAuthorized>
         lol you are not logged in!
     </NotAuthorized>
 </AuthorizeView>
-blahblahblah
+Here you can browse interesting posts.
 <button @onclick='() => NavMgr.NavigateTo("login")'>go to login</button>
 @code {
     private async Task Logout()
     {
-        await ((SimpleAuthProvider)AuthProvider).Logout();
+        await AuthService.LogoutAsync();
     }
 }
