@@ -1,59 +1,60 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RepositoryContracts;
-using Entities;
-using ApiContracts;
 
 namespace RESTAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class LearningStepController(IRepository<learningStep> learningStepsRepository) : ControllerBase
+public class LearningStepController(IRepository learningStepsRepository) : ControllerBase
 {
-    private readonly IRepository<learningStep> _learningStepsRepository = learningStepsRepository;
+    private readonly IRepository learningStepsRepository = learningStepsRepository;
 
+    // GET /LearningStep/5
     [HttpGet("{id}")]
     public async Task<ActionResult<learningStepDto>> GetLearningStep(int id)
     {
-        var step = await _learningStepsRepository.GetSingleAsync(id);
-        
-        if (step == null)
+        var learningStep = await learningStepsRepository.GetSingleAsync(id);
+        if (learningStep == null)
             return NotFound();
 
-        // Map to DTO using the new properties
-        return Ok(new learningStepDto 
-        { 
-            Id = step.Id, 
-            Question = step.Question, 
-            Answer = step.Answer 
+        return Ok(new learningStepDto
+        {
+            Id = learningStep.Id,
+            Question = learningStep.Question,
+            Answer = learningStep.Answer
         });
     }
 
+    // GET /LearningStep?question=...&answer=...
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<learningStepDto>>> GetAllLearningSteps(
-        [FromQuery] string? search)
+    public ActionResult<IEnumerable<learningStepDto>> GetAllLearningSteps(
+        [FromQuery] string? question,
+        [FromQuery] string? answer)
     {
-        // Get all items
-        // Note: If the generic repository returns IQueryable, the filtering happens in the DB. 
-        // If it returns IEnumerable, it happens in memory.
-        var query = _learningStepsRepository.GetMany().AsQueryable();
+        var learningSteps = learningStepsRepository.GetMany();
 
-        // Apply Text Search Filter (Replacing the old User/Course filters)
-        if (!string.IsNullOrWhiteSpace(search))
+        // Filter by question text
+        if (!string.IsNullOrWhiteSpace(question))
         {
-            query = query.Where(x => 
-                (x.Question != null && x.Question.Contains(search, StringComparison.OrdinalIgnoreCase)) || 
-                (x.Answer != null && x.Answer.Contains(search, StringComparison.OrdinalIgnoreCase))
-            );
+            learningSteps = learningSteps.Where(ls =>
+                ls.Question != null &&
+                ls.Question.Contains(question, StringComparison.OrdinalIgnoreCase));
         }
 
-        // Map to DTO
-        var learningStepDtos = query.Select(step => new learningStepDto
+        // Filter by answer text
+        if (!string.IsNullOrWhiteSpace(answer))
         {
-            Id = step.Id,
-            Question = step.Question,
-            Answer = step.Answer
-        }).ToList();
+            learningSteps = learningSteps.Where(ls =>
+                ls.Answer != null &&
+                ls.Answer.Contains(answer, StringComparison.OrdinalIgnoreCase));
+        }
+
+        var learningStepDtos = learningSteps
+            .Select(ls => new learningStepDto
+            {
+                Id = ls.Id,
+                Question = ls.Question,
+                Answer = ls.Answer
+            })
+            .ToList();
 
         return Ok(learningStepDtos);
     }
