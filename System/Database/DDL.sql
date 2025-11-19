@@ -28,8 +28,19 @@ CREATE TABLE SystemUser
 (
     id SERIAL PRIMARY KEY,
     username VARCHAR(20),
-    password_hash VARCHAR(512),
-    role VARCHAR(7) NOT NULL CHECK (role IN ('learner', 'teacher', 'admin'))
+    password_hash VARCHAR(512)
+);
+
+CREATE TABLE Role
+(
+    role VARCHAR(7) PRIMARY KEY NOT NULL CHECK (role IN ('learner', 'teacher', 'admin'))
+);
+
+CREATE TABLE SystemUserRole
+(
+    systemUserId int REFERENCES SystemUser(id),
+    role varchar(7) REFERENCES Role(role),
+    PRIMARY KEY (systemUserId, role)
 );
 
 -- Insert into Language
@@ -66,7 +77,26 @@ INSERT INTO Course (language, title, description, category) VALUES
 INSERT INTO Course (language, title, description, category) VALUES ('ENG', 'New Course #2', 'Brand new course #2', 4);
 
 -- Insert into SystemUser
-INSERT INTO SystemUser (username, password_hash, role)
-VALUES ('admin_user', '123', 'admin');
-VALUES ('alice_smith', '123', 'learner');
-VALUES ('jane_doe', '123', 'teacher');
+INSERT INTO SystemUser (username, password_hash)
+VALUES ('admin_user', '123');
+VALUES ('alice_smith', '123');
+VALUES ('jane_doe', '123');
+
+-- Insert into Role
+INSERT INTO Role (role) VALUES 
+('admin'), 
+('learner'), 
+('teacher');
+
+-- Insert into SystemUserRole
+INSERT INTO SystemUserRole (systemUserId, role) VALUES 
+-- admin_user (ID 1) gets 'admin' and 'learner'
+(1, 'admin'),
+(1, 'learner'),
+
+-- alice (ID 2) gets 'learner'
+(2, 'learner'),
+
+-- jane (ID 3) gets 'teacher' and 'learner'
+(3, 'teacher'),
+(3, 'learner');

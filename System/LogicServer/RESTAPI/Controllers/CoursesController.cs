@@ -7,6 +7,7 @@ namespace RESTAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
+[Authorize]
 public class CoursesController : ControllerBase
 {
     private readonly IRepository<Entities.Course> courseRrepository;
@@ -15,7 +16,7 @@ public class CoursesController : ControllerBase
         this.courseRrepository = courseRepository;
     }
 
-    [HttpGet]
+    [HttpGet, Authorize("MustBeLearner")]
     public async Task<IResult> GetAllCourses()
     {
         var courses = courseRrepository.GetMany();

@@ -75,14 +75,33 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     }
   }
 
-  private via.sep3.dataserver.grpc.SystemUser convertToGrpcUser(SystemUser user)
-  {
-    return via.sep3.dataserver.grpc.SystemUser.newBuilder()
-        .setId(user.getId())
-        .setUsername(user.getUsername() != null ? user.getUsername() : "")
-        .setPasswordHash(user.getPassword_hash() != null ? user.getPassword_hash() : "")
-        .setRole(user.getRole() != null ? user.getRole() : "")
-        .build();
+  private via.sep3.dataserver.grpc.SystemUser convertToGrpcUser(SystemUser jpaUser) {
+    via.sep3.dataserver.grpc.SystemUser.Builder userBuilder =
+        via.sep3.dataserver.grpc.SystemUser.newBuilder()
+            .setId(jpaUser.getId())
+            .setUsername(jpaUser.getUsername() != null ? jpaUser.getUsername() : "")
+            .setPasswordHash(jpaUser.getPassword() != null ? jpaUser.getPassword() : "");
+
+    // iterate over the list attached to the user object.
+
+    if (jpaUser.getSystemUserRoles() != null) {
+      for (via.sep3.dataserver.data.SystemUserRole junction : jpaUser.getSystemUserRoles()) {
+
+        // 1. Extract the Role Entity from the Junction Table
+        via.sep3.dataserver.data.Role dbRole = junction.getRole();
+
+        if (dbRole != null) {
+          via.sep3.dataserver.grpc.Role grpcRole =
+              via.sep3.dataserver.grpc.Role.newBuilder()
+                  .setRole(dbRole.getRole()) // This gets the string "admin", "learner", etc.
+                  .build();
+
+          userBuilder.addRoles(grpcRole);
+        }
+      }
+    }
+
+    return userBuilder.build();
   }
 
 }

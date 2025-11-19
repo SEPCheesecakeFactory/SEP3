@@ -30,7 +30,7 @@ private static final long serialVersionUID = 0L;
   private SystemUser() {
     username_ = "";
     passwordHash_ = "";
-    role_ = "";
+    roles_ = java.util.Collections.emptyList();
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
@@ -135,43 +135,45 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int ROLE_FIELD_NUMBER = 4;
+  public static final int ROLES_FIELD_NUMBER = 4;
   @SuppressWarnings("serial")
-  private volatile java.lang.Object role_ = "";
+  private java.util.List<via.sep3.dataserver.grpc.Role> roles_;
   /**
-   * <code>string role = 4;</code>
-   * @return The role.
+   * <code>repeated .Role roles = 4;</code>
    */
   @java.lang.Override
-  public java.lang.String getRole() {
-    java.lang.Object ref = role_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      role_ = s;
-      return s;
-    }
+  public java.util.List<via.sep3.dataserver.grpc.Role> getRolesList() {
+    return roles_;
   }
   /**
-   * <code>string role = 4;</code>
-   * @return The bytes for role.
+   * <code>repeated .Role roles = 4;</code>
    */
   @java.lang.Override
-  public com.google.protobuf.ByteString
-      getRoleBytes() {
-    java.lang.Object ref = role_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      role_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public java.util.List<? extends via.sep3.dataserver.grpc.RoleOrBuilder> 
+      getRolesOrBuilderList() {
+    return roles_;
+  }
+  /**
+   * <code>repeated .Role roles = 4;</code>
+   */
+  @java.lang.Override
+  public int getRolesCount() {
+    return roles_.size();
+  }
+  /**
+   * <code>repeated .Role roles = 4;</code>
+   */
+  @java.lang.Override
+  public via.sep3.dataserver.grpc.Role getRoles(int index) {
+    return roles_.get(index);
+  }
+  /**
+   * <code>repeated .Role roles = 4;</code>
+   */
+  @java.lang.Override
+  public via.sep3.dataserver.grpc.RoleOrBuilder getRolesOrBuilder(
+      int index) {
+    return roles_.get(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -197,8 +199,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(passwordHash_)) {
       com.google.protobuf.GeneratedMessage.writeString(output, 3, passwordHash_);
     }
-    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(role_)) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 4, role_);
+    for (int i = 0; i < roles_.size(); i++) {
+      output.writeMessage(4, roles_.get(i));
     }
     getUnknownFields().writeTo(output);
   }
@@ -219,8 +221,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(passwordHash_)) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(3, passwordHash_);
     }
-    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(role_)) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(4, role_);
+    for (int i = 0; i < roles_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, roles_.get(i));
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -243,8 +246,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getUsername())) return false;
     if (!getPasswordHash()
         .equals(other.getPasswordHash())) return false;
-    if (!getRole()
-        .equals(other.getRole())) return false;
+    if (!getRolesList()
+        .equals(other.getRolesList())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -262,8 +265,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getUsername().hashCode();
     hash = (37 * hash) + PASSWORD_HASH_FIELD_NUMBER;
     hash = (53 * hash) + getPasswordHash().hashCode();
-    hash = (37 * hash) + ROLE_FIELD_NUMBER;
-    hash = (53 * hash) + getRole().hashCode();
+    if (getRolesCount() > 0) {
+      hash = (37 * hash) + ROLES_FIELD_NUMBER;
+      hash = (53 * hash) + getRolesList().hashCode();
+    }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -398,7 +403,13 @@ private static final long serialVersionUID = 0L;
       id_ = 0;
       username_ = "";
       passwordHash_ = "";
-      role_ = "";
+      if (rolesBuilder_ == null) {
+        roles_ = java.util.Collections.emptyList();
+      } else {
+        roles_ = null;
+        rolesBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
@@ -425,9 +436,22 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public via.sep3.dataserver.grpc.SystemUser buildPartial() {
       via.sep3.dataserver.grpc.SystemUser result = new via.sep3.dataserver.grpc.SystemUser(this);
+      buildPartialRepeatedFields(result);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
+    }
+
+    private void buildPartialRepeatedFields(via.sep3.dataserver.grpc.SystemUser result) {
+      if (rolesBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) != 0)) {
+          roles_ = java.util.Collections.unmodifiableList(roles_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.roles_ = roles_;
+      } else {
+        result.roles_ = rolesBuilder_.build();
+      }
     }
 
     private void buildPartial0(via.sep3.dataserver.grpc.SystemUser result) {
@@ -440,9 +464,6 @@ private static final long serialVersionUID = 0L;
       }
       if (((from_bitField0_ & 0x00000004) != 0)) {
         result.passwordHash_ = passwordHash_;
-      }
-      if (((from_bitField0_ & 0x00000008) != 0)) {
-        result.role_ = role_;
       }
     }
 
@@ -471,10 +492,31 @@ private static final long serialVersionUID = 0L;
         bitField0_ |= 0x00000004;
         onChanged();
       }
-      if (!other.getRole().isEmpty()) {
-        role_ = other.role_;
-        bitField0_ |= 0x00000008;
-        onChanged();
+      if (rolesBuilder_ == null) {
+        if (!other.roles_.isEmpty()) {
+          if (roles_.isEmpty()) {
+            roles_ = other.roles_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureRolesIsMutable();
+            roles_.addAll(other.roles_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.roles_.isEmpty()) {
+          if (rolesBuilder_.isEmpty()) {
+            rolesBuilder_.dispose();
+            rolesBuilder_ = null;
+            roles_ = other.roles_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+            rolesBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 internalGetRolesFieldBuilder() : null;
+          } else {
+            rolesBuilder_.addAllMessages(other.roles_);
+          }
+        }
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -518,8 +560,16 @@ private static final long serialVersionUID = 0L;
               break;
             } // case 26
             case 34: {
-              role_ = input.readStringRequireUtf8();
-              bitField0_ |= 0x00000008;
+              via.sep3.dataserver.grpc.Role m =
+                  input.readMessage(
+                      via.sep3.dataserver.grpc.Role.parser(),
+                      extensionRegistry);
+              if (rolesBuilder_ == null) {
+                ensureRolesIsMutable();
+                roles_.add(m);
+              } else {
+                rolesBuilder_.addMessage(m);
+              }
               break;
             } // case 34
             default: {
@@ -715,76 +765,244 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object role_ = "";
+    private java.util.List<via.sep3.dataserver.grpc.Role> roles_ =
+      java.util.Collections.emptyList();
+    private void ensureRolesIsMutable() {
+      if (!((bitField0_ & 0x00000008) != 0)) {
+        roles_ = new java.util.ArrayList<via.sep3.dataserver.grpc.Role>(roles_);
+        bitField0_ |= 0x00000008;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        via.sep3.dataserver.grpc.Role, via.sep3.dataserver.grpc.Role.Builder, via.sep3.dataserver.grpc.RoleOrBuilder> rolesBuilder_;
+
     /**
-     * <code>string role = 4;</code>
-     * @return The role.
+     * <code>repeated .Role roles = 4;</code>
      */
-    public java.lang.String getRole() {
-      java.lang.Object ref = role_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        role_ = s;
-        return s;
+    public java.util.List<via.sep3.dataserver.grpc.Role> getRolesList() {
+      if (rolesBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(roles_);
       } else {
-        return (java.lang.String) ref;
+        return rolesBuilder_.getMessageList();
       }
     }
     /**
-     * <code>string role = 4;</code>
-     * @return The bytes for role.
+     * <code>repeated .Role roles = 4;</code>
      */
-    public com.google.protobuf.ByteString
-        getRoleBytes() {
-      java.lang.Object ref = role_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        role_ = b;
-        return b;
+    public int getRolesCount() {
+      if (rolesBuilder_ == null) {
+        return roles_.size();
       } else {
-        return (com.google.protobuf.ByteString) ref;
+        return rolesBuilder_.getCount();
       }
     }
     /**
-     * <code>string role = 4;</code>
-     * @param value The role to set.
-     * @return This builder for chaining.
+     * <code>repeated .Role roles = 4;</code>
      */
-    public Builder setRole(
-        java.lang.String value) {
-      if (value == null) { throw new NullPointerException(); }
-      role_ = value;
-      bitField0_ |= 0x00000008;
-      onChanged();
+    public via.sep3.dataserver.grpc.Role getRoles(int index) {
+      if (rolesBuilder_ == null) {
+        return roles_.get(index);
+      } else {
+        return rolesBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public Builder setRoles(
+        int index, via.sep3.dataserver.grpc.Role value) {
+      if (rolesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureRolesIsMutable();
+        roles_.set(index, value);
+        onChanged();
+      } else {
+        rolesBuilder_.setMessage(index, value);
+      }
       return this;
     }
     /**
-     * <code>string role = 4;</code>
-     * @return This builder for chaining.
+     * <code>repeated .Role roles = 4;</code>
      */
-    public Builder clearRole() {
-      role_ = getDefaultInstance().getRole();
-      bitField0_ = (bitField0_ & ~0x00000008);
-      onChanged();
+    public Builder setRoles(
+        int index, via.sep3.dataserver.grpc.Role.Builder builderForValue) {
+      if (rolesBuilder_ == null) {
+        ensureRolesIsMutable();
+        roles_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        rolesBuilder_.setMessage(index, builderForValue.build());
+      }
       return this;
     }
     /**
-     * <code>string role = 4;</code>
-     * @param value The bytes for role to set.
-     * @return This builder for chaining.
+     * <code>repeated .Role roles = 4;</code>
      */
-    public Builder setRoleBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) { throw new NullPointerException(); }
-      checkByteStringIsUtf8(value);
-      role_ = value;
-      bitField0_ |= 0x00000008;
-      onChanged();
+    public Builder addRoles(via.sep3.dataserver.grpc.Role value) {
+      if (rolesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureRolesIsMutable();
+        roles_.add(value);
+        onChanged();
+      } else {
+        rolesBuilder_.addMessage(value);
+      }
       return this;
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public Builder addRoles(
+        int index, via.sep3.dataserver.grpc.Role value) {
+      if (rolesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureRolesIsMutable();
+        roles_.add(index, value);
+        onChanged();
+      } else {
+        rolesBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public Builder addRoles(
+        via.sep3.dataserver.grpc.Role.Builder builderForValue) {
+      if (rolesBuilder_ == null) {
+        ensureRolesIsMutable();
+        roles_.add(builderForValue.build());
+        onChanged();
+      } else {
+        rolesBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public Builder addRoles(
+        int index, via.sep3.dataserver.grpc.Role.Builder builderForValue) {
+      if (rolesBuilder_ == null) {
+        ensureRolesIsMutable();
+        roles_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        rolesBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public Builder addAllRoles(
+        java.lang.Iterable<? extends via.sep3.dataserver.grpc.Role> values) {
+      if (rolesBuilder_ == null) {
+        ensureRolesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, roles_);
+        onChanged();
+      } else {
+        rolesBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public Builder clearRoles() {
+      if (rolesBuilder_ == null) {
+        roles_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+      } else {
+        rolesBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public Builder removeRoles(int index) {
+      if (rolesBuilder_ == null) {
+        ensureRolesIsMutable();
+        roles_.remove(index);
+        onChanged();
+      } else {
+        rolesBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public via.sep3.dataserver.grpc.Role.Builder getRolesBuilder(
+        int index) {
+      return internalGetRolesFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public via.sep3.dataserver.grpc.RoleOrBuilder getRolesOrBuilder(
+        int index) {
+      if (rolesBuilder_ == null) {
+        return roles_.get(index);  } else {
+        return rolesBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public java.util.List<? extends via.sep3.dataserver.grpc.RoleOrBuilder> 
+         getRolesOrBuilderList() {
+      if (rolesBuilder_ != null) {
+        return rolesBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(roles_);
+      }
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public via.sep3.dataserver.grpc.Role.Builder addRolesBuilder() {
+      return internalGetRolesFieldBuilder().addBuilder(
+          via.sep3.dataserver.grpc.Role.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public via.sep3.dataserver.grpc.Role.Builder addRolesBuilder(
+        int index) {
+      return internalGetRolesFieldBuilder().addBuilder(
+          index, via.sep3.dataserver.grpc.Role.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .Role roles = 4;</code>
+     */
+    public java.util.List<via.sep3.dataserver.grpc.Role.Builder> 
+         getRolesBuilderList() {
+      return internalGetRolesFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        via.sep3.dataserver.grpc.Role, via.sep3.dataserver.grpc.Role.Builder, via.sep3.dataserver.grpc.RoleOrBuilder> 
+        internalGetRolesFieldBuilder() {
+      if (rolesBuilder_ == null) {
+        rolesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            via.sep3.dataserver.grpc.Role, via.sep3.dataserver.grpc.Role.Builder, via.sep3.dataserver.grpc.RoleOrBuilder>(
+                roles_,
+                ((bitField0_ & 0x00000008) != 0),
+                getParentForChildren(),
+                isClean());
+        roles_ = null;
+      }
+      return rolesBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:SystemUser)

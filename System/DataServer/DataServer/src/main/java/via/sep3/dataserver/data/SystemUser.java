@@ -1,22 +1,26 @@
 package via.sep3.dataserver.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*; // Imports everything needed
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "systemuser")
 public class SystemUser
 {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Integer id;
 
+  @Column(name = "username")
   private String username;
+
+  @Column(name = "password_hash")
   private String password_hash;
-  private String role;
+
+  @OneToMany(mappedBy = "systemUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  private List<SystemUserRole> systemUserRoles = new ArrayList<>();
 
   public Integer getId()
   {
@@ -38,23 +42,21 @@ public class SystemUser
     this.username = username;
   }
 
-  public String getPassword_hash()
+  public String getPassword()
   {
     return password_hash;
   }
 
-  public void setPassword_hash(String password_hash)
+  public void setPassword(String password_hash)
   {
     this.password_hash = password_hash;
   }
 
-  public String getRole()
-  {
-    return role;
+  public List<SystemUserRole> getSystemUserRoles() {
+    return systemUserRoles;
   }
 
-  public void setRole(String role)
-  {
-    this.role = role;
+  public void setSystemUserRoles(List<SystemUserRole> systemUserRoles) {
+    this.systemUserRoles = systemUserRoles;
   }
 }

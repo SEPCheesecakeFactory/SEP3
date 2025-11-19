@@ -41,14 +41,26 @@ public interface SystemUserOrBuilder extends
       getPasswordHashBytes();
 
   /**
-   * <code>string role = 4;</code>
-   * @return The role.
+   * <code>repeated .Role roles = 4;</code>
    */
-  java.lang.String getRole();
+  java.util.List<via.sep3.dataserver.grpc.Role> 
+      getRolesList();
   /**
-   * <code>string role = 4;</code>
-   * @return The bytes for role.
+   * <code>repeated .Role roles = 4;</code>
    */
-  com.google.protobuf.ByteString
-      getRoleBytes();
+  via.sep3.dataserver.grpc.Role getRoles(int index);
+  /**
+   * <code>repeated .Role roles = 4;</code>
+   */
+  int getRolesCount();
+  /**
+   * <code>repeated .Role roles = 4;</code>
+   */
+  java.util.List<? extends via.sep3.dataserver.grpc.RoleOrBuilder> 
+      getRolesOrBuilderList();
+  /**
+   * <code>repeated .Role roles = 4;</code>
+   */
+  via.sep3.dataserver.grpc.RoleOrBuilder getRolesOrBuilder(
+      int index);
 }
