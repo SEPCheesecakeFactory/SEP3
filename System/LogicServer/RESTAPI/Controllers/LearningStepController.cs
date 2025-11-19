@@ -1,18 +1,27 @@
+using Microsoft.AspNetCore.Mvc;
+using RepositoryContracts;
+using Entities;
+using RepositoryContracts;
 
 namespace RESTAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class LearningStepController(IRepository learningStepsRepository) : ControllerBase
+public class LearningStepController : ControllerBase
 {
-    private readonly IRepository learningStepsRepository = learningStepsRepository;
+    private readonly IRepository<LearningStep> learningStepsRepository;
+
+    public LearningStepController(IRepository<LearningStep> learningStepsRepository)
+    {
+        this.learningStepsRepository = learningStepsRepository;
+    }
 
     // GET /LearningStep/5
     [HttpGet("{id}")]
     public async Task<ActionResult<learningStepDto>> GetLearningStep(int id)
     {
-        var learningStep = await learningStepsRepository.GetSingleAsync(id);
-        if (learningStep == null)
+        var ls = await learningStepsRepository.GetSingleAsync(id);
+        if (ls == null)
             return NotFound();
 
         return Ok(new learningStepDto
