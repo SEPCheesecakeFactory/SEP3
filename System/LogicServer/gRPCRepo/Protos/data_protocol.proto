@@ -19,3 +19,16 @@ message Course {
   string language = 4;
   string category = 5;
 }
+
+message GetLearningStepsRequest {
+
+}
+message GetLearningStepsResponse {
+  repeated LearningStep learningSteps = 1;
+}
+message LearningStep {
+  int32 id = 1;
+  LearningStepType Type = 2
+  LearningStepContent Content = 3
+  int32 CourseId = 4
+}
