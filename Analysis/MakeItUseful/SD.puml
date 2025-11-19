@@ -1,0 +1,39 @@
+@startuml SD Learning
+title SD Learning
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Learner
+participant LogicServer as s1
+participant DataServer as s2
+participant DataBase as db
+
+Learner -> s1: Request available courses
+s1 -> s2: Get courses list
+s2 -> db: Query courses
+db --> s2: Return courses list
+s2 --> s1: Send courses list
+s1 --> Learner: Display available courses
+
+Learner -> s1: Select desired course
+s1 -> s2: Get current learning step for the selected course
+s2 -> db: Query current step
+db --> s2: Return current step
+s2 --> s1: Send current step
+s1 --> Learner: Sends the learning step
+
+loop For each learning step
+    alt doneLearning?
+        Learner -> s1: request the next step
+        s1 -> s2: Get next learning step
+        s2 -> db: Query next step
+        db --> s2: Return next step
+        s2 --> s1: Send next step
+        s1 --> Learner: Sends the next learning step
+    else not done
+        note right of Learner
+            Continue current step
+        end note
+    end
+end
+
+@enduml
