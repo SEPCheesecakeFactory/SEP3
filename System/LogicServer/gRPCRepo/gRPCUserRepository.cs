@@ -1,6 +1,7 @@
 using Grpc.Net.Client;
 using Entities;
 using RepositoryContracts;
+using System.Linq;
 
 namespace gRPCRepo;
 
@@ -18,7 +19,7 @@ public class gRPCUserRepository : gRPCRepository<Entities.User>
             Id = c.Id,
             Username = c.Username,
             Password = c.Password,//this might have to be changed (we dont want to retrieve the list of all paswords xD ((just for now)))
-            Role = c.Role,
+            Roles = c.Roles.Select(r => new Entities.Role { RoleName = r.Role_ }).ToList(),
         }).ToList();
 
         return users.AsQueryable();

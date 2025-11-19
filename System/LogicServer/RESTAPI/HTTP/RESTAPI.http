@@ -2,14 +2,34 @@
 @port = 5161
 @baseURL = http://{{hostname}}:{{port}}
 
-GET {{baseURL}}/courses/
-Accept: application/json
-
-###
+### 1. Login as Admin
 POST {{baseURL}}/Auth/login
 Content-Type: application/json
 
 {
-  "Username": "bob",
-  "Password": "password2"
+  "Username": "admin_user",
+  "Password": "123"
+}
+
+
+### 2. Get Courses (using the token)
+GET {{baseURL}}/courses/
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiI0OTgzOTVkYy1jMWNmLTQ4ODEtODQ0NS05MzNmN2I3YTkxOTAiLCJpYXQiOjE3NjM1NjEwNTAsInVuaXF1ZV9uYW1lIjoiYWxpY2Vfc21pdGgiLCJVc2VybmFtZSI6ImFsaWNlX3NtaXRoIiwiUm9sZSI6ImxlYXJuZXIiLCJuYmYiOjE3NjM1NjEwNTAsImV4cCI6MTc2MzU2NDY1MCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.xj_WniT9JLO-vWRKGkIPe35mkbWAYjl702eaNP5eITw
+
+### 3. Login as Alice
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "alice_smith",
+  "Password": "123"
+}
+### 4
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "jane_doe",
+  "Password": "123"
 }

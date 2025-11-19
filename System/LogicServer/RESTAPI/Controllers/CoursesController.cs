@@ -16,9 +16,11 @@ public class CoursesController : ControllerBase
         this.courseRrepository = courseRepository;
     }
 
-    [HttpGet, Authorize("MustBeLearner")]
+        [HttpGet, Authorize("MustBeTeacher")]
     public async Task<IResult> GetAllCourses()
     {
+        var user = HttpContext.User;
+        Console.WriteLine($"User: {user.Identity?.Name}, Claims: {string.Join(", ", user.Claims.Select(c => $"{c.Type}: {c.Value}"))}");
         var courses = courseRrepository.GetMany();
         return Results.Ok(courses);
     }

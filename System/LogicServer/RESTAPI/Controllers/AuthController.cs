@@ -22,12 +22,16 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
     {
         try
         {
+            logger.LogInformation("Login attempt for username: {Username}", request.Username);
             Entities.User foundUser = await authService.ValidateUser(request.Username, request.Password);
+            logger.LogInformation("User validated: {Username}, Roles: {Roles}", foundUser.Username, string.Join(", ", foundUser.Roles.Select(r => r.RoleName)));
             string token = GenerateJwt(foundUser);
+            logger.LogInformation("Token generated for {Username}", foundUser.Username);
             return Ok(token);
         }
         catch (Exception e)
         {
+            logger.LogError(e, "Login failed for {Username}", request.Username);
             return BadRequest(e.Message);
         }
 
@@ -53,7 +57,9 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
     private string GenerateJwt(Entities.User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(config["Jwt:Key"] ?? "");
+        var keyString = "This Is My Random Secret Key Which Is At Least Sixteen Characters";
+        Console.WriteLine($"JWT Key: '{keyString}'");
+        var key = Encoding.UTF8.GetBytes(keyString);
 
         List<Claim> claims = GenerateClaims(user);
 
@@ -62,8 +68,8 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Issuer = config["Jwt:Issuer"],
-            Audience = config["Jwt:Audience"]
+            Issuer = "JWTAuthenticationServer",
+            Audience = "JWTServiceBlazorClient"
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -72,17 +78,21 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
 
     private List<Claim> GenerateClaims(Entities.User user)
     {
-        var claims = new[]
+        var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, config["Jwt:Subject"] ?? ""),
+            new Claim(JwtRegisteredClaimNames.Sub, "JWTServiceAccessToken"),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role),
             new Claim("Username", user.Username),
-            new Claim("Role", user.Role),
             // new Claim("Email", user.Email),
         };
-        return [.. claims];
+
+        foreach (var role in user.Roles)
+        {
+            claims.Add(new Claim("Role", role.RoleName));
+        }
+
+        return claims;
     }
 }
