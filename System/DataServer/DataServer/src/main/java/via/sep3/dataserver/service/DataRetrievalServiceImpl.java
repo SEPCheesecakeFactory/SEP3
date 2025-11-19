@@ -11,7 +11,6 @@ import io.grpc.stub.StreamObserver;
 import via.sep3.dataserver.data.Course;
 import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.LearningStep;
-import via.sep3.dataserver.data.LearningStepId;
 import via.sep3.dataserver.data.LearningStepRepository;
 import via.sep3.dataserver.grpc.DataRetrievalServiceGrpc;
 import via.sep3.dataserver.grpc.GetCoursesRequest;
@@ -62,17 +61,35 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
   @Override
   public void getLearningStep(via.sep3.dataserver.grpc.GetLearningStepRequest request,
       StreamObserver<via.sep3.dataserver.grpc.GetLearningStepResponse> responseObserver) {
-    var a = learningStepRepository.findById(
-        new LearningStepId(request.getStepNumber(), request.getCourseId()));
-    if (a.isEmpty()) {
-      responseObserver.onError(new RuntimeException("Learning step not found"));
-      return;
+    try {
+      // custom query method instead of findById to avoid composite key issues
+      LearningStep step = learningStepRepository.findByIdCourseIdAndIdStepOrder(
+          request.getCourseId(), 
+          request.getStepNumber()
+      );
+      
+      if (step == null) {
+        responseObserver.onError(
+            io.grpc.Status.NOT_FOUND
+                .withDescription("Learning step not found for courseId=" + request.getCourseId() 
+                    + ", stepNumber=" + request.getStepNumber())
+                .asRuntimeException()
+        );
+        return;
+      }
+      
+      responseObserver.onNext(GetLearningStepResponse.newBuilder()
+          .setLearningStep(convertToGrpcLearningStep(step))
+          .build());
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(
+          io.grpc.Status.INTERNAL
+              .withDescription("Error retrieving learning step: " + e.getMessage())
+              .withCause(e)
+              .asRuntimeException()
+      );
     }
-    LearningStep step = a.get();
-    responseObserver.onNext(GetLearningStepResponse.newBuilder()
-        .setLearningStep(convertToGrpcLearningStep(step))
-        .build());
-    responseObserver.onCompleted();
   }
 
   private via.sep3.dataserver.grpc.LearningStep convertToGrpcLearningStep(LearningStep step) {
