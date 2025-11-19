@@ -17,42 +17,35 @@ public class LearningStepController(IRepository learningStepsRepository) : Contr
 
         return Ok(new learningStepDto
         {
-            Id = learningStep.Id,
-            Question = learningStep.Question,
-            Answer = learningStep.Answer
+            Id = ls.Id,
+            Type = ls.Type,
+            Content = ls.Content,
+            CourseId = ls.CourseId
         });
     }
 
-    // GET /LearningStep?question=...&answer=...
+    // GET /LearningStep?courseId=...
     [HttpGet]
     public ActionResult<IEnumerable<learningStepDto>> GetAllLearningSteps(
-        [FromQuery] string? question,
-        [FromQuery] string? answer)
+        [FromQuery] int? courseId)
     {
         var learningSteps = learningStepsRepository.GetMany();
 
-        // Filter by question text
-        if (!string.IsNullOrWhiteSpace(question))
+        // Filter by courseId text
+        if (courseId.HasValue)
         {
             learningSteps = learningSteps.Where(ls =>
-                ls.Question != null &&
-                ls.Question.Contains(question, StringComparison.OrdinalIgnoreCase));
-        }
-
-        // Filter by answer text
-        if (!string.IsNullOrWhiteSpace(answer))
-        {
-            learningSteps = learningSteps.Where(ls =>
-                ls.Answer != null &&
-                ls.Answer.Contains(answer, StringComparison.OrdinalIgnoreCase));
+                ls.CourseId.HasValue &&
+                ls.CourseId.Value == courseId.Value);
         }
 
         var learningStepDtos = learningSteps
             .Select(ls => new learningStepDto
             {
                 Id = ls.Id,
-                Question = ls.Question,
-                Answer = ls.Answer
+                Type = ls.Type,
+                Content = ls.Content,
+                CourseId = ls.CourseId
             })
             .ToList();
 

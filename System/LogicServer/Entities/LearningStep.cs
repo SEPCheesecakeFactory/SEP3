@@ -1,8 +1,9 @@
 namespace Entities;
 
-public class learningStep : IIdentifiable
+public class LearningStep : IIdentifiable
 {
     public int Id { get; set; }
-    public string? Question { get; set; }
-    public string? Answer { get; set; } //Probably a list of options
+    public LearningStepType? Type { get; set; }
+    public LearningStepContent? Content { get; set; }
+    public int CourseId { get; set; }
 }
