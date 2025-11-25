@@ -1,0 +1,28 @@
+@page "/courses/{CourseId:int}/steps/{StepOrder:int}"
+@using BlazorApp.Services
+@using BlazorApp.Entities
+@inject ILearningStepService StepService
+
+<h3>Learning Step @StepOrder</h3>
+
+@if (currentStep == null)
+{
+    <p>Loading…</p>
+}
+else
+{
+    <p><strong>Type:</strong> @currentStep.StepType</p>
+    <div>@currentStep.Content</div>
+}
+
+@code {
+    [Parameter] public int CourseId { get; set; }
+    [Parameter] public int StepOrder { get; set; }
+
+    private LearningStep? currentStep;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+    }
+}

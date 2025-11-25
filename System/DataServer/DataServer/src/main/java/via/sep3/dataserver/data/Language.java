@@ -2,8 +2,10 @@ package via.sep3.dataserver.data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "language", schema = "learn_db")
 public class Language
 {
   @Id
