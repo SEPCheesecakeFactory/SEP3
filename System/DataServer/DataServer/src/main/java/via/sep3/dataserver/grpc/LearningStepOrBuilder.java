@@ -11,16 +11,20 @@ public interface LearningStepOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 course_id = 1;</code>
+   * <pre>
+   * Required for Updates/Deletes
+   * </pre>
+   *
+   * <code>int32 id = 1;</code>
+   * @return The id.
+   */
+  int getId();
+
+  /**
+   * <code>int32 course_id = 2;</code>
    * @return The courseId.
    */
   int getCourseId();
-
-  /**
-   * <code>int32 step_order = 2;</code>
-   * @return The stepOrder.
-   */
-  int getStepOrder();
 
   /**
    * <code>string content = 3;</code>
@@ -45,4 +49,14 @@ public interface LearningStepOrBuilder extends
    */
   com.google.protobuf.ByteString
       getTypeBytes();
+
+  /**
+   * <pre>
+   * Added based on your snippet
+   * </pre>
+   *
+   * <code>int32 step_order = 5;</code>
+   * @return The stepOrder.
+   */
+  int getStepOrder();
 }

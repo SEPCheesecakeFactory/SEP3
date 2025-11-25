@@ -1,93 +1,92 @@
-// System/LogicServer/gRPCRepo/LearningStepGrpcRepository.cs
 using Entities;
 using Grpc.Net.Client;
-using via.sep3.dataserver.grpc; // Namespace generated from proto
+using via.sep3.dataserver.grpc; // Generated namespace
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using RepositoryContracts;
 
 namespace gRPCRepo;
 
-public class gRPCLearningStepRepository : gRPCRepository<Entities.LearningStep>
+public class gRPCLearningStepRepository : ILearningStepRepository
 {
-    public gRPCLearningStepRepository(string host, int port) : base(host, port)
+    private readonly DataRetrievalService.DataRetrievalServiceClient _client;
+
+    public gRPCLearningStepRepository(string host, int port)
     {
+        var channel = GrpcChannel.ForAddress($"http://{host}:{port}");
+        _client = new DataRetrievalService.DataRetrievalServiceClient(channel);
     }
 
-    // 1. GET MANY
-    public override IQueryable<Entities.LearningStep> GetMany()
+    public async Task<IEnumerable<Entities.LearningStep>> GetForCourseAsync(int courseId)
     {
-        // Call gRPC
-        var response = Client.GetLearningSteps(new GetLearningStepsRequest());
+        var request = new GetLearningStepsRequest { CourseId = courseId };
+        var response = await _client.GetLearningStepsAsync(request);
 
-        // Map Protobuf -> Entity
-        var learningSteps = response.LearningSteps.Select(ls => new Entities.LearningStep
+        return response.LearningSteps.Select(ls => new Entities.LearningStep
         {
-            Id = ls.Id,
+            CourseId = ls.CourseId,
+            StepOrder = ls.StepOrder,
             Type = ls.Type,
-            Content = ls.Content,
-            CourseId = ls.CourseId
+            Content = ls.Content
         }).ToList();
-
-        return learningSteps.AsQueryable();
     }
 
-    // 2. GET SINGLE
-    public override async Task<Entities.LearningStep> GetSingleAsync(int id)
+    public async Task<Entities.LearningStep> GetSingleAsync(int courseId, int stepOrder)
     {
-        var request = new IdRequest { Id = id };
-        var response = await Client.GetLearningStepAsync(request);
+        var request = new LearningStepKey 
+        { 
+            CourseId = courseId, 
+            StepOrder = stepOrder 
+        };
+        
+        var response = await _client.GetLearningStepAsync(request);
 
         return new Entities.LearningStep
         {
-            Id = response.Id,
+            CourseId = response.CourseId,
+            StepOrder = response.StepOrder,
             Type = response.Type,
-            Content = response.Content,
-            CourseId = response.CourseId
+            Content = response.Content
         };
     }
 
-    // 3. ADD
-    public override async Task<Entities.LearningStep> AddAsync(Entities.LearningStep entity)
+    public async Task<Entities.LearningStep> AddAsync(Entities.LearningStep entity)
     {
-        // Map Entity -> Protobuf
         var protoObj = new via.sep3.dataserver.grpc.LearningStep
         {
+            CourseId = entity.CourseId,
             Type = entity.Type,
-            Content = entity.Content,
-            CourseId = entity.CourseId
-            // ID is usually 0/null here, set by DB later
+            Content = entity.Content
+            // StepOrder is usually calculated by server or sent as 0
         };
 
-        var response = await Client.AddLearningStepAsync(protoObj);
+        var response = await _client.AddLearningStepAsync(protoObj);
 
-        // Return the entity with the new ID assigned by the database
-        entity.Id = response.Id;
+        entity.StepOrder = response.StepOrder; // Server assigns the order
         return entity;
     }
 
-    // 4. UPDATE
-    public override async Task UpdateAsync(Entities.LearningStep entity)
+    public async Task UpdateAsync(Entities.LearningStep entity)
     {
         var protoObj = new via.sep3.dataserver.grpc.LearningStep
         {
-            Id = entity.Id,
+            CourseId = entity.CourseId,
+            StepOrder = entity.StepOrder,
             Type = entity.Type,
-            Content = entity.Content,
-            CourseId = entity.CourseId
+            Content = entity.Content
         };
 
-        await Client.UpdateLearningStepAsync(protoObj);
+        await _client.UpdateLearningStepAsync(protoObj);
     }
 
-    // 5. DELETE
-    public override async Task DeleteAsync(int id)
+    public async Task DeleteAsync(int courseId, int stepOrder)
     {
-        await Client.DeleteLearningStepAsync(new IdRequest { Id = id });
-    }
-
-    // 6. CLEAR (Optional/Test specific)
-    public override Task ClearAsync()
-    {
-        throw new NotImplementedException("ClearAsync is generally not safe for production DBs");
+        var request = new LearningStepKey 
+        { 
+            CourseId = courseId, 
+            StepOrder = stepOrder 
+        };
+        await _client.DeleteLearningStepAsync(request);
     }
 }

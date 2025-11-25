@@ -7,16 +7,16 @@ package via.sep3.dataserver.grpc;
 
 /**
  * <pre>
- * --- Course Messages ---
+ * --- Shared Messages ---
  * </pre>
  *
- * Protobuf type {@code GetCoursesRequest}
+ * Protobuf type {@code IdRequest}
  */
 @com.google.protobuf.Generated
-public final class GetCoursesRequest extends
+public final class IdRequest extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:GetCoursesRequest)
-    GetCoursesRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:IdRequest)
+    IdRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -25,26 +25,37 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      GetCoursesRequest.class.getName());
+      IdRequest.class.getName());
   }
-  // Use GetCoursesRequest.newBuilder() to construct.
-  private GetCoursesRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use IdRequest.newBuilder() to construct.
+  private IdRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private GetCoursesRequest() {
+  private IdRequest() {
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetCoursesRequest_descriptor;
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_IdRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetCoursesRequest_fieldAccessorTable
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_IdRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.sep3.dataserver.grpc.GetCoursesRequest.class, via.sep3.dataserver.grpc.GetCoursesRequest.Builder.class);
+            via.sep3.dataserver.grpc.IdRequest.class, via.sep3.dataserver.grpc.IdRequest.Builder.class);
+  }
+
+  public static final int ID_FIELD_NUMBER = 1;
+  private int id_ = 0;
+  /**
+   * <code>int32 id = 1;</code>
+   * @return The id.
+   */
+  @java.lang.Override
+  public int getId() {
+    return id_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -61,6 +72,9 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (id_ != 0) {
+      output.writeInt32(1, id_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -70,6 +84,10 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (id_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, id_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
@@ -80,11 +98,13 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.sep3.dataserver.grpc.GetCoursesRequest)) {
+    if (!(obj instanceof via.sep3.dataserver.grpc.IdRequest)) {
       return super.equals(obj);
     }
-    via.sep3.dataserver.grpc.GetCoursesRequest other = (via.sep3.dataserver.grpc.GetCoursesRequest) obj;
+    via.sep3.dataserver.grpc.IdRequest other = (via.sep3.dataserver.grpc.IdRequest) obj;
 
+    if (getId()
+        != other.getId()) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -96,49 +116,51 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + ID_FIELD_NUMBER;
+    hash = (53 * hash) + getId();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(byte[] data)
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -146,26 +168,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseDelimitedFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.IdRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseDelimitedFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.GetCoursesRequest parseFrom(
+  public static via.sep3.dataserver.grpc.IdRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -178,7 +200,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.sep3.dataserver.grpc.GetCoursesRequest prototype) {
+  public static Builder newBuilder(via.sep3.dataserver.grpc.IdRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -195,29 +217,29 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * --- Course Messages ---
+   * --- Shared Messages ---
    * </pre>
    *
-   * Protobuf type {@code GetCoursesRequest}
+   * Protobuf type {@code IdRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:GetCoursesRequest)
-      via.sep3.dataserver.grpc.GetCoursesRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:IdRequest)
+      via.sep3.dataserver.grpc.IdRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetCoursesRequest_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_IdRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetCoursesRequest_fieldAccessorTable
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_IdRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.sep3.dataserver.grpc.GetCoursesRequest.class, via.sep3.dataserver.grpc.GetCoursesRequest.Builder.class);
+              via.sep3.dataserver.grpc.IdRequest.class, via.sep3.dataserver.grpc.IdRequest.Builder.class);
     }
 
-    // Construct using via.sep3.dataserver.grpc.GetCoursesRequest.newBuilder()
+    // Construct using via.sep3.dataserver.grpc.IdRequest.newBuilder()
     private Builder() {
 
     }
@@ -230,23 +252,25 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
+      bitField0_ = 0;
+      id_ = 0;
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetCoursesRequest_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_IdRequest_descriptor;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.GetCoursesRequest getDefaultInstanceForType() {
-      return via.sep3.dataserver.grpc.GetCoursesRequest.getDefaultInstance();
+    public via.sep3.dataserver.grpc.IdRequest getDefaultInstanceForType() {
+      return via.sep3.dataserver.grpc.IdRequest.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.GetCoursesRequest build() {
-      via.sep3.dataserver.grpc.GetCoursesRequest result = buildPartial();
+    public via.sep3.dataserver.grpc.IdRequest build() {
+      via.sep3.dataserver.grpc.IdRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -254,24 +278,35 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.GetCoursesRequest buildPartial() {
-      via.sep3.dataserver.grpc.GetCoursesRequest result = new via.sep3.dataserver.grpc.GetCoursesRequest(this);
+    public via.sep3.dataserver.grpc.IdRequest buildPartial() {
+      via.sep3.dataserver.grpc.IdRequest result = new via.sep3.dataserver.grpc.IdRequest(this);
+      if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
+    private void buildPartial0(via.sep3.dataserver.grpc.IdRequest result) {
+      int from_bitField0_ = bitField0_;
+      if (((from_bitField0_ & 0x00000001) != 0)) {
+        result.id_ = id_;
+      }
+    }
+
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.sep3.dataserver.grpc.GetCoursesRequest) {
-        return mergeFrom((via.sep3.dataserver.grpc.GetCoursesRequest)other);
+      if (other instanceof via.sep3.dataserver.grpc.IdRequest) {
+        return mergeFrom((via.sep3.dataserver.grpc.IdRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.sep3.dataserver.grpc.GetCoursesRequest other) {
-      if (other == via.sep3.dataserver.grpc.GetCoursesRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(via.sep3.dataserver.grpc.IdRequest other) {
+      if (other == via.sep3.dataserver.grpc.IdRequest.getDefaultInstance()) return this;
+      if (other.getId() != 0) {
+        setId(other.getId());
+      }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
@@ -298,6 +333,11 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
+            case 8: {
+              id_ = input.readInt32();
+              bitField0_ |= 0x00000001;
+              break;
+            } // case 8
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -313,24 +353,57 @@ private static final long serialVersionUID = 0L;
       } // finally
       return this;
     }
+    private int bitField0_;
 
-    // @@protoc_insertion_point(builder_scope:GetCoursesRequest)
+    private int id_ ;
+    /**
+     * <code>int32 id = 1;</code>
+     * @return The id.
+     */
+    @java.lang.Override
+    public int getId() {
+      return id_;
+    }
+    /**
+     * <code>int32 id = 1;</code>
+     * @param value The id to set.
+     * @return This builder for chaining.
+     */
+    public Builder setId(int value) {
+
+      id_ = value;
+      bitField0_ |= 0x00000001;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 id = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearId() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      id_ = 0;
+      onChanged();
+      return this;
+    }
+
+    // @@protoc_insertion_point(builder_scope:IdRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:GetCoursesRequest)
-  private static final via.sep3.dataserver.grpc.GetCoursesRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:IdRequest)
+  private static final via.sep3.dataserver.grpc.IdRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.GetCoursesRequest();
+    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.IdRequest();
   }
 
-  public static via.sep3.dataserver.grpc.GetCoursesRequest getDefaultInstance() {
+  public static via.sep3.dataserver.grpc.IdRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<GetCoursesRequest>
-      PARSER = new com.google.protobuf.AbstractParser<GetCoursesRequest>() {
+  private static final com.google.protobuf.Parser<IdRequest>
+      PARSER = new com.google.protobuf.AbstractParser<IdRequest>() {
     @java.lang.Override
-    public GetCoursesRequest parsePartialFrom(
+    public IdRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -349,17 +422,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<GetCoursesRequest> parser() {
+  public static com.google.protobuf.Parser<IdRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GetCoursesRequest> getParserForType() {
+  public com.google.protobuf.Parser<IdRequest> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.sep3.dataserver.grpc.GetCoursesRequest getDefaultInstanceForType() {
+  public via.sep3.dataserver.grpc.IdRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

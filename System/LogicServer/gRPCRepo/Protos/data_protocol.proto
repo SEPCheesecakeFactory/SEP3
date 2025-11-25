@@ -1,26 +1,40 @@
 syntax = "proto3";
 
 option csharp_namespace = "via.sep3.dataserver.grpc";
-
 option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
 service DataRetrievalService {
-  //Courses
+  // --- Courses ---
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
 
-  //LearningSteps
+  // --- Learning Steps ---
+  // Returns all steps for a specific course
   rpc GetLearningSteps (GetLearningStepsRequest) returns (GetLearningStepsResponse);
+  
+  // Adds a step (requires course_id, type, content)
   rpc AddLearningStep (LearningStep) returns (LearningStep);
+  
+  // Updates a step (requires composite key: course_id + step_order)
   rpc UpdateLearningStep (LearningStep) returns (LearningStep);
-  rpc DeleteLearningStep (IdRequest) returns (Empty);
-  rpc GetLearningStep (IdRequest) returns (LearningStep);}
-message GetCoursesRequest {
-
+  
+  // Deletes a specific step (requires composite key)
+  rpc DeleteLearningStep (LearningStepKey) returns (Empty);
+  
+  // Gets a single step (requires composite key)
+  rpc GetLearningStep (LearningStepKey) returns (LearningStep);
 }
+
+// --- Messages ---
+
+message Empty {}
+
+message GetCoursesRequest {}
+
 message GetCoursesResponse {
   repeated Course courses = 1;
 }
+
 message Course {
   int32 id = 1;
   string title = 2;
@@ -29,23 +43,31 @@ message Course {
   string category = 5;
 }
 
-message GetLearningStepsRequest {
+// --- Learning Step Messages ---
 
+// New message to identify a step by its Composite Key
+message LearningStepKey {
+  int32 course_id = 1;
+  int32 step_order = 2;
+}
+
+message GetLearningStepsRequest {
+  // We need to know WHICH course to get steps for
+  int32 course_id = 1;
 }
 
 message GetLearningStepsResponse {
   repeated LearningStep learningSteps = 1;
 }
 
-message IdRequest {
-    int32 id = 1;
+message LearningStep {
+  int32 course_id = 1;  // Part of PK
+  int32 step_order = 2; // Part of PK
+  string type = 3;      // Mapped to LearningStepType name
+  string content = 4;
 }
 
-message Empty {}
-
-message LearningStep {
-  int32 id = 1;
-  string type = 2;
-  string content = 3;
-  int32 courseId = 4; // Foreign key reference
+// Keep this for other generic calls if necessary, but not for LearningStep
+message IdRequest {
+    int32 id = 1;
 }

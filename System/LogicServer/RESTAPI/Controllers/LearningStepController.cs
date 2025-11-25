@@ -1,43 +1,105 @@
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
 using Entities;
-using RESTAPI.Dtos; // Import the DTOs
+using RESTAPI.Dtos; // Ensure you have this namespace for DTOs
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 
-namespace WebAPI.Controllers;
+namespace RESTAPI.Controllers;
 
-public class LearningStepController : BaseGrpcController<LearningStep, LearningStepDto, CreateLearningStepDto>
+[ApiController]
+[Route("api/[controller]")]
+public class LearningStepController : ControllerBase
 {
-    // Inject the repository and pass it to the base
-    public LearningStepController(IRepository<LearningStep> repository) : base(repository)
+    private readonly ILearningStepRepository _repository;
+
+    public LearningStepController(ILearningStepRepository repository)
     {
+        _repository = repository;
     }
 
-    // --- Implement Mapping Logic ---
-
-    protected override LearningStepDto MapToDto(LearningStep entity)
+    // GET: api/learningstep/course/1
+    [HttpGet("course/{courseId}")]
+    public async Task<ActionResult<IEnumerable<LearningStepDto>>> GetByCourse(int courseId)
     {
-        return new LearningStepDto
+        var steps = await _repository.GetForCourseAsync(courseId);
+        
+        var dtos = steps.Select(s => new LearningStepDto
         {
-            Id = entity.Id,
-            Type = entity.Type,
-            Content = entity.Content,
-            CourseId = entity.CourseId
-        };
+            CourseId = s.CourseId,
+            // Map StepOrder as the "Id" for the DTO if the frontend expects a single ID
+            // OR keep them separate if the DTO supports it
+            Id = s.StepOrder, 
+            Type = s.Type,
+            Content = s.Content,
+            // Add StepOrder to DTO if needed
+        });
+
+        return Ok(dtos);
     }
 
-    protected override IEnumerable<LearningStepDto> MapToDto(IEnumerable<LearningStep> entities)
+    // GET: api/learningstep/1/2 (Course 1, Step 2)
+    [HttpGet("{courseId}/{stepOrder}")]
+    public async Task<ActionResult<LearningStepDto>> GetSingle(int courseId, int stepOrder)
     {
-        return entities.Select(MapToDto);
-    }
-
-    protected override LearningStep MapToEntity(CreateLearningStepDto dto)
-    {
-        return new LearningStep
+        try 
         {
+            var s = await _repository.GetSingleAsync(courseId, stepOrder);
+            return Ok(new LearningStepDto 
+            { 
+                CourseId = s.CourseId, 
+                Id = s.StepOrder, 
+                Type = s.Type, 
+                Content = s.Content 
+            });
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<LearningStepDto>> Add([FromBody] CreateLearningStepDto dto)
+    {
+        var entity = new LearningStep
+        {
+            CourseId = dto.CourseId,
             Type = dto.Type,
-            Content = dto.Content,
-            CourseId = dto.CourseId
+            Content = dto.Content
         };
+
+        var created = await _repository.AddAsync(entity);
+
+        return Ok(new LearningStepDto
+        {
+            CourseId = created.CourseId,
+            Id = created.StepOrder,
+            Type = created.Type,
+            Content = created.Content
+        });
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] LearningStepDto dto)
+    {
+        var entity = new LearningStep
+        {
+            CourseId = dto.CourseId,
+            StepOrder = dto.Id, // Assuming Id holds the order
+            Type = dto.Type,
+            Content = dto.Content
+        };
+
+        await _repository.UpdateAsync(entity);
+        return NoContent();
+    }
+
+    [HttpDelete("{courseId}/{stepOrder}")]
+    public async Task<IActionResult> Delete(int courseId, int stepOrder)
+    {
+        await _repository.DeleteAsync(courseId, stepOrder);
+        return NoContent();
     }
 }

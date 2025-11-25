@@ -26,9 +26,9 @@ builder.Services.AddScoped<IRepository<Entities.Course>>(sp =>
     new gRPCCourseRepository("localhost", 9090));
 
 // 2. Register the LearningStep Repository (NEW)
-builder.Services.AddScoped<IRepository<Entities.LearningStep>>(sp => 
+builder.Services.AddScoped<ILearningStepRepository>(sp => 
     new gRPCLearningStepRepository("localhost", 9090));
-
+    
 var app = builder.Build();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();

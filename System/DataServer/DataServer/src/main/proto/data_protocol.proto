@@ -1,19 +1,39 @@
 syntax = "proto3";
 
+// C# Namespace (Critical for your Logic Server)
+option csharp_namespace = "via.sep3.dataserver.grpc";
+
+// Java Configuration
 option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
 service DataRetrievalService {
+  // --- Courses ---
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
-  rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
+
+  // --- Learning Steps ---
+  // Full CRUD definitions to match Logic Tier Repository
+  rpc AddLearningStep (LearningStep) returns (LearningStep);
+  rpc GetLearningSteps (GetLearningStepsRequest) returns (GetLearningStepsResponse);
+  rpc GetLearningStep (IdRequest) returns (LearningStep);
+  rpc UpdateLearningStep (LearningStep) returns (LearningStep);
+  rpc DeleteLearningStep (IdRequest) returns (Empty);
 }
 
-message GetCoursesRequest {
-
+// --- Shared Messages ---
+message IdRequest {
+  int32 id = 1;
 }
+
+message Empty {}
+
+// --- Course Messages ---
+message GetCoursesRequest {}
+
 message GetCoursesResponse {
   repeated Course courses = 1;
 }
+
 message Course {
   int32 id = 1;
   string title = 2;
@@ -22,18 +42,19 @@ message Course {
   string category = 5;
 }
 
-message GetLearningStepRequest {
-  int32 course_id = 1;
-  int32 step_number = 2;
+// --- Learning Step Messages ---
+message GetLearningStepsRequest {
+  // Optional: Add 'int32 course_id = 1;' if you want to filter by course later
 }
 
-message GetLearningStepResponse {
-  LearningStep learning_step = 1;
+message GetLearningStepsResponse {
+  repeated LearningStep learning_steps = 1;
 }
 
 message LearningStep {
-  int32 course_id = 1;
-  int32 step_order = 2;
+  int32 id = 1;          // Required for Updates/Deletes
+  int32 course_id = 2;
   string content = 3;
   string type = 4;
+  int32 step_order = 5;  // Added based on your snippet
 }
