@@ -1,6 +1,7 @@
 using Grpc.Net.Client;
 using Entities;
 using RepositoryContracts;
+using via.sep3.dataserver.grpc;
 
 namespace gRPCRepo;
 

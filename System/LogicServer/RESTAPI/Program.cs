@@ -4,6 +4,8 @@ using InMemoryRepositories;
 using RepositoryContracts;
 using WebAPI;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -20,9 +22,12 @@ builder.Services.AddEndpointsApiExplorer();
 // dummyCourseRepo.AddAsync(new Course { Id = 0, Title = "Introduction to Programming", Description = "Learn the basics of programming.", Language = "English" }).Wait();
 
 
-builder.Services.AddScoped<IRepository<Entities.Course>>(sp => new gRPCCourseRepository("localhost", 9090));
+builder.Services.AddScoped<IRepository<Entities.Course>>(sp => 
+    new gRPCCourseRepository("localhost", 9090));
 
-// ===
+// 2. Register the LearningStep Repository (NEW)
+builder.Services.AddScoped<IRepository<Entities.LearningStep>>(sp => 
+    new gRPCLearningStepRepository("localhost", 9090));
 
 var app = builder.Build();
 

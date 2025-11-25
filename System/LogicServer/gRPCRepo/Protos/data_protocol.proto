@@ -1,11 +1,20 @@
 syntax = "proto3";
 
+option csharp_namespace = "via.sep3.dataserver.grpc";
+
 option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
 service DataRetrievalService {
+  //Courses
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
-}
+
+  //LearningSteps
+  rpc GetLearningSteps (GetLearningStepsRequest) returns (GetLearningStepsResponse);
+  rpc AddLearningStep (LearningStep) returns (LearningStep);
+  rpc UpdateLearningStep (LearningStep) returns (LearningStep);
+  rpc DeleteLearningStep (IdRequest) returns (Empty);
+  rpc GetLearningStep (IdRequest) returns (LearningStep);}
 message GetCoursesRequest {
 
 }
@@ -23,12 +32,20 @@ message Course {
 message GetLearningStepsRequest {
 
 }
+
 message GetLearningStepsResponse {
   repeated LearningStep learningSteps = 1;
 }
+
+message IdRequest {
+    int32 id = 1;
+}
+
+message Empty {}
+
 message LearningStep {
   int32 id = 1;
-  LearningStepType Type = 2
-  LearningStepContent Content = 3
-  int32 CourseId = 4
+  string type = 2;
+  string content = 3;
+  int32 courseId = 4; // Foreign key reference
 }

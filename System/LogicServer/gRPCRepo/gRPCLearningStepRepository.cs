@@ -1,6 +1,9 @@
-using Grpc.Net.Client;
+// System/LogicServer/gRPCRepo/LearningStepGrpcRepository.cs
 using Entities;
-using RepositoryContracts;
+using Grpc.Net.Client;
+using via.sep3.dataserver.grpc; // Namespace generated from proto
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace gRPCRepo;
 
@@ -10,10 +13,14 @@ public class gRPCLearningStepRepository : gRPCRepository<Entities.LearningStep>
     {
     }
 
+    // 1. GET MANY
     public override IQueryable<Entities.LearningStep> GetMany()
     {
-        var resp = Client.GetLearningSteps(new GetLearningStepsRequest());
-        var learningSteps = resp.LearningSteps.Select(ls => new Entities.LearningStep
+        // Call gRPC
+        var response = Client.GetLearningSteps(new GetLearningStepsRequest());
+
+        // Map Protobuf -> Entity
+        var learningSteps = response.LearningSteps.Select(ls => new Entities.LearningStep
         {
             Id = ls.Id,
             Type = ls.Type,
@@ -24,28 +31,63 @@ public class gRPCLearningStepRepository : gRPCRepository<Entities.LearningStep>
         return learningSteps.AsQueryable();
     }
 
-    public override Task<Entities.LearningStep> AddAsync(Entities.LearningStep entity)
+    // 2. GET SINGLE
+    public override async Task<Entities.LearningStep> GetSingleAsync(int id)
     {
-        throw new NotImplementedException();
+        var request = new IdRequest { Id = id };
+        var response = await Client.GetLearningStepAsync(request);
+
+        return new Entities.LearningStep
+        {
+            Id = response.Id,
+            Type = response.Type,
+            Content = response.Content,
+            CourseId = response.CourseId
+        };
     }
 
-    public override Task UpdateAsync(Entities.LearningStep entity)
+    // 3. ADD
+    public override async Task<Entities.LearningStep> AddAsync(Entities.LearningStep entity)
     {
-        throw new NotImplementedException();
+        // Map Entity -> Protobuf
+        var protoObj = new via.sep3.dataserver.grpc.LearningStep
+        {
+            Type = entity.Type,
+            Content = entity.Content,
+            CourseId = entity.CourseId
+            // ID is usually 0/null here, set by DB later
+        };
+
+        var response = await Client.AddLearningStepAsync(protoObj);
+
+        // Return the entity with the new ID assigned by the database
+        entity.Id = response.Id;
+        return entity;
     }
 
-    public override Task DeleteAsync(int id)
+    // 4. UPDATE
+    public override async Task UpdateAsync(Entities.LearningStep entity)
     {
-        throw new NotImplementedException();
+        var protoObj = new via.sep3.dataserver.grpc.LearningStep
+        {
+            Id = entity.Id,
+            Type = entity.Type,
+            Content = entity.Content,
+            CourseId = entity.CourseId
+        };
+
+        await Client.UpdateLearningStepAsync(protoObj);
     }
 
-    public override Task<Entities.LearningStep> GetSingleAsync(int id)
+    // 5. DELETE
+    public override async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        await Client.DeleteLearningStepAsync(new IdRequest { Id = id });
     }
 
+    // 6. CLEAR (Optional/Test specific)
     public override Task ClearAsync()
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException("ClearAsync is generally not safe for production DBs");
     }
 }

@@ -1,63 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
 using Entities;
-using RepositoryContracts;
+using RESTAPI.Dtos; // Import the DTOs
+using System.Linq;
 
-namespace RESTAPI.Controllers;
+namespace WebAPI.Controllers;
 
-[Route("[controller]")]
-[ApiController]
-public class LearningStepController : ControllerBase
+public class LearningStepController : BaseGrpcController<LearningStep, LearningStepDto, CreateLearningStepDto>
 {
-    private readonly IRepository<LearningStep> learningStepsRepository;
-
-    public LearningStepController(IRepository<LearningStep> learningStepsRepository)
+    // Inject the repository and pass it to the base
+    public LearningStepController(IRepository<LearningStep> repository) : base(repository)
     {
-        this.learningStepsRepository = learningStepsRepository;
     }
 
-    // GET /LearningStep/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<learningStepDto>> GetLearningStep(int id)
-    {
-        var ls = await learningStepsRepository.GetSingleAsync(id);
-        if (ls == null)
-            return NotFound();
+    // --- Implement Mapping Logic ---
 
-        return Ok(new learningStepDto
+    protected override LearningStepDto MapToDto(LearningStep entity)
+    {
+        return new LearningStepDto
         {
-            Id = ls.Id,
-            Type = ls.Type,
-            Content = ls.Content,
-            CourseId = ls.CourseId
-        });
+            Id = entity.Id,
+            Type = entity.Type,
+            Content = entity.Content,
+            CourseId = entity.CourseId
+        };
     }
 
-    // GET /LearningStep?courseId=...
-    [HttpGet]
-    public ActionResult<IEnumerable<learningStepDto>> GetAllLearningSteps(
-        [FromQuery] int? courseId)
+    protected override IEnumerable<LearningStepDto> MapToDto(IEnumerable<LearningStep> entities)
     {
-        var learningSteps = learningStepsRepository.GetMany();
+        return entities.Select(MapToDto);
+    }
 
-        // Filter by courseId text
-        if (courseId.HasValue)
+    protected override LearningStep MapToEntity(CreateLearningStepDto dto)
+    {
+        return new LearningStep
         {
-            learningSteps = learningSteps.Where(ls =>
-                ls.CourseId.HasValue &&
-                ls.CourseId.Value == courseId.Value);
-        }
-
-        var learningStepDtos = learningSteps
-            .Select(ls => new learningStepDto
-            {
-                Id = ls.Id,
-                Type = ls.Type,
-                Content = ls.Content,
-                CourseId = ls.CourseId
-            })
-            .ToList();
-
-        return Ok(learningStepDtos);
+            Type = dto.Type,
+            Content = dto.Content,
+            CourseId = dto.CourseId
+        };
     }
 }
