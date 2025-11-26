@@ -14,8 +14,18 @@ public class LearningStepHttpService : ILearningStepService
 
     public async Task<LearningStep> GetLearningStepAsync(int courseId, int stepOrder)
     {
-        var response = await client.GetFromJsonAsync<LearningStep>(
-            $"learningsteps/{courseId}_{stepOrder}");
+        LearningStep? response = null;
+
+        try
+        {
+            response = await client.GetFromJsonAsync<LearningStep>(
+                $"learningsteps/{courseId}_{stepOrder}");
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            // Handle 404 Not Found specifically if needed
+            throw new Exception("Learning step not found", ex);
+        }
 
         if (response is null)
             throw new Exception("Learning step not found");

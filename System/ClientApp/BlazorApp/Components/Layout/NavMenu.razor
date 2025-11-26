@@ -1,21 +1,21 @@
-﻿<div class="top-row">
-    <p class="navbar-brand">Learnify</p>
-</div>
-
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable navbar" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="btn px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Learn
+﻿<aside class="d-flex flex-column bg-white h-100">
+    <h1 class="text-success fw-bolder fs-3 px-3 mb-5 tracking-tight">Learnify</h1>
+    <nav class="nav flex-column flex-grow-1">
+        <div class="nav-item">
+            <NavLink class="btn nav-btn" href="" Match="NavLinkMatch.All">
+                <i class="fas fa-home"></i> Learn
             </NavLink>
         </div>
 
-        <div class="btn px-3">
-            <NavLink class="nav-link" href="profile">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Profile
+        <div class="nav-item">
+            <NavLink class="btn nav-btn" href="profile">
+                <i class="fas fa-user"></i> Profile
             </NavLink>
         </div>
     </nav>
-</div>
+    <div class="mt-auto px-2">
+        <NavLink class="btn btn-outline-secondary w-100 text-uppercase fs-6" href="login">
+            LOG OUT
+        </NavLink>
+    </div>
+</aside>
