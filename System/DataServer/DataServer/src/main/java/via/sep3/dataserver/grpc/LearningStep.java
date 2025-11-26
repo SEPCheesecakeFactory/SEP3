@@ -6,10 +6,6 @@
 package via.sep3.dataserver.grpc;
 
 /**
- * <pre>
- * The entity itself
- * </pre>
- *
  * Protobuf type {@code LearningStep}
  */
 @com.google.protobuf.Generated
@@ -52,10 +48,6 @@ private static final long serialVersionUID = 0L;
   public static final int COURSE_ID_FIELD_NUMBER = 1;
   private int courseId_ = 0;
   /**
-   * <pre>
-   * Part of PK
-   * </pre>
-   *
    * <code>int32 course_id = 1;</code>
    * @return The courseId.
    */
@@ -67,10 +59,6 @@ private static final long serialVersionUID = 0L;
   public static final int STEP_ORDER_FIELD_NUMBER = 2;
   private int stepOrder_ = 0;
   /**
-   * <pre>
-   * Part of PK
-   * </pre>
-   *
    * <code>int32 step_order = 2;</code>
    * @return The stepOrder.
    */
@@ -83,10 +71,6 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private volatile java.lang.Object content_ = "";
   /**
-   * <pre>
-   * Field 3
-   * </pre>
-   *
    * <code>string content = 3;</code>
    * @return The content.
    */
@@ -104,10 +88,6 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Field 3
-   * </pre>
-   *
    * <code>string content = 3;</code>
    * @return The bytes for content.
    */
@@ -130,10 +110,6 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private volatile java.lang.Object type_ = "";
   /**
-   * <pre>
-   * Field 4
-   * </pre>
-   *
    * <code>string type = 4;</code>
    * @return The type.
    */
@@ -151,10 +127,6 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Field 4
-   * </pre>
-   *
    * <code>string type = 4;</code>
    * @return The bytes for type.
    */
@@ -362,10 +334,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * The entity itself
-   * </pre>
-   *
    * Protobuf type {@code LearningStep}
    */
   public static final class Builder extends
@@ -543,10 +511,6 @@ private static final long serialVersionUID = 0L;
 
     private int courseId_ ;
     /**
-     * <pre>
-     * Part of PK
-     * </pre>
-     *
      * <code>int32 course_id = 1;</code>
      * @return The courseId.
      */
@@ -555,10 +519,6 @@ private static final long serialVersionUID = 0L;
       return courseId_;
     }
     /**
-     * <pre>
-     * Part of PK
-     * </pre>
-     *
      * <code>int32 course_id = 1;</code>
      * @param value The courseId to set.
      * @return This builder for chaining.
@@ -571,10 +531,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Part of PK
-     * </pre>
-     *
      * <code>int32 course_id = 1;</code>
      * @return This builder for chaining.
      */
@@ -587,10 +543,6 @@ private static final long serialVersionUID = 0L;
 
     private int stepOrder_ ;
     /**
-     * <pre>
-     * Part of PK
-     * </pre>
-     *
      * <code>int32 step_order = 2;</code>
      * @return The stepOrder.
      */
@@ -599,10 +551,6 @@ private static final long serialVersionUID = 0L;
       return stepOrder_;
     }
     /**
-     * <pre>
-     * Part of PK
-     * </pre>
-     *
      * <code>int32 step_order = 2;</code>
      * @param value The stepOrder to set.
      * @return This builder for chaining.
@@ -615,10 +563,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Part of PK
-     * </pre>
-     *
      * <code>int32 step_order = 2;</code>
      * @return This builder for chaining.
      */
@@ -631,10 +575,6 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object content_ = "";
     /**
-     * <pre>
-     * Field 3
-     * </pre>
-     *
      * <code>string content = 3;</code>
      * @return The content.
      */
@@ -651,10 +591,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Field 3
-     * </pre>
-     *
      * <code>string content = 3;</code>
      * @return The bytes for content.
      */
@@ -672,10 +608,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Field 3
-     * </pre>
-     *
      * <code>string content = 3;</code>
      * @param value The content to set.
      * @return This builder for chaining.
@@ -689,10 +621,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Field 3
-     * </pre>
-     *
      * <code>string content = 3;</code>
      * @return This builder for chaining.
      */
@@ -703,10 +631,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Field 3
-     * </pre>
-     *
      * <code>string content = 3;</code>
      * @param value The bytes for content to set.
      * @return This builder for chaining.
@@ -723,10 +647,6 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object type_ = "";
     /**
-     * <pre>
-     * Field 4
-     * </pre>
-     *
      * <code>string type = 4;</code>
      * @return The type.
      */
@@ -743,10 +663,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Field 4
-     * </pre>
-     *
      * <code>string type = 4;</code>
      * @return The bytes for type.
      */
@@ -764,10 +680,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Field 4
-     * </pre>
-     *
      * <code>string type = 4;</code>
      * @param value The type to set.
      * @return This builder for chaining.
@@ -781,10 +693,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Field 4
-     * </pre>
-     *
      * <code>string type = 4;</code>
      * @return This builder for chaining.
      */
@@ -795,10 +703,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Field 4
-     * </pre>
-     *
      * <code>string type = 4;</code>
      * @param value The bytes for type to set.
      * @return This builder for chaining.

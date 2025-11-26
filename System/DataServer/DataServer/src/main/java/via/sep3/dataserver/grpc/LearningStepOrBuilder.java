@@ -11,39 +11,23 @@ public interface LearningStepOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <pre>
-   * Part of PK
-   * </pre>
-   *
    * <code>int32 course_id = 1;</code>
    * @return The courseId.
    */
   int getCourseId();
 
   /**
-   * <pre>
-   * Part of PK
-   * </pre>
-   *
    * <code>int32 step_order = 2;</code>
    * @return The stepOrder.
    */
   int getStepOrder();
 
   /**
-   * <pre>
-   * Field 3
-   * </pre>
-   *
    * <code>string content = 3;</code>
    * @return The content.
    */
   java.lang.String getContent();
   /**
-   * <pre>
-   * Field 3
-   * </pre>
-   *
    * <code>string content = 3;</code>
    * @return The bytes for content.
    */
@@ -51,19 +35,11 @@ public interface LearningStepOrBuilder extends
       getContentBytes();
 
   /**
-   * <pre>
-   * Field 4
-   * </pre>
-   *
    * <code>string type = 4;</code>
    * @return The type.
    */
   java.lang.String getType();
   /**
-   * <pre>
-   * Field 4
-   * </pre>
-   *
    * <code>string type = 4;</code>
    * @return The bytes for type.
    */

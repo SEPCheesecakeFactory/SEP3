@@ -1,47 +1,19 @@
 syntax = "proto3";
 
-option csharp_namespace = "via.sep3.dataserver.grpc";
 option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
 service DataRetrievalService {
-  // --- Courses ---
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
-
-  // --- Learning Steps ---
-  
-  // 1. GET MANY (By Course ID)
-  rpc GetLearningSteps (GetLearningStepsRequest) returns (GetLearningStepsResponse);
-  
-  // 2. ADD
-  rpc AddLearningStep (LearningStep) returns (LearningStep);
-  
-  // 3. UPDATE
-  rpc UpdateLearningStep (LearningStep) returns (LearningStep);
-  
-  // 4. DELETE
-  rpc DeleteLearningStep (LearningStepKey) returns (Empty);
-  
-  // 5. GET SINGLE
-  rpc GetLearningStep (LearningStepKey) returns (LearningStep);
+  rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
 }
 
-// --- Shared Messages ---
+message GetCoursesRequest {
 
-message Empty {}
-
-message IdRequest {
-    int32 id = 1;
 }
-
-// --- Course Messages ---
-
-message GetCoursesRequest {}
-
 message GetCoursesResponse {
   repeated Course courses = 1;
 }
-
 message Course {
   int32 id = 1;
   string title = 2;
@@ -50,28 +22,18 @@ message Course {
   string category = 5;
 }
 
-// --- Learning Step Messages ---
+message GetLearningStepRequest {
+  int32 course_id = 1;
+  int32 step_number = 2;
+}
 
-// Composite Key for identifying a single step
-message LearningStepKey {
+message GetLearningStepResponse {
+  LearningStep learning_step = 1;
+}
+
+message LearningStep {
   int32 course_id = 1;
   int32 step_order = 2;
-}
-
-// Request for getting ALL steps for a course
-message GetLearningStepsRequest {
-  int32 course_id = 1;
-}
-
-// Response containing a LIST of steps
-message GetLearningStepsResponse {
-  repeated LearningStep learningSteps = 1;
-}
-
-// The entity itself
-message LearningStep {
-  int32 course_id = 1;  // Part of PK
-  int32 step_order = 2; // Part of PK
-  string content = 3;   // Field 3
-  string type = 4;      // Field 4
+  string content = 3;
+  string type = 4;
 }

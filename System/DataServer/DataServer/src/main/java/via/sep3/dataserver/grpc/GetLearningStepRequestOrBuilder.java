@@ -6,8 +6,8 @@
 package via.sep3.dataserver.grpc;
 
 @com.google.protobuf.Generated
-public interface LearningStepKeyOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:LearningStepKey)
+public interface GetLearningStepRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:GetLearningStepRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -17,8 +17,8 @@ public interface LearningStepKeyOrBuilder extends
   int getCourseId();
 
   /**
-   * <code>int32 step_order = 2;</code>
-   * @return The stepOrder.
+   * <code>int32 step_number = 2;</code>
+   * @return The stepNumber.
    */
-  int getStepOrder();
+  int getStepNumber();
 }
