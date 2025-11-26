@@ -1,6 +1,6 @@
 # Subject Info
 
-Name (Can be nickname, anonymous, just some identifier): David
+Name (Can be nickname, anonymous, just some identifier): Dávid
 Role (Learner, Teacher, Admin): Learner
 Age: 31
 Culture/Origin: Slovakia
@@ -17,9 +17,13 @@ I'm looking at categories, there is Science, oh, it's here, I'm learning"
 
 He managed to click on the finish button after ap. 5 seconds of looking around. He obviously also saw the cancel button in top left but didn't mention it or click on it. 
 
-## What would you like to have in the app?
+## What would you like to have in the app? / What would you not like to have in the app?
 
 Interactive questions. When I'm completing courses at work and they have no interactive exercises, I usually just click next because I know the course is long and I want to be done with it already. So, I would like to have there some engaging content, not just text to read.
+
+Also, there should be different kinds of interactive elements based on the course. Programming ones could have some real coding exercises, where you can write some code and it gets evaluated. *He mentioned that management would have some completely different features but always something interactive
+
+-> he didn't like the idea of just reading text and watching videos, he wants something engaging.
 
 ## Overall experience
 
