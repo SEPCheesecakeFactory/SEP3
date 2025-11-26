@@ -1,24 +1,21 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">BlazorApp</a>
-    </div>
+﻿<div class="top-row">
+    <p class="navbar-brand">Learnify</p>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+<div class="nav-scrollable navbar" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
-        <div class="nav-item px-3">
+        <div class="btn px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Learn
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="courses">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Courses
+        <div class="btn px-3">
+            <NavLink class="nav-link" href="profile">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Profile
             </NavLink>
         </div>
     </nav>
 </div>
-
