@@ -2,6 +2,7 @@ using Entities;
 using gRPCRepo;
 using InMemoryRepositories;
 using RepositoryContracts;
+using RESTAPI.Controllers;
 using WebAPI;
 
 
@@ -42,28 +43,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// === Simple map for GetCourses ===
-
-app.MapGet("/courses", (IRepositoryID<Course, int> courseRepo) =>
-{
-    var courses = courseRepo.GetMany();
-    return Results.Ok(courses);
-});
-
-app.MapGet("/getlearningstep/{id1}/{id2}", (IRepositoryID<LearningStep, (int, int)> learningStepRepo, int id1, int id2) =>
-{
-    LearningStep learningStep;
-    try
-    {
-        learningStep = learningStepRepo.GetSingleAsync(new (id1, id2)).Result;
-    }
-    catch (NotFoundException e)
-    {
-        return Results.NotFound(e.Message);
-    }    
-    return Results.Ok(learningStep);
-});
 
 // === RUN ===
 
