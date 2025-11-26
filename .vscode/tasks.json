@@ -5,7 +5,13 @@
       "id": "docTarget",
       "type": "pickString",
       "description": "Select what to rebuild",
-      "options": ["ProjectDescription","ProcessReport","ProjectReport","Combined","All"],
+      "options": [
+        "ProjectDescription",
+        "ProcessReport",
+        "ProjectReport",
+        "Combined",
+        "All"
+      ],
       "default": "All"
     }
   ],
@@ -17,10 +23,12 @@
       "args": [
         "-NoLogo",
         "-NoProfile",
-        "-ExecutionPolicy","Bypass",
+        "-ExecutionPolicy",
+        "Bypass",
         "-File",
         "${workspaceFolder}\\Documentation\\build-docs.ps1",
-        "-Target","${input:docTarget}"
+        "-Target",
+        "${input:docTarget}"
       ],
       "options": { "cwd": "${workspaceFolder}\\Documentation" },
       "group": { "kind": "build", "isDefault": true },
@@ -33,10 +41,12 @@
       "args": [
         "-NoLogo",
         "-NoProfile",
-        "-ExecutionPolicy","Bypass",
+        "-ExecutionPolicy",
+        "Bypass",
         "-File",
         "${workspaceFolder}\\Documentation\\build-docs.ps1",
-        "-Target","All"
+        "-Target",
+        "All"
       ],
       "options": { "cwd": "${workspaceFolder}\\Documentation" },
       "group": "build",
@@ -49,15 +59,61 @@
       "args": [
         "-NoLogo",
         "-NoProfile",
-        "-ExecutionPolicy","Bypass",
+        "-ExecutionPolicy",
+        "Bypass",
         "-File",
         "${workspaceFolder}\\Documentation\\build-docs.ps1",
-        "-Target","Generic",
-        "-File","${file}"
+        "-Target",
+        "Generic",
+        "-File",
+        "${file}"
       ],
       "options": { "cwd": "${workspaceFolder}\\Documentation" },
       "group": "build",
       "problemMatcher": []
+    },
+    {
+      "label": "Run DataServer",
+      "type": "shell",
+      "command": "mvn exec:java",
+      "options": {
+        "cwd": "${workspaceFolder}/System/DataServer/DataServer"
+      },
+      "presentation": {
+        "group": "system",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Run LogicServer",
+      "type": "shell",
+      "command": "dotnet watch run",
+      "options": {
+        "cwd": "${workspaceFolder}/System/LogicServer/RESTAPI"
+      },
+      "presentation": {
+        "group": "system"
+      }
+    },
+    {
+      "label": "Run ClientApp",
+      "type": "shell",
+      "command": "dotnet watch run",
+      "options": {
+        "cwd": "${workspaceFolder}/System/ClientApp/BlazorApp"
+      },
+      "presentation": {
+        "group": "system"
+      }
+    },
+    {
+      "label": "Start All Systems",
+      "dependsOn": ["Run DataServer", "Run LogicServer", "Run ClientApp"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
