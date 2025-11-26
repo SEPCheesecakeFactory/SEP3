@@ -25,9 +25,22 @@ public class gRPCUserRepository : gRPCRepository<Entities.User>
         return users.AsQueryable();
     }
 
-    public override Task<Entities.User> AddAsync(Entities.User entity)
+    public override async Task<Entities.User> AddAsync(Entities.User entity)
     {
-        throw new NotImplementedException();
+        var request = new AddUserRequest
+        {
+            Username = entity.Username,
+            Password = entity.Password,
+            Roles = { entity.Roles.Select(r => r.RoleName) }
+        };
+        var response = await Client.AddUserAsync(request);
+        return new Entities.User{
+            Id = entity.Id,
+            Username = entity.Username,
+            Password = entity.Password,
+            Roles = entity.Roles.Select(r => new Entities.Role { RoleName = r.RoleName }).ToList()
+        };
+        
     }
 
     public override Task UpdateAsync(Entities.User entity)

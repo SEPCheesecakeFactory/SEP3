@@ -52,6 +52,28 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
         // };
         // return dto;
     }
+    [HttpPost("register")]
+    public async Task<ActionResult> Register([FromBody] RegisterRequest request)
+    {
+        try
+        {
+            logger.LogInformation("Register attempt for username: {Username}", request.Username);
+            Entities.User newUser = await authService.RegisterUser(request);
+            
+
+
+
+            string token = GenerateJwt(newUser);
+            logger.LogInformation("Token generated for {Username}", newUser.Username);
+            return Ok(token);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Register failed for {Username}", request.Username);
+            return BadRequest(e.Message);
+        }
+
+    }
 
 
     private string GenerateJwt(Entities.User user)

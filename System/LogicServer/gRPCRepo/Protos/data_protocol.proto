@@ -6,6 +6,7 @@ option java_package = "via.sep3.dataserver.grpc";
 service DataRetrievalService {
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
   rpc GetUsers (GetUsersRequest) returns (GetUsersResponse);
+  rpc AddUser (AddUserRequest) returns (AddUserResponse);
 }
 
 //courses
@@ -40,4 +41,14 @@ message User{
 
 message Role{
   string role=1;
+}
+
+message AddUserRequest {
+  string username = 1;
+  string password = 2;
+  repeated string roles = 3;
+}
+
+message AddUserResponse {
+  User user = 1;
 }

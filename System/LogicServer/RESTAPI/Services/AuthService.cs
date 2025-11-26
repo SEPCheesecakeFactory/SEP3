@@ -18,25 +18,46 @@ public class AuthService(IRepository<Entities.User> userRepository, ILogger<Auth
         return existingUser;
     }
 
-    public Task RegisterUser(Entities.User user)
+    public async Task<Entities.User> RegisterUser(RegisterRequest request)
     {
 
-        if (string.IsNullOrEmpty(user.Username))
+        if (string.IsNullOrEmpty(request.Username))
         {
             throw new ValidationException("Username cannot be null");
         }
-
-        if (string.IsNullOrEmpty(user.Password))
+        try
+        {
+            await FindUserAsync(request.Username);
+            throw new ValidationException("Username already exists!");
+        }
+        catch (Exception e) when (e.Message.Contains("User not found"))
+        {
+            // User not found, so registration can proceed
+        }
+        if (string.IsNullOrEmpty(request.Password))
         {
             throw new ValidationException("Password cannot be null");
         }
-        // Do more user info validation here
+        if (request.Password != request.PasswordRepeat)
+        {
+            throw new ValidationException("Passwords are not the same!");
+        }
+        if (request.Roles == null || request.Roles.Count == 0)
+        {
+            throw new ValidationException("No roles assigned");
+        }
+        // more user info validation here
 
-        // save to persistence instead of list
+        
+        Entities.User userNoId = new Entities.User
+        {
+            Username = request.Username,
+            Password = request.Password,
+            Roles = request.Roles
+        };
+        Entities.User newUser = await userRepository.AddAsync(userNoId);
 
-        // users.Add(user); to be implemented
-
-        return Task.CompletedTask;
+        return newUser;
     }
     private async Task<Entities.User> FindUserAsync(string userName)
     {

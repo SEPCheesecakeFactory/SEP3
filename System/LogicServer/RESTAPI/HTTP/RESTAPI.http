@@ -12,10 +12,11 @@ Content-Type: application/json
 }
 
 
+
 ### 2. Get Courses (using the token)
 GET {{baseURL}}/courses/
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiI0OTgzOTVkYy1jMWNmLTQ4ODEtODQ0NS05MzNmN2I3YTkxOTAiLCJpYXQiOjE3NjM1NjEwNTAsInVuaXF1ZV9uYW1lIjoiYWxpY2Vfc21pdGgiLCJVc2VybmFtZSI6ImFsaWNlX3NtaXRoIiwiUm9sZSI6ImxlYXJuZXIiLCJuYmYiOjE3NjM1NjEwNTAsImV4cCI6MTc2MzU2NDY1MCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.xj_WniT9JLO-vWRKGkIPe35mkbWAYjl702eaNP5eITw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJmMWJjMjg4OC1kMmE1LTQ4ZjItOTA2Ni1jMmY2ZTY4ODM3NGEiLCJpYXQiOjE3NjM1NjExMDQsInVuaXF1ZV9uYW1lIjoiamFuZV9kb2UiLCJVc2VybmFtZSI6ImphbmVfZG9lIiwiUm9sZSI6WyJsZWFybmVyIiwidGVhY2hlciJdLCJuYmYiOjE3NjM1NjExMDQsImV4cCI6MTc2MzU2NDcwNCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.O6Yk9I5KKtiByUMaIkaEE8I24xMX2usJV5W5AweW_us
 
 ### 3. Login as Alice
 POST {{baseURL}}/Auth/login
@@ -32,4 +33,27 @@ Content-Type: application/json
 {
   "Username": "jane_doe",
   "Password": "123"
+}
+### 1. Login test without dataserver
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "alice",
+  "Password": "password1"
+}
+
+### Register test user
+POST {{baseURL}}/Auth/register
+Content-Type: application/json
+
+{
+  "Username": "testuser",
+  "Password": "testpass",
+  "PasswordRepeat": "testpass",
+  "Roles": [
+    {
+      "RoleName": "Learner"
+    }
+  ]
 }
