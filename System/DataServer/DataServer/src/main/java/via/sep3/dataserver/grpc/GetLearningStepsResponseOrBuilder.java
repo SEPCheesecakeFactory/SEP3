@@ -11,25 +11,25 @@ public interface GetLearningStepsResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   java.util.List<via.sep3.dataserver.grpc.LearningStep> 
       getLearningStepsList();
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   via.sep3.dataserver.grpc.LearningStep getLearningSteps(int index);
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   int getLearningStepsCount();
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   java.util.List<? extends via.sep3.dataserver.grpc.LearningStepOrBuilder> 
       getLearningStepsOrBuilderList();
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   via.sep3.dataserver.grpc.LearningStepOrBuilder getLearningStepsOrBuilder(
       int index);

@@ -1,9 +1,6 @@
 syntax = "proto3";
 
-// C# Namespace (Critical for your Logic Server)
 option csharp_namespace = "via.sep3.dataserver.grpc";
-
-// Java Configuration
 option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
@@ -12,22 +9,33 @@ service DataRetrievalService {
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
 
   // --- Learning Steps ---
-  // Full CRUD definitions to match Logic Tier Repository
-  rpc AddLearningStep (LearningStep) returns (LearningStep);
+  
+  // 1. GET MANY (By Course ID)
   rpc GetLearningSteps (GetLearningStepsRequest) returns (GetLearningStepsResponse);
-  rpc GetLearningStep (IdRequest) returns (LearningStep);
+  
+  // 2. ADD
+  rpc AddLearningStep (LearningStep) returns (LearningStep);
+  
+  // 3. UPDATE
   rpc UpdateLearningStep (LearningStep) returns (LearningStep);
-  rpc DeleteLearningStep (IdRequest) returns (Empty);
+  
+  // 4. DELETE
+  rpc DeleteLearningStep (LearningStepKey) returns (Empty);
+  
+  // 5. GET SINGLE
+  rpc GetLearningStep (LearningStepKey) returns (LearningStep);
 }
 
 // --- Shared Messages ---
-message IdRequest {
-  int32 id = 1;
-}
 
 message Empty {}
 
+message IdRequest {
+    int32 id = 1;
+}
+
 // --- Course Messages ---
+
 message GetCoursesRequest {}
 
 message GetCoursesResponse {
@@ -43,18 +51,27 @@ message Course {
 }
 
 // --- Learning Step Messages ---
+
+// Composite Key for identifying a single step
+message LearningStepKey {
+  int32 course_id = 1;
+  int32 step_order = 2;
+}
+
+// Request for getting ALL steps for a course
 message GetLearningStepsRequest {
-  // Optional: Add 'int32 course_id = 1;' if you want to filter by course later
+  int32 course_id = 1;
 }
 
+// Response containing a LIST of steps
 message GetLearningStepsResponse {
-  repeated LearningStep learning_steps = 1;
+  repeated LearningStep learningSteps = 1;
 }
 
+// The entity itself
 message LearningStep {
-  int32 id = 1;          // Required for Updates/Deletes
-  int32 course_id = 2;
-  string content = 3;
-  string type = 4;
-  int32 step_order = 5;  // Added based on your snippet
+  int32 course_id = 1;  // Part of PK
+  int32 step_order = 2; // Part of PK
+  string content = 3;   // Field 3
+  string type = 4;      // Field 4
 }

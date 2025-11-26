@@ -6,13 +6,17 @@
 package via.sep3.dataserver.grpc;
 
 /**
- * Protobuf type {@code GetLearningStepRequest}
+ * <pre>
+ * Composite Key for identifying a single step
+ * </pre>
+ *
+ * Protobuf type {@code LearningStepKey}
  */
 @com.google.protobuf.Generated
-public final class GetLearningStepRequest extends
+public final class LearningStepKey extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:GetLearningStepRequest)
-    GetLearningStepRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:LearningStepKey)
+    LearningStepKeyOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21,26 +25,26 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      GetLearningStepRequest.class.getName());
+      LearningStepKey.class.getName());
   }
-  // Use GetLearningStepRequest.newBuilder() to construct.
-  private GetLearningStepRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use LearningStepKey.newBuilder() to construct.
+  private LearningStepKey(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private GetLearningStepRequest() {
+  private LearningStepKey() {
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetLearningStepRequest_descriptor;
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_LearningStepKey_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetLearningStepRequest_fieldAccessorTable
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_LearningStepKey_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.sep3.dataserver.grpc.GetLearningStepRequest.class, via.sep3.dataserver.grpc.GetLearningStepRequest.Builder.class);
+            via.sep3.dataserver.grpc.LearningStepKey.class, via.sep3.dataserver.grpc.LearningStepKey.Builder.class);
   }
 
   public static final int COURSE_ID_FIELD_NUMBER = 1;
@@ -54,15 +58,15 @@ private static final long serialVersionUID = 0L;
     return courseId_;
   }
 
-  public static final int STEP_NUMBER_FIELD_NUMBER = 2;
-  private int stepNumber_ = 0;
+  public static final int STEP_ORDER_FIELD_NUMBER = 2;
+  private int stepOrder_ = 0;
   /**
-   * <code>int32 step_number = 2;</code>
-   * @return The stepNumber.
+   * <code>int32 step_order = 2;</code>
+   * @return The stepOrder.
    */
   @java.lang.Override
-  public int getStepNumber() {
-    return stepNumber_;
+  public int getStepOrder() {
+    return stepOrder_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -82,8 +86,8 @@ private static final long serialVersionUID = 0L;
     if (courseId_ != 0) {
       output.writeInt32(1, courseId_);
     }
-    if (stepNumber_ != 0) {
-      output.writeInt32(2, stepNumber_);
+    if (stepOrder_ != 0) {
+      output.writeInt32(2, stepOrder_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -98,9 +102,9 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(1, courseId_);
     }
-    if (stepNumber_ != 0) {
+    if (stepOrder_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, stepNumber_);
+        .computeInt32Size(2, stepOrder_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -112,15 +116,15 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.sep3.dataserver.grpc.GetLearningStepRequest)) {
+    if (!(obj instanceof via.sep3.dataserver.grpc.LearningStepKey)) {
       return super.equals(obj);
     }
-    via.sep3.dataserver.grpc.GetLearningStepRequest other = (via.sep3.dataserver.grpc.GetLearningStepRequest) obj;
+    via.sep3.dataserver.grpc.LearningStepKey other = (via.sep3.dataserver.grpc.LearningStepKey) obj;
 
     if (getCourseId()
         != other.getCourseId()) return false;
-    if (getStepNumber()
-        != other.getStepNumber()) return false;
+    if (getStepOrder()
+        != other.getStepOrder()) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -134,51 +138,51 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + COURSE_ID_FIELD_NUMBER;
     hash = (53 * hash) + getCourseId();
-    hash = (37 * hash) + STEP_NUMBER_FIELD_NUMBER;
-    hash = (53 * hash) + getStepNumber();
+    hash = (37 * hash) + STEP_ORDER_FIELD_NUMBER;
+    hash = (53 * hash) + getStepOrder();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(byte[] data)
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -186,26 +190,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseDelimitedFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.LearningStepKey parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseDelimitedFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest parseFrom(
+  public static via.sep3.dataserver.grpc.LearningStepKey parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -218,7 +222,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.sep3.dataserver.grpc.GetLearningStepRequest prototype) {
+  public static Builder newBuilder(via.sep3.dataserver.grpc.LearningStepKey prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -234,26 +238,30 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code GetLearningStepRequest}
+   * <pre>
+   * Composite Key for identifying a single step
+   * </pre>
+   *
+   * Protobuf type {@code LearningStepKey}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:GetLearningStepRequest)
-      via.sep3.dataserver.grpc.GetLearningStepRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:LearningStepKey)
+      via.sep3.dataserver.grpc.LearningStepKeyOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetLearningStepRequest_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_LearningStepKey_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetLearningStepRequest_fieldAccessorTable
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_LearningStepKey_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.sep3.dataserver.grpc.GetLearningStepRequest.class, via.sep3.dataserver.grpc.GetLearningStepRequest.Builder.class);
+              via.sep3.dataserver.grpc.LearningStepKey.class, via.sep3.dataserver.grpc.LearningStepKey.Builder.class);
     }
 
-    // Construct using via.sep3.dataserver.grpc.GetLearningStepRequest.newBuilder()
+    // Construct using via.sep3.dataserver.grpc.LearningStepKey.newBuilder()
     private Builder() {
 
     }
@@ -268,24 +276,24 @@ private static final long serialVersionUID = 0L;
       super.clear();
       bitField0_ = 0;
       courseId_ = 0;
-      stepNumber_ = 0;
+      stepOrder_ = 0;
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_GetLearningStepRequest_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_LearningStepKey_descriptor;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.GetLearningStepRequest getDefaultInstanceForType() {
-      return via.sep3.dataserver.grpc.GetLearningStepRequest.getDefaultInstance();
+    public via.sep3.dataserver.grpc.LearningStepKey getDefaultInstanceForType() {
+      return via.sep3.dataserver.grpc.LearningStepKey.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.GetLearningStepRequest build() {
-      via.sep3.dataserver.grpc.GetLearningStepRequest result = buildPartial();
+    public via.sep3.dataserver.grpc.LearningStepKey build() {
+      via.sep3.dataserver.grpc.LearningStepKey result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -293,40 +301,40 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.GetLearningStepRequest buildPartial() {
-      via.sep3.dataserver.grpc.GetLearningStepRequest result = new via.sep3.dataserver.grpc.GetLearningStepRequest(this);
+    public via.sep3.dataserver.grpc.LearningStepKey buildPartial() {
+      via.sep3.dataserver.grpc.LearningStepKey result = new via.sep3.dataserver.grpc.LearningStepKey(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(via.sep3.dataserver.grpc.GetLearningStepRequest result) {
+    private void buildPartial0(via.sep3.dataserver.grpc.LearningStepKey result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
         result.courseId_ = courseId_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.stepNumber_ = stepNumber_;
+        result.stepOrder_ = stepOrder_;
       }
     }
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.sep3.dataserver.grpc.GetLearningStepRequest) {
-        return mergeFrom((via.sep3.dataserver.grpc.GetLearningStepRequest)other);
+      if (other instanceof via.sep3.dataserver.grpc.LearningStepKey) {
+        return mergeFrom((via.sep3.dataserver.grpc.LearningStepKey)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.sep3.dataserver.grpc.GetLearningStepRequest other) {
-      if (other == via.sep3.dataserver.grpc.GetLearningStepRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(via.sep3.dataserver.grpc.LearningStepKey other) {
+      if (other == via.sep3.dataserver.grpc.LearningStepKey.getDefaultInstance()) return this;
       if (other.getCourseId() != 0) {
         setCourseId(other.getCourseId());
       }
-      if (other.getStepNumber() != 0) {
-        setStepNumber(other.getStepNumber());
+      if (other.getStepOrder() != 0) {
+        setStepOrder(other.getStepOrder());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -360,7 +368,7 @@ private static final long serialVersionUID = 0L;
               break;
             } // case 8
             case 16: {
-              stepNumber_ = input.readInt32();
+              stepOrder_ = input.readInt32();
               bitField0_ |= 0x00000002;
               break;
             } // case 16
@@ -413,55 +421,55 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int stepNumber_ ;
+    private int stepOrder_ ;
     /**
-     * <code>int32 step_number = 2;</code>
-     * @return The stepNumber.
+     * <code>int32 step_order = 2;</code>
+     * @return The stepOrder.
      */
     @java.lang.Override
-    public int getStepNumber() {
-      return stepNumber_;
+    public int getStepOrder() {
+      return stepOrder_;
     }
     /**
-     * <code>int32 step_number = 2;</code>
-     * @param value The stepNumber to set.
+     * <code>int32 step_order = 2;</code>
+     * @param value The stepOrder to set.
      * @return This builder for chaining.
      */
-    public Builder setStepNumber(int value) {
+    public Builder setStepOrder(int value) {
 
-      stepNumber_ = value;
+      stepOrder_ = value;
       bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 step_number = 2;</code>
+     * <code>int32 step_order = 2;</code>
      * @return This builder for chaining.
      */
-    public Builder clearStepNumber() {
+    public Builder clearStepOrder() {
       bitField0_ = (bitField0_ & ~0x00000002);
-      stepNumber_ = 0;
+      stepOrder_ = 0;
       onChanged();
       return this;
     }
 
-    // @@protoc_insertion_point(builder_scope:GetLearningStepRequest)
+    // @@protoc_insertion_point(builder_scope:LearningStepKey)
   }
 
-  // @@protoc_insertion_point(class_scope:GetLearningStepRequest)
-  private static final via.sep3.dataserver.grpc.GetLearningStepRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:LearningStepKey)
+  private static final via.sep3.dataserver.grpc.LearningStepKey DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.GetLearningStepRequest();
+    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.LearningStepKey();
   }
 
-  public static via.sep3.dataserver.grpc.GetLearningStepRequest getDefaultInstance() {
+  public static via.sep3.dataserver.grpc.LearningStepKey getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<GetLearningStepRequest>
-      PARSER = new com.google.protobuf.AbstractParser<GetLearningStepRequest>() {
+  private static final com.google.protobuf.Parser<LearningStepKey>
+      PARSER = new com.google.protobuf.AbstractParser<LearningStepKey>() {
     @java.lang.Override
-    public GetLearningStepRequest parsePartialFrom(
+    public LearningStepKey parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -480,17 +488,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<GetLearningStepRequest> parser() {
+  public static com.google.protobuf.Parser<LearningStepKey> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GetLearningStepRequest> getParserForType() {
+  public com.google.protobuf.Parser<LearningStepKey> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.sep3.dataserver.grpc.GetLearningStepRequest getDefaultInstanceForType() {
+  public via.sep3.dataserver.grpc.LearningStepKey getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

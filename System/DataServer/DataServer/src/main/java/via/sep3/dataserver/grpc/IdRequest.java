@@ -6,10 +6,6 @@
 package via.sep3.dataserver.grpc;
 
 /**
- * <pre>
- * --- Shared Messages ---
- * </pre>
- *
  * Protobuf type {@code IdRequest}
  */
 @com.google.protobuf.Generated
@@ -216,10 +212,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * --- Shared Messages ---
-   * </pre>
-   *
    * Protobuf type {@code IdRequest}
    */
   public static final class Builder extends

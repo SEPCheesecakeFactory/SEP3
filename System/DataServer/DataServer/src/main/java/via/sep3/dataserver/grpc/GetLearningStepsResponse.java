@@ -6,6 +6,10 @@
 package via.sep3.dataserver.grpc;
 
 /**
+ * <pre>
+ * Response containing a LIST of steps
+ * </pre>
+ *
  * Protobuf type {@code GetLearningStepsResponse}
  */
 @com.google.protobuf.Generated
@@ -44,18 +48,18 @@ private static final long serialVersionUID = 0L;
             via.sep3.dataserver.grpc.GetLearningStepsResponse.class, via.sep3.dataserver.grpc.GetLearningStepsResponse.Builder.class);
   }
 
-  public static final int LEARNING_STEPS_FIELD_NUMBER = 1;
+  public static final int LEARNINGSTEPS_FIELD_NUMBER = 1;
   @SuppressWarnings("serial")
   private java.util.List<via.sep3.dataserver.grpc.LearningStep> learningSteps_;
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   @java.lang.Override
   public java.util.List<via.sep3.dataserver.grpc.LearningStep> getLearningStepsList() {
     return learningSteps_;
   }
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   @java.lang.Override
   public java.util.List<? extends via.sep3.dataserver.grpc.LearningStepOrBuilder> 
@@ -63,21 +67,21 @@ private static final long serialVersionUID = 0L;
     return learningSteps_;
   }
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   @java.lang.Override
   public int getLearningStepsCount() {
     return learningSteps_.size();
   }
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   @java.lang.Override
   public via.sep3.dataserver.grpc.LearningStep getLearningSteps(int index) {
     return learningSteps_.get(index);
   }
   /**
-   * <code>repeated .LearningStep learning_steps = 1;</code>
+   * <code>repeated .LearningStep learningSteps = 1;</code>
    */
   @java.lang.Override
   public via.sep3.dataserver.grpc.LearningStepOrBuilder getLearningStepsOrBuilder(
@@ -144,7 +148,7 @@ private static final long serialVersionUID = 0L;
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
     if (getLearningStepsCount() > 0) {
-      hash = (37 * hash) + LEARNING_STEPS_FIELD_NUMBER;
+      hash = (37 * hash) + LEARNINGSTEPS_FIELD_NUMBER;
       hash = (53 * hash) + getLearningStepsList().hashCode();
     }
     hash = (29 * hash) + getUnknownFields().hashCode();
@@ -245,6 +249,10 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
+   * <pre>
+   * Response containing a LIST of steps
+   * </pre>
+   *
    * Protobuf type {@code GetLearningStepsResponse}
    */
   public static final class Builder extends
@@ -440,7 +448,7 @@ private static final long serialVersionUID = 0L;
         via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep.Builder, via.sep3.dataserver.grpc.LearningStepOrBuilder> learningStepsBuilder_;
 
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public java.util.List<via.sep3.dataserver.grpc.LearningStep> getLearningStepsList() {
       if (learningStepsBuilder_ == null) {
@@ -450,7 +458,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public int getLearningStepsCount() {
       if (learningStepsBuilder_ == null) {
@@ -460,7 +468,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public via.sep3.dataserver.grpc.LearningStep getLearningSteps(int index) {
       if (learningStepsBuilder_ == null) {
@@ -470,7 +478,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder setLearningSteps(
         int index, via.sep3.dataserver.grpc.LearningStep value) {
@@ -487,7 +495,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder setLearningSteps(
         int index, via.sep3.dataserver.grpc.LearningStep.Builder builderForValue) {
@@ -501,7 +509,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder addLearningSteps(via.sep3.dataserver.grpc.LearningStep value) {
       if (learningStepsBuilder_ == null) {
@@ -517,7 +525,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder addLearningSteps(
         int index, via.sep3.dataserver.grpc.LearningStep value) {
@@ -534,7 +542,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder addLearningSteps(
         via.sep3.dataserver.grpc.LearningStep.Builder builderForValue) {
@@ -548,7 +556,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder addLearningSteps(
         int index, via.sep3.dataserver.grpc.LearningStep.Builder builderForValue) {
@@ -562,7 +570,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder addAllLearningSteps(
         java.lang.Iterable<? extends via.sep3.dataserver.grpc.LearningStep> values) {
@@ -577,7 +585,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder clearLearningSteps() {
       if (learningStepsBuilder_ == null) {
@@ -590,7 +598,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public Builder removeLearningSteps(int index) {
       if (learningStepsBuilder_ == null) {
@@ -603,14 +611,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public via.sep3.dataserver.grpc.LearningStep.Builder getLearningStepsBuilder(
         int index) {
       return internalGetLearningStepsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public via.sep3.dataserver.grpc.LearningStepOrBuilder getLearningStepsOrBuilder(
         int index) {
@@ -620,7 +628,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public java.util.List<? extends via.sep3.dataserver.grpc.LearningStepOrBuilder> 
          getLearningStepsOrBuilderList() {
@@ -631,14 +639,14 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public via.sep3.dataserver.grpc.LearningStep.Builder addLearningStepsBuilder() {
       return internalGetLearningStepsFieldBuilder().addBuilder(
           via.sep3.dataserver.grpc.LearningStep.getDefaultInstance());
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public via.sep3.dataserver.grpc.LearningStep.Builder addLearningStepsBuilder(
         int index) {
@@ -646,7 +654,7 @@ private static final long serialVersionUID = 0L;
           index, via.sep3.dataserver.grpc.LearningStep.getDefaultInstance());
     }
     /**
-     * <code>repeated .LearningStep learning_steps = 1;</code>
+     * <code>repeated .LearningStep learningSteps = 1;</code>
      */
     public java.util.List<via.sep3.dataserver.grpc.LearningStep.Builder> 
          getLearningStepsBuilderList() {

@@ -43,37 +43,6 @@ public final class DataRetrievalServiceGrpc {
     return getGetCoursesMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStep,
-      via.sep3.dataserver.grpc.LearningStep> getAddLearningStepMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "AddLearningStep",
-      requestType = via.sep3.dataserver.grpc.LearningStep.class,
-      responseType = via.sep3.dataserver.grpc.LearningStep.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStep,
-      via.sep3.dataserver.grpc.LearningStep> getAddLearningStepMethod() {
-    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep> getAddLearningStepMethod;
-    if ((getAddLearningStepMethod = DataRetrievalServiceGrpc.getAddLearningStepMethod) == null) {
-      synchronized (DataRetrievalServiceGrpc.class) {
-        if ((getAddLearningStepMethod = DataRetrievalServiceGrpc.getAddLearningStepMethod) == null) {
-          DataRetrievalServiceGrpc.getAddLearningStepMethod = getAddLearningStepMethod =
-              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AddLearningStep"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.LearningStep.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.LearningStep.getDefaultInstance()))
-              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("AddLearningStep"))
-              .build();
-        }
-      }
-    }
-    return getAddLearningStepMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.GetLearningStepsRequest,
       via.sep3.dataserver.grpc.GetLearningStepsResponse> getGetLearningStepsMethod;
 
@@ -105,35 +74,35 @@ public final class DataRetrievalServiceGrpc {
     return getGetLearningStepsMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.IdRequest,
-      via.sep3.dataserver.grpc.LearningStep> getGetLearningStepMethod;
+  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStep,
+      via.sep3.dataserver.grpc.LearningStep> getAddLearningStepMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetLearningStep",
-      requestType = via.sep3.dataserver.grpc.IdRequest.class,
+      fullMethodName = SERVICE_NAME + '/' + "AddLearningStep",
+      requestType = via.sep3.dataserver.grpc.LearningStep.class,
       responseType = via.sep3.dataserver.grpc.LearningStep.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.IdRequest,
-      via.sep3.dataserver.grpc.LearningStep> getGetLearningStepMethod() {
-    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.IdRequest, via.sep3.dataserver.grpc.LearningStep> getGetLearningStepMethod;
-    if ((getGetLearningStepMethod = DataRetrievalServiceGrpc.getGetLearningStepMethod) == null) {
+  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStep,
+      via.sep3.dataserver.grpc.LearningStep> getAddLearningStepMethod() {
+    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep> getAddLearningStepMethod;
+    if ((getAddLearningStepMethod = DataRetrievalServiceGrpc.getAddLearningStepMethod) == null) {
       synchronized (DataRetrievalServiceGrpc.class) {
-        if ((getGetLearningStepMethod = DataRetrievalServiceGrpc.getGetLearningStepMethod) == null) {
-          DataRetrievalServiceGrpc.getGetLearningStepMethod = getGetLearningStepMethod =
-              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.IdRequest, via.sep3.dataserver.grpc.LearningStep>newBuilder()
+        if ((getAddLearningStepMethod = DataRetrievalServiceGrpc.getAddLearningStepMethod) == null) {
+          DataRetrievalServiceGrpc.getAddLearningStepMethod = getAddLearningStepMethod =
+              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetLearningStep"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AddLearningStep"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.IdRequest.getDefaultInstance()))
+                  via.sep3.dataserver.grpc.LearningStep.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   via.sep3.dataserver.grpc.LearningStep.getDefaultInstance()))
-              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("GetLearningStep"))
+              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("AddLearningStep"))
               .build();
         }
       }
     }
-    return getGetLearningStepMethod;
+    return getAddLearningStepMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStep,
@@ -167,27 +136,27 @@ public final class DataRetrievalServiceGrpc {
     return getUpdateLearningStepMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.IdRequest,
+  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStepKey,
       via.sep3.dataserver.grpc.Empty> getDeleteLearningStepMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "DeleteLearningStep",
-      requestType = via.sep3.dataserver.grpc.IdRequest.class,
+      requestType = via.sep3.dataserver.grpc.LearningStepKey.class,
       responseType = via.sep3.dataserver.grpc.Empty.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.IdRequest,
+  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStepKey,
       via.sep3.dataserver.grpc.Empty> getDeleteLearningStepMethod() {
-    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.IdRequest, via.sep3.dataserver.grpc.Empty> getDeleteLearningStepMethod;
+    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStepKey, via.sep3.dataserver.grpc.Empty> getDeleteLearningStepMethod;
     if ((getDeleteLearningStepMethod = DataRetrievalServiceGrpc.getDeleteLearningStepMethod) == null) {
       synchronized (DataRetrievalServiceGrpc.class) {
         if ((getDeleteLearningStepMethod = DataRetrievalServiceGrpc.getDeleteLearningStepMethod) == null) {
           DataRetrievalServiceGrpc.getDeleteLearningStepMethod = getDeleteLearningStepMethod =
-              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.IdRequest, via.sep3.dataserver.grpc.Empty>newBuilder()
+              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.LearningStepKey, via.sep3.dataserver.grpc.Empty>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DeleteLearningStep"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.IdRequest.getDefaultInstance()))
+                  via.sep3.dataserver.grpc.LearningStepKey.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   via.sep3.dataserver.grpc.Empty.getDefaultInstance()))
               .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("DeleteLearningStep"))
@@ -196,6 +165,37 @@ public final class DataRetrievalServiceGrpc {
       }
     }
     return getDeleteLearningStepMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStepKey,
+      via.sep3.dataserver.grpc.LearningStep> getGetLearningStepMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetLearningStep",
+      requestType = via.sep3.dataserver.grpc.LearningStepKey.class,
+      responseType = via.sep3.dataserver.grpc.LearningStep.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStepKey,
+      via.sep3.dataserver.grpc.LearningStep> getGetLearningStepMethod() {
+    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.LearningStepKey, via.sep3.dataserver.grpc.LearningStep> getGetLearningStepMethod;
+    if ((getGetLearningStepMethod = DataRetrievalServiceGrpc.getGetLearningStepMethod) == null) {
+      synchronized (DataRetrievalServiceGrpc.class) {
+        if ((getGetLearningStepMethod = DataRetrievalServiceGrpc.getGetLearningStepMethod) == null) {
+          DataRetrievalServiceGrpc.getGetLearningStepMethod = getGetLearningStepMethod =
+              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.LearningStepKey, via.sep3.dataserver.grpc.LearningStep>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetLearningStep"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.LearningStepKey.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.LearningStep.getDefaultInstance()))
+              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("GetLearningStep"))
+              .build();
+        }
+      }
+    }
+    return getGetLearningStepMethod;
   }
 
   /**
@@ -273,8 +273,17 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     * --- Learning Steps ---
-     * Full CRUD definitions to match Logic Tier Repository
+     * 1. GET MANY (By Course ID)
+     * </pre>
+     */
+    default void getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLearningStepsResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetLearningStepsMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * 2. ADD
      * </pre>
      */
     default void addLearningStep(via.sep3.dataserver.grpc.LearningStep request,
@@ -283,20 +292,9 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     */
-    default void getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLearningStepsResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetLearningStepsMethod(), responseObserver);
-    }
-
-    /**
-     */
-    default void getLearningStep(via.sep3.dataserver.grpc.IdRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetLearningStepMethod(), responseObserver);
-    }
-
-    /**
+     * <pre>
+     * 3. UPDATE
+     * </pre>
      */
     default void updateLearningStep(via.sep3.dataserver.grpc.LearningStep request,
         io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep> responseObserver) {
@@ -304,10 +302,23 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
+     * <pre>
+     * 4. DELETE
+     * </pre>
      */
-    default void deleteLearningStep(via.sep3.dataserver.grpc.IdRequest request,
+    default void deleteLearningStep(via.sep3.dataserver.grpc.LearningStepKey request,
         io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.Empty> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getDeleteLearningStepMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * 5. GET SINGLE
+     * </pre>
+     */
+    default void getLearningStep(via.sep3.dataserver.grpc.LearningStepKey request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetLearningStepMethod(), responseObserver);
     }
   }
 
@@ -351,8 +362,18 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     * --- Learning Steps ---
-     * Full CRUD definitions to match Logic Tier Repository
+     * 1. GET MANY (By Course ID)
+     * </pre>
+     */
+    public void getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLearningStepsResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetLearningStepsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * 2. ADD
      * </pre>
      */
     public void addLearningStep(via.sep3.dataserver.grpc.LearningStep request,
@@ -362,22 +383,9 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     */
-    public void getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLearningStepsResponse> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetLearningStepsMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void getLearningStep(via.sep3.dataserver.grpc.IdRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetLearningStepMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
+     * <pre>
+     * 3. UPDATE
+     * </pre>
      */
     public void updateLearningStep(via.sep3.dataserver.grpc.LearningStep request,
         io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep> responseObserver) {
@@ -386,11 +394,25 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
+     * <pre>
+     * 4. DELETE
+     * </pre>
      */
-    public void deleteLearningStep(via.sep3.dataserver.grpc.IdRequest request,
+    public void deleteLearningStep(via.sep3.dataserver.grpc.LearningStepKey request,
         io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.Empty> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getDeleteLearningStepMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * 5. GET SINGLE
+     * </pre>
+     */
+    public void getLearningStep(via.sep3.dataserver.grpc.LearningStepKey request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetLearningStepMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -422,8 +444,17 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     * --- Learning Steps ---
-     * Full CRUD definitions to match Logic Tier Repository
+     * 1. GET MANY (By Course ID)
+     * </pre>
+     */
+    public via.sep3.dataserver.grpc.GetLearningStepsResponse getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request) throws io.grpc.StatusException {
+      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
+          getChannel(), getGetLearningStepsMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * 2. ADD
      * </pre>
      */
     public via.sep3.dataserver.grpc.LearningStep addLearningStep(via.sep3.dataserver.grpc.LearningStep request) throws io.grpc.StatusException {
@@ -432,20 +463,9 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     */
-    public via.sep3.dataserver.grpc.GetLearningStepsResponse getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request) throws io.grpc.StatusException {
-      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
-          getChannel(), getGetLearningStepsMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public via.sep3.dataserver.grpc.LearningStep getLearningStep(via.sep3.dataserver.grpc.IdRequest request) throws io.grpc.StatusException {
-      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
-          getChannel(), getGetLearningStepMethod(), getCallOptions(), request);
-    }
-
-    /**
+     * <pre>
+     * 3. UPDATE
+     * </pre>
      */
     public via.sep3.dataserver.grpc.LearningStep updateLearningStep(via.sep3.dataserver.grpc.LearningStep request) throws io.grpc.StatusException {
       return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
@@ -453,10 +473,23 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
+     * <pre>
+     * 4. DELETE
+     * </pre>
      */
-    public via.sep3.dataserver.grpc.Empty deleteLearningStep(via.sep3.dataserver.grpc.IdRequest request) throws io.grpc.StatusException {
+    public via.sep3.dataserver.grpc.Empty deleteLearningStep(via.sep3.dataserver.grpc.LearningStepKey request) throws io.grpc.StatusException {
       return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
           getChannel(), getDeleteLearningStepMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * 5. GET SINGLE
+     * </pre>
+     */
+    public via.sep3.dataserver.grpc.LearningStep getLearningStep(via.sep3.dataserver.grpc.LearningStepKey request) throws io.grpc.StatusException {
+      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
+          getChannel(), getGetLearningStepMethod(), getCallOptions(), request);
     }
   }
 
@@ -488,8 +521,17 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     * --- Learning Steps ---
-     * Full CRUD definitions to match Logic Tier Repository
+     * 1. GET MANY (By Course ID)
+     * </pre>
+     */
+    public via.sep3.dataserver.grpc.GetLearningStepsResponse getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetLearningStepsMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * 2. ADD
      * </pre>
      */
     public via.sep3.dataserver.grpc.LearningStep addLearningStep(via.sep3.dataserver.grpc.LearningStep request) {
@@ -498,20 +540,9 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     */
-    public via.sep3.dataserver.grpc.GetLearningStepsResponse getLearningSteps(via.sep3.dataserver.grpc.GetLearningStepsRequest request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetLearningStepsMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public via.sep3.dataserver.grpc.LearningStep getLearningStep(via.sep3.dataserver.grpc.IdRequest request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetLearningStepMethod(), getCallOptions(), request);
-    }
-
-    /**
+     * <pre>
+     * 3. UPDATE
+     * </pre>
      */
     public via.sep3.dataserver.grpc.LearningStep updateLearningStep(via.sep3.dataserver.grpc.LearningStep request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
@@ -519,10 +550,23 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
+     * <pre>
+     * 4. DELETE
+     * </pre>
      */
-    public via.sep3.dataserver.grpc.Empty deleteLearningStep(via.sep3.dataserver.grpc.IdRequest request) {
+    public via.sep3.dataserver.grpc.Empty deleteLearningStep(via.sep3.dataserver.grpc.LearningStepKey request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getDeleteLearningStepMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * 5. GET SINGLE
+     * </pre>
+     */
+    public via.sep3.dataserver.grpc.LearningStep getLearningStep(via.sep3.dataserver.grpc.LearningStepKey request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetLearningStepMethod(), getCallOptions(), request);
     }
   }
 
@@ -555,8 +599,18 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     * --- Learning Steps ---
-     * Full CRUD definitions to match Logic Tier Repository
+     * 1. GET MANY (By Course ID)
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.GetLearningStepsResponse> getLearningSteps(
+        via.sep3.dataserver.grpc.GetLearningStepsRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetLearningStepsMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * 2. ADD
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.LearningStep> addLearningStep(
@@ -566,22 +620,9 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.GetLearningStepsResponse> getLearningSteps(
-        via.sep3.dataserver.grpc.GetLearningStepsRequest request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetLearningStepsMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.LearningStep> getLearningStep(
-        via.sep3.dataserver.grpc.IdRequest request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetLearningStepMethod(), getCallOptions()), request);
-    }
-
-    /**
+     * <pre>
+     * 3. UPDATE
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.LearningStep> updateLearningStep(
         via.sep3.dataserver.grpc.LearningStep request) {
@@ -590,20 +631,34 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
+     * <pre>
+     * 4. DELETE
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.Empty> deleteLearningStep(
-        via.sep3.dataserver.grpc.IdRequest request) {
+        via.sep3.dataserver.grpc.LearningStepKey request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getDeleteLearningStepMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * 5. GET SINGLE
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.LearningStep> getLearningStep(
+        via.sep3.dataserver.grpc.LearningStepKey request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetLearningStepMethod(), getCallOptions()), request);
     }
   }
 
   private static final int METHODID_GET_COURSES = 0;
-  private static final int METHODID_ADD_LEARNING_STEP = 1;
-  private static final int METHODID_GET_LEARNING_STEPS = 2;
-  private static final int METHODID_GET_LEARNING_STEP = 3;
-  private static final int METHODID_UPDATE_LEARNING_STEP = 4;
-  private static final int METHODID_DELETE_LEARNING_STEP = 5;
+  private static final int METHODID_GET_LEARNING_STEPS = 1;
+  private static final int METHODID_ADD_LEARNING_STEP = 2;
+  private static final int METHODID_UPDATE_LEARNING_STEP = 3;
+  private static final int METHODID_DELETE_LEARNING_STEP = 4;
+  private static final int METHODID_GET_LEARNING_STEP = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -626,16 +681,12 @@ public final class DataRetrievalServiceGrpc {
           serviceImpl.getCourses((via.sep3.dataserver.grpc.GetCoursesRequest) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetCoursesResponse>) responseObserver);
           break;
-        case METHODID_ADD_LEARNING_STEP:
-          serviceImpl.addLearningStep((via.sep3.dataserver.grpc.LearningStep) request,
-              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep>) responseObserver);
-          break;
         case METHODID_GET_LEARNING_STEPS:
           serviceImpl.getLearningSteps((via.sep3.dataserver.grpc.GetLearningStepsRequest) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLearningStepsResponse>) responseObserver);
           break;
-        case METHODID_GET_LEARNING_STEP:
-          serviceImpl.getLearningStep((via.sep3.dataserver.grpc.IdRequest) request,
+        case METHODID_ADD_LEARNING_STEP:
+          serviceImpl.addLearningStep((via.sep3.dataserver.grpc.LearningStep) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep>) responseObserver);
           break;
         case METHODID_UPDATE_LEARNING_STEP:
@@ -643,8 +694,12 @@ public final class DataRetrievalServiceGrpc {
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep>) responseObserver);
           break;
         case METHODID_DELETE_LEARNING_STEP:
-          serviceImpl.deleteLearningStep((via.sep3.dataserver.grpc.IdRequest) request,
+          serviceImpl.deleteLearningStep((via.sep3.dataserver.grpc.LearningStepKey) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.Empty>) responseObserver);
+          break;
+        case METHODID_GET_LEARNING_STEP:
+          serviceImpl.getLearningStep((via.sep3.dataserver.grpc.LearningStepKey) request,
+              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.LearningStep>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -672,13 +727,6 @@ public final class DataRetrievalServiceGrpc {
               via.sep3.dataserver.grpc.GetCoursesResponse>(
                 service, METHODID_GET_COURSES)))
         .addMethod(
-          getAddLearningStepMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
-            new MethodHandlers<
-              via.sep3.dataserver.grpc.LearningStep,
-              via.sep3.dataserver.grpc.LearningStep>(
-                service, METHODID_ADD_LEARNING_STEP)))
-        .addMethod(
           getGetLearningStepsMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
@@ -686,12 +734,12 @@ public final class DataRetrievalServiceGrpc {
               via.sep3.dataserver.grpc.GetLearningStepsResponse>(
                 service, METHODID_GET_LEARNING_STEPS)))
         .addMethod(
-          getGetLearningStepMethod(),
+          getAddLearningStepMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
-              via.sep3.dataserver.grpc.IdRequest,
+              via.sep3.dataserver.grpc.LearningStep,
               via.sep3.dataserver.grpc.LearningStep>(
-                service, METHODID_GET_LEARNING_STEP)))
+                service, METHODID_ADD_LEARNING_STEP)))
         .addMethod(
           getUpdateLearningStepMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
@@ -703,9 +751,16 @@ public final class DataRetrievalServiceGrpc {
           getDeleteLearningStepMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
-              via.sep3.dataserver.grpc.IdRequest,
+              via.sep3.dataserver.grpc.LearningStepKey,
               via.sep3.dataserver.grpc.Empty>(
                 service, METHODID_DELETE_LEARNING_STEP)))
+        .addMethod(
+          getGetLearningStepMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              via.sep3.dataserver.grpc.LearningStepKey,
+              via.sep3.dataserver.grpc.LearningStep>(
+                service, METHODID_GET_LEARNING_STEP)))
         .build();
   }
 
@@ -755,11 +810,11 @@ public final class DataRetrievalServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new DataRetrievalServiceFileDescriptorSupplier())
               .addMethod(getGetCoursesMethod())
-              .addMethod(getAddLearningStepMethod())
               .addMethod(getGetLearningStepsMethod())
-              .addMethod(getGetLearningStepMethod())
+              .addMethod(getAddLearningStepMethod())
               .addMethod(getUpdateLearningStepMethod())
               .addMethod(getDeleteLearningStepMethod())
+              .addMethod(getGetLearningStepMethod())
               .build();
         }
       }

@@ -9,25 +9,32 @@ service DataRetrievalService {
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
 
   // --- Learning Steps ---
-  // Returns all steps for a specific course
+  
+  // 1. GET MANY (By Course ID)
   rpc GetLearningSteps (GetLearningStepsRequest) returns (GetLearningStepsResponse);
   
-  // Adds a step (requires course_id, type, content)
+  // 2. ADD
   rpc AddLearningStep (LearningStep) returns (LearningStep);
   
-  // Updates a step (requires composite key: course_id + step_order)
+  // 3. UPDATE
   rpc UpdateLearningStep (LearningStep) returns (LearningStep);
   
-  // Deletes a specific step (requires composite key)
+  // 4. DELETE
   rpc DeleteLearningStep (LearningStepKey) returns (Empty);
   
-  // Gets a single step (requires composite key)
+  // 5. GET SINGLE
   rpc GetLearningStep (LearningStepKey) returns (LearningStep);
 }
 
-// --- Messages ---
+// --- Shared Messages ---
 
 message Empty {}
+
+message IdRequest {
+    int32 id = 1;
+}
+
+// --- Course Messages ---
 
 message GetCoursesRequest {}
 
@@ -45,29 +52,26 @@ message Course {
 
 // --- Learning Step Messages ---
 
-// New message to identify a step by its Composite Key
+// Composite Key for identifying a single step
 message LearningStepKey {
   int32 course_id = 1;
   int32 step_order = 2;
 }
 
+// Request for getting ALL steps for a course
 message GetLearningStepsRequest {
-  // We need to know WHICH course to get steps for
   int32 course_id = 1;
 }
 
+// Response containing a LIST of steps
 message GetLearningStepsResponse {
   repeated LearningStep learningSteps = 1;
 }
 
+// The entity itself
 message LearningStep {
   int32 course_id = 1;  // Part of PK
   int32 step_order = 2; // Part of PK
-  string type = 3;      // Mapped to LearningStepType name
-  string content = 4;
-}
-
-// Keep this for other generic calls if necessary, but not for LearningStep
-message IdRequest {
-    int32 id = 1;
+  string content = 3;   // Field 3
+  string type = 4;      // Field 4
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
 using Entities;
-using RESTAPI.Dtos; // Ensure you have this namespace for DTOs
+using RESTAPI.Dtos; // namespace for DTOs
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;

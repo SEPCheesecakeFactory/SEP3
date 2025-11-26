@@ -9,4 +9,10 @@ package via.sep3.dataserver.grpc;
 public interface GetLearningStepsRequestOrBuilder extends
     // @@protoc_insertion_point(interface_extends:GetLearningStepsRequest)
     com.google.protobuf.MessageOrBuilder {
+
+  /**
+   * <code>int32 course_id = 1;</code>
+   * @return The courseId.
+   */
+  int getCourseId();
 }
