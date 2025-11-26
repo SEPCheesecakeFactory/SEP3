@@ -33,5 +33,6 @@ At the end of the interview, he said again "it looks very good" and gave the int
 # Additional Notes
 
 He was very worried about the sources of data. He said that everything should be approved by someone else, it shouldn't all rely on one person, one teacher. He suggest preventive measures rather than reactive ones but says it is up to us.
+He even said "if I don't know the source of the data, why would I learn Spanish in this app rather than Duolingo?" (prototype had a Spanish course despite our app not being focused on language learning).
 
 He also suggests having some benefits for the teachers, so they have some incentive to create good content. He said that money could be the thing. These incentives should be given for both creating courses and reviewing courses.
