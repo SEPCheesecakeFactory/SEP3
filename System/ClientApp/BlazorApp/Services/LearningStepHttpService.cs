@@ -15,7 +15,7 @@ public class LearningStepHttpService : ILearningStepService
     public async Task<LearningStep> GetLearningStepAsync(int courseId, int stepOrder)
     {
         var response = await client.GetFromJsonAsync<LearningStep>(
-            $"learningsteps/{courseId}/{stepOrder}");
+            $"learningsteps/{courseId}_{stepOrder}");
 
         if (response is null)
             throw new Exception("Learning step not found");

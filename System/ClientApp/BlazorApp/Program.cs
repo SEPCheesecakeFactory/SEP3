@@ -9,16 +9,11 @@ builder.Services.AddRazorComponents()
 
 var hostUri = builder.Configuration["HostUri"] ?? "http://localhost:5161";
 
-// Existing service
 builder.Services.AddHttpClient<ICourseService, HttpCourseService>(c =>
     c.BaseAddress = new Uri(hostUri));
 
-// NEW: Dummy service for now (swap when API is ready)
-builder.Services.AddScoped<ILearningStepService, DummyLearningStepService>();
-
-// If REST API becomes available, replace with:
-// builder.Services.AddHttpClient<ILearningStepService, LearningStepHttpService>(c =>
-//     c.BaseAddress = new Uri(hostUri));
+builder.Services.AddHttpClient<ILearningStepService, LearningStepHttpService>(c =>
+     c.BaseAddress = new Uri(hostUri));
 
 var app = builder.Build();
 
