@@ -5,12 +5,8 @@ using via.sep3.dataserver.grpc;
 
 namespace gRPCRepo;
 
-public class gRPCCourseRepository : gRPCRepository<Entities.Course>
+public class gRPCCourseRepository(string host, int port) : gRPCRepository<Entities.Course, int>(host, port)
 {
-    public gRPCCourseRepository(string host, int port) : base(host, port)
-    {
-    }
-
     public override IQueryable<Entities.Course> GetMany()
     {
         var resp = Client.GetCourses(new GetCoursesRequest());

@@ -8,40 +8,20 @@ using RepositoryContracts;
 
 namespace gRPCRepo;
 
-public class gRPCLearningStepRepository : ILearningStepRepository
+public class gRPCLearningStepRepository(string host, int port, bool useTls = false) : gRPCRepository<Entities.LearningStep, (int, int)>(host, port, useTls)
 {
-    private readonly DataRetrievalService.DataRetrievalServiceClient _client;
-
-    public gRPCLearningStepRepository(string host, int port)
+    public override async Task<Entities.LearningStep> GetSingleAsync((int, int) id)
     {
-        var channel = GrpcChannel.ForAddress($"http://{host}:{port}");
-        _client = new DataRetrievalService.DataRetrievalServiceClient(channel);
-    }
+        var (courseId, stepOrder) = id;
 
-    public async Task<IEnumerable<Entities.LearningStep>> GetForCourseAsync(int courseId)
-    {
-        var request = new GetLearningStepsRequest { CourseId = courseId };
-        var response = await _client.GetLearningStepsAsync(request);
-
-        return response.LearningSteps.Select(ls => new Entities.LearningStep
-        {
-            CourseId = ls.CourseId,
-            StepOrder = ls.StepOrder,
-            Type = ls.Type,
-            Content = ls.Content
-        }).ToList();
-    }
-
-    public async Task<Entities.LearningStep> GetSingleAsync(int courseId, int stepOrder)
-    {
         var request = new LearningStepKey 
         { 
             CourseId = courseId, 
             StepOrder = stepOrder 
         };
         
-        var response = await _client.GetLearningStepAsync(request);
-
+        var response = await Client.GetLearningStepAsync(request) ?? throw new KeyNotFoundException($"LearningStep with CourseId {courseId} and StepOrder {stepOrder} not found.");
+        
         return new Entities.LearningStep
         {
             CourseId = response.CourseId,
@@ -51,7 +31,7 @@ public class gRPCLearningStepRepository : ILearningStepRepository
         };
     }
 
-    public async Task<Entities.LearningStep> AddAsync(Entities.LearningStep entity)
+    public override async Task<Entities.LearningStep> AddAsync(Entities.LearningStep entity)
     {
         var protoObj = new via.sep3.dataserver.grpc.LearningStep
         {
@@ -61,13 +41,13 @@ public class gRPCLearningStepRepository : ILearningStepRepository
             // StepOrder is usually calculated by server or sent as 0
         };
 
-        var response = await _client.AddLearningStepAsync(protoObj);
+        var response = await Client.AddLearningStepAsync(protoObj);
 
         entity.StepOrder = response.StepOrder; // Server assigns the order
         return entity;
     }
 
-    public async Task UpdateAsync(Entities.LearningStep entity)
+    public override async Task UpdateAsync(Entities.LearningStep entity)
     {
         var protoObj = new via.sep3.dataserver.grpc.LearningStep
         {
@@ -77,16 +57,29 @@ public class gRPCLearningStepRepository : ILearningStepRepository
             Content = entity.Content
         };
 
-        await _client.UpdateLearningStepAsync(protoObj);
+        await Client.UpdateLearningStepAsync(protoObj);
     }
 
-    public async Task DeleteAsync(int courseId, int stepOrder)
+    public override async Task DeleteAsync((int, int) id)
+    {
+        var (courseId, stepOrder) = id;
     {
         var request = new LearningStepKey 
         { 
             CourseId = courseId, 
             StepOrder = stepOrder 
         };
-        await _client.DeleteLearningStepAsync(request);
+        await Client.DeleteLearningStepAsync(request);
+    }
+}
+
+    public override Task ClearAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override IQueryable<Entities.LearningStep> GetMany()
+    {
+        throw new NotImplementedException();
     }
 }

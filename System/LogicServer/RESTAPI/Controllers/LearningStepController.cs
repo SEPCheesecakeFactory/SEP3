@@ -12,9 +12,9 @@ namespace RESTAPI.Controllers;
 [Route("api/[controller]")]
 public class LearningStepController : ControllerBase
 {
-    private readonly ILearningStepRepository _repository;
+    private readonly IRepositoryID<LearningStep, (int, int)> _repository;
 
-    public LearningStepController(ILearningStepRepository repository)
+    public LearningStepController(IRepositoryID<LearningStep, (int, int)> repository)
     {
         _repository = repository;
     }
@@ -23,7 +23,7 @@ public class LearningStepController : ControllerBase
     [HttpGet("course/{courseId}")]
     public async Task<ActionResult<IEnumerable<LearningStepDto>>> GetByCourse(int courseId)
     {
-        var steps = await _repository.GetForCourseAsync(courseId);
+        var steps = _repository.GetMany().Where(s => s.CourseId == courseId);
         
         var dtos = steps.Select(s => new LearningStepDto
         {
@@ -45,7 +45,7 @@ public class LearningStepController : ControllerBase
     {
         try 
         {
-            var s = await _repository.GetSingleAsync(courseId, stepOrder);
+            var s = await _repository.GetSingleAsync((courseId, stepOrder));
             return Ok(new LearningStepDto 
             { 
                 CourseId = s.CourseId, 
@@ -99,7 +99,7 @@ public class LearningStepController : ControllerBase
     [HttpDelete("{courseId}/{stepOrder}")]
     public async Task<IActionResult> Delete(int courseId, int stepOrder)
     {
-        await _repository.DeleteAsync(courseId, stepOrder);
+        await _repository.DeleteAsync((courseId, stepOrder));
         return NoContent();
     }
 }

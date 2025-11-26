@@ -2,7 +2,19 @@
 @port = 5161
 @baseURL = http://{{hostname}}:{{port}}
 
+### Get all courses [X]
+
 GET {{baseURL}}/courses/
 Accept: application/json
 
-###
+### Get course by id [_]
+
+GET {{baseURL}}/courses/1
+
+### Get Learning Step by double id [_]
+
+GET {{baseURL}}/api/LearningStep/1/1
+
+### Get Learning Step by double id [_]
+
+GET {{baseURL}}/getlearningstep/1/1

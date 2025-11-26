@@ -2,7 +2,7 @@ using System;
 
 namespace Entities;
 
-public interface IIdentifiable
+public interface IIdentifiable<ID>
 {
-    int Id { get; set; }
+    ID Id { get; set; }
 }
