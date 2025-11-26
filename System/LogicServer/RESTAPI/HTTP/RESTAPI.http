@@ -57,3 +57,11 @@ Content-Type: application/json
     }
   ]
 }
+### 1. Login test without dataserver
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "testuser",
+  "Password": "testpass"
+}

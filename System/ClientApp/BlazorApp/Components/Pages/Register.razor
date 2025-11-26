@@ -1,0 +1,72 @@
+@page "/register"
+@using BlazorApp.Auth
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using BlazorApp.Services
+@inject IAuthService authService
+@inject NavigationManager navMgr
+
+<h3>This is where you register</h3>
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="card">
+            <h3>Please register</h3>
+            <div class="field">
+                <label>User name:</label>
+                <input type="text" @bind="userName" />
+            </div>
+            <div class="field">
+                <label style="text-align: center">Password:</label>
+                <input type="password" @bind="password" />
+            </div>
+            <div class="field">
+                <label style="text-align: center">Repeat Password:</label>
+                <input type="password" @bind="passwordRepeat" />
+            </div>
+            <div>
+                <label>Roles:</label><br>
+                <input type="checkbox" @bind="isLearner" /> Learner<br>
+                <input type="checkbox" @bind="isTeacher" /> Teacher
+            </div>
+            @if (!string.IsNullOrEmpty(errorLabel))
+            {
+                <div class="field">
+                    <label style="color: red">
+                        @errorLabel
+                    </label>
+                </div>
+            }
+            <div class="field">
+                <button class="loginbtn" @onclick="async () => await RegisterAsync()">Register</button>
+            </div>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+        <div class="card">
+            <h3>Hello, @context.User.Claims.First(claim => claim.Type.Equals("Username")).Value</h3>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private string userName = "";
+    private string password = "";
+    private string passwordRepeat="";
+    private string errorLabel = "";
+    private bool isLearner=false;
+    private bool isTeacher=false;
+    private async Task RegisterAsync()
+    {
+        errorLabel = "";
+        try
+        {
+            await authService.RegisterAsync(userName, password, passwordRepeat, isLearner, isTeacher);
+            navMgr.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+}

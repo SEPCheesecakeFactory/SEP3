@@ -74,10 +74,27 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         OnAuthStateChanged.Invoke(principal);
     }
 
-    public async Task RegisterAsync(BlazorApp.Entities.User user)
+    public async Task RegisterAsync(string userName, string password, string passwordRepeat, bool isLearner, bool isTeacher)
     {
-        string userAsJson = JsonSerializer.Serialize(user);
-        StringContent content = new(userAsJson, Encoding.UTF8, "application/json");
+        var roles = new List<BlazorApp.Entities.Role>();
+        if (isLearner)
+        {
+            roles.Add(new BlazorApp.Entities.Role { RoleName = "Learner" });
+        }
+        if (isTeacher)
+        {
+            roles.Add(new BlazorApp.Entities.Role { RoleName = "Teacher" });
+        }
+
+        RegisterRequest registerRequest = new RegisterRequest
+        {
+            Username = userName,
+            Password = password,
+            PasswordRepeat = passwordRepeat,
+            Roles = roles
+        };
+        string requestAsJson = JsonSerializer.Serialize(registerRequest);
+        StringContent content = new(requestAsJson, Encoding.UTF8, "application/json");
         HttpResponseMessage response = await client.PostAsync("auth/register", content);
         string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -85,6 +102,14 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         {
             throw new Exception(responseContent);
         }
+        string token = responseContent;
+        Jwt = token;
+
+        await CacheTokenAsync();
+
+        ClaimsPrincipal principal = await CreateClaimsPrincipal();
+
+        OnAuthStateChanged.Invoke(principal);
     }
 
     public async Task<ClaimsPrincipal> GetAuthAsync()
