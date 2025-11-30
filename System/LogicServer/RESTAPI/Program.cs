@@ -2,7 +2,10 @@ using Entities;
 using gRPCRepo;
 using InMemoryRepositories;
 using RepositoryContracts;
+using RESTAPI.Controllers;
 using WebAPI;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +22,15 @@ builder.Services.AddEndpointsApiExplorer();
 // var dummyCourseRepo = new InMemoryRepository<Course>();
 // dummyCourseRepo.AddAsync(new Course { Id = 0, Title = "Introduction to Programming", Description = "Learn the basics of programming.", Language = "English" }).Wait();
 
+var host = "localhost";
+var port = 9090;
 
-builder.Services.AddScoped<IRepository<Entities.Course>>(sp => new gRPCCourseRepository("localhost", 9090));
+builder.Services.AddScoped<IRepositoryID<Course, int>>(sp => 
+    new gRPCCourseRepository(host, port));
 
-// ===
-
+builder.Services.AddScoped<IRepositoryID<LearningStep, (int, int)>>(sp => 
+    new gRPCLearningStepRepository(host, port));
+    
 var app = builder.Build();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
@@ -36,14 +43,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// === Simple map for GetCourses ===
-
-app.MapGet("/courses", (IRepository<Entities.Course> courseRepo) =>
-{
-    var courses = courseRepo.GetMany();
-    return Results.Ok(courses);
-});
 
 // === RUN ===
 

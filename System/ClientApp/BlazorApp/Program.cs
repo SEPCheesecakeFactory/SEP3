@@ -9,12 +9,15 @@ builder.Services.AddRazorComponents()
 
 var hostUri = builder.Configuration["HostUri"] ?? "http://localhost:5161";
 
-builder.Services.AddHttpClient<ICourseService, HttpCourseService>(c => c.BaseAddress = new Uri(hostUri));
+builder.Services.AddHttpClient<ICourseService, HttpCourseService>(c =>
+    c.BaseAddress = new Uri(hostUri));
+
+builder.Services.AddHttpClient<ILearningStepService, LearningStepHttpService>(c =>
+     c.BaseAddress = new Uri(hostUri));
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();
