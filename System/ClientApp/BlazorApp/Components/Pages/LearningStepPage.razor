@@ -40,25 +40,34 @@ else
             </h2>
 
             <!-- Dynamic Content Rendering based on Type -->
-            @if (currentStep.StepType?.ToLower() == "image")
+            @if (string.Equals(currentStep?.StepType, "image", StringComparison.OrdinalIgnoreCase))
+
             {
                 <div class="w-100 text-center mb-4">
-                    <img src="@currentStep.Content" class="img-fluid rounded-4 border border-2" alt="visual" style="max-height:400px;">
+                    <img src="@currentStep!.Content!" class="img-fluid rounded-4 border border-2" alt="visual" style="max-height:400px;">
                 </div>
             }
-            else if (currentStep.StepType?.ToLower() == "video")
+           else if (currentStep?.Content?.Contains("youtube.com") == true ||
+         currentStep?.Content?.Contains("youtu.be") == true)
+
+
             {
-                <div class="ratio ratio-16x9 bg-dark rounded-4 border border-2 mb-4">
-                    <div class="d-flex align-items-center justify-content-center h-100">
-                        <i class="fas fa-play-circle text-white fa-4x"></i>
-                    </div>
-                </div>
+                <div class="ratio ratio-16x9 mb-4 rounded-4 overflow-hidden border border-2">
+                 <iframe
+                        src="@GetYouTubeEmbedUrl(currentStep!.Content!)"
+                       frameborder="0"
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                 </iframe>
+             </div>
             }
+
             else // Default to Text Card
             {
                 <div class="card w-100 border-2 rounded-4 p-5 text-center shadow-sm">
                     <p class="fs-3 text-secondary mb-0 lh-base">
-                        @currentStep.Content
+                        @(currentStep?.Content ?? "")
+
                     </p>
                 </div>
             }
@@ -113,5 +122,26 @@ else
     {
         // In a real app, you'd check TotalSteps here to determine if finished
         NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
+    }
+
+    private string GetYouTubeEmbedUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return "";
+
+        // Standard YouTube link
+        if (url.Contains("watch?v="))
+        {
+            return url.Replace("watch?v=", "embed/");
+        }
+
+        // Short YouTube link (youtu.be)
+        if (url.Contains("youtu.be"))
+        {
+            var id = url.Split('/').Last();
+            return $"https://www.youtube.com/embed/{id}";
+        }
+
+        return url; // fallback
     }
 }
