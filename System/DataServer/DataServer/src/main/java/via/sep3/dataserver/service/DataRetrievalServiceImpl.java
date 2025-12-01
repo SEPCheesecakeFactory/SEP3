@@ -12,10 +12,20 @@ import via.sep3.dataserver.data.Course;
 import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.LearningStep;
 import via.sep3.dataserver.data.LearningStepRepository;
+import via.sep3.dataserver.data.Role;
+import via.sep3.dataserver.data.RoleRepository;
+import via.sep3.dataserver.data.SystemUser;
+import via.sep3.dataserver.data.SystemUserRepository;
+import via.sep3.dataserver.data.SystemUserRole;
+import via.sep3.dataserver.data.SystemUserRoleRepository;
+import via.sep3.dataserver.grpc.AddUserRequest;
+import via.sep3.dataserver.grpc.AddUserResponse;
 import via.sep3.dataserver.grpc.DataRetrievalServiceGrpc;
 import via.sep3.dataserver.grpc.GetCoursesRequest;
 import via.sep3.dataserver.grpc.GetCoursesResponse;
 import via.sep3.dataserver.grpc.GetLearningStepResponse;
+import via.sep3.dataserver.grpc.GetUsersRequest;
+import via.sep3.dataserver.grpc.GetUsersResponse;
 
 @GrpcService
 @Service
@@ -23,6 +33,12 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
   @Autowired
   private CourseRepository courseRepository;
+  @Autowired
+  private SystemUserRepository userRepository;
+  @Autowired
+  private SystemUserRoleRepository systemUserRoleRepository;
+  @Autowired
+  private RoleRepository roleRepository;
 
   @Autowired
   private LearningStepRepository learningStepRepository;
@@ -89,6 +105,101 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
               .withCause(e)
               .asRuntimeException()
       );
+    }
+  }
+
+  @Override public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver)
+  {
+    try {
+      List<SystemUser> users = userRepository.findAll();
+      List<via.sep3.dataserver.grpc.SystemUser> grpcUsers = new ArrayList<>();
+
+      for (SystemUser user : users) {
+        via.sep3.dataserver.grpc.SystemUser grpcUser = convertToGrpcUser(user);
+        grpcUsers.add(grpcUser);
+      }
+      GetUsersResponse response = GetUsersResponse.newBuilder()
+          .addAllUsers(grpcUsers)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(e);
+    }
+  }
+
+  private via.sep3.dataserver.grpc.SystemUser convertToGrpcUser(SystemUser jpaUser) {
+    via.sep3.dataserver.grpc.SystemUser.Builder userBuilder =
+        via.sep3.dataserver.grpc.SystemUser.newBuilder()
+            .setId(jpaUser.getId())
+            .setUsername(jpaUser.getUsername() != null ? jpaUser.getUsername() : "")
+            .setPasswordHash(jpaUser.getPassword() != null ? jpaUser.getPassword() : "");
+
+    // iterate over the list attached to the user object.
+
+    if (jpaUser.getSystemUserRoles() != null) {
+      for (via.sep3.dataserver.data.SystemUserRole junction : jpaUser.getSystemUserRoles()) {
+
+        // 1. Extract the Role Entity from the Junction Table
+        via.sep3.dataserver.data.Role dbRole = junction.getRole();
+
+        if (dbRole != null) {
+          via.sep3.dataserver.grpc.Role grpcRole =
+              via.sep3.dataserver.grpc.Role.newBuilder()
+                  .setRole(dbRole.getRole()) // This gets the string "admin", "learner", etc.
+                  .build();
+
+          userBuilder.addRoles(grpcRole);
+        }
+      }
+    }
+
+    return userBuilder.build();
+  }
+
+  @Override public void addUser(AddUserRequest request,
+      StreamObserver<AddUserResponse> responseObserver)
+  {
+    try {
+      String username = request.getUsername();
+      String password = request.getPassword();
+      List<String> roleStrings = request.getRolesList();
+      List<Role> assignedRoles = new ArrayList<>();
+
+      SystemUser newUser = new SystemUser();
+      newUser.setUsername(username);
+      newUser.setPassword(password);
+
+      userRepository.save(newUser);
+
+      for (String roleName : roleStrings) {
+        via.sep3.dataserver.data.Role roleEntity = roleRepository.findById(roleName)
+            .orElseGet(() -> {
+              via.sep3.dataserver.data.Role r = new via.sep3.dataserver.data.Role();
+              r.setRole(roleName);
+              return roleRepository.save(r);
+            });
+
+        SystemUserRole junction = new SystemUserRole();
+        junction.setSystemUser(newUser);
+        junction.setRole(roleEntity);
+
+        systemUserRoleRepository.save(junction);
+
+        assignedRoles.add(roleEntity);
+
+        via.sep3.dataserver.grpc.SystemUser grpcUser = convertToGrpcUser(newUser);
+
+        AddUserResponse response = AddUserResponse.newBuilder()
+            .setUser(grpcUser)
+            .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+      }
+    } catch (Exception e) {
+      responseObserver.onError(e);
     }
   }
 

@@ -2,11 +2,86 @@
 @port = 5161
 @baseURL = http://{{hostname}}:{{port}}
 
+### 1. Login as Admin
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "admin_user",
+  "Password": "123"
+}
+
+
+
+### 2. Get Courses (using the token)
 ### Get all courses [X]
 
 GET {{baseURL}}/courses/
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJjNDI4MWUwNC03NWE1LTRhZjktOWRjOS01NDBlNDdkNzI2MTgiLCJpYXQiOjE3NjQ1ODM3NjIsInVuaXF1ZV9uYW1lIjoiaGVsbG8iLCJVc2VybmFtZSI6ImhlbGxvIiwiUm9sZSI6ImxlYXJuZXIiLCJuYmYiOjE3NjQ1ODM3NjIsImV4cCI6MTc2NDU4NzM2MiwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.mHjCyNCCtSkJvb1LUHjfe2zksVJCXaS0PwI8arFWNCI
 
+### 3. Login as Alice
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "alice_smith",
+  "Password": "123"
+}
+### 4
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "jane_doe",
+  "Password": "123"
+}
+### 1. Login test without dataserver
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "alice",
+  "Password": "password1"
+}
+
+### Register test user
+POST {{baseURL}}/Auth/register
+Content-Type: application/json
+
+{
+  "Username": "testuser",
+  "Password": "testpass",
+  "PasswordRepeat": "testpass",
+  "Roles": [
+    {
+      "RoleName": "learner"
+    }
+  ]
+}
+### 1. Login test without dataserver
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "testuser",
+  "Password": "testpass"
+}
 ### Get Learning Step by double id [X]
 
 GET {{baseURL}}/learningsteps/1_1
+
+### Register test user
+POST {{baseURL}}/Auth/register
+Content-Type: application/json
+
+{
+  "Username": "hello",
+  "Password": "itsmeurlookingfor",
+  "PasswordRepeat": "itsmeurlookingfor",
+  "Roles": [
+    {
+      "RoleName": "learner"
+    }
+  ]
+}

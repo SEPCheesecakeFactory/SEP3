@@ -24,6 +24,22 @@ class Language
     name
 }
 
+class SystemUser
+{
+    id {PK}
+    username
+    password_hash
+}
+
+class Role
+{
+    role {PK}
+}
+
+class SystemUserRole
+{
+    systemUserId {PPK, FK}
+    role {PPK, FK}
 class LearningStepType
 {
     id {PK}
@@ -40,3 +56,5 @@ class LearningStep
 
 Course "*" -- "1" CourseCategory
 Course "*" -- "1" Language
+SystemUser "1" -- "*" SystemUserRole
+SystemUserRole "*" -- "1" Role
