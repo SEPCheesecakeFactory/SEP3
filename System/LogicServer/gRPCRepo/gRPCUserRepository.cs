@@ -2,10 +2,11 @@ using Grpc.Net.Client;
 using Entities;
 using RepositoryContracts;
 using System.Linq;
+using via.sep3.dataserver.grpc;
 
 namespace gRPCRepo;
 
-public class gRPCUserRepository : gRPCRepository<Entities.User>
+public class gRPCUserRepository : gRPCRepository<Entities.User, int>
 {
     public gRPCUserRepository(string host, int port) : base(host, port)
     {
@@ -39,8 +40,7 @@ public class gRPCUserRepository : gRPCRepository<Entities.User>
             Username = entity.Username,
             Password = entity.Password,
             Roles = entity.Roles.Select(r => new Entities.Role { RoleName = r.RoleName }).ToList()
-        };
-        
+        };        
     }
 
     public override Task UpdateAsync(Entities.User entity)

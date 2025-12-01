@@ -6,10 +6,6 @@
 package via.sep3.dataserver.grpc;
 
 /**
- * <pre>
- * courses
- * </pre>
- *
  * Protobuf type {@code GetCoursesRequest}
  */
 @com.google.protobuf.Generated
@@ -194,10 +190,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * courses
-   * </pre>
-   *
    * Protobuf type {@code GetCoursesRequest}
    */
   public static final class Builder extends

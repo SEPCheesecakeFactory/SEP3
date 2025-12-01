@@ -2,7 +2,7 @@ using System;
 
 namespace Entities;
 
-public class User : IIdentifiable
+public class User : IIdentifiable<int>
 {
     public int Id { get; set; }
     public string Username { set; get; }

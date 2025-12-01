@@ -13,9 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Collections.Generic;
 using RESTAPI.Controllers;
-using WebAPI;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,11 +32,11 @@ builder.Services.AddEndpointsApiExplorer();
 var host = "localhost";
 var port = 9090;
 
-builder.Services.AddScoped<IRepository<Entities.Course>>(sp => new gRPCCourseRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Entities.Course, int>>(sp => new gRPCCourseRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
-builder.Services.AddScoped<IRepository<Entities.User>>(sp => new gRPCUserRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Entities.User, int>>(sp => new gRPCUserRepository(host, port));
 builder.Services.AddScoped<IAuthService, RESTAPI.Services.AuthService>();
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {

@@ -1,15 +1,5 @@
 package via.sep3.dataserver.service;
 
-import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import via.sep3.dataserver.data.*;
-import via.sep3.dataserver.data.Course;
-import via.sep3.dataserver.data.Role;
-import via.sep3.dataserver.data.SystemUser;
-import via.sep3.dataserver.grpc.*;
-import org.springframework.grpc.server.service.GrpcService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,23 +12,33 @@ import via.sep3.dataserver.data.Course;
 import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.LearningStep;
 import via.sep3.dataserver.data.LearningStepRepository;
+import via.sep3.dataserver.data.Role;
+import via.sep3.dataserver.data.RoleRepository;
+import via.sep3.dataserver.data.SystemUser;
+import via.sep3.dataserver.data.SystemUserRepository;
+import via.sep3.dataserver.data.SystemUserRole;
+import via.sep3.dataserver.data.SystemUserRoleRepository;
+import via.sep3.dataserver.grpc.AddUserRequest;
+import via.sep3.dataserver.grpc.AddUserResponse;
 import via.sep3.dataserver.grpc.DataRetrievalServiceGrpc;
 import via.sep3.dataserver.grpc.GetCoursesRequest;
 import via.sep3.dataserver.grpc.GetCoursesResponse;
 import via.sep3.dataserver.grpc.GetLearningStepResponse;
+import via.sep3.dataserver.grpc.GetUsersRequest;
+import via.sep3.dataserver.grpc.GetUsersResponse;
 
 @GrpcService
 @Service
 public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetrievalServiceImplBase {
 
-    @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
-    private SystemUserRepository userRepository;
-    @Autowired
-    private SystemUserRoleRepository systemUserRoleRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+  @Autowired
+  private CourseRepository courseRepository;
+  @Autowired
+  private SystemUserRepository userRepository;
+  @Autowired
+  private SystemUserRoleRepository systemUserRoleRepository;
+  @Autowired
+  private RoleRepository roleRepository;
 
   @Autowired
   private LearningStepRepository learningStepRepository;
@@ -106,6 +106,7 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
               .asRuntimeException()
       );
     }
+  }
 
   @Override public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver)
   {
@@ -200,8 +201,6 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     } catch (Exception e) {
       responseObserver.onError(e);
     }
-  }
-
   }
 
   private via.sep3.dataserver.grpc.LearningStep convertToGrpcLearningStep(LearningStep step) {
