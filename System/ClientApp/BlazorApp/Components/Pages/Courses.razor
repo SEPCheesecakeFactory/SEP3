@@ -1,0 +1,40 @@
+﻿@page "/courses"
+@using BlazorApp.Entities
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Authorization
+@rendermode InteractiveServer
+<PageTitle>Courses</PageTitle>
+@inject ICourseService CourseService
+<AuthorizeView>
+
+    <NotAuthorized>
+    <p>hmm</p>
+    </NotAuthorized>
+    <Authorized>
+    <h1>Courses</h1>
+    <ul>
+
+        @foreach (Course course in courses)
+        {
+            <li>
+                ID: @course.Id, <br /> Title: @course.Title <br /> Description: @course.Description <br />
+                Category:@course.Category <br /> Language:@course.Language
+            </li>
+        }
+    </ul>
+    </Authorized>
+</AuthorizeView>
+@code {
+
+    private List<Course> courses = new List<Course>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DisplayCourses();
+    }
+
+    private async Task DisplayCourses()
+    {
+        courses = await CourseService.GetCourses();
+    }
+}

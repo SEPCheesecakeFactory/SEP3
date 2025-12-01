@@ -1,0 +1,28 @@
+@page "/test"
+@using BlazorApp.Entities
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Authorization
+@rendermode InteractiveServer
+<PageTitle>Test</PageTitle>
+
+<AuthorizeView>
+
+    <NotAuthorized>
+    
+    </NotAuthorized>
+    <Authorized>
+    <h1>Courses</h1>
+    <ul>
+
+        
+    </ul>
+    </Authorized>
+</AuthorizeView>
+@code {
+
+  
+
+
+
+    
+}
