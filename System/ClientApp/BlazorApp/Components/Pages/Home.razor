@@ -13,22 +13,6 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Reddit Clone</h1>
-
-<AuthorizeView>
-    <Authorized>
-        <h3>Hello, @context.User.Claims.First(claim => claim.Type.Equals("Username")).Value</h3>
-        <button @onclick="Logout">Logout</button>
-    </Authorized>
-    <NotAuthorized>
-        lol you are not logged in!
-    </NotAuthorized>
-</AuthorizeView>
-Here you can browse interesting posts.
-<button @onclick='() => NavMgr.NavigateTo("login")'>go to login</button>
-
-// SPLIT
-
 <PageTitle>Courses</PageTitle>
 
 <div class="container-fluid">
