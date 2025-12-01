@@ -42,36 +42,37 @@ CREATE TABLE SystemUserRole
     role varchar(7) REFERENCES Role(role),
     PRIMARY KEY (systemUserId, role)
 );
+CREATE TABLE LearningStepType
+(
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+CREATE TABLE LearningStep
+(
+    step_order  INT,
+    course_id   INT REFERENCES Course (id),
+    PRIMARY KEY (step_order, course_id),
+    step_type   INT REFERENCES LearningStepType (id),
+    content     TEXT
+);
+
+-- Insert into LearningStepType
+INSERT INTO LearningStepType (name) VALUES
+('Text'),
+('Video');
 
 -- Insert into Language
 INSERT INTO Language (code, name) VALUES
-('ENG', 'English'),
-('SPA', 'Spanish'),
-('GER', 'German'),
-('FRA', 'French'),
-('JPN', 'Japanese');
+('ENG', 'English');
 
 -- Insert into CourseCategory
 INSERT INTO CourseCategory (name, description) VALUES
-('Programming', 'Courses related to software development and coding.'),
-('Design', 'Courses on graphic design, UX/UI, and creative design principles.'),
-('Language Learning', 'Courses to help learn new spoken languages.'),
-('Business', 'Courses about management, marketing, and entrepreneurship.'),
-('Data Science', 'Courses about statistics, data analysis, and AI.');
+('History', 'Courses related to historical events and periods.');
 
 -- Insert into Course
 INSERT INTO Course (language, title, description, category) VALUES
-('ENG', 'Java Basics', 'Learn the fundamentals of Java programming.', 1),
-('ENG', 'Web Design Fundamentals', 'Introduction to HTML, CSS, and design layout principles.', 2),
-('SPA', 'Español para Principiantes', 'Learn basic Spanish vocabulary and grammar.', 3),
-('GER', 'Business Management 101', 'Introduction to core business concepts and management skills.', 4),
-('FRA', 'Data Science with Python', 'Learn how to analyze data using Python libraries.', 5),
-('JPN', 'Advanced Java Concepts', 'Deep dive into Java streams, concurrency, and best practices.', 1),
-('ENG', 'Digital Marketing', 'Master SEO, social media, and online advertising.', 4),
-('SPA', 'Diseño UX/UI', 'Aprende a diseñar interfaces centradas en el usuario.', 2),
-('FRA', 'Artificial Intelligence Basics', 'Understand the basics of AI and machine learning.', 5),
-('ENG', 'Effective Communication', 'Improve your communication and presentation skills.', 4),
-('ENG', 'New Course', 'Brand new course.', 4);
+('ENG', 'The Roman Empire', 'An in-depth look at the events of the Roman Empire.', 1);
 
 
 INSERT INTO Course (language, title, description, category) VALUES ('ENG', 'New Course #2', 'Brand new course #2', 4);
@@ -100,3 +101,8 @@ INSERT INTO SystemUserRole (systemUserId, role) VALUES
 -- jane (ID 3) gets 'teacher' and 'learner'
 (3, 'teacher'),
 (3, 'learner');
+-- Insert into LearningStep
+INSERT INTO LearningStep (step_order, course_id, step_type, content) VALUES
+(1, 1, 1, 'Introduction to the Roman Empire.'),
+(2, 1, 2, 'https://www.youtube.com/watch?v=46ZXl-V4qwY'),
+(3, 1, 1, 'The fall of the Roman Empire and its legacy.');

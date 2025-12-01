@@ -5,6 +5,12 @@
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
 @inject NavigationManager NavMgr
+
+@using BlazorApp.Entities
+@using BlazorApp.Services
+@inject ICourseService CourseService
+@inject NavigationManager NavManager
+
 <PageTitle>Home</PageTitle>
 
 <h1>Reddit Clone</h1>
@@ -20,7 +26,127 @@
 </AuthorizeView>
 Here you can browse interesting posts.
 <button @onclick='() => NavMgr.NavigateTo("login")'>go to login</button>
+
+// SPLIT
+
+<PageTitle>Courses</PageTitle>
+
+<div class="container-fluid">
+    <h2 class="fw-bolder text-secondary mb-5">Course Dashboard</h2>
+
+    @if (courses == null)
+        {
+    <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+        }
+        else if (!courses.Any())
+        {
+    <p class="text-muted fs-4 mt-5">No courses available.</p>
+        }
+        else
+        {
+    <!-- Group courses by Category -->
+    @foreach (var group in courses.GroupBy(c => c.Category))
+        {
+    <h5 class="fw-bolder text-secondary text-uppercase mt-5 mb-3 ps-1" style="letter-spacing:0.5px">
+        @group.Key
+    </h5>
+
+    <div class="row g-3">
+        @foreach (var course in group)
+                {
+        <div class="col-md-6 col-lg-4">
+            <!-- Card: Using 'card-course' class from app.css -->
+            <div class="card card-course h-100 text-center bg-white @GetBorderClass(course.Category)"
+                style="--course-color: var(--game-gray);" @onclick="() => OpenCourse(course)">
+
+                <!-- Top Color Strip -->
+                <div class="w-100 @GetBgClass(course.Category)" style="height: 10px;"></div>
+
+                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1">
+                    <!-- Icon -->
+                    <i class="@GetIconClass(course.Category) fa-3x mb-4 @GetTextClass(course.Category)"></i>
+
+                    <!-- Title -->
+                    <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
+
+                    <!-- Description -->
+                    <small class="text-muted fw-bold text-uppercase mt-2"
+                        style="font-size: 0.75rem; letter-spacing: 1px;">
+                        @course.Description
+                        @if (!string.IsNullOrEmpty(course.Language))
+                                                {
+                        <span class="mx-1">• @course.Language</span>
+                                                }
+                    </small>
+                </div>
+            </div>
+        </div>
+                }
+    </div>
+        }
+        }
+</div>
+
 @code {
+    private List<Course> courses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        courses = await CourseService.GetCourses();
+    }
+
+    private void OpenCourse(Course course)
+    {
+        // Proper URL is /course/{id}/steps/1
+        NavManager.NavigateTo($"/courses/{course.Id}/steps/1");
+    }
+
+    // --- Helper Methods for Styles ---
+
+    private string GetBgClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "bg-blue-100",
+        "math" => "bg-purple-100",
+        "history" => "bg-yellow-100",
+        "languages" => "bg-red-100",
+        "science" => "bg-green-100",
+        _ => "bg-blue-100"
+    };
+
+    private string GetTextClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "text-blue-600",
+        "math" => "text-purple-600",
+        "history" => "text-yellow-600",
+        "languages" => "text-red-600",
+        "science" => "text-green-600",
+        _ => "text-blue-600"
+    };
+
+    private string GetBorderClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "border-blue-200",
+        "math" => "border-purple-200",
+        "history" => "border-yellow-200",
+        "languages" => "border-red-200",
+        "science" => "border-green-200",
+        _ => "border-blue-200"
+    };
+
+    private string GetIconClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "fa-brands fa-python",
+        "math" => "fas fa-calculator",
+        "history" => "fas fa-landmark",
+        "languages" => "fas fa-language",
+        "science" => "fas fa-flask",
+        _ => "fas fa-book"
+    };
+
     private async Task Logout()
     {
         await AuthService.LogoutAsync();

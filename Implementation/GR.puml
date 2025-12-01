@@ -40,6 +40,18 @@ class SystemUserRole
 {
     systemUserId {PPK, FK}
     role {PPK, FK}
+class LearningStepType
+{
+    id {PK}
+    name
+}
+
+class LearningStep
+{
+    step_order {PPK}
+    course {PPK, FK}
+    type {FK}
+    content
 }
 
 Course "*" -- "1" CourseCategory

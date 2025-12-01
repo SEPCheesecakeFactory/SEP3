@@ -4,12 +4,14 @@ option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
 service DataRetrievalService {
-  rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
+// users
   rpc GetUsers (GetUsersRequest) returns (GetUsersResponse);
   rpc AddUser (AddUserRequest) returns (AddUserResponse);
+//courses
+  rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
+  rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
 }
 
-//courses
 message GetCoursesRequest {
 
 }
@@ -51,4 +53,19 @@ message AddUserRequest{
 
 message AddUserResponse{
   SystemUser user = 1;
+}
+message GetLearningStepRequest {
+  int32 course_id = 1;
+  int32 step_number = 2;
+}
+
+message GetLearningStepResponse {
+  LearningStep learning_step = 1;
+}
+
+message LearningStep {
+  int32 course_id = 1;
+  int32 step_order = 2;
+  string content = 3;
+  string type = 4;
 }

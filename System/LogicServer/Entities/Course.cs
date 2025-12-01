@@ -1,6 +1,6 @@
 ﻿namespace Entities;
 
-public class Course : IIdentifiable
+public class Course : IIdentifiable<int>
 {
     public int Id { get; set; }
     public string? Language { get; set; }

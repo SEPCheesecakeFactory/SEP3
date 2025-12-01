@@ -71,6 +71,21 @@ public final class DataProtocol {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_AddUserResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetLearningStepRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetLearningStepRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetLearningStepResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetLearningStepResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LearningStep_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_LearningStep_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -91,13 +106,20 @@ public final class DataProtocol {
       "\n\005roles\030\004 \003(\0132\005.Role\"\024\n\004Role\022\014\n\004role\030\001 \001" +
       "(\t\"C\n\016AddUserRequest\022\020\n\010username\030\001 \001(\t\022\020" +
       "\n\010password\030\002 \001(\t\022\r\n\005roles\030\003 \003(\t\",\n\017AddUs" +
-      "erResponse\022\031\n\004user\030\001 \001(\0132\013.SystemUser2\254\001" +
-      "\n\024DataRetrievalService\0225\n\nGetCourses\022\022.G" +
-      "etCoursesRequest\032\023.GetCoursesResponse\022/\n" +
-      "\010GetUsers\022\020.GetUsersRequest\032\021.GetUsersRe" +
-      "sponse\022,\n\007AddUser\022\017.AddUserRequest\032\020.Add" +
-      "UserResponseB\034\n\030via.sep3.dataserver.grpc" +
-      "P\001b\006proto3"
+      "erResponse\022\031\n\004user\030\001 \001(\0132\013.SystemUser\"@\n" +
+      "\026GetLearningStepRequest\022\021\n\tcourse_id\030\001 \001" +
+      "(\005\022\023\n\013step_number\030\002 \001(\005\"?\n\027GetLearningSt" +
+      "epResponse\022$\n\rlearning_step\030\001 \001(\0132\r.Lear" +
+      "ningStep\"T\n\014LearningStep\022\021\n\tcourse_id\030\001 " +
+      "\001(\005\022\022\n\nstep_order\030\002 \001(\005\022\017\n\007content\030\003 \001(\t" +
+      "\022\014\n\004type\030\004 \001(\t2\362\001\n\024DataRetrievalService\022" +
+      "/\n\010GetUsers\022\020.GetUsersRequest\032\021.GetUsers" +
+      "Response\022,\n\007AddUser\022\017.AddUserRequest\032\020.A" +
+      "ddUserResponse\0225\n\nGetCourses\022\022.GetCourse" +
+      "sRequest\032\023.GetCoursesResponse\022D\n\017GetLear" +
+      "ningStep\022\027.GetLearningStepRequest\032\030.GetL" +
+      "earningStepResponseB\034\n\030via.sep3.dataserv" +
+      "er.grpcP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -157,6 +179,24 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_AddUserResponse_descriptor,
         new java.lang.String[] { "User", });
+    internal_static_GetLearningStepRequest_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_GetLearningStepRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetLearningStepRequest_descriptor,
+        new java.lang.String[] { "CourseId", "StepNumber", });
+    internal_static_GetLearningStepResponse_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_GetLearningStepResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetLearningStepResponse_descriptor,
+        new java.lang.String[] { "LearningStep", });
+    internal_static_LearningStep_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_LearningStep_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_LearningStep_descriptor,
+        new java.lang.String[] { "CourseId", "StepOrder", "Content", "Type", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

@@ -1,0 +1,13 @@
+@startuml StateMachine Client
+title StateMachine Client
+!theme mono
+skinparam linetype ortho
+skinparam ArrowFontSize 9
+
+[*] --> Home
+Home --> CourseSelection : Explore Courses
+CourseSelection --> Learning : Select Course
+Learning --> Learning : Complete Step
+Learning --> CourseSelection : Exit Course
+Learning --> CourseCompletion : Finish Course
+CourseCompletion --> CourseSelection : Back to Courses

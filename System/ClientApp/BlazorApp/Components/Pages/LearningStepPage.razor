@@ -1,0 +1,117 @@
+@page "/courses/{CourseId:int}/steps/{StepOrder:int}"
+@using BlazorApp.Services
+@using BlazorApp.Entities
+@inject ILearningStepService StepService
+@inject NavigationManager NavManager
+
+<PageTitle>Learning Step @StepOrder</PageTitle>
+
+@if (currentStep == null)
+{
+    <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
+        
+        <!-- HEADER: Close Button & Progress Bar -->
+        <div class="d-flex align-items-center mb-5 pt-2">
+            <!-- Navigate back to Home -->
+            <a href="/" class="btn btn-link text-secondary p-0 me-4">
+                <i class="fas fa-times fa-2x"></i>
+            </a>
+            
+            <div class="progress w-100" style="height: 16px;">
+                <!-- Mock progress calculation (StepOrder * 10%) just for visualization since Total is unknown -->
+                <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT: Centered View -->
+        <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+            
+            <!-- Title (Use Step Title if available, else generic) -->
+            <h2 class="fw-bolder mb-5 text-center text-dark fs-1">
+                @($"Step {StepOrder}")
+            </h2>
+
+            <!-- Dynamic Content Rendering based on Type -->
+            @if (currentStep.StepType?.ToLower() == "image")
+            {
+                <div class="w-100 text-center mb-4">
+                    <img src="@currentStep.Content" class="img-fluid rounded-4 border border-2" alt="visual" style="max-height:400px;">
+                </div>
+            }
+            else if (currentStep.StepType?.ToLower() == "video")
+            {
+                <div class="ratio ratio-16x9 bg-dark rounded-4 border border-2 mb-4">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <i class="fas fa-play-circle text-white fa-4x"></i>
+                    </div>
+                </div>
+            }
+            else // Default to Text Card
+            {
+                <div class="card w-100 border-2 rounded-4 p-5 text-center shadow-sm">
+                    <p class="fs-3 text-secondary mb-0 lh-base">
+                        @currentStep.Content
+                    </p>
+                </div>
+            }
+        </div>
+
+        <!-- FOOTER: Navigation Buttons -->
+        <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
+            <!-- Previous Button -->
+            <button class="btn btn-outline-secondary px-4 py-3 border-2" 
+                    @onclick="GoPrevious" 
+                    disabled="@(StepOrder <= 1)">
+                PREVIOUS
+            </button>
+
+            <!-- Next Button -->
+            <button class="btn btn-primary px-5 py-3 text-white" 
+                    @onclick="GoNext">
+                NEXT
+            </button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int CourseId { get; set; }
+    [Parameter] public int StepOrder { get; set; }
+
+    private LearningStep? currentStep;
+
+    // Re-fetch data when parameters change (e.g., clicking Next)
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching step: {ex.Message}");
+        }
+    }
+
+    private void GoPrevious()
+    {
+        if (StepOrder > 1)
+        {
+            NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder - 1}");
+        }
+    }
+
+    private void GoNext()
+    {
+        // In a real app, you'd check TotalSteps here to determine if finished
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
+    }
+}
