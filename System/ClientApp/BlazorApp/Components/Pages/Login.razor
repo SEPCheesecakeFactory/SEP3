@@ -6,38 +6,46 @@
 @inject IAuthService authService
 @inject NavigationManager navMgr
 
-<h3>This is where you login</h3>
-<AuthorizeView>
-    <NotAuthorized>
-        <div class="card">
-            <h3>Please login</h3>
-            <div class="field">
-                <label>User name:</label>
-                <input type="text" @bind="userName" />
-            </div>
-            <div class="field">
-                <label style="text-align: center">Password:</label>
-                <input type="password" @bind="password" />
-            </div>
-            @if (!string.IsNullOrEmpty(errorLabel))
-            {
-                <div class="field">
-                    <label style="color: red">
-                        @errorLabel
-                    </label>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card bg-white p-5" style="max-width: 400px; width: 100%; --course-color: var(--game-gray);">
+        <div class="text-center mb-4">
+             <h3 class="fw-bolder text-secondary text-uppercase" style="letter-spacing:0.5px">Login</h3>
+        </div>
+        
+        <AuthorizeView>
+            <NotAuthorized>
+                <div class="mb-3">
+                    <label class="form-label fw-bold text-muted text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">User name</label>
+                    <input type="text" class="form-control" @bind="userName" />
                 </div>
-            }
-            <div class="field">
-                <button class="loginbtn" @onclick="async () => await LoginAsync()">Log in</button>
-            </div>
-        </div>
-    </NotAuthorized>
-    <Authorized>
-        <div class="card">
-            <h3>Hello, @context.User.Claims.First(claim => claim.Type.Equals("Username")).Value</h3>
-        </div>
-    </Authorized>
-</AuthorizeView>
+                <div class="mb-3">
+                    <label class="form-label fw-bold text-muted text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">Password</label>
+                    <input type="password" class="form-control" @bind="password" />
+                </div>
+                
+                @if (!string.IsNullOrEmpty(errorLabel))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @errorLabel
+                    </div>
+                }
+                
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-primary fw-bold text-uppercase" style="letter-spacing: 1px;" @onclick="async () => await LoginAsync()">Log in</button>
+                </div>
+                <div class="text-center mt-3">
+                     <a href="register" class="text-muted text-decoration-none" style="font-size: 0.8rem;">Don't have an account? Register</a>
+                </div>
+            </NotAuthorized>
+            <Authorized>
+                <div class="text-center">
+                    <h3 class="fw-bolder text-dark">Hello, @context.User.Claims.First(claim => claim.Type.Equals("Username")).Value</h3>
+                    <button class="btn btn-outline-secondary mt-3" @onclick='() => navMgr.NavigateTo("/")'>Go Home</button>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+    </div>
+</div>
 
 @code {
     private string userName = "";

@@ -1,4 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IAuthService AuthService
+@inject NavigationManager NavMgr
 
 <div class="page d-flex flex-column h-100">
     
@@ -19,7 +23,14 @@
         <NavLink class="btn btn-link text-secondary p-2" href="" Match="NavLinkMatch.All"><i class="fas fa-home fa-xl"></i></NavLink>
         <NavLink class="btn btn-link text-secondary p-2" href="leaderboard"><i class="fas fa-shield-alt fa-xl"></i></NavLink>
         <NavLink class="btn btn-link text-secondary p-2" href="profile"><i class="fas fa-user fa-xl"></i></NavLink>
-        <NavLink class="btn btn-link text-secondary p-2" href="login"><i class="fas fa-sign-out-alt fa-xl"></i></NavLink>
+        <AuthorizeView>
+            <Authorized>
+                <button class="btn btn-link text-secondary p-2" @onclick="Logout"><i class="fas fa-sign-out-alt fa-xl"></i></button>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink class="btn btn-link text-secondary p-2" href="login"><i class="fas fa-sign-in-alt fa-xl"></i></NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
     </nav>
 
     <div id="blazor-error-ui" data-nosnippet>
@@ -28,3 +39,11 @@
         <span class="dismiss">🗙</span>
     </div>
 </div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+        NavMgr.NavigateTo("/");
+    }
+}

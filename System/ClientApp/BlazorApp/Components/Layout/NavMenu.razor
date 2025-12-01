@@ -1,4 +1,9 @@
-﻿<aside class="d-flex flex-column bg-white h-100">
+﻿@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IAuthService AuthService
+@inject NavigationManager NavMgr
+
+<aside class="d-flex flex-column bg-white h-100">
     <h1 class="text-success fw-bolder fs-3 px-3 mb-5 tracking-tight">Learnify</h1>
     <nav class="nav flex-column flex-grow-1">
         <div class="nav-item">
@@ -14,8 +19,25 @@
         </div>
     </nav>
     <div class="mt-auto px-2">
-        <NavLink class="btn btn-outline-secondary w-100 text-uppercase fs-6" href="login">
-            LOG OUT
-        </NavLink>
+        <AuthorizeView>
+            <Authorized>
+                <button class="btn btn-outline-secondary w-100 text-uppercase fs-6" @onclick="Logout">
+                    LOG OUT
+                </button>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink class="btn btn-outline-secondary w-100 text-uppercase fs-6" href="login">
+                    LOG IN
+                </NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
 </aside>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+        NavMgr.NavigateTo("/");
+    }
+}
