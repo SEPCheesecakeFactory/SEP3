@@ -6,9 +6,14 @@
 
 <PageTitle>Learning Step @StepOrder</PageTitle>
 
-@if (currentStep == null)
+@if (currentStep == null || isLoading || wasError)
 {
     <LoadingSpinner />
+    <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
+        <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious" disabled="@(StepOrder <= 1)">
+            PREVIOUS
+        </button>
+    </div>
 }
 else
 {
@@ -37,8 +42,7 @@ else
 
                     @foreach (var option in ShuffledOptions)
                     {
-                        <button class="btn btn-outline-success w-100 mb-3"
-                                @onclick="() => SelectMcOption(option)">
+                        <button class="btn btn-outline-success w-100 mb-3" @onclick="() => SelectMcOption(option)">
                             @option
                         </button>
                     }
@@ -56,14 +60,14 @@ else
                 <div class="card w-100 border-2 rounded-4 p-4 shadow-sm text-center">
                     <h4 class="fw-bold mb-4">@FillQuestion</h4>
 
-                    <input class="form-control form-control-lg mb-3"
-                           @bind="FillAnswer"
-                           placeholder="Type your answer..." />
+                    <input class="form-control form-control-lg mb-3" @bind="FillAnswer" placeholder="Type your answer..." />
 
-                    <button class="btn btn-primary px-4"
-                            @onclick="CheckFillAnswer">
-                        SUBMIT
-                    </button>
+                    @if (!CanContinue)
+                    {
+                        <button class="btn btn-primary px-4" @onclick="CheckFillAnswer">
+                            SUBMIT
+                        </button>
+                    }
 
                     @if (FillAnswered)
                     {
@@ -73,20 +77,18 @@ else
                     }
                 </div>
             }
-            else if (string.Equals(currentStep?.StepType, "image", StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(currentStep?.Type, "image", StringComparison.OrdinalIgnoreCase))
             {
                 <div class="w-100 text-center mb-4">
-                    <img src="@currentStep!.Content!" class="img-fluid rounded-4 border border-2" alt="visual" style="max-height:400px;">
+                    <img src="@currentStep!.Content!" class="img-fluid rounded-4 border border-2" alt="visual"
+                        style="max-height:400px;">
                 </div>
             }
             else if (currentStep?.Content?.Contains("youtube.com") == true ||
-                     currentStep?.Content?.Contains("youtu.be") == true)
+            currentStep?.Content?.Contains("youtu.be") == true)
             {
                 <div class="ratio ratio-16x9 mb-4 rounded-4 overflow-hidden border border-2">
-                    <iframe
-                        src="@GetYouTubeEmbedUrl(currentStep!.Content!)"
-                        frameborder="0"
-                        allowfullscreen
+                    <iframe src="@GetYouTubeEmbedUrl(currentStep!.Content!)" frameborder="0" allowfullscreen
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
                     </iframe>
                 </div>
@@ -102,16 +104,17 @@ else
         </div>
 
         <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
-            <button class="btn btn-outline-secondary px-4 py-3 border-2"
-                    @onclick="GoPrevious"
-                    disabled="@(StepOrder <= 1)">
+            <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious" disabled="@(StepOrder <= 1)">
                 PREVIOUS
             </button>
 
-            <button class="btn btn-primary px-5 py-3 text-white"
-                    @onclick="GoNext">
-                NEXT
-            </button>
+            @if (CanContinue)
+            {
+                <button class="btn btn-primary px-5 py-3 text-white" @onclick="GoNext">
+                    NEXT
+                </button>
+            }
+
         </div>
     </div>
 }
@@ -122,8 +125,9 @@ else
 
     private LearningStep? currentStep;
 
-    private bool IsMultipleChoiceQuestion => currentStep?.Content?.StartsWith("QUESTION_MC|") == true;
-    private bool IsFillBlankQuestion => currentStep?.Content?.StartsWith("QUESTION_FILL|") == true;
+    private bool IsMultipleChoiceQuestion => currentStep?.Type == "QuestionMC";
+    private bool IsFillBlankQuestion => currentStep?.Type == "QuestionFILL";
+    private bool IsQuestion => IsMultipleChoiceQuestion || IsFillBlankQuestion;
 
     private string McQuestion = "";
     private List<string> ShuffledOptions = new();
@@ -137,8 +141,15 @@ else
     private bool FillAnswered = false;
     private bool FillCorrect = false;
 
+    private bool isLoading = true;
+    private bool wasError = false;
+
+    private bool CanContinue => !IsQuestion || (McCorrect || FillCorrect);
+
     protected override async Task OnParametersSetAsync()
     {
+        isLoading = true;
+        wasError = false;
         try
         {
             currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
@@ -146,30 +157,38 @@ else
             {
                 ParseQuestion(currentStep.Content);
             }
+            isLoading = false;
         }
         catch (Exception ex)
         {
             Console.Error.WriteLine($"Error fetching step: {ex.Message}");
+            wasError = true;
+            isLoading = false;
         }
     }
 
     private void ParseQuestion(string content)
     {
+        // Reset the state logic for the new step
         McAnswered = false;
+        McCorrect = false;
         FillAnswered = false;
+        FillCorrect = false;
+        FillAnswer = string.Empty; // Clear the previous text input
 
         if (IsMultipleChoiceQuestion)
         {
             var parts = content.Split('|');
-            McQuestion = parts[1];
-            CorrectMcAnswer = parts[2];
-            ShuffledOptions = parts.Skip(2).OrderBy(x => Guid.NewGuid()).ToList();
+            McQuestion = parts[0];
+            CorrectMcAnswer = parts[1];
+            // Re-shuffle for the new question
+            ShuffledOptions = parts.Skip(1).OrderBy(x => Guid.NewGuid()).ToList();
         }
         else if (IsFillBlankQuestion)
         {
             var parts = content.Split('|');
-            FillQuestion = parts[1];
-            FillCorrectAnswer = parts[2];
+            FillQuestion = parts[0];
+            FillCorrectAnswer = parts[1];
         }
     }
 
@@ -183,9 +202,9 @@ else
     {
         FillAnswered = true;
         FillCorrect = string.Equals(
-            FillAnswer.Trim(),
-            FillCorrectAnswer.Trim(),
-            StringComparison.OrdinalIgnoreCase
+        FillAnswer.Trim(),
+        FillCorrectAnswer.Trim(),
+        StringComparison.OrdinalIgnoreCase
         );
     }
 
