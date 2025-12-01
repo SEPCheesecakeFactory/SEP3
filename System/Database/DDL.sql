@@ -74,14 +74,7 @@ INSERT INTO CourseCategory (name, description) VALUES
 INSERT INTO Course (language, title, description, category) VALUES
 ('ENG', 'The Roman Empire', 'An in-depth look at the events of the Roman Empire.', 1);
 
-
 INSERT INTO Course (language, title, description, category) VALUES ('ENG', 'New Course #2', 'Brand new course #2', 1);
-
--- Insert into SystemUser
-INSERT INTO SystemUser (username, password_hash)
-VALUES ('admin_user', '123'),
-('alice_smith', '123'),
-('jane_doe', '123');
 
 -- Insert into Role
 INSERT INTO Role (role) VALUES 
@@ -89,16 +82,6 @@ INSERT INTO Role (role) VALUES
 ('learner'), 
 ('teacher');
 
--- Insert into SystemUserRole
-INSERT INTO SystemUserRole (systemUserId, role) VALUES 
--- admin_user (ID 1) gets 'admin' and 'learner'
-(1, 'admin'),
-(1, 'learner'),
--- alice (ID 2) gets 'learner'
-(2, 'learner'),
--- jane (ID 3) gets 'teacher' and 'learner'
-(3, 'teacher'),
-(3, 'learner');
 -- Insert into LearningStep
 INSERT INTO LearningStep (step_order, course_id, step_type, content) VALUES
 (1, 1, 1, 'Introduction to the Roman Empire.'),

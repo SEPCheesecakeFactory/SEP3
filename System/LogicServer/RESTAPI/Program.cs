@@ -32,12 +32,12 @@ builder.Services.AddEndpointsApiExplorer();
 var host = "localhost";
 var port = 9090;
 
-builder.Services.AddScoped<IRepositoryID<Entities.Course, int>>(sp => new gRPCCourseRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Course, int>>(sp => new gRPCCourseRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
-builder.Services.AddScoped<IRepositoryID<Entities.User, int>>(sp => new gRPCUserRepository(host, port));
-builder.Services.AddScoped<IAuthService, RESTAPI.Services.AuthService>();
+builder.Services.AddScoped<IRepositoryID<User, int>>(sp => new gRPCUserRepository(host, port));
+builder.Services.AddScoped<IAuthService, SecureAuthService>();
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
     options.MapInboundClaims = false;
