@@ -79,11 +79,11 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         var roles = new List<BlazorApp.Entities.Role>();
         if (isLearner)
         {
-            roles.Add(new BlazorApp.Entities.Role { RoleName = "Learner" });
+            roles.Add(new BlazorApp.Entities.Role { RoleName = "learner" });
         }
         if (isTeacher)
         {
-            roles.Add(new BlazorApp.Entities.Role { RoleName = "Teacher" });
+            roles.Add(new BlazorApp.Entities.Role { RoleName = "teacher" });
         }
 
         RegisterRequest registerRequest = new RegisterRequest

@@ -74,6 +74,37 @@ public final class DataRetrievalServiceGrpc {
     return getGetUsersMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.AddUserRequest,
+      via.sep3.dataserver.grpc.AddUserResponse> getAddUserMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AddUser",
+      requestType = via.sep3.dataserver.grpc.AddUserRequest.class,
+      responseType = via.sep3.dataserver.grpc.AddUserResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.AddUserRequest,
+      via.sep3.dataserver.grpc.AddUserResponse> getAddUserMethod() {
+    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.AddUserRequest, via.sep3.dataserver.grpc.AddUserResponse> getAddUserMethod;
+    if ((getAddUserMethod = DataRetrievalServiceGrpc.getAddUserMethod) == null) {
+      synchronized (DataRetrievalServiceGrpc.class) {
+        if ((getAddUserMethod = DataRetrievalServiceGrpc.getAddUserMethod) == null) {
+          DataRetrievalServiceGrpc.getAddUserMethod = getAddUserMethod =
+              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.AddUserRequest, via.sep3.dataserver.grpc.AddUserResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AddUser"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.AddUserRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.AddUserResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("AddUser"))
+              .build();
+        }
+      }
+    }
+    return getAddUserMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -150,6 +181,13 @@ public final class DataRetrievalServiceGrpc {
         io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetUsersResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetUsersMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void addUser(via.sep3.dataserver.grpc.AddUserRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.AddUserResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddUserMethod(), responseObserver);
+    }
   }
 
   /**
@@ -194,6 +232,14 @@ public final class DataRetrievalServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetUsersMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void addUser(via.sep3.dataserver.grpc.AddUserRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.AddUserResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getAddUserMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -225,6 +271,13 @@ public final class DataRetrievalServiceGrpc {
       return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
           getChannel(), getGetUsersMethod(), getCallOptions(), request);
     }
+
+    /**
+     */
+    public via.sep3.dataserver.grpc.AddUserResponse addUser(via.sep3.dataserver.grpc.AddUserRequest request) throws io.grpc.StatusException {
+      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
+          getChannel(), getAddUserMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -255,6 +308,13 @@ public final class DataRetrievalServiceGrpc {
     public via.sep3.dataserver.grpc.GetUsersResponse getUsers(via.sep3.dataserver.grpc.GetUsersRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetUsersMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public via.sep3.dataserver.grpc.AddUserResponse addUser(via.sep3.dataserver.grpc.AddUserRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getAddUserMethod(), getCallOptions(), request);
     }
   }
 
@@ -289,10 +349,19 @@ public final class DataRetrievalServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetUsersMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.AddUserResponse> addUser(
+        via.sep3.dataserver.grpc.AddUserRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getAddUserMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_COURSES = 0;
   private static final int METHODID_GET_USERS = 1;
+  private static final int METHODID_ADD_USER = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -318,6 +387,10 @@ public final class DataRetrievalServiceGrpc {
         case METHODID_GET_USERS:
           serviceImpl.getUsers((via.sep3.dataserver.grpc.GetUsersRequest) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetUsersResponse>) responseObserver);
+          break;
+        case METHODID_ADD_USER:
+          serviceImpl.addUser((via.sep3.dataserver.grpc.AddUserRequest) request,
+              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.AddUserResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -351,6 +424,13 @@ public final class DataRetrievalServiceGrpc {
               via.sep3.dataserver.grpc.GetUsersRequest,
               via.sep3.dataserver.grpc.GetUsersResponse>(
                 service, METHODID_GET_USERS)))
+        .addMethod(
+          getAddUserMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              via.sep3.dataserver.grpc.AddUserRequest,
+              via.sep3.dataserver.grpc.AddUserResponse>(
+                service, METHODID_ADD_USER)))
         .build();
   }
 
@@ -401,6 +481,7 @@ public final class DataRetrievalServiceGrpc {
               .setSchemaDescriptor(new DataRetrievalServiceFileDescriptorSupplier())
               .addMethod(getGetCoursesMethod())
               .addMethod(getGetUsersMethod())
+              .addMethod(getAddUserMethod())
               .build();
         }
       }

@@ -32,8 +32,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IRepository<Entities.Course>>(sp => new gRPCCourseRepository("localhost", 9090));
 
 // Register in-memory user repository for testing and seed data
-builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
-// builder.Services.AddScoped<IRepository<Entities.User>>(sp => new gRPCUserRepository("localhost", 9090));
+// builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
+builder.Services.AddScoped<IRepository<Entities.User>>(sp => new gRPCUserRepository("localhost", 9090));
 
 builder.Services.AddScoped<IAuthService, RESTAPI.Services.AuthService>();
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
