@@ -17,64 +17,102 @@
 else
 {
     <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-        
-        <!-- HEADER: Close Button & Progress Bar -->
+
         <div class="d-flex align-items-center mb-5 pt-2">
-            <!-- Navigate back to Home -->
             <a href="/" class="btn btn-link text-secondary p-0 me-4">
                 <i class="fas fa-times fa-2x"></i>
             </a>
-            
+
             <div class="progress w-100" style="height: 16px;">
-                <!-- Mock progress calculation (StepOrder * 10%) just for visualization since Total is unknown -->
                 <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
             </div>
         </div>
 
-        <!-- MAIN CONTENT: Centered View -->
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
-            
-            <!-- Title (Use Step Title if available, else generic) -->
+
             <h2 class="fw-bolder mb-5 text-center text-dark fs-1">
                 @($"Step {StepOrder}")
             </h2>
 
-            <!-- Dynamic Content Rendering based on Type -->
-            @if (currentStep.StepType?.ToLower() == "image")
+            @if (IsMultipleChoiceQuestion)
+            {
+                <div class="card w-100 border-2 rounded-4 p-4 shadow-sm">
+                    <h4 class="fw-bold mb-4 text-center">@McQuestion</h4>
+
+                    @foreach (var option in ShuffledOptions)
+                    {
+                        <button class="btn btn-outline-success w-100 mb-3"
+                                @onclick="() => SelectMcOption(option)">
+                            @option
+                        </button>
+                    }
+
+                    @if (McAnswered)
+                    {
+                        <div class="alert @(McCorrect ? "alert-success" : "alert-danger") text-center mt-3">
+                            @(McCorrect ? "Correct!" : "Incorrect!")
+                        </div>
+                    }
+                </div>
+            }
+            else if (IsFillBlankQuestion)
+            {
+                <div class="card w-100 border-2 rounded-4 p-4 shadow-sm text-center">
+                    <h4 class="fw-bold mb-4">@FillQuestion</h4>
+
+                    <input class="form-control form-control-lg mb-3"
+                           @bind="FillAnswer"
+                           placeholder="Type your answer..." />
+
+                    <button class="btn btn-primary px-4"
+                            @onclick="CheckFillAnswer">
+                        SUBMIT
+                    </button>
+
+                    @if (FillAnswered)
+                    {
+                        <div class="alert @(FillCorrect ? "alert-success" : "alert-danger") text-center mt-3">
+                            @(FillCorrect ? "Correct!" : "Try again!")
+                        </div>
+                    }
+                </div>
+            }
+            else if (string.Equals(currentStep?.StepType, "image", StringComparison.OrdinalIgnoreCase))
             {
                 <div class="w-100 text-center mb-4">
-                    <img src="@currentStep.Content" class="img-fluid rounded-4 border border-2" alt="visual" style="max-height:400px;">
+                    <img src="@currentStep!.Content!" class="img-fluid rounded-4 border border-2" alt="visual" style="max-height:400px;">
                 </div>
             }
-            else if (currentStep.StepType?.ToLower() == "video")
+            else if (currentStep?.Content?.Contains("youtube.com") == true ||
+                     currentStep?.Content?.Contains("youtu.be") == true)
             {
-                <div class="ratio ratio-16x9 bg-dark rounded-4 border border-2 mb-4">
-                    <div class="d-flex align-items-center justify-content-center h-100">
-                        <i class="fas fa-play-circle text-white fa-4x"></i>
-                    </div>
+                <div class="ratio ratio-16x9 mb-4 rounded-4 overflow-hidden border border-2">
+                    <iframe
+                        src="@GetYouTubeEmbedUrl(currentStep!.Content!)"
+                        frameborder="0"
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                    </iframe>
                 </div>
             }
-            else // Default to Text Card
+            else
             {
                 <div class="card w-100 border-2 rounded-4 p-5 text-center shadow-sm">
                     <p class="fs-3 text-secondary mb-0 lh-base">
-                        @currentStep.Content
+                        @(currentStep?.Content ?? "")
                     </p>
                 </div>
             }
         </div>
 
-        <!-- FOOTER: Navigation Buttons -->
         <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
-            <!-- Previous Button -->
-            <button class="btn btn-outline-secondary px-4 py-3 border-2" 
-                    @onclick="GoPrevious" 
+            <button class="btn btn-outline-secondary px-4 py-3 border-2"
+                    @onclick="GoPrevious"
                     disabled="@(StepOrder <= 1)">
                 PREVIOUS
             </button>
 
-            <!-- Next Button -->
-            <button class="btn btn-primary px-5 py-3 text-white" 
+            <button class="btn btn-primary px-5 py-3 text-white"
                     @onclick="GoNext">
                 NEXT
             </button>
@@ -88,17 +126,71 @@ else
 
     private LearningStep? currentStep;
 
-    // Re-fetch data when parameters change (e.g., clicking Next)
+    private bool IsMultipleChoiceQuestion => currentStep?.Content?.StartsWith("QUESTION_MC|") == true;
+    private bool IsFillBlankQuestion => currentStep?.Content?.StartsWith("QUESTION_FILL|") == true;
+
+    private string McQuestion = "";
+    private List<string> ShuffledOptions = new();
+    private string CorrectMcAnswer = "";
+    private bool McAnswered = false;
+    private bool McCorrect = false;
+
+    private string FillQuestion = "";
+    private string FillCorrectAnswer = "";
+    private string FillAnswer = "";
+    private bool FillAnswered = false;
+    private bool FillCorrect = false;
+
     protected override async Task OnParametersSetAsync()
     {
         try
         {
             currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+            if (currentStep?.Content != null)
+            {
+                ParseQuestion(currentStep.Content);
+            }
         }
         catch (Exception ex)
         {
             Console.Error.WriteLine($"Error fetching step: {ex.Message}");
         }
+    }
+
+    private void ParseQuestion(string content)
+    {
+        McAnswered = false;
+        FillAnswered = false;
+
+        if (IsMultipleChoiceQuestion)
+        {
+            var parts = content.Split('|');
+            McQuestion = parts[1];
+            CorrectMcAnswer = parts[2];
+            ShuffledOptions = parts.Skip(2).OrderBy(x => Guid.NewGuid()).ToList();
+        }
+        else if (IsFillBlankQuestion)
+        {
+            var parts = content.Split('|');
+            FillQuestion = parts[1];
+            FillCorrectAnswer = parts[2];
+        }
+    }
+
+    private void SelectMcOption(string option)
+    {
+        McAnswered = true;
+        McCorrect = option == CorrectMcAnswer;
+    }
+
+    private void CheckFillAnswer()
+    {
+        FillAnswered = true;
+        FillCorrect = string.Equals(
+            FillAnswer.Trim(),
+            FillCorrectAnswer.Trim(),
+            StringComparison.OrdinalIgnoreCase
+        );
     }
 
     private void GoPrevious()
@@ -111,7 +203,25 @@ else
 
     private void GoNext()
     {
-        // In a real app, you'd check TotalSteps here to determine if finished
         NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
+    }
+
+    private string GetYouTubeEmbedUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return "";
+
+        if (url.Contains("watch?v="))
+        {
+            return url.Replace("watch?v=", "embed/");
+        }
+
+        if (url.Contains("youtu.be"))
+        {
+            var id = url.Split('/').Last();
+            return $"https://www.youtube.com/embed/{id}";
+        }
+
+        return url;
     }
 }

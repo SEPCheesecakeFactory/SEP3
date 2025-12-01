@@ -58,31 +58,35 @@ Here you can browse interesting posts.
     <div class="row g-3">
         @foreach (var course in group)
                 {
-        <div class="col-md-6 col-lg-4">
-            <!-- Card: Using 'card-course' class from app.css -->
-            <div class="card card-course h-100 text-center bg-white @GetBorderClass(course.Category)"
-                style="--course-color: var(--game-gray);" @onclick="() => OpenCourse(course)">
+                    <div class="col-md-6 col-lg-4">
+                        <!-- Card: Using 'card-course' class from app.css -->
+                        <div class="card card-course h-100 text-center bg-white @GetBorderClass(course.Category ?? "")"
+                            style="--course-color: var(--game-gray);"
+                            @onclick="() => OpenCourse(course)">
 
-                <!-- Top Color Strip -->
-                <div class="w-100 @GetBgClass(course.Category)" style="height: 10px;"></div>
+                            <!-- Top Color Strip -->
+                            <div class="w-100 @GetBgClass(course.Category ?? "")" style="height: 10px;"></div>
 
-                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                    <!-- Icon -->
-                    <i class="@GetIconClass(course.Category) fa-3x mb-4 @GetTextClass(course.Category)"></i>
+                            <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1">
+                                <!-- Icon -->
+                                <i class="@GetIconClass(course.Category ?? "") fa-3x mb-4 @GetTextClass(course.Category ?? "")"></i>
 
-                    <!-- Title -->
-                    <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
+                                <!-- Title -->
+                                <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
 
-                    <!-- Description -->
-                    <small class="text-muted fw-bold text-uppercase mt-2"
-                        style="font-size: 0.75rem; letter-spacing: 1px;">
-                        @course.Description
-                        @if (!string.IsNullOrEmpty(course.Language))
-                                                {
-                        <span class="mx-1">• @course.Language</span>
-                                                }
-                    </small>
-                </div>
+                                <!-- Description -->
+                                <small class="text-muted fw-bold text-uppercase mt-2"
+                                    style="font-size: 0.75rem; letter-spacing: 1px;">
+                                    @course.Description
+                                    @if (!string.IsNullOrEmpty(course.Language))
+                                    {
+                                        <span class="mx-1">• @course.Language</span>
+                                    }
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
                 }
@@ -92,7 +96,7 @@ Here you can browse interesting posts.
 </div>
 
 @code {
-    private List<Course> courses;
+    private List<Course> courses =new();
 
     protected override async Task OnInitializedAsync()
     {

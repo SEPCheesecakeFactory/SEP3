@@ -104,3 +104,28 @@ INSERT INTO LearningStep (step_order, course_id, step_type, content) VALUES
 (1, 1, 1, 'Introduction to the Roman Empire.'),
 (2, 1, 2, 'https://www.youtube.com/watch?v=46ZXl-V4qwY'),
 (3, 1, 1, 'The fall of the Roman Empire and its legacy.');
+ 
+-- Questions --
+UPDATE LearningStep
+SET step_order = 5
+WHERE course_id = 1 AND step_order = 3;
+UPDATE LearningStep
+SET step_order = 3
+WHERE course_id = 1 AND step_order = 2;
+
+INSERT INTO LearningStepType (id, name)
+VALUES (3, 'Question');
+
+INSERT INTO LearningStep (step_order, course_id, step_type, content)
+VALUES (
+    2,
+    1,
+    3,
+    'QUESTION_MC|Who was the first Emperor of the Roman Empire?|Augustus|Julius Caesar|Nero|Tiberius'
+);
+
+INSERT INTO LearningStep (step_order, course_id, step_type, content)
+VALUES (
+    4, 1, 3,
+    'QUESTION_FILL|The capital city of the Roman Empire was ___ .|Rome'
+);
