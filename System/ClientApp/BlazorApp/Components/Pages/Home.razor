@@ -20,11 +20,7 @@
 
     @if (courses == null)
     {
-        <div class="d-flex justify-content-center mt-5">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
+        <LoadingSpinner />
     }
     else if (!courses.Any())
     {
@@ -123,7 +119,8 @@
 
     private string GetIconClass(string category) => (category?.ToLower()) switch
     {
-        "computer science" => "fa-brands fa-python",
+        "computer science" => "fa-brands fa-git-alt",
+        "software engineering" => "fa-brands fa-git-alt",
         "math" => "fas fa-calculator",
         "history" => "fas fa-landmark",
         "languages" => "fas fa-language",

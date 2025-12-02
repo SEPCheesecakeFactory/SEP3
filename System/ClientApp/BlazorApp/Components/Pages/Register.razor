@@ -9,56 +9,71 @@
 <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="card bg-white p-5" style="max-width: 500px; width: 100%; --course-color: var(--game-gray);">
         <div class="text-center mb-4">
-             <h3 class="fw-bolder text-secondary text-uppercase" style="letter-spacing:0.5px">Register</h3>
+            <h3 class="fw-bolder text-secondary text-uppercase" style="letter-spacing:0.5px">Register</h3>
         </div>
 
         <AuthorizeView>
             <NotAuthorized>
-                <div class="mb-3">
-                    <label class="form-label fw-bold text-muted text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">User name</label>
-                    <input type="text" class="form-control" @bind="userName" />
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold text-muted text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">Password</label>
-                        <input type="password" class="form-control" @bind="password" />
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold text-muted text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">Repeat Password</label>
-                        <input type="password" class="form-control" @bind="passwordRepeat" />
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold text-muted text-uppercase d-block" style="font-size: 0.75rem; letter-spacing: 1px;">Roles</label>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="learnerCheck" @bind="isLearner">
-                        <label class="form-check-label" for="learnerCheck">Learner</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="teacherCheck" @bind="isTeacher">
-                        <label class="form-check-label" for="teacherCheck">Teacher</label>
-                    </div>
-                </div>
-
-                @if (!string.IsNullOrEmpty(errorLabel))
+                @if (isLoading)
                 {
-                    <div class="alert alert-danger" role="alert">
-                        @errorLabel
+                    <LoadingSpinner />
+                }
+                else
+                {
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted text-uppercase"
+                            style="font-size: 0.75rem; letter-spacing: 1px;">User name</label>
+                        <input type="text" class="form-control" @bind="userName" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold text-muted text-uppercase"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">Password</label>
+                            <input type="password" class="form-control" @bind="password" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold text-muted text-uppercase"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">Repeat Password</label>
+                            <input type="password" class="form-control" @bind="passwordRepeat" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted text-uppercase d-block"
+                            style="font-size: 0.75rem; letter-spacing: 1px;">Roles</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="learnerCheck" @bind="isLearner">
+                            <label class="form-check-label" for="learnerCheck">Learner</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="teacherCheck" @bind="isTeacher">
+                            <label class="form-check-label" for="teacherCheck">Teacher</label>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(errorLabel))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @errorLabel
+                        </div>
+                    }
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-primary fw-bold text-uppercase" style="letter-spacing: 1px;"
+                            @onclick="async () => await RegisterAsync()">Register</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="login" class="text-muted text-decoration-none" style="font-size: 0.8rem;">Already have an
+                            account? Login</a>
                     </div>
                 }
-
-                <div class="d-grid gap-2 mt-4">
-                    <button class="btn btn-primary fw-bold text-uppercase" style="letter-spacing: 1px;" @onclick="async () => await RegisterAsync()">Register</button>
-                </div>
-                 <div class="text-center mt-3">
-                     <a href="login" class="text-muted text-decoration-none" style="font-size: 0.8rem;">Already have an account? Login</a>
-                </div>
             </NotAuthorized>
             <Authorized>
                 <div class="text-center">
-                    <h3 class="fw-bolder text-dark">Hello, @context.User.Claims.First(claim => claim.Type.Equals("Username")).Value</h3>
-                     <button class="btn btn-outline-secondary mt-3" @onclick='() => navMgr.NavigateTo("/")'>Go Home</button>
+                    <h3 class="fw-bolder text-dark">Hello, @context.User.Claims.First(claim =>
+                                                claim.Type.Equals("Username")).Value</h3>
+                    <button class="btn btn-outline-secondary mt-3" @onclick='() => navMgr.NavigateTo("/")'>Go
+                        Home</button>
                 </div>
             </Authorized>
         </AuthorizeView>
@@ -68,22 +83,26 @@
 @code {
     private string userName = "";
     private string password = "";
-    private string passwordRepeat="";
+    private string passwordRepeat = "";
     private string errorLabel = "";
-    private bool isLearner=false;
-    private bool isTeacher=false;
+    private bool isLearner = false;
+    private bool isTeacher = false;
+    private bool isLoading = false;
     private async Task RegisterAsync()
     {
+        isLoading = true;
         errorLabel = "";
         try
         {
             await authService.RegisterAsync(userName, password, passwordRepeat, isLearner, isTeacher);
             navMgr.NavigateTo("/");
+            isLoading = false;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             errorLabel = $"Error: {e.Message}";
+            isLoading = false;
         }
     }
 }

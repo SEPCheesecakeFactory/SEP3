@@ -10,7 +10,7 @@ public class DummyLearningStepService : ILearningStepService
         {
             CourseId = courseId,
             StepOrder = stepOrder,
-            StepType = "Video",
+            Type = "Video",
             Content = "Dummy content: later replaced with real data."
         });
     }
