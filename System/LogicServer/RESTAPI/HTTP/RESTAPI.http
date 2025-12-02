@@ -109,5 +109,16 @@ Content-Type: application/json
   "TeacherId": 1
 }
 ### Get Draft by ID
-GET {{baseURL}}/Drafts/2
+GET {{baseURL}}/drafts/2
 Accept: application/json
+
+### Add Draft
+POST {{baseURL}}/drafts
+Content-Type: application/json
+
+{
+  "Language": "C#",
+  "Title": "Advanced C#",
+  "Description": "Deep dive into C#",
+  "TeacherId": 1
+}
