@@ -125,6 +125,50 @@ main {
 }
 .btn-primary:hover { background-color: #61e002; color: white; filter: brightness(1.1); }
 .btn-primary:active { transform: translateY(4px); box-shadow: none; margin-bottom: 0; margin-top: 4px; }
+.btn-primary:disabled {
+  background-color: white;
+  color: var(--gray);
+  border: 2px solid var(--gray);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+  opacity: 1;
+}
+.btn-primary:focus:active { 
+  background-color: var(--green) !important; 
+  border-color: transparent !important;
+  transform: translateY(4px); 
+  box-shadow: none !important; 
+  margin-bottom: 0; 
+  margin-top: 4px; 
+}
+.btn-primary:focus {
+  background-color: var(--green);
+  border-color: transparent;
+  box-shadow: 0 4px 0 var(--green-shadow); 
+}
+
+.btn-error {
+  background-color: var(--red);
+  box-shadow: 0 4px 0 var(--red-shadow);
+  color: white;
+}
+.btn-error:hover { background-color: #ff5c5c; color: white; filter: brightness(1.1); }
+.btn-error:active,
+.btn-error:focus:active {
+  background-color: var(--red) !important;
+  border-color: transparent !important;
+  transform: translateY(4px);
+  box-shadow: none !important;
+  margin-bottom: 0;
+  margin-top: 4px;
+}
+.btn-error:focus {
+  background-color: var(--red);
+  border-color: transparent;
+  box-shadow: 0 4px 0 var(--red-shadow);
+}
 
 .btn-outline-secondary {
   background: white;
