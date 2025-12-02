@@ -12,6 +12,8 @@ import via.sep3.dataserver.data.Course;
 import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.LearningStep;
 import via.sep3.dataserver.data.LearningStepRepository;
+import via.sep3.dataserver.data.LearningStepType;
+import via.sep3.dataserver.data.LearningStepTypeRepository;
 import via.sep3.dataserver.data.Role;
 import via.sep3.dataserver.data.RoleRepository;
 import via.sep3.dataserver.data.SystemUser;
@@ -42,6 +44,9 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
   @Autowired
   private LearningStepRepository learningStepRepository;
+
+  @Autowired
+  private LearningStepTypeRepository learningStepTypeRepository;
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -212,7 +217,36 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
         return;
       }
 
-      step.setContent(grpcStep.getContent());
+      // if step type null or empty, keep existing type
+      if (grpcStep.getType() != null && !grpcStep.getType().isEmpty()) {
+        via.sep3.dataserver.data.LearningStepType stepType = learningStepTypeRepository
+            .findByName(grpcStep.getType());
+        if (stepType == null) {
+          responseObserver.onError(
+              io.grpc.Status.NOT_FOUND
+                  .withDescription("Learning step type not found: " + grpcStep.getType())
+                  .asRuntimeException());
+          return;
+        }
+        step.setStepType(stepType);
+      }
+
+      LearningStepType newStepType;
+      try
+      {
+        newStepType = learningStepTypeRepository
+          .findByName(grpcStep.getType());
+      }
+      catch (Exception e)
+      {
+        responseObserver.onError(
+          io.grpc.Status.NOT_FOUND
+            .withDescription("Learning step type not found: " + grpcStep.getType())
+            .asRuntimeException());
+        return;
+      }
+      step.setStepType(newStepType);
+      step.setContent(grpcStep.getContent());      
       learningStepRepository.save(step);
 
       responseObserver.onNext(via.sep3.dataserver.grpc.UpdateLearningStepResponse.newBuilder()

@@ -54,7 +54,7 @@ namespace RESTAPI.Controllers
             try
             {
                 await _repository.UpdateAsync(entity);
-                return NoContent();
+                return Ok(_repository.GetSingleAsync(parsedId).Result);
             }
             catch
             {
