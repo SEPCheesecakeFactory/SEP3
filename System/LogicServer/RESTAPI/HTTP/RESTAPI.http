@@ -86,9 +86,7 @@ Content-Type: application/json
   ]
 }
 
-### Get Draft by ID
-GET {{baseURL}}/Drafts/2
-Accept: application/json
+
 ### Test edit learning step
 PUT {{baseURL}}/learningsteps/1_1
 Content-Type: application/json
@@ -99,3 +97,17 @@ Content-Type: application/json
   "type": "Text",
   "content": "Introduction to the Roman Empire. v123"  
 }
+
+### Add Draft
+POST {{baseURL}}/drafts
+Content-Type: application/json
+
+{
+  "Language": "C#",
+  "Title": "Advanced C#",
+  "Description": "Deep dive into C#",
+  "TeacherId": 1
+}
+### Get Draft by ID
+GET {{baseURL}}/Drafts/2
+Accept: application/json

@@ -14,6 +14,10 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Entitie
 
     public override Task<Entities.Draft> AddAsync(Entities.Draft entity)
     {
+        throw new NotImplementedException(); //dont use this method
+    }
+    public Task<Entities.Draft> AddAsync2(Entities.CreateDraftDto entity)
+    {
         throw new NotImplementedException();
     }
 
@@ -29,9 +33,9 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Entitie
 
     public override async Task<Entities.Draft> GetSingleAsync(int id)
     {
-        
-        var response = await Client.GetDraftAsync(new GetDraftRequest { DraftId = id} ) ?? throw new KeyNotFoundException($"Draft with id {id} not found.");
-        
+
+        var response = await Client.GetDraftAsync(new GetDraftRequest { DraftId = id }) ?? throw new KeyNotFoundException($"Draft with id {id} not found.");
+
         return new Entities.Draft
         {
             Id = response.CourseDraft.Id,
