@@ -136,66 +136,35 @@ public final class DataRetrievalServiceGrpc {
     return getGetLearningStepMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.AddDraftRequest,
-      via.sep3.dataserver.grpc.AddDraftResponse> getAddDraftMethod;
+  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.UpdateLearningStepRequest,
+      via.sep3.dataserver.grpc.UpdateLearningStepResponse> getUpdateLearningStepMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "AddDraft",
-      requestType = via.sep3.dataserver.grpc.AddDraftRequest.class,
-      responseType = via.sep3.dataserver.grpc.AddDraftResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "UpdateLearningStep",
+      requestType = via.sep3.dataserver.grpc.UpdateLearningStepRequest.class,
+      responseType = via.sep3.dataserver.grpc.UpdateLearningStepResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.AddDraftRequest,
-      via.sep3.dataserver.grpc.AddDraftResponse> getAddDraftMethod() {
-    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.AddDraftRequest, via.sep3.dataserver.grpc.AddDraftResponse> getAddDraftMethod;
-    if ((getAddDraftMethod = DataRetrievalServiceGrpc.getAddDraftMethod) == null) {
+  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.UpdateLearningStepRequest,
+      via.sep3.dataserver.grpc.UpdateLearningStepResponse> getUpdateLearningStepMethod() {
+    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.UpdateLearningStepRequest, via.sep3.dataserver.grpc.UpdateLearningStepResponse> getUpdateLearningStepMethod;
+    if ((getUpdateLearningStepMethod = DataRetrievalServiceGrpc.getUpdateLearningStepMethod) == null) {
       synchronized (DataRetrievalServiceGrpc.class) {
-        if ((getAddDraftMethod = DataRetrievalServiceGrpc.getAddDraftMethod) == null) {
-          DataRetrievalServiceGrpc.getAddDraftMethod = getAddDraftMethod =
-              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.AddDraftRequest, via.sep3.dataserver.grpc.AddDraftResponse>newBuilder()
+        if ((getUpdateLearningStepMethod = DataRetrievalServiceGrpc.getUpdateLearningStepMethod) == null) {
+          DataRetrievalServiceGrpc.getUpdateLearningStepMethod = getUpdateLearningStepMethod =
+              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.UpdateLearningStepRequest, via.sep3.dataserver.grpc.UpdateLearningStepResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AddDraft"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "UpdateLearningStep"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.AddDraftRequest.getDefaultInstance()))
+                  via.sep3.dataserver.grpc.UpdateLearningStepRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.AddDraftResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("AddDraft"))
+                  via.sep3.dataserver.grpc.UpdateLearningStepResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("UpdateLearningStep"))
               .build();
         }
       }
     }
-    return getAddDraftMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.GetDraftRequest,
-      via.sep3.dataserver.grpc.GetDraftResponse> getGetDraftMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetDraft",
-      requestType = via.sep3.dataserver.grpc.GetDraftRequest.class,
-      responseType = via.sep3.dataserver.grpc.GetDraftResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.GetDraftRequest,
-      via.sep3.dataserver.grpc.GetDraftResponse> getGetDraftMethod() {
-    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.GetDraftRequest, via.sep3.dataserver.grpc.GetDraftResponse> getGetDraftMethod;
-    if ((getGetDraftMethod = DataRetrievalServiceGrpc.getGetDraftMethod) == null) {
-      synchronized (DataRetrievalServiceGrpc.class) {
-        if ((getGetDraftMethod = DataRetrievalServiceGrpc.getGetDraftMethod) == null) {
-          DataRetrievalServiceGrpc.getGetDraftMethod = getGetDraftMethod =
-              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.GetDraftRequest, via.sep3.dataserver.grpc.GetDraftResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetDraft"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.GetDraftRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sep3.dataserver.grpc.GetDraftResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("GetDraft"))
-              .build();
-        }
-      }
-    }
-    return getGetDraftMethod;
+    return getUpdateLearningStepMethod;
   }
 
   /**
@@ -280,7 +249,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     default void getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request,
@@ -296,20 +265,10 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     * <pre>
-     *drafts
-     * </pre>
      */
-    default void addDraft(via.sep3.dataserver.grpc.AddDraftRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.AddDraftResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddDraftMethod(), responseObserver);
-    }
-
-    /**
-     */
-    default void getDraft(via.sep3.dataserver.grpc.GetDraftRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetDraftResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetDraftMethod(), responseObserver);
+    default void updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateLearningStepMethod(), responseObserver);
     }
   }
 
@@ -361,7 +320,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public void getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request,
@@ -379,22 +338,11 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     * <pre>
-     *drafts
-     * </pre>
      */
-    public void addDraft(via.sep3.dataserver.grpc.AddDraftRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.AddDraftResponse> responseObserver) {
+    public void updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getAddDraftMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void getDraft(via.sep3.dataserver.grpc.GetDraftRequest request,
-        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetDraftResponse> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetDraftMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getUpdateLearningStepMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -433,7 +381,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public via.sep3.dataserver.grpc.GetCoursesResponse getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request) throws io.grpc.StatusException {
@@ -449,20 +397,10 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     * <pre>
-     *drafts
-     * </pre>
      */
-    public via.sep3.dataserver.grpc.AddDraftResponse addDraft(via.sep3.dataserver.grpc.AddDraftRequest request) throws io.grpc.StatusException {
+    public via.sep3.dataserver.grpc.UpdateLearningStepResponse updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request) throws io.grpc.StatusException {
       return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
-          getChannel(), getAddDraftMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public via.sep3.dataserver.grpc.GetDraftResponse getDraft(via.sep3.dataserver.grpc.GetDraftRequest request) throws io.grpc.StatusException {
-      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
-          getChannel(), getGetDraftMethod(), getCallOptions(), request);
+          getChannel(), getUpdateLearningStepMethod(), getCallOptions(), request);
     }
   }
 
@@ -501,7 +439,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public via.sep3.dataserver.grpc.GetCoursesResponse getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request) {
@@ -517,20 +455,10 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     * <pre>
-     *drafts
-     * </pre>
      */
-    public via.sep3.dataserver.grpc.AddDraftResponse addDraft(via.sep3.dataserver.grpc.AddDraftRequest request) {
+    public via.sep3.dataserver.grpc.UpdateLearningStepResponse updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getAddDraftMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public via.sep3.dataserver.grpc.GetDraftResponse getDraft(via.sep3.dataserver.grpc.GetDraftRequest request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetDraftMethod(), getCallOptions(), request);
+          getChannel(), getUpdateLearningStepMethod(), getCallOptions(), request);
     }
   }
 
@@ -571,7 +499,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.GetCoursesResponse> getCourses(
@@ -589,22 +517,11 @@ public final class DataRetrievalServiceGrpc {
     }
 
     /**
-     * <pre>
-     *drafts
-     * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.AddDraftResponse> addDraft(
-        via.sep3.dataserver.grpc.AddDraftRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.UpdateLearningStepResponse> updateLearningStep(
+        via.sep3.dataserver.grpc.UpdateLearningStepRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getAddDraftMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.GetDraftResponse> getDraft(
-        via.sep3.dataserver.grpc.GetDraftRequest request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetDraftMethod(), getCallOptions()), request);
+          getChannel().newCall(getUpdateLearningStepMethod(), getCallOptions()), request);
     }
   }
 
@@ -612,8 +529,7 @@ public final class DataRetrievalServiceGrpc {
   private static final int METHODID_ADD_USER = 1;
   private static final int METHODID_GET_COURSES = 2;
   private static final int METHODID_GET_LEARNING_STEP = 3;
-  private static final int METHODID_ADD_DRAFT = 4;
-  private static final int METHODID_GET_DRAFT = 5;
+  private static final int METHODID_UPDATE_LEARNING_STEP = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -648,13 +564,9 @@ public final class DataRetrievalServiceGrpc {
           serviceImpl.getLearningStep((via.sep3.dataserver.grpc.GetLearningStepRequest) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLearningStepResponse>) responseObserver);
           break;
-        case METHODID_ADD_DRAFT:
-          serviceImpl.addDraft((via.sep3.dataserver.grpc.AddDraftRequest) request,
-              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.AddDraftResponse>) responseObserver);
-          break;
-        case METHODID_GET_DRAFT:
-          serviceImpl.getDraft((via.sep3.dataserver.grpc.GetDraftRequest) request,
-              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetDraftResponse>) responseObserver);
+        case METHODID_UPDATE_LEARNING_STEP:
+          serviceImpl.updateLearningStep((via.sep3.dataserver.grpc.UpdateLearningStepRequest) request,
+              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -703,19 +615,12 @@ public final class DataRetrievalServiceGrpc {
               via.sep3.dataserver.grpc.GetLearningStepResponse>(
                 service, METHODID_GET_LEARNING_STEP)))
         .addMethod(
-          getAddDraftMethod(),
+          getUpdateLearningStepMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
-              via.sep3.dataserver.grpc.AddDraftRequest,
-              via.sep3.dataserver.grpc.AddDraftResponse>(
-                service, METHODID_ADD_DRAFT)))
-        .addMethod(
-          getGetDraftMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
-            new MethodHandlers<
-              via.sep3.dataserver.grpc.GetDraftRequest,
-              via.sep3.dataserver.grpc.GetDraftResponse>(
-                service, METHODID_GET_DRAFT)))
+              via.sep3.dataserver.grpc.UpdateLearningStepRequest,
+              via.sep3.dataserver.grpc.UpdateLearningStepResponse>(
+                service, METHODID_UPDATE_LEARNING_STEP)))
         .build();
   }
 
@@ -768,8 +673,7 @@ public final class DataRetrievalServiceGrpc {
               .addMethod(getAddUserMethod())
               .addMethod(getGetCoursesMethod())
               .addMethod(getGetLearningStepMethod())
-              .addMethod(getAddDraftMethod())
-              .addMethod(getGetDraftMethod())
+              .addMethod(getUpdateLearningStepMethod())
               .build();
         }
       }

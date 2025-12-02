@@ -6,8 +6,8 @@
 package via.sep3.dataserver.grpc;
 
 @com.google.protobuf.Generated
-public interface SystemUserOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:SystemUser)
+public interface UserOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:User)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -29,16 +29,26 @@ public interface SystemUserOrBuilder extends
       getUsernameBytes();
 
   /**
-   * <code>string password_hash = 3;</code>
-   * @return The passwordHash.
+   * <pre>
+   * Merged: C# called this 'password', Java called this 'password_hash'. 
+   * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+   * </pre>
+   *
+   * <code>string password = 3;</code>
+   * @return The password.
    */
-  java.lang.String getPasswordHash();
+  java.lang.String getPassword();
   /**
-   * <code>string password_hash = 3;</code>
-   * @return The bytes for passwordHash.
+   * <pre>
+   * Merged: C# called this 'password', Java called this 'password_hash'. 
+   * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+   * </pre>
+   *
+   * <code>string password = 3;</code>
+   * @return The bytes for password.
    */
   com.google.protobuf.ByteString
-      getPasswordHashBytes();
+      getPasswordBytes();
 
   /**
    * <code>repeated .Role roles = 4;</code>

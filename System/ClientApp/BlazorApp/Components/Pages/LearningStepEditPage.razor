@@ -1,0 +1,198 @@
+﻿@page "/courses/{CourseId:int}/steps/{StepOrder:int}/edit"
+@using BlazorApp.Services
+@using BlazorApp.Entities
+@using Microsoft.AspNetCore.Authorization
+@using System.Text.Json
+@inject ILearningStepService StepService
+@inject NavigationManager NavManager
+
+<AuthorizeView>
+    <Authorized>
+        @if (Utils.AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value).Contains("teacher"))
+        {
+            <PageTitle>Learning Step @StepOrder</PageTitle>
+
+            @if (currentStep == null || isLoading || wasError)
+            {
+                @if (isLoading)
+                {
+                    <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
+                        <LoadingSpinner />
+                    </div>
+                }
+                else if (wasError)
+                {
+                    <div class="alert alert-danger mt-5 mx-auto" role="alert" style="max-width: 600px;">
+                        An error occurred while loading the learning step. Please try again later.
+                    </div>
+                }
+                <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
+                    <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious"
+                        disabled="@(StepOrder <= 1)">
+                        PREVIOUS
+                    </button>
+                    <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoNext">
+                        NEXT
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
+                    <div class="d-flex align-items-center mb-4 pt-2">
+                        <a href="/" class="btn btn-link text-secondary p-0 me-4">
+                            <i class="fas fa-times fa-2x"></i>
+                        </a>
+                        <div class="progress w-100" style="height: 16px;">
+                            <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
+                        </div>
+                    </div>
+
+                    <div class="card p-4 shadow-sm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Step Type</label>
+                            <input type="text" class="form-control" @bind-value="currentStep.Type" @bind-value:event="oninput"
+                                placeholder="e.g. Video, Text, Quiz" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Content</label>
+                            <textarea class="form-control" style="min-height: 100px; overflow-y: hidden; resize: none;"
+                                @bind-value="currentStep.Content" @bind-value:event="oninput"
+                                placeholder="Enter learning content..."></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                <button class="btn btn-outline-secondary me-2" @onclick="GoPrevious"
+                                    disabled="@(StepOrder <= 1)">
+                                    Previous
+                                </button>
+                                <button class="btn btn-outline-secondary" @onclick="GoNext">
+                                    Next
+                                </button>
+                            </div>
+
+                            <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")" @onclick="Save"
+                                disabled="@(!IsDirty || isSaving)">
+                                @if (isSaving)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                }
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 mb-5">
+                        <button class="btn btn-outline-secondary" @onclick="BackToPreview">
+                            Back to Preview
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+                <div class="alert alert-warning" role="alert">
+                    You do not have permission to edit learning steps.
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+            <div class="alert alert-warning" role="alert">
+                You must be logged in to edit learning steps.
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter] public int CourseId { get; set; }
+    [Parameter] public int StepOrder { get; set; }
+
+    private LearningStep? currentStep;
+    private LearningStep? originalState;
+
+    private bool isLoading = true;
+    private bool isSaving = false;
+    private bool wasError = false;
+    private bool wasSavingError = false;
+
+    private bool IsDirty => currentStep != null && originalState != null &&
+    (currentStep.Type != originalState.Type ||
+    currentStep.Content != originalState.Content);
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        wasError = false;
+
+        try
+        {
+            var fetched = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+
+            originalState = fetched.DeepCopy();
+
+            currentStep = fetched.DeepCopy();
+        }
+        catch
+        {
+            wasError = true;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void GoPrevious()
+    {
+        if (StepOrder > 1)
+        {
+            NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder - 1}/edit");
+        }
+    }
+
+    private void GoNext()
+    {
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}/edit");
+    }
+
+    private async Task Save()
+    {
+        if (!IsDirty || currentStep == null) return;
+
+        isSaving = true;
+        try
+        {
+            await UploadEdit(CourseId, StepOrder, currentStep);
+
+            // Re-sync original state to new saved state to disable button
+            originalState = currentStep.DeepCopy();
+            wasSavingError = false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving: {ex.Message}");
+            wasSavingError = true;
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private async Task UploadEdit(int courseId, int stepOrder, LearningStep editedStep)
+    {
+        await StepService.UpdateLearningStepAsync(editedStep);
+    }
+
+    private void BackToPreview()
+    {
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}");
+    }
+}

@@ -6,13 +6,13 @@
 package via.sep3.dataserver.grpc;
 
 /**
- * Protobuf type {@code SystemUser}
+ * Protobuf type {@code User}
  */
 @com.google.protobuf.Generated
-public final class SystemUser extends
+public final class User extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:SystemUser)
-    SystemUserOrBuilder {
+    // @@protoc_insertion_point(message_implements:User)
+    UserOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21,29 +21,29 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      SystemUser.class.getName());
+      User.class.getName());
   }
-  // Use SystemUser.newBuilder() to construct.
-  private SystemUser(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use User.newBuilder() to construct.
+  private User(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private SystemUser() {
+  private User() {
     username_ = "";
-    passwordHash_ = "";
+    password_ = "";
     roles_ = java.util.Collections.emptyList();
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_SystemUser_descriptor;
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_User_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_SystemUser_fieldAccessorTable
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_User_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.sep3.dataserver.grpc.SystemUser.class, via.sep3.dataserver.grpc.SystemUser.Builder.class);
+            via.sep3.dataserver.grpc.User.class, via.sep3.dataserver.grpc.User.Builder.class);
   }
 
   public static final int ID_FIELD_NUMBER = 1;
@@ -96,39 +96,49 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int PASSWORD_HASH_FIELD_NUMBER = 3;
+  public static final int PASSWORD_FIELD_NUMBER = 3;
   @SuppressWarnings("serial")
-  private volatile java.lang.Object passwordHash_ = "";
+  private volatile java.lang.Object password_ = "";
   /**
-   * <code>string password_hash = 3;</code>
-   * @return The passwordHash.
+   * <pre>
+   * Merged: C# called this 'password', Java called this 'password_hash'. 
+   * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+   * </pre>
+   *
+   * <code>string password = 3;</code>
+   * @return The password.
    */
   @java.lang.Override
-  public java.lang.String getPasswordHash() {
-    java.lang.Object ref = passwordHash_;
+  public java.lang.String getPassword() {
+    java.lang.Object ref = password_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      passwordHash_ = s;
+      password_ = s;
       return s;
     }
   }
   /**
-   * <code>string password_hash = 3;</code>
-   * @return The bytes for passwordHash.
+   * <pre>
+   * Merged: C# called this 'password', Java called this 'password_hash'. 
+   * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+   * </pre>
+   *
+   * <code>string password = 3;</code>
+   * @return The bytes for password.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getPasswordHashBytes() {
-    java.lang.Object ref = passwordHash_;
+      getPasswordBytes() {
+    java.lang.Object ref = password_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      passwordHash_ = b;
+      password_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -196,8 +206,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(username_)) {
       com.google.protobuf.GeneratedMessage.writeString(output, 2, username_);
     }
-    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(passwordHash_)) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 3, passwordHash_);
+    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(password_)) {
+      com.google.protobuf.GeneratedMessage.writeString(output, 3, password_);
     }
     for (int i = 0; i < roles_.size(); i++) {
       output.writeMessage(4, roles_.get(i));
@@ -218,8 +228,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(username_)) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(2, username_);
     }
-    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(passwordHash_)) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(3, passwordHash_);
+    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(password_)) {
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(3, password_);
     }
     for (int i = 0; i < roles_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -235,17 +245,17 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.sep3.dataserver.grpc.SystemUser)) {
+    if (!(obj instanceof via.sep3.dataserver.grpc.User)) {
       return super.equals(obj);
     }
-    via.sep3.dataserver.grpc.SystemUser other = (via.sep3.dataserver.grpc.SystemUser) obj;
+    via.sep3.dataserver.grpc.User other = (via.sep3.dataserver.grpc.User) obj;
 
     if (getId()
         != other.getId()) return false;
     if (!getUsername()
         .equals(other.getUsername())) return false;
-    if (!getPasswordHash()
-        .equals(other.getPasswordHash())) return false;
+    if (!getPassword()
+        .equals(other.getPassword())) return false;
     if (!getRolesList()
         .equals(other.getRolesList())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -263,8 +273,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getId();
     hash = (37 * hash) + USERNAME_FIELD_NUMBER;
     hash = (53 * hash) + getUsername().hashCode();
-    hash = (37 * hash) + PASSWORD_HASH_FIELD_NUMBER;
-    hash = (53 * hash) + getPasswordHash().hashCode();
+    hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
+    hash = (53 * hash) + getPassword().hashCode();
     if (getRolesCount() > 0) {
       hash = (37 * hash) + ROLES_FIELD_NUMBER;
       hash = (53 * hash) + getRolesList().hashCode();
@@ -274,44 +284,44 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(byte[] data)
+  public static via.sep3.dataserver.grpc.User parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.User parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -319,26 +329,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.sep3.dataserver.grpc.SystemUser parseDelimitedFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.User parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.sep3.dataserver.grpc.SystemUser parseDelimitedFrom(
+  public static via.sep3.dataserver.grpc.User parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.SystemUser parseFrom(
+  public static via.sep3.dataserver.grpc.User parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -351,7 +361,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.sep3.dataserver.grpc.SystemUser prototype) {
+  public static Builder newBuilder(via.sep3.dataserver.grpc.User prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -367,26 +377,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code SystemUser}
+   * Protobuf type {@code User}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:SystemUser)
-      via.sep3.dataserver.grpc.SystemUserOrBuilder {
+      // @@protoc_insertion_point(builder_implements:User)
+      via.sep3.dataserver.grpc.UserOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_SystemUser_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_User_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_SystemUser_fieldAccessorTable
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_User_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.sep3.dataserver.grpc.SystemUser.class, via.sep3.dataserver.grpc.SystemUser.Builder.class);
+              via.sep3.dataserver.grpc.User.class, via.sep3.dataserver.grpc.User.Builder.class);
     }
 
-    // Construct using via.sep3.dataserver.grpc.SystemUser.newBuilder()
+    // Construct using via.sep3.dataserver.grpc.User.newBuilder()
     private Builder() {
 
     }
@@ -402,7 +412,7 @@ private static final long serialVersionUID = 0L;
       bitField0_ = 0;
       id_ = 0;
       username_ = "";
-      passwordHash_ = "";
+      password_ = "";
       if (rolesBuilder_ == null) {
         roles_ = java.util.Collections.emptyList();
       } else {
@@ -416,17 +426,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_SystemUser_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_User_descriptor;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.SystemUser getDefaultInstanceForType() {
-      return via.sep3.dataserver.grpc.SystemUser.getDefaultInstance();
+    public via.sep3.dataserver.grpc.User getDefaultInstanceForType() {
+      return via.sep3.dataserver.grpc.User.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.SystemUser build() {
-      via.sep3.dataserver.grpc.SystemUser result = buildPartial();
+    public via.sep3.dataserver.grpc.User build() {
+      via.sep3.dataserver.grpc.User result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -434,15 +444,15 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.SystemUser buildPartial() {
-      via.sep3.dataserver.grpc.SystemUser result = new via.sep3.dataserver.grpc.SystemUser(this);
+    public via.sep3.dataserver.grpc.User buildPartial() {
+      via.sep3.dataserver.grpc.User result = new via.sep3.dataserver.grpc.User(this);
       buildPartialRepeatedFields(result);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartialRepeatedFields(via.sep3.dataserver.grpc.SystemUser result) {
+    private void buildPartialRepeatedFields(via.sep3.dataserver.grpc.User result) {
       if (rolesBuilder_ == null) {
         if (((bitField0_ & 0x00000008) != 0)) {
           roles_ = java.util.Collections.unmodifiableList(roles_);
@@ -454,7 +464,7 @@ private static final long serialVersionUID = 0L;
       }
     }
 
-    private void buildPartial0(via.sep3.dataserver.grpc.SystemUser result) {
+    private void buildPartial0(via.sep3.dataserver.grpc.User result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
         result.id_ = id_;
@@ -463,22 +473,22 @@ private static final long serialVersionUID = 0L;
         result.username_ = username_;
       }
       if (((from_bitField0_ & 0x00000004) != 0)) {
-        result.passwordHash_ = passwordHash_;
+        result.password_ = password_;
       }
     }
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.sep3.dataserver.grpc.SystemUser) {
-        return mergeFrom((via.sep3.dataserver.grpc.SystemUser)other);
+      if (other instanceof via.sep3.dataserver.grpc.User) {
+        return mergeFrom((via.sep3.dataserver.grpc.User)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.sep3.dataserver.grpc.SystemUser other) {
-      if (other == via.sep3.dataserver.grpc.SystemUser.getDefaultInstance()) return this;
+    public Builder mergeFrom(via.sep3.dataserver.grpc.User other) {
+      if (other == via.sep3.dataserver.grpc.User.getDefaultInstance()) return this;
       if (other.getId() != 0) {
         setId(other.getId());
       }
@@ -487,8 +497,8 @@ private static final long serialVersionUID = 0L;
         bitField0_ |= 0x00000002;
         onChanged();
       }
-      if (!other.getPasswordHash().isEmpty()) {
-        passwordHash_ = other.passwordHash_;
+      if (!other.getPassword().isEmpty()) {
+        password_ = other.password_;
         bitField0_ |= 0x00000004;
         onChanged();
       }
@@ -555,7 +565,7 @@ private static final long serialVersionUID = 0L;
               break;
             } // case 18
             case 26: {
-              passwordHash_ = input.readStringRequireUtf8();
+              password_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000004;
               break;
             } // case 26
@@ -693,73 +703,98 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object passwordHash_ = "";
+    private java.lang.Object password_ = "";
     /**
-     * <code>string password_hash = 3;</code>
-     * @return The passwordHash.
+     * <pre>
+     * Merged: C# called this 'password', Java called this 'password_hash'. 
+     * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+     * </pre>
+     *
+     * <code>string password = 3;</code>
+     * @return The password.
      */
-    public java.lang.String getPasswordHash() {
-      java.lang.Object ref = passwordHash_;
+    public java.lang.String getPassword() {
+      java.lang.Object ref = password_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        passwordHash_ = s;
+        password_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string password_hash = 3;</code>
-     * @return The bytes for passwordHash.
+     * <pre>
+     * Merged: C# called this 'password', Java called this 'password_hash'. 
+     * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+     * </pre>
+     *
+     * <code>string password = 3;</code>
+     * @return The bytes for password.
      */
     public com.google.protobuf.ByteString
-        getPasswordHashBytes() {
-      java.lang.Object ref = passwordHash_;
+        getPasswordBytes() {
+      java.lang.Object ref = password_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        passwordHash_ = b;
+        password_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string password_hash = 3;</code>
-     * @param value The passwordHash to set.
+     * <pre>
+     * Merged: C# called this 'password', Java called this 'password_hash'. 
+     * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+     * </pre>
+     *
+     * <code>string password = 3;</code>
+     * @param value The password to set.
      * @return This builder for chaining.
      */
-    public Builder setPasswordHash(
+    public Builder setPassword(
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
-      passwordHash_ = value;
+      password_ = value;
       bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
     /**
-     * <code>string password_hash = 3;</code>
+     * <pre>
+     * Merged: C# called this 'password', Java called this 'password_hash'. 
+     * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+     * </pre>
+     *
+     * <code>string password = 3;</code>
      * @return This builder for chaining.
      */
-    public Builder clearPasswordHash() {
-      passwordHash_ = getDefaultInstance().getPasswordHash();
+    public Builder clearPassword() {
+      password_ = getDefaultInstance().getPassword();
       bitField0_ = (bitField0_ & ~0x00000004);
       onChanged();
       return this;
     }
     /**
-     * <code>string password_hash = 3;</code>
-     * @param value The bytes for passwordHash to set.
+     * <pre>
+     * Merged: C# called this 'password', Java called this 'password_hash'. 
+     * Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+     * </pre>
+     *
+     * <code>string password = 3;</code>
+     * @param value The bytes for password to set.
      * @return This builder for chaining.
      */
-    public Builder setPasswordHashBytes(
+    public Builder setPasswordBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
-      passwordHash_ = value;
+      password_ = value;
       bitField0_ |= 0x00000004;
       onChanged();
       return this;
@@ -1005,23 +1040,23 @@ private static final long serialVersionUID = 0L;
       return rolesBuilder_;
     }
 
-    // @@protoc_insertion_point(builder_scope:SystemUser)
+    // @@protoc_insertion_point(builder_scope:User)
   }
 
-  // @@protoc_insertion_point(class_scope:SystemUser)
-  private static final via.sep3.dataserver.grpc.SystemUser DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:User)
+  private static final via.sep3.dataserver.grpc.User DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.SystemUser();
+    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.User();
   }
 
-  public static via.sep3.dataserver.grpc.SystemUser getDefaultInstance() {
+  public static via.sep3.dataserver.grpc.User getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<SystemUser>
-      PARSER = new com.google.protobuf.AbstractParser<SystemUser>() {
+  private static final com.google.protobuf.Parser<User>
+      PARSER = new com.google.protobuf.AbstractParser<User>() {
     @java.lang.Override
-    public SystemUser parsePartialFrom(
+    public User parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1040,17 +1075,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<SystemUser> parser() {
+  public static com.google.protobuf.Parser<User> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<SystemUser> getParserForType() {
+  public com.google.protobuf.Parser<User> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.sep3.dataserver.grpc.SystemUser getDefaultInstanceForType() {
+  public via.sep3.dataserver.grpc.User getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

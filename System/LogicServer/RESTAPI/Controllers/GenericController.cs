@@ -39,5 +39,42 @@ namespace RESTAPI.Controllers
             var entities = _repository.GetMany();
             return Ok(entities);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<MainType>> CreateAsync([FromBody] MainType entity)
+        {
+            var createdEntity = await _repository.AddAsync(entity);
+            return CreatedAtAction(nameof(GetSingleAsync), new { id = createdEntity }, createdEntity);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync(string id, [FromBody] MainType entity)
+        {
+            ID parsedId = IdParser(id);
+            try
+            {
+                await _repository.UpdateAsync(entity);
+                return Ok(_repository.GetSingleAsync(parsedId).Result);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            ID parsedId = IdParser(id);
+            try
+            {
+                await _repository.DeleteAsync(parsedId);
+                return NoContent();
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
     }
 }

@@ -89,3 +89,13 @@ Content-Type: application/json
 ### Get Draft by ID
 GET {{baseURL}}/Drafts/2
 Accept: application/json
+### Test edit learning step
+PUT {{baseURL}}/learningsteps/1_1
+Content-Type: application/json
+
+{
+  "courseId": 1,
+  "stepOrder": 1,
+  "type": "Text",
+  "content": "Introduction to the Roman Empire. v123"  
+}
