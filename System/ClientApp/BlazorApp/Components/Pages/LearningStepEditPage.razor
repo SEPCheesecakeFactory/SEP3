@@ -141,7 +141,6 @@ else
 
     private async Task UploadEdit(int courseId, int stepOrder, LearningStep editedStep)
     {
-        await Task.Delay(4000);
-        throw new NotImplementedException();
+        await StepService.UpdateLearningStepAsync(editedStep);
     }
 }
