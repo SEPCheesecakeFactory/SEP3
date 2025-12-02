@@ -44,8 +44,26 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Draft, 
         throw new NotImplementedException();
     }
 
-    public override Task<Draft> AddAsync(CreateDraftDto entity)
+    public override async Task<Draft> AddAsync(CreateDraftDto entity)
     {
-        throw new NotImplementedException();
+        var request = new AddDraftRequest
+        {
+            Language = entity.Language,
+            Title = entity.Title,
+            Description = entity.Description,
+            TeacherId = entity.TeacherId ?? 0 
+        };
+
+        var response = await Client.AddDraftAsync(request);
+
+        return new Draft
+        {
+            Id = response.CourseDraft.Id,
+            Language = response.CourseDraft.Language,
+            Title = response.CourseDraft.Title,
+            Description = response.CourseDraft.Description,
+            TeacherId = response.CourseDraft.TeacherId,
+            CourseId = response.CourseDraft.CourseId
+        };
     }
 }

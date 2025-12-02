@@ -81,7 +81,7 @@ Content-Type: application/json
   "PasswordRepeat": "itsmeurlookingfor",
   "Roles": [
     {
-      "RoleName": "learner"
+      "RoleName": "teacher"
     }
   ]
 }
@@ -109,11 +109,13 @@ Content-Type: application/json
   "TeacherId": 1
 }
 ### Get Draft by ID
-GET {{baseURL}}/drafts/2
+GET {{baseURL}}/drafts/4
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiI5MGRiZDFmNi02MDE3LTRhNTktOTRjMS02M2QxODdjNjJmZWMiLCJpYXQiOjE3NjQ2ODgxNDQsInVuaXF1ZV9uYW1lIjoiaGVsbG8iLCJVc2VybmFtZSI6ImhlbGxvIiwiUm9sZSI6InRlYWNoZXIiLCJuYmYiOjE3NjQ2ODgxNDQsImV4cCI6MTc2NDY5MTc0NCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.nf5A1eW1GSg6dK8co4JctpK88FCfVYRbIZJ91vcthuU
 
 ### Add Draft
 POST {{baseURL}}/drafts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiI5MGRiZDFmNi02MDE3LTRhNTktOTRjMS02M2QxODdjNjJmZWMiLCJpYXQiOjE3NjQ2ODgxNDQsInVuaXF1ZV9uYW1lIjoiaGVsbG8iLCJVc2VybmFtZSI6ImhlbGxvIiwiUm9sZSI6InRlYWNoZXIiLCJuYmYiOjE3NjQ2ODgxNDQsImV4cCI6MTc2NDY5MTc0NCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.nf5A1eW1GSg6dK8co4JctpK88FCfVYRbIZJ91vcthuU
 Content-Type: application/json
 
 {
@@ -121,4 +123,27 @@ Content-Type: application/json
   "Title": "Advanced C#",
   "Description": "Deep dive into C#",
   "TeacherId": 1
+}
+
+### 1. Login test without dataserver
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "hello",
+  "Password": "itsmeurlookingfor"
+}
+### Register test user
+POST {{baseURL}}/Auth/register
+Content-Type: application/json
+
+{
+  "Username": "noteacher",
+  "Password": "123",
+  "PasswordRepeat": "123",
+  "Roles": [
+    {
+      "RoleName": "learner"
+    }
+  ]
 }
