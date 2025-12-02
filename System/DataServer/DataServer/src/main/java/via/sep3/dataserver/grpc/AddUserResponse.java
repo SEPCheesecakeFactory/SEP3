@@ -45,9 +45,9 @@ private static final long serialVersionUID = 0L;
 
   private int bitField0_;
   public static final int USER_FIELD_NUMBER = 1;
-  private via.sep3.dataserver.grpc.SystemUser user_;
+  private via.sep3.dataserver.grpc.User user_;
   /**
-   * <code>.SystemUser user = 1;</code>
+   * <code>.User user = 1;</code>
    * @return Whether the user field is set.
    */
   @java.lang.Override
@@ -55,19 +55,19 @@ private static final long serialVersionUID = 0L;
     return ((bitField0_ & 0x00000001) != 0);
   }
   /**
-   * <code>.SystemUser user = 1;</code>
+   * <code>.User user = 1;</code>
    * @return The user.
    */
   @java.lang.Override
-  public via.sep3.dataserver.grpc.SystemUser getUser() {
-    return user_ == null ? via.sep3.dataserver.grpc.SystemUser.getDefaultInstance() : user_;
+  public via.sep3.dataserver.grpc.User getUser() {
+    return user_ == null ? via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
   }
   /**
-   * <code>.SystemUser user = 1;</code>
+   * <code>.User user = 1;</code>
    */
   @java.lang.Override
-  public via.sep3.dataserver.grpc.SystemUserOrBuilder getUserOrBuilder() {
-    return user_ == null ? via.sep3.dataserver.grpc.SystemUser.getDefaultInstance() : user_;
+  public via.sep3.dataserver.grpc.UserOrBuilder getUserOrBuilder() {
+    return user_ == null ? via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -385,31 +385,31 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private via.sep3.dataserver.grpc.SystemUser user_;
+    private via.sep3.dataserver.grpc.User user_;
     private com.google.protobuf.SingleFieldBuilder<
-        via.sep3.dataserver.grpc.SystemUser, via.sep3.dataserver.grpc.SystemUser.Builder, via.sep3.dataserver.grpc.SystemUserOrBuilder> userBuilder_;
+        via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder> userBuilder_;
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      * @return Whether the user field is set.
      */
     public boolean hasUser() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      * @return The user.
      */
-    public via.sep3.dataserver.grpc.SystemUser getUser() {
+    public via.sep3.dataserver.grpc.User getUser() {
       if (userBuilder_ == null) {
-        return user_ == null ? via.sep3.dataserver.grpc.SystemUser.getDefaultInstance() : user_;
+        return user_ == null ? via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
       } else {
         return userBuilder_.getMessage();
       }
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      */
-    public Builder setUser(via.sep3.dataserver.grpc.SystemUser value) {
+    public Builder setUser(via.sep3.dataserver.grpc.User value) {
       if (userBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -423,10 +423,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      */
     public Builder setUser(
-        via.sep3.dataserver.grpc.SystemUser.Builder builderForValue) {
+        via.sep3.dataserver.grpc.User.Builder builderForValue) {
       if (userBuilder_ == null) {
         user_ = builderForValue.build();
       } else {
@@ -437,13 +437,13 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      */
-    public Builder mergeUser(via.sep3.dataserver.grpc.SystemUser value) {
+    public Builder mergeUser(via.sep3.dataserver.grpc.User value) {
       if (userBuilder_ == null) {
         if (((bitField0_ & 0x00000001) != 0) &&
           user_ != null &&
-          user_ != via.sep3.dataserver.grpc.SystemUser.getDefaultInstance()) {
+          user_ != via.sep3.dataserver.grpc.User.getDefaultInstance()) {
           getUserBuilder().mergeFrom(value);
         } else {
           user_ = value;
@@ -458,7 +458,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      */
     public Builder clearUser() {
       bitField0_ = (bitField0_ & ~0x00000001);
@@ -471,33 +471,33 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      */
-    public via.sep3.dataserver.grpc.SystemUser.Builder getUserBuilder() {
+    public via.sep3.dataserver.grpc.User.Builder getUserBuilder() {
       bitField0_ |= 0x00000001;
       onChanged();
       return internalGetUserFieldBuilder().getBuilder();
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      */
-    public via.sep3.dataserver.grpc.SystemUserOrBuilder getUserOrBuilder() {
+    public via.sep3.dataserver.grpc.UserOrBuilder getUserOrBuilder() {
       if (userBuilder_ != null) {
         return userBuilder_.getMessageOrBuilder();
       } else {
         return user_ == null ?
-            via.sep3.dataserver.grpc.SystemUser.getDefaultInstance() : user_;
+            via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
       }
     }
     /**
-     * <code>.SystemUser user = 1;</code>
+     * <code>.User user = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilder<
-        via.sep3.dataserver.grpc.SystemUser, via.sep3.dataserver.grpc.SystemUser.Builder, via.sep3.dataserver.grpc.SystemUserOrBuilder> 
+        via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder> 
         internalGetUserFieldBuilder() {
       if (userBuilder_ == null) {
         userBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-            via.sep3.dataserver.grpc.SystemUser, via.sep3.dataserver.grpc.SystemUser.Builder, via.sep3.dataserver.grpc.SystemUserOrBuilder>(
+            via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder>(
                 getUser(),
                 getParentForChildren(),
                 isClean());

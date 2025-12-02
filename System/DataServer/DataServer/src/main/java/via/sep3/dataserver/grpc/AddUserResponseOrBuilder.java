@@ -11,17 +11,17 @@ public interface AddUserResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.SystemUser user = 1;</code>
+   * <code>.User user = 1;</code>
    * @return Whether the user field is set.
    */
   boolean hasUser();
   /**
-   * <code>.SystemUser user = 1;</code>
+   * <code>.User user = 1;</code>
    * @return The user.
    */
-  via.sep3.dataserver.grpc.SystemUser getUser();
+  via.sep3.dataserver.grpc.User getUser();
   /**
-   * <code>.SystemUser user = 1;</code>
+   * <code>.User user = 1;</code>
    */
-  via.sep3.dataserver.grpc.SystemUserOrBuilder getUserOrBuilder();
+  via.sep3.dataserver.grpc.UserOrBuilder getUserOrBuilder();
 }
