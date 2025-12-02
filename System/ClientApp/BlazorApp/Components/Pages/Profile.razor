@@ -1,10 +1,101 @@
 ﻿@page "/profile"
+@using BlazorApp.Auth
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using BlazorApp.Services
+@using System.Text.Json
+@inject IAuthService authService
+@inject NavigationManager navMgr
 
-<div class="container-fluid">
-    <h2 class="fw-bolder text-secondary mb-5">Profile</h2>
-    <p>This is the Profile page.</p>
-</div>
+<AuthorizeView>
+    <NotAuthorized>
+        @if (isLoading)
+        {
+            <LoadingSpinner />
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                You must be logged in to view your profile. Please <a href="login" class="alert-link">log in</a>.
+            </div>
+        }
+    </NotAuthorized>
+    <Authorized>
+        <div class="text-center mt-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning text-white border border-4 border-white shadow mb-3"
+                style="width: 120px; height: 120px; font-size: 3rem; font-weight: 800;">
+                @GetInitials(context.User.Claims.First(claim =>
+                claim.Type.Equals("Username")).Value)
+            </div>
+            <h2 class="fw-bolder text-dark mb-5">@context.User.Claims.First(claim =>
+                                claim.Type.Equals("Username")).Value</h2>
+
+            <div class="row justify-content-center g-4 mx-auto" style="max-width: 600px;">
+                @foreach (var claim in ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value))
+                                {
+                <div class="col-12">
+                    <div class="card border-2 rounded-4 p-3" style="border-color: var(--game-gray);">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="fw-bold text-secondary mb-1" style="letter-spacing: 0.5px;">
+                                    ROLE
+                                </h5>
+                                <p class="mb-0 text-dark" style="font-size: 1.1rem;">@claim</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                }
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
 
 @code {
+    private string userName = "";
+    private string password = "";
+    private string errorLabel = "";
+    private bool isLoading = true;
+    private async Task LoginAsync()
+    {
+        errorLabel = "";
+        isLoading = true;
+        try
+        {
+            await authService.LoginAsync(userName, password);
+            navMgr.NavigateTo("/");
+            isLoading = false;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+            isLoading = false;
+        }
+    }
 
+    private IEnumerable<string> ConvertFromClaim(string jsonInput)
+    {
+        List<string>? resultList = JsonSerializer.Deserialize<List<string>>(jsonInput);
+        if (resultList != null)
+        {
+            return resultList;
+        }
+        else
+        {
+            return new List<string> { jsonInput };
+        }
+    }
+
+    private string GetInitials(string fullName)
+    {
+        if (string.IsNullOrWhiteSpace(fullName))
+            return "";
+
+        var names = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (names.Length == 1)
+            return names[0][0].ToString().ToUpper();
+
+        return (names[0][0].ToString() + names[^1][0].ToString()).ToUpper();
+    }
 }

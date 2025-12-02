@@ -26,7 +26,8 @@
 body {
   font-family: var(--font-main);
   background-color: var(--bg);
-  overflow: hidden; /* MainLayout handles scrolling */
+  /* Allow vertical scrolling but prevent horizontal overflow */
+  overflow-x: hidden;
   margin: 0;
 }
 
@@ -37,7 +38,8 @@ a { text-decoration: none; }
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* Use min-height instead of fixed 100vh to avoid clipping on mobile browsers and allow the body to scroll naturally */
+  min-height: 100vh;
   width: 100vw;
 }
 
