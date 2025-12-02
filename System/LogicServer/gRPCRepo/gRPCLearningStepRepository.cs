@@ -47,6 +47,17 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
 
     public override Task UpdateAsync(Entities.LearningStep entity)
     {
-        throw new NotImplementedException();
+        var request = new UpdateLearningStepRequest
+        {
+            LearningStep = new via.sep3.dataserver.grpc.LearningStep
+            {
+                CourseId = entity.CourseId,
+                StepOrder = entity.StepOrder,
+                Content = entity.Content,
+                Type = entity.Type
+            }
+        };
+
+        return Client.UpdateLearningStepAsync(request).ResponseAsync;
     }
 }

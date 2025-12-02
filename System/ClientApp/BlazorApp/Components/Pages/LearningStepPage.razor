@@ -1,6 +1,7 @@
 @page "/courses/{CourseId:int}/steps/{StepOrder:int}"
 @using BlazorApp.Services
 @using BlazorApp.Entities
+@using System.Text.Json
 @inject ILearningStepService StepService
 @inject NavigationManager NavManager
 
@@ -8,10 +9,24 @@
 
 @if (currentStep == null || isLoading || wasError)
 {
-    <LoadingSpinner />
+    @if (isLoading)
+    {
+        <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
+            <LoadingSpinner />
+        </div>
+    }
+    else if (wasError)
+    {
+        <div class="alert alert-danger mt-5 mx-auto" role="alert" style="max-width: 600px;">
+            An error occurred while loading the learning step. Please try again later.
+        </div>
+    }
     <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
         <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious" disabled="@(StepOrder <= 1)">
             PREVIOUS
+        </button>
+        <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoNext">
+            NEXT
         </button>
     </div>
 }
@@ -31,9 +46,21 @@ else
 
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
 
-            <h2 class="fw-bolder mb-5 text-center text-dark fs-1">
-                @($"Step {StepOrder}")
-            </h2>
+            <div class="mb-5 d-flex align-items-center justify-content-between gap-3">
+                <h2 class="fw-bolder text-dark fs-1 mb-0">@($"Step {StepOrder}")</h2>
+
+                <AuthorizeView Context="authState">
+                    <Authorized>
+                        @if (Utils.AuthUtils.ConvertFromClaim(authState.User.Claims.Single(c => c.Type ==
+                                            "Role").Value).Contains("teacher"))
+                        {
+                            <button class="btn btn-outline-secondary btn-sm px-2 py-1 ms-3" @onclick="GoToEditStep">
+                                EDIT STEP
+                            </button>
+                        }
+                    </Authorized>
+                </AuthorizeView>
+            </div>
 
             @if (IsMultipleChoiceQuestion)
             {
@@ -238,5 +265,10 @@ else
         }
 
         return url;
+    }
+
+    private void GoToEditStep()
+    {
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}/edit");
     }
 }

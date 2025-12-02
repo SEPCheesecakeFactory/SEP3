@@ -11,26 +11,26 @@ public interface GetUsersResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
-  java.util.List<via.sep3.dataserver.grpc.SystemUser> 
+  java.util.List<via.sep3.dataserver.grpc.User> 
       getUsersList();
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
-  via.sep3.dataserver.grpc.SystemUser getUsers(int index);
+  via.sep3.dataserver.grpc.User getUsers(int index);
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
   int getUsersCount();
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
-  java.util.List<? extends via.sep3.dataserver.grpc.SystemUserOrBuilder> 
+  java.util.List<? extends via.sep3.dataserver.grpc.UserOrBuilder> 
       getUsersOrBuilderList();
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
-  via.sep3.dataserver.grpc.SystemUserOrBuilder getUsersOrBuilder(
+  via.sep3.dataserver.grpc.UserOrBuilder getUsersOrBuilder(
       int index);
 }

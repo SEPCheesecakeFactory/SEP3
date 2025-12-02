@@ -1,23 +1,29 @@
 syntax = "proto3";
 
+option csharp_namespace = "via.sep3.dataserver.grpc";
 option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
 service DataRetrievalService {
-// users
+  // users
   rpc GetUsers (GetUsersRequest) returns (GetUsersResponse);
   rpc AddUser (AddUserRequest) returns (AddUserResponse);
-//courses
+  
+  // courses
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
   rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
+  rpc UpdateLearningStep (UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
 }
+
+// --- Courses ---
 
 message GetCoursesRequest {
-
 }
+
 message GetCoursesResponse {
   repeated Course courses = 1;
 }
+
 message Course {
   int32 id = 1;
   string title = 2;
@@ -26,34 +32,40 @@ message Course {
   string category = 5;
 }
 
-//users
+// --- Users ---
 
-message GetUsersRequest{
+message GetUsersRequest {
+}
 
+message GetUsersResponse {
+  repeated User users = 1;
 }
-message GetUsersResponse{
-  repeated SystemUser users = 1;
-}
-message SystemUser{
+
+message User {
   int32 id = 1;
   string username = 2;
-  string password_hash = 3;
+  // Merged: C# called this 'password', Java called this 'password_hash'. 
+  // Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
+  string password = 3; 
   repeated Role roles = 4;
 }
 
-message Role{
-  string role=1;
+message Role {
+  string role = 1;
 }
 
-message AddUserRequest{
+message AddUserRequest {
   string username = 1;
   string password = 2;
   repeated string roles = 3;
 }
 
-message AddUserResponse{
-  SystemUser user = 1;
+message AddUserResponse {
+  User user = 1;
 }
+
+// --- Learning Steps ---
+
 message GetLearningStepRequest {
   int32 course_id = 1;
   int32 step_number = 2;
@@ -68,4 +80,12 @@ message LearningStep {
   int32 step_order = 2;
   string content = 3;
   string type = 4;
+}
+
+message UpdateLearningStepRequest {
+  LearningStep learning_step = 1;
+}
+
+message UpdateLearningStepResponse {
+  LearningStep learning_step = 1;
 }

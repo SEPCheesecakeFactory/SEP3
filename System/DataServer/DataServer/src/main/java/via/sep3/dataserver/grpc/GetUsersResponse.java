@@ -46,41 +46,41 @@ private static final long serialVersionUID = 0L;
 
   public static final int USERS_FIELD_NUMBER = 1;
   @SuppressWarnings("serial")
-  private java.util.List<via.sep3.dataserver.grpc.SystemUser> users_;
+  private java.util.List<via.sep3.dataserver.grpc.User> users_;
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
   @java.lang.Override
-  public java.util.List<via.sep3.dataserver.grpc.SystemUser> getUsersList() {
+  public java.util.List<via.sep3.dataserver.grpc.User> getUsersList() {
     return users_;
   }
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
   @java.lang.Override
-  public java.util.List<? extends via.sep3.dataserver.grpc.SystemUserOrBuilder> 
+  public java.util.List<? extends via.sep3.dataserver.grpc.UserOrBuilder> 
       getUsersOrBuilderList() {
     return users_;
   }
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
   @java.lang.Override
   public int getUsersCount() {
     return users_.size();
   }
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
   @java.lang.Override
-  public via.sep3.dataserver.grpc.SystemUser getUsers(int index) {
+  public via.sep3.dataserver.grpc.User getUsers(int index) {
     return users_.get(index);
   }
   /**
-   * <code>repeated .SystemUser users = 1;</code>
+   * <code>repeated .User users = 1;</code>
    */
   @java.lang.Override
-  public via.sep3.dataserver.grpc.SystemUserOrBuilder getUsersOrBuilder(
+  public via.sep3.dataserver.grpc.UserOrBuilder getUsersOrBuilder(
       int index) {
     return users_.get(index);
   }
@@ -398,9 +398,9 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 10: {
-              via.sep3.dataserver.grpc.SystemUser m =
+              via.sep3.dataserver.grpc.User m =
                   input.readMessage(
-                      via.sep3.dataserver.grpc.SystemUser.parser(),
+                      via.sep3.dataserver.grpc.User.parser(),
                       extensionRegistry);
               if (usersBuilder_ == null) {
                 ensureUsersIsMutable();
@@ -427,22 +427,22 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private java.util.List<via.sep3.dataserver.grpc.SystemUser> users_ =
+    private java.util.List<via.sep3.dataserver.grpc.User> users_ =
       java.util.Collections.emptyList();
     private void ensureUsersIsMutable() {
       if (!((bitField0_ & 0x00000001) != 0)) {
-        users_ = new java.util.ArrayList<via.sep3.dataserver.grpc.SystemUser>(users_);
+        users_ = new java.util.ArrayList<via.sep3.dataserver.grpc.User>(users_);
         bitField0_ |= 0x00000001;
        }
     }
 
     private com.google.protobuf.RepeatedFieldBuilder<
-        via.sep3.dataserver.grpc.SystemUser, via.sep3.dataserver.grpc.SystemUser.Builder, via.sep3.dataserver.grpc.SystemUserOrBuilder> usersBuilder_;
+        via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder> usersBuilder_;
 
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public java.util.List<via.sep3.dataserver.grpc.SystemUser> getUsersList() {
+    public java.util.List<via.sep3.dataserver.grpc.User> getUsersList() {
       if (usersBuilder_ == null) {
         return java.util.Collections.unmodifiableList(users_);
       } else {
@@ -450,7 +450,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public int getUsersCount() {
       if (usersBuilder_ == null) {
@@ -460,9 +460,9 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public via.sep3.dataserver.grpc.SystemUser getUsers(int index) {
+    public via.sep3.dataserver.grpc.User getUsers(int index) {
       if (usersBuilder_ == null) {
         return users_.get(index);
       } else {
@@ -470,10 +470,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder setUsers(
-        int index, via.sep3.dataserver.grpc.SystemUser value) {
+        int index, via.sep3.dataserver.grpc.User value) {
       if (usersBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -487,10 +487,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder setUsers(
-        int index, via.sep3.dataserver.grpc.SystemUser.Builder builderForValue) {
+        int index, via.sep3.dataserver.grpc.User.Builder builderForValue) {
       if (usersBuilder_ == null) {
         ensureUsersIsMutable();
         users_.set(index, builderForValue.build());
@@ -501,9 +501,9 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public Builder addUsers(via.sep3.dataserver.grpc.SystemUser value) {
+    public Builder addUsers(via.sep3.dataserver.grpc.User value) {
       if (usersBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -517,10 +517,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder addUsers(
-        int index, via.sep3.dataserver.grpc.SystemUser value) {
+        int index, via.sep3.dataserver.grpc.User value) {
       if (usersBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -534,10 +534,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder addUsers(
-        via.sep3.dataserver.grpc.SystemUser.Builder builderForValue) {
+        via.sep3.dataserver.grpc.User.Builder builderForValue) {
       if (usersBuilder_ == null) {
         ensureUsersIsMutable();
         users_.add(builderForValue.build());
@@ -548,10 +548,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder addUsers(
-        int index, via.sep3.dataserver.grpc.SystemUser.Builder builderForValue) {
+        int index, via.sep3.dataserver.grpc.User.Builder builderForValue) {
       if (usersBuilder_ == null) {
         ensureUsersIsMutable();
         users_.add(index, builderForValue.build());
@@ -562,10 +562,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder addAllUsers(
-        java.lang.Iterable<? extends via.sep3.dataserver.grpc.SystemUser> values) {
+        java.lang.Iterable<? extends via.sep3.dataserver.grpc.User> values) {
       if (usersBuilder_ == null) {
         ensureUsersIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -577,7 +577,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder clearUsers() {
       if (usersBuilder_ == null) {
@@ -590,7 +590,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
     public Builder removeUsers(int index) {
       if (usersBuilder_ == null) {
@@ -603,16 +603,16 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public via.sep3.dataserver.grpc.SystemUser.Builder getUsersBuilder(
+    public via.sep3.dataserver.grpc.User.Builder getUsersBuilder(
         int index) {
       return internalGetUsersFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public via.sep3.dataserver.grpc.SystemUserOrBuilder getUsersOrBuilder(
+    public via.sep3.dataserver.grpc.UserOrBuilder getUsersOrBuilder(
         int index) {
       if (usersBuilder_ == null) {
         return users_.get(index);  } else {
@@ -620,9 +620,9 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public java.util.List<? extends via.sep3.dataserver.grpc.SystemUserOrBuilder> 
+    public java.util.List<? extends via.sep3.dataserver.grpc.UserOrBuilder> 
          getUsersOrBuilderList() {
       if (usersBuilder_ != null) {
         return usersBuilder_.getMessageOrBuilderList();
@@ -631,33 +631,33 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public via.sep3.dataserver.grpc.SystemUser.Builder addUsersBuilder() {
+    public via.sep3.dataserver.grpc.User.Builder addUsersBuilder() {
       return internalGetUsersFieldBuilder().addBuilder(
-          via.sep3.dataserver.grpc.SystemUser.getDefaultInstance());
+          via.sep3.dataserver.grpc.User.getDefaultInstance());
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public via.sep3.dataserver.grpc.SystemUser.Builder addUsersBuilder(
+    public via.sep3.dataserver.grpc.User.Builder addUsersBuilder(
         int index) {
       return internalGetUsersFieldBuilder().addBuilder(
-          index, via.sep3.dataserver.grpc.SystemUser.getDefaultInstance());
+          index, via.sep3.dataserver.grpc.User.getDefaultInstance());
     }
     /**
-     * <code>repeated .SystemUser users = 1;</code>
+     * <code>repeated .User users = 1;</code>
      */
-    public java.util.List<via.sep3.dataserver.grpc.SystemUser.Builder> 
+    public java.util.List<via.sep3.dataserver.grpc.User.Builder> 
          getUsersBuilderList() {
       return internalGetUsersFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilder<
-        via.sep3.dataserver.grpc.SystemUser, via.sep3.dataserver.grpc.SystemUser.Builder, via.sep3.dataserver.grpc.SystemUserOrBuilder> 
+        via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder> 
         internalGetUsersFieldBuilder() {
       if (usersBuilder_ == null) {
         usersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-            via.sep3.dataserver.grpc.SystemUser, via.sep3.dataserver.grpc.SystemUser.Builder, via.sep3.dataserver.grpc.SystemUserOrBuilder>(
+            via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder>(
                 users_,
                 ((bitField0_ & 0x00000001) != 0),
                 getParentForChildren(),
