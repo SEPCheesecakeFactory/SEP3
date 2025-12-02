@@ -86,6 +86,26 @@ public final class DataProtocol {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_LearningStep_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CourseProgressRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_CourseProgressRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CourseProgressResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_CourseProgressResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CourseProgressUpdate_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_CourseProgressUpdate_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Empty_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Empty_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -112,7 +132,12 @@ public final class DataProtocol {
       "epResponse\022$\n\rlearning_step\030\001 \001(\0132\r.Lear" +
       "ningStep\"T\n\014LearningStep\022\021\n\tcourse_id\030\001 " +
       "\001(\005\022\022\n\nstep_order\030\002 \001(\005\022\017\n\007content\030\003 \001(\t" +
-      "\022\014\n\004type\030\004 \001(\t2\362\001\n\024DataRetrievalService\022" +
+      "\022\014\n\004type\030\004 \001(\t\";\n\025CourseProgressRequest\022" +
+      "\017\n\007user_id\030\001 \001(\005\022\021\n\tcourse_id\030\002 \001(\005\".\n\026C" +
+      "ourseProgressResponse\022\024\n\014current_step\030\001 " +
+      "\001(\005\"P\n\024CourseProgressUpdate\022\017\n\007user_id\030\001" +
+      " \001(\005\022\021\n\tcourse_id\030\002 \001(\005\022\024\n\014current_step\030" +
+      "\003 \001(\005\"\007\n\005Empty2\362\001\n\024DataRetrievalService\022" +
       "/\n\010GetUsers\022\020.GetUsersRequest\032\021.GetUsers" +
       "Response\022,\n\007AddUser\022\017.AddUserRequest\032\020.A" +
       "ddUserResponse\0225\n\nGetCourses\022\022.GetCourse" +
@@ -197,6 +222,30 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_LearningStep_descriptor,
         new java.lang.String[] { "CourseId", "StepOrder", "Content", "Type", });
+    internal_static_CourseProgressRequest_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_CourseProgressRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_CourseProgressRequest_descriptor,
+        new java.lang.String[] { "UserId", "CourseId", });
+    internal_static_CourseProgressResponse_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_CourseProgressResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_CourseProgressResponse_descriptor,
+        new java.lang.String[] { "CurrentStep", });
+    internal_static_CourseProgressUpdate_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_CourseProgressUpdate_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_CourseProgressUpdate_descriptor,
+        new java.lang.String[] { "UserId", "CourseId", "CurrentStep", });
+    internal_static_Empty_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_Empty_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_Empty_descriptor,
+        new java.lang.String[] { });
     descriptor.resolveAllFeaturesImmutable();
   }
 
