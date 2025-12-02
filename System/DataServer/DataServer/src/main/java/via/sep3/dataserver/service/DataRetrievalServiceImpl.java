@@ -8,24 +8,13 @@ import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
 
 import io.grpc.stub.StreamObserver;
+import via.sep3.dataserver.data.*;
 import via.sep3.dataserver.data.Course;
-import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.LearningStep;
-import via.sep3.dataserver.data.LearningStepRepository;
 import via.sep3.dataserver.data.Role;
-import via.sep3.dataserver.data.RoleRepository;
 import via.sep3.dataserver.data.SystemUser;
-import via.sep3.dataserver.data.SystemUserRepository;
-import via.sep3.dataserver.data.SystemUserRole;
-import via.sep3.dataserver.data.SystemUserRoleRepository;
-import via.sep3.dataserver.grpc.AddUserRequest;
-import via.sep3.dataserver.grpc.AddUserResponse;
-import via.sep3.dataserver.grpc.DataRetrievalServiceGrpc;
-import via.sep3.dataserver.grpc.GetCoursesRequest;
-import via.sep3.dataserver.grpc.GetCoursesResponse;
-import via.sep3.dataserver.grpc.GetLearningStepResponse;
-import via.sep3.dataserver.grpc.GetUsersRequest;
-import via.sep3.dataserver.grpc.GetUsersResponse;
+import via.sep3.dataserver.grpc.*;
+import via.sep3.dataserver.grpc.CourseDraft;
 
 @GrpcService
 @Service
@@ -42,6 +31,9 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
   @Autowired
   private LearningStepRepository learningStepRepository;
+  
+  @Autowired
+  private CourseDraftRepository courseDraftRepository;
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -210,5 +202,85 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
         .setStepOrder(step.getId().getStepOrder())
         .setType(step.getStepType().getName())
         .build();
+  }
+
+  //drafts
+
+  @Override public void addDraft(AddDraftRequest request,
+      StreamObserver<AddDraftResponse> responseObserver)
+  {
+    try
+    {
+      String language = request.getLanguage();
+      String title = request.getTitle();
+      String description = request.getDescription();
+      int teacher_id = request.getTeacherId();
+      SystemUser systemUser = userRepository.getSystemUserById(teacher_id);
+
+
+      via.sep3.dataserver.data.CourseDraft courseDraft = new via.sep3.dataserver.data.CourseDraft();
+      courseDraft.setLanguage(language);
+      courseDraft.setTitle(title);
+      courseDraft.setDescription(description);
+      courseDraft.setSystemUser(systemUser);
+
+
+      courseDraftRepository.save(courseDraft);
+
+      CourseDraft grpcCourseDraft = convertToGrpcDraft(courseDraft);
+
+      AddDraftResponse response = AddDraftResponse.newBuilder()
+          .setCourseDraft(grpcCourseDraft)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+
+    }
+    catch (Exception e)
+    {
+      responseObserver.onError(e);
+    }
+  }
+
+  @Override public void getDraft(GetDraftRequest request,
+      StreamObserver<GetDraftResponse> responseObserver)
+  {
+    try{
+      via.sep3.dataserver.data.CourseDraft courseDraft = courseDraftRepository.getCourseDraftById(request.getDraftId());
+      CourseDraft grpcCourseDraft = convertToGrpcDraft(courseDraft);
+      GetDraftResponse response = GetDraftResponse.newBuilder()
+          .setCourseDraft(grpcCourseDraft)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+    }
+   catch (Exception e) {
+    responseObserver.onError(e);
+  }
+
+  }
+  private CourseDraft convertToGrpcDraft(via.sep3.dataserver.data.CourseDraft courseDraft)
+  {
+    CourseDraft.Builder builder = CourseDraft.newBuilder()
+        .setId(courseDraft.getId())
+        .setTeacherId(courseDraft.getSystemUser().getId())
+        .setLanguage(courseDraft.getLanguage() != null ? courseDraft.getLanguage() : "")
+        .setTitle(courseDraft.getTitle() != null ? courseDraft.getTitle() : "")
+        .setDescription(courseDraft.getDescription() != null ? courseDraft.getDescription() : "");
+
+    if (courseDraft.getCourse() != null) {
+      builder.setCourseId(courseDraft.getCourse().getId());
+    } else {
+      builder.setCourseId(-1);
+    }
+    if (courseDraft.getSystemUser() != null) {
+      builder.setTeacherId(courseDraft.getSystemUser().getId());
+    } else {
+      builder.setTeacherId(-1);
+    }
+
+    return builder.build();
   }
 }

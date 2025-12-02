@@ -85,3 +85,7 @@ Content-Type: application/json
     }
   ]
 }
+
+### Get Draft by ID
+GET {{baseURL}}/Drafts/2
+Accept: application/json

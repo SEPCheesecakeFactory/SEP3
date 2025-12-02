@@ -10,6 +10,10 @@ service DataRetrievalService {
 //courses
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
   rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
+//drafts
+  rpc AddDraft (AddDraftRequest) returns (AddDraftResponse);
+  rpc GetDraft (GetDraftRequest) returns (GetDraftResponse);
+
 }
 
 message GetCoursesRequest {
@@ -69,3 +73,29 @@ message LearningStep {
   string content = 3;
   string type = 4;
 }
+  //drafts
+message CourseDraft{
+    int32 id=1;
+    string language=2;
+    string title=3;
+    string description=4;
+    int32 teacher_id=5;
+    int32 course_id=6;
+}
+
+message AddDraftRequest{
+    string language=1;
+    string title=2;
+    string description=3;
+    int32 teacher_id=4;
+  }
+message AddDraftResponse{
+    CourseDraft courseDraft=1;
+  }
+message GetDraftRequest{
+    int32 draftId=1;
+  }
+message GetDraftResponse{
+    CourseDraft courseDraft=1;
+  }
+
