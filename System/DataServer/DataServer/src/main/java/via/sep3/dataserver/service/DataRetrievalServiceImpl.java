@@ -193,6 +193,41 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     }
   }
 
+  @Override
+  public void updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request,
+      StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse> responseObserver) {
+    try {
+      via.sep3.dataserver.grpc.LearningStep grpcStep = request.getLearningStep();
+
+      LearningStep step = learningStepRepository.findByIdCourseIdAndIdStepOrder(
+          grpcStep.getCourseId(),
+          grpcStep.getStepOrder());
+
+      if (step == null) {
+        responseObserver.onError(
+            io.grpc.Status.NOT_FOUND
+                .withDescription("Learning step not found for courseId=" + grpcStep.getCourseId()
+                    + ", stepOrder=" + grpcStep.getStepOrder())
+                .asRuntimeException());
+        return;
+      }
+
+      step.setContent(grpcStep.getContent());
+      learningStepRepository.save(step);
+
+      responseObserver.onNext(via.sep3.dataserver.grpc.UpdateLearningStepResponse.newBuilder()
+          .setLearningStep(convertToGrpcLearningStep(step))
+          .build());
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(
+          io.grpc.Status.INTERNAL
+              .withDescription("Error updating learning step: " + e.getMessage())
+              .withCause(e)
+              .asRuntimeException());
+    }
+  }
+
   private via.sep3.dataserver.grpc.LearningStep convertToGrpcLearningStep(LearningStep step) {
     return via.sep3.dataserver.grpc.LearningStep.newBuilder()
         .setCourseId(step.getCourse().getId())

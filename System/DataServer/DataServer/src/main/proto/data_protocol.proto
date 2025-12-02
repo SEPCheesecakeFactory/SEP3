@@ -12,6 +12,7 @@ service DataRetrievalService {
   // courses
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
   rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
+  rpc UpdateLearningStep (UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
 }
 
 // --- Courses ---
@@ -79,4 +80,12 @@ message LearningStep {
   int32 step_order = 2;
   string content = 3;
   string type = 4;
+}
+
+message UpdateLearningStepRequest {
+  LearningStep learning_step = 1;
+}
+
+message UpdateLearningStepResponse {
+  LearningStep learning_step = 1;
 }
