@@ -69,3 +69,20 @@ message LearningStep {
   string content = 3;
   string type = 4;
 }
+
+message CourseProgressRequest{
+  int32 user_id = 1;
+  int32 course_id =2;
+}
+
+message CourseProgressResponse {
+  int32 current_step = 1;
+}
+
+message CourseProgressUpdate {
+  int32 user_id =1;
+  int32 course_id =2;
+  int32 current_step =3;
+}
+
+message Empty {}
