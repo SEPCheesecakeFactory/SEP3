@@ -71,6 +71,10 @@ INSERT INTO
 VALUES (
         'History',
         'Courses related to historical events and periods.'
+    ),
+    (
+        'Software Engineering',
+        'Courses focused on software development practices and tools.'
     );
 
 -- Insert into Course
@@ -86,20 +90,12 @@ VALUES (
         'The Roman Empire',
         'An in-depth look at the events of the Roman Empire.',
         1
-    );
-
-INSERT INTO
-    Course (
-        language,
-        title,
-        description,
-        category
-    )
-VALUES (
+    ),
+    (
         'ENG',
-        'New Course #2',
-        'Brand new course #2',
-        1
+        'Git & GitHub',
+        'Basics of Git version control and GitHub collaboration.',
+        2
     );
 
 -- Insert into Role
@@ -161,4 +157,72 @@ VALUES (
         1,
         4,
         'The capital city of the Roman Empire was ___ .|Rome'
+    );
+
+INSERT INTO
+    LearningStep (
+        step_order,
+        course_id,
+        step_type,
+        content
+    )
+VALUES (
+        1,
+        2,
+        1,
+        'Git Architecture: DAG and Three-Tree Model. Git is not just a backup system; it is a distributed system based on a Directed Acyclic Graph (DAG). You must understand the three states: Working Directory, Staging Area (Index), and the Repository (HEAD) to effectively manage snapshots.'
+    ),
+    (
+        2,
+        2,
+        2,
+        'https://www.youtube.com/watch?v=r8jQ9hVA2qs'
+    ),
+    (
+        3,
+        2,
+        3,
+        'Which command moves changes from the Working Directory to the Staging Area (Index)?|git add|git commit|git push|git init'
+    ),
+    (
+        4,
+        2,
+        1,
+        'Branching Strategy: Merge vs. Rebase. Branches are cheap pointers to commits. Merging preserves history topology, while rebasing rewrites history for linearity. Warning: Never rebase shared branches (public history) as it de-synchronizes collaborators.'
+    ),
+    (
+        5,
+        2,
+        2,
+        'https://www.youtube.com/watch?v=qI6yrLpu66s'
+    ),
+    (
+        6,
+        2,
+        4,
+        'To switch to an existing branch named "hotfix", the classic command is: git ___ hotfix.|checkout'
+    ),
+    (
+        7,
+        2,
+        1,
+        'Remotes and GitHub. "Origin" is simply the default alias for your remote URL. Pull Requests are not a Git command; they are a platform-specific (GitHub/GitLab) workflow for code review before merging.'
+    ),
+    (
+        8,
+        2,
+        2,
+        'https://www.youtube.com/watch?v=KhORHy58Q-s'
+    ),
+    (
+        9,
+        2,
+        3,
+        'What is the destructive consequence of using "git push --force" on a shared branch?|It overwrites remote history, potentially causing data loss for team members.|It automatically merges conflicts.|It duplicates the repository.|It locks the branch.'
+    ),
+    (
+        10,
+        2,
+        4,
+        'To copy a remote repository to your local machine for the first time, use: git ___ .|clone'
     );
