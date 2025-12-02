@@ -31,7 +31,7 @@
                                 claim.Type.Equals("Username")).Value</h2>
 
             <div class="row justify-content-center g-4 mx-auto" style="max-width: 600px;">
-                @foreach (var claim in ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value))
+                @foreach (var claim in Utils.AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value))
                                 {
                 <div class="col-12">
                     <div class="card border-2 rounded-4 p-3" style="border-color: var(--game-gray);">
@@ -71,19 +71,6 @@
             Console.WriteLine(e);
             errorLabel = $"Error: {e.Message}";
             isLoading = false;
-        }
-    }
-
-    private IEnumerable<string> ConvertFromClaim(string jsonInput)
-    {
-        List<string>? resultList = JsonSerializer.Deserialize<List<string>>(jsonInput);
-        if (resultList != null)
-        {
-            return resultList;
-        }
-        else
-        {
-            return new List<string> { jsonInput };
         }
     }
 

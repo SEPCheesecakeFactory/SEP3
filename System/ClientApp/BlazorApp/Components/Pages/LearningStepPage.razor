@@ -9,10 +9,24 @@
 
 @if (currentStep == null || isLoading || wasError)
 {
-    <LoadingSpinner />
+    @if (isLoading)
+    {
+        <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
+            <LoadingSpinner />
+        </div>
+    }
+    else if (wasError)
+    {
+        <div class="alert alert-danger mt-5 mx-auto" role="alert" style="max-width: 600px;">
+            An error occurred while loading the learning step. Please try again later.
+        </div>
+    }
     <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
         <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious" disabled="@(StepOrder <= 1)">
             PREVIOUS
+        </button>
+        <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoNext">
+            NEXT
         </button>
     </div>
 }
@@ -37,7 +51,7 @@ else
 
                 <AuthorizeView Context="authState">
                     <Authorized>
-                        @if (ConvertFromClaim(authState.User.Claims.Single(c => c.Type ==
+                        @if (Utils.AuthUtils.ConvertFromClaim(authState.User.Claims.Single(c => c.Type ==
                                             "Role").Value).Contains("teacher"))
                         {
                             <button class="btn btn-outline-secondary btn-sm px-2 py-1 ms-3" @onclick="GoToEditStep">
@@ -251,19 +265,6 @@ else
         }
 
         return url;
-    }
-
-    private IEnumerable<string> ConvertFromClaim(string jsonInput)
-    {
-        List<string>? resultList = JsonSerializer.Deserialize<List<string>>(jsonInput);
-        if (resultList != null)
-        {
-            return resultList;
-        }
-        else
-        {
-            return new List<string> { jsonInput };
-        }
     }
 
     private void GoToEditStep()
