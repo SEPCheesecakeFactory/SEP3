@@ -2,15 +2,16 @@ using Grpc.Net.Client;
 using Entities;
 using RepositoryContracts;
 using via.sep3.dataserver.grpc;
+using Course = Entities.Course;
 
 namespace gRPCRepo;
 
-public class gRPCCourseRepository(string host, int port) : gRPCRepository<Entities.Course, int>(host, port)
+public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course, Course, Course, int>(host, port)
 {
-    public override IQueryable<Entities.Course> GetMany()
+    public override IQueryable<Course> GetMany()
     {
         var resp = Client.GetCourses(new GetCoursesRequest());
-        var courses = resp.Courses.Select(c => new Entities.Course
+        var courses = resp.Courses.Select(c => new Course
         {
             Id = c.Id,
             Title = c.Title,
@@ -22,12 +23,12 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Entiti
         return courses.AsQueryable();
     }
 
-    public override Task<Entities.Course> AddAsync(Entities.Course entity)
+    public override Task<Course> AddAsync(Course entity)
     {
         throw new NotImplementedException();
     }
 
-    public override Task UpdateAsync(Entities.Course entity)
+    public override Task UpdateAsync(Course entity)
     {
         throw new NotImplementedException();
     }
@@ -37,7 +38,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Entiti
         throw new NotImplementedException();
     }
 
-    public override Task<Entities.Course> GetSingleAsync(int id)
+    public override Task<Course> GetSingleAsync(int id)
     {
         throw new NotImplementedException();
     }

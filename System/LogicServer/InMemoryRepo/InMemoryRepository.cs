@@ -7,7 +7,7 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class InMemoryRepository<T> : IRepository<T> where T : class, IIdentifiable<int>
+public class InMemoryRepository<T> : IRepositoryID<T> where T : class, IIdentifiable<int>
 {
     private readonly List<T> Ts = [];
 

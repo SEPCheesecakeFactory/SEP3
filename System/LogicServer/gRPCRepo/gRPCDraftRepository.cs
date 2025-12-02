@@ -2,26 +2,18 @@ using Grpc.Net.Client;
 using Entities;
 using RepositoryContracts;
 using via.sep3.dataserver.grpc;
+using Draft = Entities.Draft;
 
 namespace gRPCRepo;
 
-public class gRPCDraftRepository(string host, int port) : gRPCRepository<Entities.Draft, int>(host, port)
+public class gRPCDraftRepository(string host, int port) : gRPCRepository<Draft, CreateDraftDto, Draft, int>(host, port)
 {
-    public override IQueryable<Entities.Draft> GetMany()
+    public override IQueryable<Draft> GetMany()
     {
         throw new NotImplementedException();
     }
 
-    public override Task<Entities.Draft> AddAsync(Entities.Draft entity)
-    {
-        throw new NotImplementedException(); //dont use this method
-    }
-    public Task<Entities.Draft> AddAsync2(Entities.CreateDraftDto entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Task UpdateAsync(Entities.Draft entity)
+    public override Task UpdateAsync(Draft entity)
     {
         throw new NotImplementedException();
     }
@@ -31,12 +23,12 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Entitie
         throw new NotImplementedException();
     }
 
-    public override async Task<Entities.Draft> GetSingleAsync(int id)
+    public override async Task<Draft> GetSingleAsync(int id)
     {
 
         var response = await Client.GetDraftAsync(new GetDraftRequest { DraftId = id }) ?? throw new KeyNotFoundException($"Draft with id {id} not found.");
 
-        return new Entities.Draft
+        return new Draft
         {
             Id = response.CourseDraft.Id,
             Language = response.CourseDraft.Language,
@@ -48,6 +40,11 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Entitie
     }
 
     public override Task ClearAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task<Draft> AddAsync(CreateDraftDto entity)
     {
         throw new NotImplementedException();
     }

@@ -6,7 +6,7 @@ using RepositoryContracts;
 
 namespace RESTAPI.Services;
 
-public class SecureAuthService(IRepositoryID<User, int> userRepository) : IAuthService
+public class SecureAuthService(IRepositoryID<User, User, User, int> userRepository) : IAuthService
 {
     public async Task<User> RegisterUser(RegisterRequest request)
     {

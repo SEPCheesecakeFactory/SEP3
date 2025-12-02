@@ -13,7 +13,7 @@ namespace RESTAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IConfiguration config, IAuthService authService, IRepositoryID<Entities.User, int> userRepository, ILogger<AuthController> logger) : ControllerBase
+public class AuthController(IConfiguration config, IAuthService authService, IRepositoryID<Entities.User, Entities.User, Entities.User, int> userRepository, ILogger<AuthController> logger) : ControllerBase
 {
     private readonly IConfiguration _config = config;
 

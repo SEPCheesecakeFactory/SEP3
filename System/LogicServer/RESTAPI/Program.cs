@@ -32,12 +32,14 @@ builder.Services.AddEndpointsApiExplorer();
 var host = "localhost";
 var port = 9090;
 
-builder.Services.AddScoped<IRepositoryID<Course, int>>(sp => new gRPCCourseRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Course, Course, Course, int>>(sp => new gRPCCourseRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
-builder.Services.AddScoped<IRepositoryID<User, int>>(sp => new gRPCUserRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<User, User, User, int>>(sp => new gRPCUserRepository(host, port));
 builder.Services.AddScoped<IAuthService, SecureAuthService>();
+builder.Services.AddScoped<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>(sp =>
+    new gRPCLearningStepRepository(host, port));
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
     options.MapInboundClaims = false;
@@ -55,14 +57,6 @@ builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.Authenticati
 });
 AuthorizationPolicies.AddPolicies(builder.Services);
 
-
-// ===
-builder.Services.AddScoped<IRepositoryID<Course, int>>(sp => 
-    new gRPCCourseRepository(host, port));
-
-builder.Services.AddScoped<IRepositoryID<LearningStep, (int, int)>>(sp => 
-    new gRPCLearningStepRepository(host, port));
-    
 var app = builder.Build();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
