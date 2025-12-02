@@ -1,8 +1,9 @@
-using System;
+using BlazorApp.Entities;
 
 namespace BlazorApp.Services;
 
 public interface ICourseService
 {
-    public Task<List<Entities.Course>> GetCourses();
+    public Task<List<Course>> GetCourses();
+    public Task CreateDraft(CreateDraftDto dto);
 }

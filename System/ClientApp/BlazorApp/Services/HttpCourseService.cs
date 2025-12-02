@@ -1,4 +1,6 @@
 using System;
+using BlazorApp.Entities;
+using System.Net.Http.Json;
 
 namespace BlazorApp.Services;
 
@@ -9,9 +11,18 @@ public class HttpCourseService : ICourseService
     {
         this.client = client;
     }
-    public async Task<List<Entities.Course>> GetCourses()
+    public async Task<List<Course>> GetCourses()
     {
-        var result = await client.GetFromJsonAsync<List<Entities.Course>>("courses");
-        return new List<Entities.Course>(result ?? new List<Entities.Course>());
+        var result = await client.GetFromJsonAsync<List<Course>>("courses");
+        return new List<Course>(result ?? new List<Course>());
+    }
+
+    public async Task CreateDraft(CreateDraftDto dto)
+    {
+        var response = await client.PostAsJsonAsync("drafts", dto);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error creating draft: {response.ReasonPhrase}");
+        }
     }
 }
