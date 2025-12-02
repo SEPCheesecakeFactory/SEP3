@@ -51,7 +51,8 @@ else
                     </button>
                 </div>
 
-                <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")" @onclick="Save" disabled="@(!IsDirty || isSaving)">
+                <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")" @onclick="Save"
+                    disabled="@(!IsDirty || isSaving)">
                     @if (isSaving)
                     {
                         <span class="spinner-border spinner-border-sm me-2"></span>
@@ -59,6 +60,12 @@ else
                     Save Changes
                 </button>
             </div>
+        </div>
+
+        <div class="mt-4 mb-5">
+            <button class="btn btn-outline-secondary" @onclick="BackToPreview">
+                Back to Preview
+            </button>
         </div>
     </div>
 }
@@ -142,5 +149,10 @@ else
     private async Task UploadEdit(int courseId, int stepOrder, LearningStep editedStep)
     {
         await StepService.UpdateLearningStepAsync(editedStep);
+    }
+
+    private void BackToPreview()
+    {
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}");
     }
 }
