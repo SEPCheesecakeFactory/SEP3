@@ -46,7 +46,7 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
         };
     }
 
-    public override Task UpdateAsync(LearningStep entity)
+    public override async Task<LearningStep> UpdateAsync(LearningStep entity)
     {
         var request = new UpdateLearningStepRequest
         {
@@ -59,6 +59,13 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
             }
         };
 
-        return Client.UpdateLearningStepAsync(request).ResponseAsync;
+        var response = await Client.UpdateLearningStepAsync(request);
+        return new LearningStep
+        {
+            CourseId = response.LearningStep.CourseId,
+            StepOrder = response.LearningStep.StepOrder,
+            Type = response.LearningStep.Type,
+            Content = response.LearningStep.Content
+        };
     }
 }

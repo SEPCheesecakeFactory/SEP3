@@ -13,9 +13,33 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Draft, 
         throw new NotImplementedException();
     }
 
-    public override Task UpdateAsync(Draft entity)
+    public override async Task<Draft> UpdateAsync(Draft entity)
     {
-        throw new NotImplementedException();
+        var request = new UpdateDraftRequest
+        {
+            CourseDraft = new CourseDraft
+            {
+                Id = entity.Id,
+                Language = entity.Language ?? "",
+                Title = entity.Title ?? "",
+                Description = entity.Description ?? "",
+                TeacherId = entity.TeacherId ?? -1,
+                CourseId = entity.CourseId ?? -1,
+                ApprovedBy = entity.ApprovedBy ?? -1
+            }
+        };
+        var response = await Client.UpdateDraftAsync(request);
+        return new Draft
+        {
+            Id = response.CourseDraft.Id,
+            Language = response.CourseDraft.Language,
+            Title = response.CourseDraft.Title,
+            Description = response.CourseDraft.Description,
+            TeacherId = response.CourseDraft.TeacherId,
+            CourseId = response.CourseDraft.CourseId,
+            ApprovedBy = response.CourseDraft.CourseId
+
+        };
     }
 
     public override Task DeleteAsync(int id)
@@ -35,7 +59,8 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Draft, 
             Title = response.CourseDraft.Title,
             Description = response.CourseDraft.Description,
             TeacherId = response.CourseDraft.TeacherId,
-            CourseId = response.CourseDraft.CourseId
+            CourseId = response.CourseDraft.CourseId,
+            ApprovedBy = response.CourseDraft.CourseId
         };
     }
 
@@ -63,7 +88,8 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Draft, 
             Title = response.CourseDraft.Title,
             Description = response.CourseDraft.Description,
             TeacherId = response.CourseDraft.TeacherId,
-            CourseId = response.CourseDraft.CourseId
+            CourseId = response.CourseDraft.CourseId,
+            ApprovedBy = response.CourseDraft.CourseId
         };
     }
 }

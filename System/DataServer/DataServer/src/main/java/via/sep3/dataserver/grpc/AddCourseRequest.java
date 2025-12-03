@@ -6,17 +6,13 @@
 package via.sep3.dataserver.grpc;
 
 /**
- * <pre>
- * drafts
- * </pre>
- *
- * Protobuf type {@code CourseDraft}
+ * Protobuf type {@code AddCourseRequest}
  */
 @com.google.protobuf.Generated
-public final class CourseDraft extends
+public final class AddCourseRequest extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:CourseDraft)
-    CourseDraftOrBuilder {
+    // @@protoc_insertion_point(message_implements:AddCourseRequest)
+    AddCourseRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -25,86 +21,37 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      CourseDraft.class.getName());
+      AddCourseRequest.class.getName());
   }
-  // Use CourseDraft.newBuilder() to construct.
-  private CourseDraft(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use AddCourseRequest.newBuilder() to construct.
+  private AddCourseRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private CourseDraft() {
-    language_ = "";
+  private AddCourseRequest() {
     title_ = "";
     description_ = "";
+    language_ = "";
+    category_ = "";
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_CourseDraft_descriptor;
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddCourseRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_CourseDraft_fieldAccessorTable
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddCourseRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.sep3.dataserver.grpc.CourseDraft.class, via.sep3.dataserver.grpc.CourseDraft.Builder.class);
+            via.sep3.dataserver.grpc.AddCourseRequest.class, via.sep3.dataserver.grpc.AddCourseRequest.Builder.class);
   }
 
-  public static final int ID_FIELD_NUMBER = 1;
-  private int id_ = 0;
-  /**
-   * <code>int32 id = 1;</code>
-   * @return The id.
-   */
-  @java.lang.Override
-  public int getId() {
-    return id_;
-  }
-
-  public static final int LANGUAGE_FIELD_NUMBER = 2;
-  @SuppressWarnings("serial")
-  private volatile java.lang.Object language_ = "";
-  /**
-   * <code>string language = 2;</code>
-   * @return The language.
-   */
-  @java.lang.Override
-  public java.lang.String getLanguage() {
-    java.lang.Object ref = language_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      language_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string language = 2;</code>
-   * @return The bytes for language.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString
-      getLanguageBytes() {
-    java.lang.Object ref = language_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      language_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int TITLE_FIELD_NUMBER = 3;
+  public static final int TITLE_FIELD_NUMBER = 1;
   @SuppressWarnings("serial")
   private volatile java.lang.Object title_ = "";
   /**
-   * <code>string title = 3;</code>
+   * <code>string title = 1;</code>
    * @return The title.
    */
   @java.lang.Override
@@ -121,7 +68,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string title = 3;</code>
+   * <code>string title = 1;</code>
    * @return The bytes for title.
    */
   @java.lang.Override
@@ -139,11 +86,11 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int DESCRIPTION_FIELD_NUMBER = 4;
+  public static final int DESCRIPTION_FIELD_NUMBER = 2;
   @SuppressWarnings("serial")
   private volatile java.lang.Object description_ = "";
   /**
-   * <code>string description = 4;</code>
+   * <code>string description = 2;</code>
    * @return The description.
    */
   @java.lang.Override
@@ -160,7 +107,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string description = 4;</code>
+   * <code>string description = 2;</code>
    * @return The bytes for description.
    */
   @java.lang.Override
@@ -178,37 +125,82 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int TEACHER_ID_FIELD_NUMBER = 5;
-  private int teacherId_ = 0;
+  public static final int LANGUAGE_FIELD_NUMBER = 3;
+  @SuppressWarnings("serial")
+  private volatile java.lang.Object language_ = "";
   /**
-   * <code>int32 teacher_id = 5;</code>
-   * @return The teacherId.
+   * <code>string language = 3;</code>
+   * @return The language.
    */
   @java.lang.Override
-  public int getTeacherId() {
-    return teacherId_;
+  public java.lang.String getLanguage() {
+    java.lang.Object ref = language_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      language_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string language = 3;</code>
+   * @return The bytes for language.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getLanguageBytes() {
+    java.lang.Object ref = language_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      language_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
-  public static final int COURSE_ID_FIELD_NUMBER = 6;
-  private int courseId_ = 0;
+  public static final int CATEGORY_FIELD_NUMBER = 4;
+  @SuppressWarnings("serial")
+  private volatile java.lang.Object category_ = "";
   /**
-   * <code>int32 course_id = 6;</code>
-   * @return The courseId.
+   * <code>string category = 4;</code>
+   * @return The category.
    */
   @java.lang.Override
-  public int getCourseId() {
-    return courseId_;
+  public java.lang.String getCategory() {
+    java.lang.Object ref = category_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      category_ = s;
+      return s;
+    }
   }
-
-  public static final int APPROVED_BY_FIELD_NUMBER = 7;
-  private int approvedBy_ = 0;
   /**
-   * <code>int32 approved_by = 7;</code>
-   * @return The approvedBy.
+   * <code>string category = 4;</code>
+   * @return The bytes for category.
    */
   @java.lang.Override
-  public int getApprovedBy() {
-    return approvedBy_;
+  public com.google.protobuf.ByteString
+      getCategoryBytes() {
+    java.lang.Object ref = category_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      category_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   private byte memoizedIsInitialized = -1;
@@ -225,26 +217,17 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (id_ != 0) {
-      output.writeInt32(1, id_);
-    }
-    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(language_)) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, language_);
-    }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 3, title_);
+      com.google.protobuf.GeneratedMessage.writeString(output, 1, title_);
     }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(description_)) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 4, description_);
+      com.google.protobuf.GeneratedMessage.writeString(output, 2, description_);
     }
-    if (teacherId_ != 0) {
-      output.writeInt32(5, teacherId_);
+    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(language_)) {
+      com.google.protobuf.GeneratedMessage.writeString(output, 3, language_);
     }
-    if (courseId_ != 0) {
-      output.writeInt32(6, courseId_);
-    }
-    if (approvedBy_ != 0) {
-      output.writeInt32(7, approvedBy_);
+    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(category_)) {
+      com.google.protobuf.GeneratedMessage.writeString(output, 4, category_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -255,30 +238,17 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (id_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, id_);
-    }
-    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(language_)) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, language_);
-    }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(3, title_);
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, title_);
     }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(description_)) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(4, description_);
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, description_);
     }
-    if (teacherId_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(5, teacherId_);
+    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(language_)) {
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(3, language_);
     }
-    if (courseId_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(6, courseId_);
-    }
-    if (approvedBy_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(7, approvedBy_);
+    if (!com.google.protobuf.GeneratedMessage.isStringEmpty(category_)) {
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(4, category_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -290,25 +260,19 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.sep3.dataserver.grpc.CourseDraft)) {
+    if (!(obj instanceof via.sep3.dataserver.grpc.AddCourseRequest)) {
       return super.equals(obj);
     }
-    via.sep3.dataserver.grpc.CourseDraft other = (via.sep3.dataserver.grpc.CourseDraft) obj;
+    via.sep3.dataserver.grpc.AddCourseRequest other = (via.sep3.dataserver.grpc.AddCourseRequest) obj;
 
-    if (getId()
-        != other.getId()) return false;
-    if (!getLanguage()
-        .equals(other.getLanguage())) return false;
     if (!getTitle()
         .equals(other.getTitle())) return false;
     if (!getDescription()
         .equals(other.getDescription())) return false;
-    if (getTeacherId()
-        != other.getTeacherId()) return false;
-    if (getCourseId()
-        != other.getCourseId()) return false;
-    if (getApprovedBy()
-        != other.getApprovedBy()) return false;
+    if (!getLanguage()
+        .equals(other.getLanguage())) return false;
+    if (!getCategory()
+        .equals(other.getCategory())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -320,63 +284,57 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + ID_FIELD_NUMBER;
-    hash = (53 * hash) + getId();
-    hash = (37 * hash) + LANGUAGE_FIELD_NUMBER;
-    hash = (53 * hash) + getLanguage().hashCode();
     hash = (37 * hash) + TITLE_FIELD_NUMBER;
     hash = (53 * hash) + getTitle().hashCode();
     hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
     hash = (53 * hash) + getDescription().hashCode();
-    hash = (37 * hash) + TEACHER_ID_FIELD_NUMBER;
-    hash = (53 * hash) + getTeacherId();
-    hash = (37 * hash) + COURSE_ID_FIELD_NUMBER;
-    hash = (53 * hash) + getCourseId();
-    hash = (37 * hash) + APPROVED_BY_FIELD_NUMBER;
-    hash = (53 * hash) + getApprovedBy();
+    hash = (37 * hash) + LANGUAGE_FIELD_NUMBER;
+    hash = (53 * hash) + getLanguage().hashCode();
+    hash = (37 * hash) + CATEGORY_FIELD_NUMBER;
+    hash = (53 * hash) + getCategory().hashCode();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(byte[] data)
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -384,26 +342,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.sep3.dataserver.grpc.CourseDraft parseDelimitedFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.sep3.dataserver.grpc.CourseDraft parseDelimitedFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.CourseDraft parseFrom(
+  public static via.sep3.dataserver.grpc.AddCourseRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -416,7 +374,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.sep3.dataserver.grpc.CourseDraft prototype) {
+  public static Builder newBuilder(via.sep3.dataserver.grpc.AddCourseRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -432,30 +390,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * drafts
-   * </pre>
-   *
-   * Protobuf type {@code CourseDraft}
+   * Protobuf type {@code AddCourseRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:CourseDraft)
-      via.sep3.dataserver.grpc.CourseDraftOrBuilder {
+      // @@protoc_insertion_point(builder_implements:AddCourseRequest)
+      via.sep3.dataserver.grpc.AddCourseRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_CourseDraft_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddCourseRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_CourseDraft_fieldAccessorTable
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddCourseRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.sep3.dataserver.grpc.CourseDraft.class, via.sep3.dataserver.grpc.CourseDraft.Builder.class);
+              via.sep3.dataserver.grpc.AddCourseRequest.class, via.sep3.dataserver.grpc.AddCourseRequest.Builder.class);
     }
 
-    // Construct using via.sep3.dataserver.grpc.CourseDraft.newBuilder()
+    // Construct using via.sep3.dataserver.grpc.AddCourseRequest.newBuilder()
     private Builder() {
 
     }
@@ -469,30 +423,27 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
-      id_ = 0;
-      language_ = "";
       title_ = "";
       description_ = "";
-      teacherId_ = 0;
-      courseId_ = 0;
-      approvedBy_ = 0;
+      language_ = "";
+      category_ = "";
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_CourseDraft_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddCourseRequest_descriptor;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.CourseDraft getDefaultInstanceForType() {
-      return via.sep3.dataserver.grpc.CourseDraft.getDefaultInstance();
+    public via.sep3.dataserver.grpc.AddCourseRequest getDefaultInstanceForType() {
+      return via.sep3.dataserver.grpc.AddCourseRequest.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.CourseDraft build() {
-      via.sep3.dataserver.grpc.CourseDraft result = buildPartial();
+    public via.sep3.dataserver.grpc.AddCourseRequest build() {
+      via.sep3.dataserver.grpc.AddCourseRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -500,76 +451,60 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.CourseDraft buildPartial() {
-      via.sep3.dataserver.grpc.CourseDraft result = new via.sep3.dataserver.grpc.CourseDraft(this);
+    public via.sep3.dataserver.grpc.AddCourseRequest buildPartial() {
+      via.sep3.dataserver.grpc.AddCourseRequest result = new via.sep3.dataserver.grpc.AddCourseRequest(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(via.sep3.dataserver.grpc.CourseDraft result) {
+    private void buildPartial0(via.sep3.dataserver.grpc.AddCourseRequest result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.id_ = id_;
-      }
-      if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.language_ = language_;
-      }
-      if (((from_bitField0_ & 0x00000004) != 0)) {
         result.title_ = title_;
       }
-      if (((from_bitField0_ & 0x00000008) != 0)) {
+      if (((from_bitField0_ & 0x00000002) != 0)) {
         result.description_ = description_;
       }
-      if (((from_bitField0_ & 0x00000010) != 0)) {
-        result.teacherId_ = teacherId_;
+      if (((from_bitField0_ & 0x00000004) != 0)) {
+        result.language_ = language_;
       }
-      if (((from_bitField0_ & 0x00000020) != 0)) {
-        result.courseId_ = courseId_;
-      }
-      if (((from_bitField0_ & 0x00000040) != 0)) {
-        result.approvedBy_ = approvedBy_;
+      if (((from_bitField0_ & 0x00000008) != 0)) {
+        result.category_ = category_;
       }
     }
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.sep3.dataserver.grpc.CourseDraft) {
-        return mergeFrom((via.sep3.dataserver.grpc.CourseDraft)other);
+      if (other instanceof via.sep3.dataserver.grpc.AddCourseRequest) {
+        return mergeFrom((via.sep3.dataserver.grpc.AddCourseRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.sep3.dataserver.grpc.CourseDraft other) {
-      if (other == via.sep3.dataserver.grpc.CourseDraft.getDefaultInstance()) return this;
-      if (other.getId() != 0) {
-        setId(other.getId());
-      }
-      if (!other.getLanguage().isEmpty()) {
-        language_ = other.language_;
-        bitField0_ |= 0x00000002;
-        onChanged();
-      }
+    public Builder mergeFrom(via.sep3.dataserver.grpc.AddCourseRequest other) {
+      if (other == via.sep3.dataserver.grpc.AddCourseRequest.getDefaultInstance()) return this;
       if (!other.getTitle().isEmpty()) {
         title_ = other.title_;
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000001;
         onChanged();
       }
       if (!other.getDescription().isEmpty()) {
         description_ = other.description_;
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000002;
         onChanged();
       }
-      if (other.getTeacherId() != 0) {
-        setTeacherId(other.getTeacherId());
+      if (!other.getLanguage().isEmpty()) {
+        language_ = other.language_;
+        bitField0_ |= 0x00000004;
+        onChanged();
       }
-      if (other.getCourseId() != 0) {
-        setCourseId(other.getCourseId());
-      }
-      if (other.getApprovedBy() != 0) {
-        setApprovedBy(other.getApprovedBy());
+      if (!other.getCategory().isEmpty()) {
+        category_ = other.category_;
+        bitField0_ |= 0x00000008;
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -597,41 +532,26 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            case 8: {
-              id_ = input.readInt32();
+            case 10: {
+              title_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000001;
               break;
-            } // case 8
+            } // case 10
             case 18: {
-              language_ = input.readStringRequireUtf8();
+              description_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000002;
               break;
             } // case 18
             case 26: {
-              title_ = input.readStringRequireUtf8();
+              language_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000004;
               break;
             } // case 26
             case 34: {
-              description_ = input.readStringRequireUtf8();
+              category_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000008;
               break;
             } // case 34
-            case 40: {
-              teacherId_ = input.readInt32();
-              bitField0_ |= 0x00000010;
-              break;
-            } // case 40
-            case 48: {
-              courseId_ = input.readInt32();
-              bitField0_ |= 0x00000020;
-              break;
-            } // case 48
-            case 56: {
-              approvedBy_ = input.readInt32();
-              bitField0_ |= 0x00000040;
-              break;
-            } // case 56
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -649,113 +569,9 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private int id_ ;
-    /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
-     */
-    @java.lang.Override
-    public int getId() {
-      return id_;
-    }
-    /**
-     * <code>int32 id = 1;</code>
-     * @param value The id to set.
-     * @return This builder for chaining.
-     */
-    public Builder setId(int value) {
-
-      id_ = value;
-      bitField0_ |= 0x00000001;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 id = 1;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearId() {
-      bitField0_ = (bitField0_ & ~0x00000001);
-      id_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object language_ = "";
-    /**
-     * <code>string language = 2;</code>
-     * @return The language.
-     */
-    public java.lang.String getLanguage() {
-      java.lang.Object ref = language_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        language_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string language = 2;</code>
-     * @return The bytes for language.
-     */
-    public com.google.protobuf.ByteString
-        getLanguageBytes() {
-      java.lang.Object ref = language_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        language_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string language = 2;</code>
-     * @param value The language to set.
-     * @return This builder for chaining.
-     */
-    public Builder setLanguage(
-        java.lang.String value) {
-      if (value == null) { throw new NullPointerException(); }
-      language_ = value;
-      bitField0_ |= 0x00000002;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string language = 2;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearLanguage() {
-      language_ = getDefaultInstance().getLanguage();
-      bitField0_ = (bitField0_ & ~0x00000002);
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string language = 2;</code>
-     * @param value The bytes for language to set.
-     * @return This builder for chaining.
-     */
-    public Builder setLanguageBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) { throw new NullPointerException(); }
-      checkByteStringIsUtf8(value);
-      language_ = value;
-      bitField0_ |= 0x00000002;
-      onChanged();
-      return this;
-    }
-
     private java.lang.Object title_ = "";
     /**
-     * <code>string title = 3;</code>
+     * <code>string title = 1;</code>
      * @return The title.
      */
     public java.lang.String getTitle() {
@@ -771,7 +587,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string title = 3;</code>
+     * <code>string title = 1;</code>
      * @return The bytes for title.
      */
     public com.google.protobuf.ByteString
@@ -788,7 +604,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string title = 3;</code>
+     * <code>string title = 1;</code>
      * @param value The title to set.
      * @return This builder for chaining.
      */
@@ -796,22 +612,22 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       title_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
     /**
-     * <code>string title = 3;</code>
+     * <code>string title = 1;</code>
      * @return This builder for chaining.
      */
     public Builder clearTitle() {
       title_ = getDefaultInstance().getTitle();
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000001);
       onChanged();
       return this;
     }
     /**
-     * <code>string title = 3;</code>
+     * <code>string title = 1;</code>
      * @param value The bytes for title to set.
      * @return This builder for chaining.
      */
@@ -820,14 +636,14 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       title_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
 
     private java.lang.Object description_ = "";
     /**
-     * <code>string description = 4;</code>
+     * <code>string description = 2;</code>
      * @return The description.
      */
     public java.lang.String getDescription() {
@@ -843,7 +659,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string description = 4;</code>
+     * <code>string description = 2;</code>
      * @return The bytes for description.
      */
     public com.google.protobuf.ByteString
@@ -860,7 +676,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string description = 4;</code>
+     * <code>string description = 2;</code>
      * @param value The description to set.
      * @return This builder for chaining.
      */
@@ -868,22 +684,22 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       description_ = value;
-      bitField0_ |= 0x00000008;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
     /**
-     * <code>string description = 4;</code>
+     * <code>string description = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearDescription() {
       description_ = getDefaultInstance().getDescription();
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000002);
       onChanged();
       return this;
     }
     /**
-     * <code>string description = 4;</code>
+     * <code>string description = 2;</code>
      * @param value The bytes for description to set.
      * @return This builder for chaining.
      */
@@ -892,124 +708,172 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       description_ = value;
+      bitField0_ |= 0x00000002;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object language_ = "";
+    /**
+     * <code>string language = 3;</code>
+     * @return The language.
+     */
+    public java.lang.String getLanguage() {
+      java.lang.Object ref = language_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        language_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string language = 3;</code>
+     * @return The bytes for language.
+     */
+    public com.google.protobuf.ByteString
+        getLanguageBytes() {
+      java.lang.Object ref = language_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        language_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string language = 3;</code>
+     * @param value The language to set.
+     * @return This builder for chaining.
+     */
+    public Builder setLanguage(
+        java.lang.String value) {
+      if (value == null) { throw new NullPointerException(); }
+      language_ = value;
+      bitField0_ |= 0x00000004;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string language = 3;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearLanguage() {
+      language_ = getDefaultInstance().getLanguage();
+      bitField0_ = (bitField0_ & ~0x00000004);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string language = 3;</code>
+     * @param value The bytes for language to set.
+     * @return This builder for chaining.
+     */
+    public Builder setLanguageBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) { throw new NullPointerException(); }
+      checkByteStringIsUtf8(value);
+      language_ = value;
+      bitField0_ |= 0x00000004;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object category_ = "";
+    /**
+     * <code>string category = 4;</code>
+     * @return The category.
+     */
+    public java.lang.String getCategory() {
+      java.lang.Object ref = category_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        category_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string category = 4;</code>
+     * @return The bytes for category.
+     */
+    public com.google.protobuf.ByteString
+        getCategoryBytes() {
+      java.lang.Object ref = category_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        category_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string category = 4;</code>
+     * @param value The category to set.
+     * @return This builder for chaining.
+     */
+    public Builder setCategory(
+        java.lang.String value) {
+      if (value == null) { throw new NullPointerException(); }
+      category_ = value;
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string category = 4;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearCategory() {
+      category_ = getDefaultInstance().getCategory();
+      bitField0_ = (bitField0_ & ~0x00000008);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string category = 4;</code>
+     * @param value The bytes for category to set.
+     * @return This builder for chaining.
+     */
+    public Builder setCategoryBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) { throw new NullPointerException(); }
+      checkByteStringIsUtf8(value);
+      category_ = value;
       bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
 
-    private int teacherId_ ;
-    /**
-     * <code>int32 teacher_id = 5;</code>
-     * @return The teacherId.
-     */
-    @java.lang.Override
-    public int getTeacherId() {
-      return teacherId_;
-    }
-    /**
-     * <code>int32 teacher_id = 5;</code>
-     * @param value The teacherId to set.
-     * @return This builder for chaining.
-     */
-    public Builder setTeacherId(int value) {
-
-      teacherId_ = value;
-      bitField0_ |= 0x00000010;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 teacher_id = 5;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearTeacherId() {
-      bitField0_ = (bitField0_ & ~0x00000010);
-      teacherId_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int courseId_ ;
-    /**
-     * <code>int32 course_id = 6;</code>
-     * @return The courseId.
-     */
-    @java.lang.Override
-    public int getCourseId() {
-      return courseId_;
-    }
-    /**
-     * <code>int32 course_id = 6;</code>
-     * @param value The courseId to set.
-     * @return This builder for chaining.
-     */
-    public Builder setCourseId(int value) {
-
-      courseId_ = value;
-      bitField0_ |= 0x00000020;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 course_id = 6;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearCourseId() {
-      bitField0_ = (bitField0_ & ~0x00000020);
-      courseId_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int approvedBy_ ;
-    /**
-     * <code>int32 approved_by = 7;</code>
-     * @return The approvedBy.
-     */
-    @java.lang.Override
-    public int getApprovedBy() {
-      return approvedBy_;
-    }
-    /**
-     * <code>int32 approved_by = 7;</code>
-     * @param value The approvedBy to set.
-     * @return This builder for chaining.
-     */
-    public Builder setApprovedBy(int value) {
-
-      approvedBy_ = value;
-      bitField0_ |= 0x00000040;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 approved_by = 7;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearApprovedBy() {
-      bitField0_ = (bitField0_ & ~0x00000040);
-      approvedBy_ = 0;
-      onChanged();
-      return this;
-    }
-
-    // @@protoc_insertion_point(builder_scope:CourseDraft)
+    // @@protoc_insertion_point(builder_scope:AddCourseRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:CourseDraft)
-  private static final via.sep3.dataserver.grpc.CourseDraft DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:AddCourseRequest)
+  private static final via.sep3.dataserver.grpc.AddCourseRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.CourseDraft();
+    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.AddCourseRequest();
   }
 
-  public static via.sep3.dataserver.grpc.CourseDraft getDefaultInstance() {
+  public static via.sep3.dataserver.grpc.AddCourseRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<CourseDraft>
-      PARSER = new com.google.protobuf.AbstractParser<CourseDraft>() {
+  private static final com.google.protobuf.Parser<AddCourseRequest>
+      PARSER = new com.google.protobuf.AbstractParser<AddCourseRequest>() {
     @java.lang.Override
-    public CourseDraft parsePartialFrom(
+    public AddCourseRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1028,17 +892,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<CourseDraft> parser() {
+  public static com.google.protobuf.Parser<AddCourseRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<CourseDraft> getParserForType() {
+  public com.google.protobuf.Parser<AddCourseRequest> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.sep3.dataserver.grpc.CourseDraft getDefaultInstanceForType() {
+  public via.sep3.dataserver.grpc.AddCourseRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

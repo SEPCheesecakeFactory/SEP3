@@ -63,4 +63,10 @@ public interface CourseDraftOrBuilder extends
    * @return The courseId.
    */
   int getCourseId();
+
+  /**
+   * <code>int32 approved_by = 7;</code>
+   * @return The approvedBy.
+   */
+  int getApprovedBy();
 }

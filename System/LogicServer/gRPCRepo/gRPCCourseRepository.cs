@@ -6,7 +6,7 @@ using Course = Entities.Course;
 
 namespace gRPCRepo;
 
-public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course, Course, Course, int>(host, port)
+public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course, CreateCourseDto, Course, int>(host, port)
 {
     public override IQueryable<Course> GetMany()
     {
@@ -23,12 +23,29 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
         return courses.AsQueryable();
     }
 
-    public override Task<Course> AddAsync(Course entity)
+    public override async Task<Course> AddAsync(CreateCourseDto entity)
     {
-        throw new NotImplementedException();
+        var request = new AddCourseRequest
+        {
+            Title = entity.Title ?? "",
+            Description = entity.Description ?? "",
+            Language = entity.Language ?? "",
+            Category = entity.Category ?? ""
+        };
+
+        var response = await Client.AddCourseAsync(request);
+
+        return new Course
+        {
+            Id = response.Course.Id,
+            Title = response.Course.Title,
+            Description = response.Course.Description,
+            Language = response.Course.Language,
+            Category = response.Course.Category
+        };
     }
 
-    public override Task UpdateAsync(Course entity)
+    public override Task<Course> UpdateAsync(Course entity)
     {
         throw new NotImplementedException();
     }

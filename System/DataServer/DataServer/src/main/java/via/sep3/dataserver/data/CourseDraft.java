@@ -21,6 +21,11 @@ public class CourseDraft
   @JoinColumn(name = "course_id")
   private Course course;
 
+  @ManyToOne
+  @JoinColumn(name="approved_by")
+  private SystemUser approvedBy;
+
+
   public Integer getId()
   {
     return id;
@@ -79,5 +84,15 @@ public class CourseDraft
   public void setCourse(Course course)
   {
     this.course = course;
+  }
+
+  public SystemUser getApprovedBy()
+  {
+    return approvedBy;
+  }
+
+  public void setApprovedBy(SystemUser approvedBy)
+  {
+    this.approvedBy = approvedBy;
   }
 }

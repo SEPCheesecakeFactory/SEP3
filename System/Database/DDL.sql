@@ -61,7 +61,8 @@ CREATE TABLE CourseDraft
     title varchar(50),
     description varchar(300),
     teacher_id int REFERENCES SystemUser(id),
-    course_id int REFERENCES Course(id)
+    course_id int REFERENCES Course(id),
+    approved_by int REFERENCES SystemUser(id)
 );
 
 -- Insert into LearningStepType

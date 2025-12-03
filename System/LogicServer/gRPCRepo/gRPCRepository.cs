@@ -25,7 +25,7 @@ public abstract class gRPCRepository<T, TAdd, TUpdate, ID> : IRepositoryID<T, TA
     public abstract IQueryable<T> GetMany();
     public abstract Task<T> GetSingleAsync(ID id);
     public abstract Task<T> AddAsync(TAdd entity);
-    public abstract Task UpdateAsync(TUpdate entity);
+    public abstract Task<T> UpdateAsync(TUpdate entity);
 }
 
 public abstract class gRPCRepository<T, ID> : gRPCRepository<T, T, T, ID> where T : class, IIdentifiable<ID>

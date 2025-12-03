@@ -44,7 +44,7 @@ public class gRPCUserRepository : gRPCRepository<User, User, User, int>
         };        
     }
 
-    public override Task UpdateAsync(Entities.User entity)
+    public override Task<Entities.User> UpdateAsync(Entities.User entity)
     {
         throw new NotImplementedException();
     }

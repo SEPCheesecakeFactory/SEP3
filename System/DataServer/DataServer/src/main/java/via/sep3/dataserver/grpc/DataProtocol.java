@@ -42,6 +42,16 @@ public final class DataProtocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Course_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AddCourseRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AddCourseRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AddCourseResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AddCourseResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GetUsersRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -87,6 +97,31 @@ public final class DataProtocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_LearningStep_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CourseDraft_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_CourseDraft_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AddDraftRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AddDraftRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AddDraftResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AddDraftResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetDraftRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetDraftRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetDraftResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetDraftResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_UpdateLearningStepRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -96,6 +131,16 @@ public final class DataProtocol {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UpdateLearningStepResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UpdateDraftRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UpdateDraftRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UpdateDraftResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UpdateDraftResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -109,32 +154,53 @@ public final class DataProtocol {
       "st\".\n\022GetCoursesResponse\022\030\n\007courses\030\001 \003(" +
       "\0132\007.Course\"\\\n\006Course\022\n\n\002id\030\001 \001(\005\022\r\n\005titl" +
       "e\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\020\n\010language" +
-      "\030\004 \001(\t\022\020\n\010category\030\005 \001(\t\"\021\n\017GetUsersRequ" +
-      "est\"(\n\020GetUsersResponse\022\024\n\005users\030\001 \003(\0132\005" +
-      ".User\"L\n\004User\022\n\n\002id\030\001 \001(\005\022\020\n\010username\030\002 " +
-      "\001(\t\022\020\n\010password\030\003 \001(\t\022\024\n\005roles\030\004 \003(\0132\005.R" +
-      "ole\"\024\n\004Role\022\014\n\004role\030\001 \001(\t\"C\n\016AddUserRequ" +
-      "est\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022" +
-      "\r\n\005roles\030\003 \003(\t\"&\n\017AddUserResponse\022\023\n\004use" +
-      "r\030\001 \001(\0132\005.User\"@\n\026GetLearningStepRequest" +
-      "\022\021\n\tcourse_id\030\001 \001(\005\022\023\n\013step_number\030\002 \001(\005" +
-      "\"?\n\027GetLearningStepResponse\022$\n\rlearning_" +
-      "step\030\001 \001(\0132\r.LearningStep\"T\n\014LearningSte" +
-      "p\022\021\n\tcourse_id\030\001 \001(\005\022\022\n\nstep_order\030\002 \001(\005" +
-      "\022\017\n\007content\030\003 \001(\t\022\014\n\004type\030\004 \001(\t\"A\n\031Updat" +
-      "eLearningStepRequest\022$\n\rlearning_step\030\001 " +
-      "\001(\0132\r.LearningStep\"B\n\032UpdateLearningStep" +
-      "Response\022$\n\rlearning_step\030\001 \001(\0132\r.Learni" +
-      "ngStep2\301\002\n\024DataRetrievalService\022/\n\010GetUs" +
-      "ers\022\020.GetUsersRequest\032\021.GetUsersResponse" +
-      "\022,\n\007AddUser\022\017.AddUserRequest\032\020.AddUserRe" +
-      "sponse\0225\n\nGetCourses\022\022.GetCoursesRequest" +
-      "\032\023.GetCoursesResponse\022D\n\017GetLearningStep" +
-      "\022\027.GetLearningStepRequest\032\030.GetLearningS" +
-      "tepResponse\022M\n\022UpdateLearningStep\022\032.Upda" +
-      "teLearningStepRequest\032\033.UpdateLearningSt" +
-      "epResponseB7\n\030via.sep3.dataserver.grpcP\001" +
-      "\252\002\030via.sep3.dataserver.grpcb\006proto3"
+      "\030\004 \001(\t\022\020\n\010category\030\005 \001(\t\"Z\n\020AddCourseReq" +
+      "uest\022\r\n\005title\030\001 \001(\t\022\023\n\013description\030\002 \001(\t" +
+      "\022\020\n\010language\030\003 \001(\t\022\020\n\010category\030\004 \001(\t\",\n\021" +
+      "AddCourseResponse\022\027\n\006course\030\001 \001(\0132\007.Cour" +
+      "se\"\021\n\017GetUsersRequest\"(\n\020GetUsersRespons" +
+      "e\022\024\n\005users\030\001 \003(\0132\005.User\"L\n\004User\022\n\n\002id\030\001 " +
+      "\001(\005\022\020\n\010username\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022" +
+      "\024\n\005roles\030\004 \003(\0132\005.Role\"\024\n\004Role\022\014\n\004role\030\001 " +
+      "\001(\t\"C\n\016AddUserRequest\022\020\n\010username\030\001 \001(\t\022" +
+      "\020\n\010password\030\002 \001(\t\022\r\n\005roles\030\003 \003(\t\"&\n\017AddU" +
+      "serResponse\022\023\n\004user\030\001 \001(\0132\005.User\"@\n\026GetL" +
+      "earningStepRequest\022\021\n\tcourse_id\030\001 \001(\005\022\023\n" +
+      "\013step_number\030\002 \001(\005\"?\n\027GetLearningStepRes" +
+      "ponse\022$\n\rlearning_step\030\001 \001(\0132\r.LearningS" +
+      "tep\"T\n\014LearningStep\022\021\n\tcourse_id\030\001 \001(\005\022\022" +
+      "\n\nstep_order\030\002 \001(\005\022\017\n\007content\030\003 \001(\t\022\014\n\004t" +
+      "ype\030\004 \001(\t\"\213\001\n\013CourseDraft\022\n\n\002id\030\001 \001(\005\022\020\n" +
+      "\010language\030\002 \001(\t\022\r\n\005title\030\003 \001(\t\022\023\n\013descri" +
+      "ption\030\004 \001(\t\022\022\n\nteacher_id\030\005 \001(\005\022\021\n\tcours" +
+      "e_id\030\006 \001(\005\022\023\n\013approved_by\030\007 \001(\005\"[\n\017AddDr" +
+      "aftRequest\022\020\n\010language\030\001 \001(\t\022\r\n\005title\030\002 " +
+      "\001(\t\022\023\n\013description\030\003 \001(\t\022\022\n\nteacher_id\030\004" +
+      " \001(\005\"5\n\020AddDraftResponse\022!\n\013courseDraft\030" +
+      "\001 \001(\0132\014.CourseDraft\"\"\n\017GetDraftRequest\022\017" +
+      "\n\007draftId\030\001 \001(\005\"5\n\020GetDraftResponse\022!\n\013c" +
+      "ourseDraft\030\001 \001(\0132\014.CourseDraft\"A\n\031Update" +
+      "LearningStepRequest\022$\n\rlearning_step\030\001 \001" +
+      "(\0132\r.LearningStep\"B\n\032UpdateLearningStepR" +
+      "esponse\022$\n\rlearning_step\030\001 \001(\0132\r.Learnin" +
+      "gStep\"7\n\022UpdateDraftRequest\022!\n\013courseDra" +
+      "ft\030\001 \001(\0132\014.CourseDraft\"8\n\023UpdateDraftRes" +
+      "ponse\022!\n\013courseDraft\030\001 \001(\0132\014.CourseDraft" +
+      "2\221\004\n\024DataRetrievalService\022/\n\010GetUsers\022\020." +
+      "GetUsersRequest\032\021.GetUsersResponse\022,\n\007Ad" +
+      "dUser\022\017.AddUserRequest\032\020.AddUserResponse" +
+      "\0225\n\nGetCourses\022\022.GetCoursesRequest\032\023.Get" +
+      "CoursesResponse\0222\n\tAddCourse\022\021.AddCourse" +
+      "Request\032\022.AddCourseResponse\022D\n\017GetLearni" +
+      "ngStep\022\027.GetLearningStepRequest\032\030.GetLea" +
+      "rningStepResponse\022/\n\010AddDraft\022\020.AddDraft" +
+      "Request\032\021.AddDraftResponse\022/\n\010GetDraft\022\020" +
+      ".GetDraftRequest\032\021.GetDraftResponse\0228\n\013U" +
+      "pdateDraft\022\023.UpdateDraftRequest\032\024.Update" +
+      "DraftResponse\022M\n\022UpdateLearningStep\022\032.Up" +
+      "dateLearningStepRequest\032\033.UpdateLearning" +
+      "StepResponseB7\n\030via.sep3.dataserver.grpc" +
+      "P\001\252\002\030via.sep3.dataserver.grpcb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -158,72 +224,126 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Course_descriptor,
         new java.lang.String[] { "Id", "Title", "Description", "Language", "Category", });
-    internal_static_GetUsersRequest_descriptor =
+    internal_static_AddCourseRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_AddCourseRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_AddCourseRequest_descriptor,
+        new java.lang.String[] { "Title", "Description", "Language", "Category", });
+    internal_static_AddCourseResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_AddCourseResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_AddCourseResponse_descriptor,
+        new java.lang.String[] { "Course", });
+    internal_static_GetUsersRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_GetUsersRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetUsersRequest_descriptor,
         new java.lang.String[] { });
     internal_static_GetUsersResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_GetUsersResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetUsersResponse_descriptor,
         new java.lang.String[] { "Users", });
     internal_static_User_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_User_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_User_descriptor,
         new java.lang.String[] { "Id", "Username", "Password", "Roles", });
     internal_static_Role_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Role_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Role_descriptor,
         new java.lang.String[] { "Role", });
     internal_static_AddUserRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_AddUserRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_AddUserRequest_descriptor,
         new java.lang.String[] { "Username", "Password", "Roles", });
     internal_static_AddUserResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_AddUserResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_AddUserResponse_descriptor,
         new java.lang.String[] { "User", });
     internal_static_GetLearningStepRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_GetLearningStepRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLearningStepRequest_descriptor,
         new java.lang.String[] { "CourseId", "StepNumber", });
     internal_static_GetLearningStepResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_GetLearningStepResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLearningStepResponse_descriptor,
         new java.lang.String[] { "LearningStep", });
     internal_static_LearningStep_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_LearningStep_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_LearningStep_descriptor,
         new java.lang.String[] { "CourseId", "StepOrder", "Content", "Type", });
+    internal_static_CourseDraft_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_CourseDraft_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_CourseDraft_descriptor,
+        new java.lang.String[] { "Id", "Language", "Title", "Description", "TeacherId", "CourseId", "ApprovedBy", });
+    internal_static_AddDraftRequest_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_AddDraftRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_AddDraftRequest_descriptor,
+        new java.lang.String[] { "Language", "Title", "Description", "TeacherId", });
+    internal_static_AddDraftResponse_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_AddDraftResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_AddDraftResponse_descriptor,
+        new java.lang.String[] { "CourseDraft", });
+    internal_static_GetDraftRequest_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_GetDraftRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetDraftRequest_descriptor,
+        new java.lang.String[] { "DraftId", });
+    internal_static_GetDraftResponse_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_GetDraftResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetDraftResponse_descriptor,
+        new java.lang.String[] { "CourseDraft", });
     internal_static_UpdateLearningStepRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_UpdateLearningStepRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateLearningStepRequest_descriptor,
         new java.lang.String[] { "LearningStep", });
     internal_static_UpdateLearningStepResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_UpdateLearningStepResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateLearningStepResponse_descriptor,
         new java.lang.String[] { "LearningStep", });
+    internal_static_UpdateDraftRequest_descriptor =
+      getDescriptor().getMessageTypes().get(21);
+    internal_static_UpdateDraftRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_UpdateDraftRequest_descriptor,
+        new java.lang.String[] { "CourseDraft", });
+    internal_static_UpdateDraftResponse_descriptor =
+      getDescriptor().getMessageTypes().get(22);
+    internal_static_UpdateDraftResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_UpdateDraftResponse_descriptor,
+        new java.lang.String[] { "CourseDraft", });
     descriptor.resolveAllFeaturesImmutable();
   }
 
