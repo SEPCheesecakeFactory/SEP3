@@ -13,6 +13,8 @@ import via.sep3.dataserver.data.Course;
 import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.LearningStep;
 import via.sep3.dataserver.data.LearningStepRepository;
+import via.sep3.dataserver.data.LearningStepType;
+import via.sep3.dataserver.data.LearningStepTypeRepository;
 import via.sep3.dataserver.data.Role;
 import via.sep3.dataserver.data.RoleRepository;
 import via.sep3.dataserver.data.SystemUser;
@@ -50,6 +52,9 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
   private LearningStepRepository learningStepRepository;
   @Autowired
   private UserCourseProgressRepository progressRepository;
+
+  @Autowired
+  private LearningStepTypeRepository learningStepTypeRepository;
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -100,20 +105,18 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     try {
       // custom query method instead of findById to avoid composite key issues
       LearningStep step = learningStepRepository.findByIdCourseIdAndIdStepOrder(
-          request.getCourseId(), 
-          request.getStepNumber()
-      );
-      
+          request.getCourseId(),
+          request.getStepNumber());
+
       if (step == null) {
         responseObserver.onError(
             io.grpc.Status.NOT_FOUND
-                .withDescription("Learning step not found for courseId=" + request.getCourseId() 
+                .withDescription("Learning step not found for courseId=" + request.getCourseId()
                     + ", stepNumber=" + request.getStepNumber())
-                .asRuntimeException()
-        );
+                .asRuntimeException());
         return;
       }
-      
+
       responseObserver.onNext(GetLearningStepResponse.newBuilder()
           .setLearningStep(convertToGrpcLearningStep(step))
           .build());
@@ -123,19 +126,18 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
           io.grpc.Status.INTERNAL
               .withDescription("Error retrieving learning step: " + e.getMessage())
               .withCause(e)
-              .asRuntimeException()
-      );
+              .asRuntimeException());
     }
   }
 
-  @Override public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver)
-  {
+  @Override
+  public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver) {
     try {
       List<SystemUser> users = userRepository.findAll();
-      List<via.sep3.dataserver.grpc.SystemUser> grpcUsers = new ArrayList<>();
+      List<via.sep3.dataserver.grpc.User> grpcUsers = new ArrayList<>();
 
       for (SystemUser user : users) {
-        via.sep3.dataserver.grpc.SystemUser grpcUser = convertToGrpcUser(user);
+        via.sep3.dataserver.grpc.User grpcUser = convertToGrpcUser(user);
         grpcUsers.add(grpcUser);
       }
       GetUsersResponse response = GetUsersResponse.newBuilder()
@@ -149,28 +151,21 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     }
   }
 
-  private via.sep3.dataserver.grpc.SystemUser convertToGrpcUser(SystemUser jpaUser) {
-    via.sep3.dataserver.grpc.SystemUser.Builder userBuilder =
-        via.sep3.dataserver.grpc.SystemUser.newBuilder()
-            .setId(jpaUser.getId())
-            .setUsername(jpaUser.getUsername() != null ? jpaUser.getUsername() : "")
-            .setPasswordHash(jpaUser.getPassword() != null ? jpaUser.getPassword() : "");
-
-    // iterate over the list attached to the user object.
+  private via.sep3.dataserver.grpc.User convertToGrpcUser(SystemUser jpaUser) {
+    via.sep3.dataserver.grpc.User.Builder userBuilder = via.sep3.dataserver.grpc.User.newBuilder()
+        .setId(jpaUser.getId())
+        .setUsername(jpaUser.getUsername() != null ? jpaUser.getUsername() : "")
+        .setPassword(jpaUser.getPassword() != null ? jpaUser.getPassword() : "");
 
     if (jpaUser.getSystemUserRoles() != null) {
       for (via.sep3.dataserver.data.SystemUserRole junction : jpaUser.getSystemUserRoles()) {
-
-        // 1. Extract the Role Entity from the Junction Table
         via.sep3.dataserver.data.Role dbRole = junction.getRole();
 
         if (dbRole != null) {
-          via.sep3.dataserver.grpc.Role grpcRole =
+          userBuilder.addRoles(
               via.sep3.dataserver.grpc.Role.newBuilder()
-                  .setRole(dbRole.getRole()) // This gets the string "admin", "learner", etc.
-                  .build();
-
-          userBuilder.addRoles(grpcRole);
+                  .setRole(dbRole.getRole())
+                  .build());
         }
       }
     }
@@ -178,9 +173,9 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     return userBuilder.build();
   }
 
-  @Override public void addUser(AddUserRequest request,
-      StreamObserver<AddUserResponse> responseObserver)
-  {
+  @Override
+  public void addUser(AddUserRequest request,
+      StreamObserver<AddUserResponse> responseObserver) {
     try {
       String username = request.getUsername();
       String password = request.getPassword();
@@ -209,7 +204,7 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
         assignedRoles.add(roleEntity);
 
-        via.sep3.dataserver.grpc.SystemUser grpcUser = convertToGrpcUser(newUser);
+        via.sep3.dataserver.grpc.User grpcUser = convertToGrpcUser(newUser);
 
         AddUserResponse response = AddUserResponse.newBuilder()
             .setUser(grpcUser)
@@ -220,6 +215,70 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       }
     } catch (Exception e) {
       responseObserver.onError(e);
+    }
+  }
+
+  @Override
+  public void updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request,
+      StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse> responseObserver) {
+    try {
+      via.sep3.dataserver.grpc.LearningStep grpcStep = request.getLearningStep();
+
+      LearningStep step = learningStepRepository.findByIdCourseIdAndIdStepOrder(
+          grpcStep.getCourseId(),
+          grpcStep.getStepOrder());
+
+      if (step == null) {
+        responseObserver.onError(
+            io.grpc.Status.NOT_FOUND
+                .withDescription("Learning step not found for courseId=" + grpcStep.getCourseId()
+                    + ", stepOrder=" + grpcStep.getStepOrder())
+                .asRuntimeException());
+        return;
+      }
+
+      // if step type null or empty, keep existing type
+      if (grpcStep.getType() != null && !grpcStep.getType().isEmpty()) {
+        via.sep3.dataserver.data.LearningStepType stepType = learningStepTypeRepository
+            .findByName(grpcStep.getType());
+        if (stepType == null) {
+          responseObserver.onError(
+              io.grpc.Status.NOT_FOUND
+                  .withDescription("Learning step type not found: " + grpcStep.getType())
+                  .asRuntimeException());
+          return;
+        }
+        step.setStepType(stepType);
+      }
+
+      LearningStepType newStepType;
+      try
+      {
+        newStepType = learningStepTypeRepository
+          .findByName(grpcStep.getType());
+      }
+      catch (Exception e)
+      {
+        responseObserver.onError(
+          io.grpc.Status.NOT_FOUND
+            .withDescription("Learning step type not found: " + grpcStep.getType())
+            .asRuntimeException());
+        return;
+      }
+      step.setStepType(newStepType);
+      step.setContent(grpcStep.getContent());      
+      learningStepRepository.save(step);
+
+      responseObserver.onNext(via.sep3.dataserver.grpc.UpdateLearningStepResponse.newBuilder()
+          .setLearningStep(convertToGrpcLearningStep(step))
+          .build());
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(
+          io.grpc.Status.INTERNAL
+              .withDescription("Error updating learning step: " + e.getMessage())
+              .withCause(e)
+              .asRuntimeException());
     }
   }
 

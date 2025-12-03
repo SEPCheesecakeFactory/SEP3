@@ -280,7 +280,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     default void getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request,
@@ -358,7 +358,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public void getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request,
@@ -427,7 +427,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public via.sep3.dataserver.grpc.GetCoursesResponse getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request) throws io.grpc.StatusException {
@@ -492,7 +492,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public via.sep3.dataserver.grpc.GetCoursesResponse getCourses(via.sep3.dataserver.grpc.GetCoursesRequest request) {
@@ -559,7 +559,7 @@ public final class DataRetrievalServiceGrpc {
 
     /**
      * <pre>
-     *courses
+     * courses
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.GetCoursesResponse> getCourses(

@@ -6,13 +6,13 @@
 package via.sep3.dataserver.grpc;
 
 /**
- * Protobuf type {@code AddUserResponse}
+ * Protobuf type {@code UpdateLearningStepRequest}
  */
 @com.google.protobuf.Generated
-public final class AddUserResponse extends
+public final class UpdateLearningStepRequest extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:AddUserResponse)
-    AddUserResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:UpdateLearningStepRequest)
+    UpdateLearningStepRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21,53 +21,53 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      AddUserResponse.class.getName());
+      UpdateLearningStepRequest.class.getName());
   }
-  // Use AddUserResponse.newBuilder() to construct.
-  private AddUserResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use UpdateLearningStepRequest.newBuilder() to construct.
+  private UpdateLearningStepRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private AddUserResponse() {
+  private UpdateLearningStepRequest() {
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddUserResponse_descriptor;
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_UpdateLearningStepRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddUserResponse_fieldAccessorTable
+    return via.sep3.dataserver.grpc.DataProtocol.internal_static_UpdateLearningStepRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.sep3.dataserver.grpc.AddUserResponse.class, via.sep3.dataserver.grpc.AddUserResponse.Builder.class);
+            via.sep3.dataserver.grpc.UpdateLearningStepRequest.class, via.sep3.dataserver.grpc.UpdateLearningStepRequest.Builder.class);
   }
 
   private int bitField0_;
-  public static final int USER_FIELD_NUMBER = 1;
-  private via.sep3.dataserver.grpc.User user_;
+  public static final int LEARNING_STEP_FIELD_NUMBER = 1;
+  private via.sep3.dataserver.grpc.LearningStep learningStep_;
   /**
-   * <code>.User user = 1;</code>
-   * @return Whether the user field is set.
+   * <code>.LearningStep learning_step = 1;</code>
+   * @return Whether the learningStep field is set.
    */
   @java.lang.Override
-  public boolean hasUser() {
+  public boolean hasLearningStep() {
     return ((bitField0_ & 0x00000001) != 0);
   }
   /**
-   * <code>.User user = 1;</code>
-   * @return The user.
+   * <code>.LearningStep learning_step = 1;</code>
+   * @return The learningStep.
    */
   @java.lang.Override
-  public via.sep3.dataserver.grpc.User getUser() {
-    return user_ == null ? via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
+  public via.sep3.dataserver.grpc.LearningStep getLearningStep() {
+    return learningStep_ == null ? via.sep3.dataserver.grpc.LearningStep.getDefaultInstance() : learningStep_;
   }
   /**
-   * <code>.User user = 1;</code>
+   * <code>.LearningStep learning_step = 1;</code>
    */
   @java.lang.Override
-  public via.sep3.dataserver.grpc.UserOrBuilder getUserOrBuilder() {
-    return user_ == null ? via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
+  public via.sep3.dataserver.grpc.LearningStepOrBuilder getLearningStepOrBuilder() {
+    return learningStep_ == null ? via.sep3.dataserver.grpc.LearningStep.getDefaultInstance() : learningStep_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -85,7 +85,7 @@ private static final long serialVersionUID = 0L;
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (((bitField0_ & 0x00000001) != 0)) {
-      output.writeMessage(1, getUser());
+      output.writeMessage(1, getLearningStep());
     }
     getUnknownFields().writeTo(output);
   }
@@ -98,7 +98,7 @@ private static final long serialVersionUID = 0L;
     size = 0;
     if (((bitField0_ & 0x00000001) != 0)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getUser());
+        .computeMessageSize(1, getLearningStep());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -110,15 +110,15 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.sep3.dataserver.grpc.AddUserResponse)) {
+    if (!(obj instanceof via.sep3.dataserver.grpc.UpdateLearningStepRequest)) {
       return super.equals(obj);
     }
-    via.sep3.dataserver.grpc.AddUserResponse other = (via.sep3.dataserver.grpc.AddUserResponse) obj;
+    via.sep3.dataserver.grpc.UpdateLearningStepRequest other = (via.sep3.dataserver.grpc.UpdateLearningStepRequest) obj;
 
-    if (hasUser() != other.hasUser()) return false;
-    if (hasUser()) {
-      if (!getUser()
-          .equals(other.getUser())) return false;
+    if (hasLearningStep() != other.hasLearningStep()) return false;
+    if (hasLearningStep()) {
+      if (!getLearningStep()
+          .equals(other.getLearningStep())) return false;
     }
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
@@ -131,53 +131,53 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (hasUser()) {
-      hash = (37 * hash) + USER_FIELD_NUMBER;
-      hash = (53 * hash) + getUser().hashCode();
+    if (hasLearningStep()) {
+      hash = (37 * hash) + LEARNING_STEP_FIELD_NUMBER;
+      hash = (53 * hash) + getLearningStep().hashCode();
     }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(byte[] data)
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -185,26 +185,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.sep3.dataserver.grpc.AddUserResponse parseDelimitedFrom(java.io.InputStream input)
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.sep3.dataserver.grpc.AddUserResponse parseDelimitedFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.sep3.dataserver.grpc.AddUserResponse parseFrom(
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -217,7 +217,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.sep3.dataserver.grpc.AddUserResponse prototype) {
+  public static Builder newBuilder(via.sep3.dataserver.grpc.UpdateLearningStepRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -233,26 +233,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code AddUserResponse}
+   * Protobuf type {@code UpdateLearningStepRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:AddUserResponse)
-      via.sep3.dataserver.grpc.AddUserResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:UpdateLearningStepRequest)
+      via.sep3.dataserver.grpc.UpdateLearningStepRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddUserResponse_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_UpdateLearningStepRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddUserResponse_fieldAccessorTable
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_UpdateLearningStepRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.sep3.dataserver.grpc.AddUserResponse.class, via.sep3.dataserver.grpc.AddUserResponse.Builder.class);
+              via.sep3.dataserver.grpc.UpdateLearningStepRequest.class, via.sep3.dataserver.grpc.UpdateLearningStepRequest.Builder.class);
     }
 
-    // Construct using via.sep3.dataserver.grpc.AddUserResponse.newBuilder()
+    // Construct using via.sep3.dataserver.grpc.UpdateLearningStepRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -265,17 +265,17 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage
               .alwaysUseFieldBuilders) {
-        internalGetUserFieldBuilder();
+        internalGetLearningStepFieldBuilder();
       }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
-      user_ = null;
-      if (userBuilder_ != null) {
-        userBuilder_.dispose();
-        userBuilder_ = null;
+      learningStep_ = null;
+      if (learningStepBuilder_ != null) {
+        learningStepBuilder_.dispose();
+        learningStepBuilder_ = null;
       }
       return this;
     }
@@ -283,17 +283,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.sep3.dataserver.grpc.DataProtocol.internal_static_AddUserResponse_descriptor;
+      return via.sep3.dataserver.grpc.DataProtocol.internal_static_UpdateLearningStepRequest_descriptor;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.AddUserResponse getDefaultInstanceForType() {
-      return via.sep3.dataserver.grpc.AddUserResponse.getDefaultInstance();
+    public via.sep3.dataserver.grpc.UpdateLearningStepRequest getDefaultInstanceForType() {
+      return via.sep3.dataserver.grpc.UpdateLearningStepRequest.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.AddUserResponse build() {
-      via.sep3.dataserver.grpc.AddUserResponse result = buildPartial();
+    public via.sep3.dataserver.grpc.UpdateLearningStepRequest build() {
+      via.sep3.dataserver.grpc.UpdateLearningStepRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -301,20 +301,20 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.sep3.dataserver.grpc.AddUserResponse buildPartial() {
-      via.sep3.dataserver.grpc.AddUserResponse result = new via.sep3.dataserver.grpc.AddUserResponse(this);
+    public via.sep3.dataserver.grpc.UpdateLearningStepRequest buildPartial() {
+      via.sep3.dataserver.grpc.UpdateLearningStepRequest result = new via.sep3.dataserver.grpc.UpdateLearningStepRequest(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(via.sep3.dataserver.grpc.AddUserResponse result) {
+    private void buildPartial0(via.sep3.dataserver.grpc.UpdateLearningStepRequest result) {
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.user_ = userBuilder_ == null
-            ? user_
-            : userBuilder_.build();
+        result.learningStep_ = learningStepBuilder_ == null
+            ? learningStep_
+            : learningStepBuilder_.build();
         to_bitField0_ |= 0x00000001;
       }
       result.bitField0_ |= to_bitField0_;
@@ -322,18 +322,18 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.sep3.dataserver.grpc.AddUserResponse) {
-        return mergeFrom((via.sep3.dataserver.grpc.AddUserResponse)other);
+      if (other instanceof via.sep3.dataserver.grpc.UpdateLearningStepRequest) {
+        return mergeFrom((via.sep3.dataserver.grpc.UpdateLearningStepRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.sep3.dataserver.grpc.AddUserResponse other) {
-      if (other == via.sep3.dataserver.grpc.AddUserResponse.getDefaultInstance()) return this;
-      if (other.hasUser()) {
-        mergeUser(other.getUser());
+    public Builder mergeFrom(via.sep3.dataserver.grpc.UpdateLearningStepRequest other) {
+      if (other == via.sep3.dataserver.grpc.UpdateLearningStepRequest.getDefaultInstance()) return this;
+      if (other.hasLearningStep()) {
+        mergeLearningStep(other.getLearningStep());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -363,7 +363,7 @@ private static final long serialVersionUID = 0L;
               break;
             case 10: {
               input.readMessage(
-                  internalGetUserFieldBuilder().getBuilder(),
+                  internalGetLearningStepFieldBuilder().getBuilder(),
                   extensionRegistry);
               bitField0_ |= 0x00000001;
               break;
@@ -385,144 +385,144 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private via.sep3.dataserver.grpc.User user_;
+    private via.sep3.dataserver.grpc.LearningStep learningStep_;
     private com.google.protobuf.SingleFieldBuilder<
-        via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder> userBuilder_;
+        via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep.Builder, via.sep3.dataserver.grpc.LearningStepOrBuilder> learningStepBuilder_;
     /**
-     * <code>.User user = 1;</code>
-     * @return Whether the user field is set.
+     * <code>.LearningStep learning_step = 1;</code>
+     * @return Whether the learningStep field is set.
      */
-    public boolean hasUser() {
+    public boolean hasLearningStep() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>.User user = 1;</code>
-     * @return The user.
+     * <code>.LearningStep learning_step = 1;</code>
+     * @return The learningStep.
      */
-    public via.sep3.dataserver.grpc.User getUser() {
-      if (userBuilder_ == null) {
-        return user_ == null ? via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
+    public via.sep3.dataserver.grpc.LearningStep getLearningStep() {
+      if (learningStepBuilder_ == null) {
+        return learningStep_ == null ? via.sep3.dataserver.grpc.LearningStep.getDefaultInstance() : learningStep_;
       } else {
-        return userBuilder_.getMessage();
+        return learningStepBuilder_.getMessage();
       }
     }
     /**
-     * <code>.User user = 1;</code>
+     * <code>.LearningStep learning_step = 1;</code>
      */
-    public Builder setUser(via.sep3.dataserver.grpc.User value) {
-      if (userBuilder_ == null) {
+    public Builder setLearningStep(via.sep3.dataserver.grpc.LearningStep value) {
+      if (learningStepBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        user_ = value;
+        learningStep_ = value;
       } else {
-        userBuilder_.setMessage(value);
+        learningStepBuilder_.setMessage(value);
       }
       bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
     /**
-     * <code>.User user = 1;</code>
+     * <code>.LearningStep learning_step = 1;</code>
      */
-    public Builder setUser(
-        via.sep3.dataserver.grpc.User.Builder builderForValue) {
-      if (userBuilder_ == null) {
-        user_ = builderForValue.build();
+    public Builder setLearningStep(
+        via.sep3.dataserver.grpc.LearningStep.Builder builderForValue) {
+      if (learningStepBuilder_ == null) {
+        learningStep_ = builderForValue.build();
       } else {
-        userBuilder_.setMessage(builderForValue.build());
+        learningStepBuilder_.setMessage(builderForValue.build());
       }
       bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
     /**
-     * <code>.User user = 1;</code>
+     * <code>.LearningStep learning_step = 1;</code>
      */
-    public Builder mergeUser(via.sep3.dataserver.grpc.User value) {
-      if (userBuilder_ == null) {
+    public Builder mergeLearningStep(via.sep3.dataserver.grpc.LearningStep value) {
+      if (learningStepBuilder_ == null) {
         if (((bitField0_ & 0x00000001) != 0) &&
-          user_ != null &&
-          user_ != via.sep3.dataserver.grpc.User.getDefaultInstance()) {
-          getUserBuilder().mergeFrom(value);
+          learningStep_ != null &&
+          learningStep_ != via.sep3.dataserver.grpc.LearningStep.getDefaultInstance()) {
+          getLearningStepBuilder().mergeFrom(value);
         } else {
-          user_ = value;
+          learningStep_ = value;
         }
       } else {
-        userBuilder_.mergeFrom(value);
+        learningStepBuilder_.mergeFrom(value);
       }
-      if (user_ != null) {
+      if (learningStep_ != null) {
         bitField0_ |= 0x00000001;
         onChanged();
       }
       return this;
     }
     /**
-     * <code>.User user = 1;</code>
+     * <code>.LearningStep learning_step = 1;</code>
      */
-    public Builder clearUser() {
+    public Builder clearLearningStep() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      user_ = null;
-      if (userBuilder_ != null) {
-        userBuilder_.dispose();
-        userBuilder_ = null;
+      learningStep_ = null;
+      if (learningStepBuilder_ != null) {
+        learningStepBuilder_.dispose();
+        learningStepBuilder_ = null;
       }
       onChanged();
       return this;
     }
     /**
-     * <code>.User user = 1;</code>
+     * <code>.LearningStep learning_step = 1;</code>
      */
-    public via.sep3.dataserver.grpc.User.Builder getUserBuilder() {
+    public via.sep3.dataserver.grpc.LearningStep.Builder getLearningStepBuilder() {
       bitField0_ |= 0x00000001;
       onChanged();
-      return internalGetUserFieldBuilder().getBuilder();
+      return internalGetLearningStepFieldBuilder().getBuilder();
     }
     /**
-     * <code>.User user = 1;</code>
+     * <code>.LearningStep learning_step = 1;</code>
      */
-    public via.sep3.dataserver.grpc.UserOrBuilder getUserOrBuilder() {
-      if (userBuilder_ != null) {
-        return userBuilder_.getMessageOrBuilder();
+    public via.sep3.dataserver.grpc.LearningStepOrBuilder getLearningStepOrBuilder() {
+      if (learningStepBuilder_ != null) {
+        return learningStepBuilder_.getMessageOrBuilder();
       } else {
-        return user_ == null ?
-            via.sep3.dataserver.grpc.User.getDefaultInstance() : user_;
+        return learningStep_ == null ?
+            via.sep3.dataserver.grpc.LearningStep.getDefaultInstance() : learningStep_;
       }
     }
     /**
-     * <code>.User user = 1;</code>
+     * <code>.LearningStep learning_step = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilder<
-        via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder> 
-        internalGetUserFieldBuilder() {
-      if (userBuilder_ == null) {
-        userBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-            via.sep3.dataserver.grpc.User, via.sep3.dataserver.grpc.User.Builder, via.sep3.dataserver.grpc.UserOrBuilder>(
-                getUser(),
+        via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep.Builder, via.sep3.dataserver.grpc.LearningStepOrBuilder> 
+        internalGetLearningStepFieldBuilder() {
+      if (learningStepBuilder_ == null) {
+        learningStepBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            via.sep3.dataserver.grpc.LearningStep, via.sep3.dataserver.grpc.LearningStep.Builder, via.sep3.dataserver.grpc.LearningStepOrBuilder>(
+                getLearningStep(),
                 getParentForChildren(),
                 isClean());
-        user_ = null;
+        learningStep_ = null;
       }
-      return userBuilder_;
+      return learningStepBuilder_;
     }
 
-    // @@protoc_insertion_point(builder_scope:AddUserResponse)
+    // @@protoc_insertion_point(builder_scope:UpdateLearningStepRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:AddUserResponse)
-  private static final via.sep3.dataserver.grpc.AddUserResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:UpdateLearningStepRequest)
+  private static final via.sep3.dataserver.grpc.UpdateLearningStepRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.AddUserResponse();
+    DEFAULT_INSTANCE = new via.sep3.dataserver.grpc.UpdateLearningStepRequest();
   }
 
-  public static via.sep3.dataserver.grpc.AddUserResponse getDefaultInstance() {
+  public static via.sep3.dataserver.grpc.UpdateLearningStepRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<AddUserResponse>
-      PARSER = new com.google.protobuf.AbstractParser<AddUserResponse>() {
+  private static final com.google.protobuf.Parser<UpdateLearningStepRequest>
+      PARSER = new com.google.protobuf.AbstractParser<UpdateLearningStepRequest>() {
     @java.lang.Override
-    public AddUserResponse parsePartialFrom(
+    public UpdateLearningStepRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -541,17 +541,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<AddUserResponse> parser() {
+  public static com.google.protobuf.Parser<UpdateLearningStepRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<AddUserResponse> getParserForType() {
+  public com.google.protobuf.Parser<UpdateLearningStepRequest> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.sep3.dataserver.grpc.AddUserResponse getDefaultInstanceForType() {
+  public via.sep3.dataserver.grpc.UpdateLearningStepRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
