@@ -16,7 +16,8 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Entiti
             Title = c.Title,
             Description = c.Description,
             Language = c.Language,
-            Category = c.Category
+            Category = c.Category,
+            TotalSteps = c.TotalSteps
         }).ToList();
 
         return courses.AsQueryable();

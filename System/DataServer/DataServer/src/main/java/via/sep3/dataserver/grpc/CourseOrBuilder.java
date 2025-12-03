@@ -63,4 +63,10 @@ public interface CourseOrBuilder extends
    */
   com.google.protobuf.ByteString
       getCategoryBytes();
+
+  /**
+   * <code>int32 total_steps = 6;</code>
+   * @return The totalSteps.
+   */
+  int getTotalSteps();
 }

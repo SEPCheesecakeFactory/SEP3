@@ -117,37 +117,38 @@ public final class DataProtocol {
     java.lang.String[] descriptorData = {
       "\n\023data_protocol.proto\"\023\n\021GetCoursesReque" +
       "st\".\n\022GetCoursesResponse\022\030\n\007courses\030\001 \003(" +
-      "\0132\007.Course\"\\\n\006Course\022\n\n\002id\030\001 \001(\005\022\r\n\005titl" +
+      "\0132\007.Course\"q\n\006Course\022\n\n\002id\030\001 \001(\005\022\r\n\005titl" +
       "e\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\020\n\010language" +
-      "\030\004 \001(\t\022\020\n\010category\030\005 \001(\t\"\021\n\017GetUsersRequ" +
-      "est\".\n\020GetUsersResponse\022\032\n\005users\030\001 \003(\0132\013" +
-      ".SystemUser\"W\n\nSystemUser\022\n\n\002id\030\001 \001(\005\022\020\n" +
-      "\010username\030\002 \001(\t\022\025\n\rpassword_hash\030\003 \001(\t\022\024" +
-      "\n\005roles\030\004 \003(\0132\005.Role\"\024\n\004Role\022\014\n\004role\030\001 \001" +
-      "(\t\"C\n\016AddUserRequest\022\020\n\010username\030\001 \001(\t\022\020" +
-      "\n\010password\030\002 \001(\t\022\r\n\005roles\030\003 \003(\t\",\n\017AddUs" +
-      "erResponse\022\031\n\004user\030\001 \001(\0132\013.SystemUser\"@\n" +
-      "\026GetLearningStepRequest\022\021\n\tcourse_id\030\001 \001" +
-      "(\005\022\023\n\013step_number\030\002 \001(\005\"?\n\027GetLearningSt" +
-      "epResponse\022$\n\rlearning_step\030\001 \001(\0132\r.Lear" +
-      "ningStep\"T\n\014LearningStep\022\021\n\tcourse_id\030\001 " +
-      "\001(\005\022\022\n\nstep_order\030\002 \001(\005\022\017\n\007content\030\003 \001(\t" +
-      "\022\014\n\004type\030\004 \001(\t\";\n\025CourseProgressRequest\022" +
-      "\017\n\007user_id\030\001 \001(\005\022\021\n\tcourse_id\030\002 \001(\005\".\n\026C" +
-      "ourseProgressResponse\022\024\n\014current_step\030\001 " +
-      "\001(\005\"P\n\024CourseProgressUpdate\022\017\n\007user_id\030\001" +
-      " \001(\005\022\021\n\tcourse_id\030\002 \001(\005\022\024\n\014current_step\030" +
-      "\003 \001(\005\"\007\n\005Empty2\357\002\n\024DataRetrievalService\022" +
-      "/\n\010GetUsers\022\020.GetUsersRequest\032\021.GetUsers" +
-      "Response\022,\n\007AddUser\022\017.AddUserRequest\032\020.A" +
-      "ddUserResponse\0225\n\nGetCourses\022\022.GetCourse" +
-      "sRequest\032\023.GetCoursesResponse\022D\n\017GetLear" +
-      "ningStep\022\027.GetLearningStepRequest\032\030.GetL" +
-      "earningStepResponse\022D\n\021GetCourseProgress" +
-      "\022\026.CourseProgressRequest\032\027.CourseProgres" +
-      "sResponse\0225\n\024UpdateCourseProgress\022\025.Cour" +
-      "seProgressUpdate\032\006.EmptyB\034\n\030via.sep3.dat" +
-      "aserver.grpcP\001b\006proto3"
+      "\030\004 \001(\t\022\020\n\010category\030\005 \001(\t\022\023\n\013total_steps\030" +
+      "\006 \001(\005\"\021\n\017GetUsersRequest\".\n\020GetUsersResp" +
+      "onse\022\032\n\005users\030\001 \003(\0132\013.SystemUser\"W\n\nSyst" +
+      "emUser\022\n\n\002id\030\001 \001(\005\022\020\n\010username\030\002 \001(\t\022\025\n\r" +
+      "password_hash\030\003 \001(\t\022\024\n\005roles\030\004 \003(\0132\005.Rol" +
+      "e\"\024\n\004Role\022\014\n\004role\030\001 \001(\t\"C\n\016AddUserReques" +
+      "t\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\r\n" +
+      "\005roles\030\003 \003(\t\",\n\017AddUserResponse\022\031\n\004user\030" +
+      "\001 \001(\0132\013.SystemUser\"@\n\026GetLearningStepReq" +
+      "uest\022\021\n\tcourse_id\030\001 \001(\005\022\023\n\013step_number\030\002" +
+      " \001(\005\"?\n\027GetLearningStepResponse\022$\n\rlearn" +
+      "ing_step\030\001 \001(\0132\r.LearningStep\"T\n\014Learnin" +
+      "gStep\022\021\n\tcourse_id\030\001 \001(\005\022\022\n\nstep_order\030\002" +
+      " \001(\005\022\017\n\007content\030\003 \001(\t\022\014\n\004type\030\004 \001(\t\";\n\025C" +
+      "ourseProgressRequest\022\017\n\007user_id\030\001 \001(\005\022\021\n" +
+      "\tcourse_id\030\002 \001(\005\".\n\026CourseProgressRespon" +
+      "se\022\024\n\014current_step\030\001 \001(\005\"P\n\024CourseProgre" +
+      "ssUpdate\022\017\n\007user_id\030\001 \001(\005\022\021\n\tcourse_id\030\002" +
+      " \001(\005\022\024\n\014current_step\030\003 \001(\005\"\007\n\005Empty2\357\002\n\024" +
+      "DataRetrievalService\022/\n\010GetUsers\022\020.GetUs" +
+      "ersRequest\032\021.GetUsersResponse\022,\n\007AddUser" +
+      "\022\017.AddUserRequest\032\020.AddUserResponse\0225\n\nG" +
+      "etCourses\022\022.GetCoursesRequest\032\023.GetCours" +
+      "esResponse\022D\n\017GetLearningStep\022\027.GetLearn" +
+      "ingStepRequest\032\030.GetLearningStepResponse" +
+      "\022D\n\021GetCourseProgress\022\026.CourseProgressRe" +
+      "quest\032\027.CourseProgressResponse\0225\n\024Update" +
+      "CourseProgress\022\025.CourseProgressUpdate\032\006." +
+      "EmptyB\034\n\030via.sep3.dataserver.grpcP\001b\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -170,7 +171,7 @@ public final class DataProtocol {
     internal_static_Course_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Course_descriptor,
-        new java.lang.String[] { "Id", "Title", "Description", "Language", "Category", });
+        new java.lang.String[] { "Id", "Title", "Description", "Language", "Category", "TotalSteps", });
     internal_static_GetUsersRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_GetUsersRequest_fieldAccessorTable = new

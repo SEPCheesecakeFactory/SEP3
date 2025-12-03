@@ -28,6 +28,7 @@ message Course {
   string description = 3;
   string language = 4;
   string category = 5;
+  int32 total_steps = 6;
 }
 
 //users

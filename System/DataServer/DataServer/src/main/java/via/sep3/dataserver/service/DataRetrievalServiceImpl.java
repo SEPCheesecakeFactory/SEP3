@@ -54,21 +54,33 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
     try {
-      List<Course> courses = courseRepository.findAll();
-      List<via.sep3.dataserver.grpc.Course> grpcCourses = new ArrayList<>();
+      List<via.sep3.dataserver.data.Course> courses = courseRepository.findAll();
 
-      for (Course course : courses) {
-        via.sep3.dataserver.grpc.Course grpcCourse = convertToGrpcCourse(course);
-        grpcCourses.add(grpcCourse);
+      GetCoursesResponse.Builder responseBuilder = GetCoursesResponse.newBuilder();
+
+      for (via.sep3.dataserver.data.Course course : courses) {
+        
+        int stepCount = learningStepRepository.countByIdCourseId(course.getId());
+
+        via.sep3.dataserver.grpc.Course grpcCourse = via.sep3.dataserver.grpc.Course.newBuilder()
+            .setId(course.getId())
+            .setTitle(course.getTitle())
+            .setDescription(course.getDescription())
+            .setLanguage(course.getLanguage() != null ? course.getLanguage().getName() : "") 
+            .setCategory(course.getCategory() != null ? course.getCategory().getName() : "")
+            .setTotalSteps(stepCount)
+            .build();
+
+        responseBuilder.addCourses(grpcCourse);
       }
-      GetCoursesResponse response = GetCoursesResponse.newBuilder()
-          .addAllCourses(grpcCourses)
-          .build();
 
-      responseObserver.onNext(response);
+      responseObserver.onNext(responseBuilder.build());
       responseObserver.onCompleted();
+
     } catch (Exception e) {
-      responseObserver.onError(e);
+      System.out.println("Error in getCourses: " + e.getMessage());
+      e.printStackTrace();
+      responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
     }
   }
 
