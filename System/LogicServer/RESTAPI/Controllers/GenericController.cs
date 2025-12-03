@@ -48,19 +48,32 @@ namespace RESTAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(string id, [FromBody] MainType entity)
-        {
-            ID parsedId = IdParser(id);
-            try
-            {
-                await _repository.UpdateAsync(entity);
-                return Ok(_repository.GetSingleAsync(parsedId).Result);
+      public async Task<IActionResult> UpdateAsync(string id, [FromBody] MainType entity)
+      {
+      ID parsedId = IdParser(id);
+
+      // Ensure entity.Id matches the URL id (reflection)
+      var idProp = typeof(MainType).GetProperty("Id");
+      if (idProp != null && idProp.CanWrite)
+      {
+          idProp.SetValue(entity, parsedId);
+      }
+
+       try
+       {
+          await _repository.UpdateAsync(entity);
+
+          // Retrieve updated entity properly (async/await — NO .Result)
+          var updated = await _repository.GetSingleAsync(parsedId);
+
+         return Ok(updated);
+          }
+         catch
+           {
+            return NotFound();
+           }
             }
-            catch
-            {
-                return NotFound();
-            }
-        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(string id)
