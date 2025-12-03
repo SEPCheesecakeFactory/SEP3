@@ -2,6 +2,7 @@ package via.sep3.dataserver.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.grpc.server.service.GrpcService;
@@ -18,9 +19,15 @@ import via.sep3.dataserver.data.SystemUser;
 import via.sep3.dataserver.data.SystemUserRepository;
 import via.sep3.dataserver.data.SystemUserRole;
 import via.sep3.dataserver.data.SystemUserRoleRepository;
+import via.sep3.dataserver.data.UserCourseProgress;
+import via.sep3.dataserver.data.UserCourseProgressRepository;
 import via.sep3.dataserver.grpc.AddUserRequest;
 import via.sep3.dataserver.grpc.AddUserResponse;
+import via.sep3.dataserver.grpc.CourseProgressRequest;
+import via.sep3.dataserver.grpc.CourseProgressResponse;
+import via.sep3.dataserver.grpc.CourseProgressUpdate;
 import via.sep3.dataserver.grpc.DataRetrievalServiceGrpc;
+import via.sep3.dataserver.grpc.Empty;
 import via.sep3.dataserver.grpc.GetCoursesRequest;
 import via.sep3.dataserver.grpc.GetCoursesResponse;
 import via.sep3.dataserver.grpc.GetLearningStepResponse;
@@ -39,9 +46,10 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
   private SystemUserRoleRepository systemUserRoleRepository;
   @Autowired
   private RoleRepository roleRepository;
-
   @Autowired
   private LearningStepRepository learningStepRepository;
+  @Autowired
+  private UserCourseProgressRepository progressRepository;
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -211,4 +219,67 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
         .setType(step.getStepType().getName())
         .build();
   }
+
+@Override
+    public void getCourseProgress(CourseProgressRequest request, StreamObserver<CourseProgressResponse> responseObserver) {
+        try {
+            Optional<via.sep3.dataserver.data.UserCourseProgress> progressEntity = progressRepository.findBySystemUser_IdAndCourse_Id(
+                    request.getUserId(),
+                    request.getCourseId());
+
+            int step = 1;
+
+            if (progressEntity.isPresent()) {
+                step = progressEntity.get().getCurrentStep();
+            }
+
+            CourseProgressResponse response = CourseProgressResponse.newBuilder()
+                    .setCurrentStep(step)
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        } catch (Exception e) {
+            System.out.println("Error in getCourseProgress: " + e.getMessage());
+            e.printStackTrace();
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    @Override
+    public void updateCourseProgress(CourseProgressUpdate request, StreamObserver<Empty> responseObserver) {
+        try {
+            Optional<via.sep3.dataserver.data.UserCourseProgress> existingProgress = progressRepository.findBySystemUser_IdAndCourse_Id(
+                    request.getUserId(),
+                    request.getCourseId());
+
+            via.sep3.dataserver.data.UserCourseProgress progressToSave;
+
+            if (existingProgress.isPresent()) {
+                progressToSave = existingProgress.get();
+                progressToSave.setCurrentStep(request.getCurrentStep());
+            } else {
+                via.sep3.dataserver.data.SystemUser user = userRepository.findById(request.getUserId())
+                        .orElseThrow(() -> new RuntimeException("User not found: " + request.getUserId()));
+                via.sep3.dataserver.data.Course course = courseRepository.findById(request.getCourseId())
+                        .orElseThrow(() -> new RuntimeException("Course not found: " + request.getCourseId()));
+
+                progressToSave = new via.sep3.dataserver.data.UserCourseProgress(user, course, request.getCurrentStep());
+            }
+
+            progressRepository.save(progressToSave);
+
+            responseObserver.onNext(Empty.newBuilder().build());
+            responseObserver.onCompleted();
+
+        } catch (Exception e) {
+            System.out.println("Error in updateCourseProgress: " + e.getMessage());
+            e.printStackTrace();
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+
+
 }
