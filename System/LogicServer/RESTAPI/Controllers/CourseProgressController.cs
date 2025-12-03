@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
+using RESTAPI.Dtos;
 using System.Threading.Tasks;
 using System;
 
@@ -43,12 +44,4 @@ public class CourseProgressController(ICourseRepository repository) : Controller
             return StatusCode(500, e.Message);
         }
     }
-}
-
-//  DTO 
-public class UpdateProgressDto
-{
-    public int UserId { get; set; }
-    public int CourseId { get; set; }
-    public int CurrentStep { get; set; }
 }
