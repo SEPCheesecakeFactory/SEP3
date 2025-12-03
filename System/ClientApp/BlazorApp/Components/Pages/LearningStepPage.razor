@@ -1,8 +1,12 @@
 @page "/courses/{CourseId:int}/steps/{StepOrder:int}"
 @using BlazorApp.Services
 @using BlazorApp.Entities
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @inject ILearningStepService StepService
 @inject NavigationManager NavManager
+@inject ICourseService CourseService
+@inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>Learning Step @StepOrder</PageTitle>
 
@@ -24,8 +28,13 @@ else
                 <i class="fas fa-times fa-2x"></i>
             </a>
 
-            <div class="progress w-100" style="height: 16px;">
-                <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
+            <div class="w-100">
+                <div class="progress" style="height: 16px;">
+                    <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
+                </div>
+                <div class="text-end text-muted mt-1 small">
+                    Current Course Progress: @(savedProgress * 10)%
+                </div>
             </div>
         </div>
 
@@ -122,6 +131,8 @@ else
 @code {
     [Parameter] public int CourseId { get; set; }
     [Parameter] public int StepOrder { get; set; }
+    private int savedProgress = 1; 
+    private int currentUserId = 0;
 
     private LearningStep? currentStep;
 
@@ -151,7 +162,22 @@ else
         isLoading = true;
         wasError = false;
         try
-        {
+        {   // Get the current user's ID from the auth state
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var idClaim = user.FindFirst("id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+            
+            if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+            {
+                currentUserId = uid;
+            }
+
+            // Fetch the saved progress from the database
+            if(currentUserId > 0)
+            {
+                savedProgress = await CourseService.GetCourseProgressAsync(currentUserId, CourseId);
+            }
+
             currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
             if (currentStep?.Content != null)
             {
@@ -216,8 +242,15 @@ else
         }
     }
 
-    private void GoNext()
+    private async Task GoNext()
     {
+        if (currentUserId > 0)
+        {
+            if ((StepOrder + 1) > savedProgress)
+            {
+                await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, StepOrder + 1);
+            }
+        }
         NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
     }
 
