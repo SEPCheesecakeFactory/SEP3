@@ -108,6 +108,7 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
             new Claim(ClaimTypes.Name, user.Username),
             new Claim("Username", user.Username),
             // new Claim("Email", user.Email),
+            new Claim("id", user.Id.ToString()),
         };
 
         foreach (var role in user.Roles)
