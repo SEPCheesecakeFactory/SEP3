@@ -10,6 +10,8 @@ service DataRetrievalService {
 //courses
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
   rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
+  rpc GetCourseProgress (CourseProgressRequest) returns (CourseProgressResponse);
+  rpc UpdateCourseProgress (CourseProgressUpdate) returns (Empty);
 }
 
 message GetCoursesRequest {
