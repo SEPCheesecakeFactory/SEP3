@@ -3,41 +3,28 @@
 @using BlazorApp.Entities
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
-@using System.Text.Json
 @inject ILearningStepService StepService
-@inject ICourseService CourseService
 @inject NavigationManager NavManager
+@inject ICourseService CourseService
 @inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>Learning Step @StepOrder</PageTitle>
 
 @if (currentStep == null || isLoading || wasError)
 {
-    @if (isLoading)
-    {
-        <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
-            <LoadingSpinner />
-        </div>
-    }
-    else if (wasError)
-    {
-        <div class="alert alert-danger mt-5 mx-auto" role="alert" style="max-width: 600px;">
-            An error occurred while loading the learning step. Please try again later.
-        </div>
-    }
+    <LoadingSpinner />
     <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
         <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious" disabled="@(StepOrder <= 1)">
             PREVIOUS
-        </button>
-        <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoNext">
-            NEXT
         </button>
     </div>
 }
 else
 {
     <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-
+<div class="alert alert-info">
+    Debug Status: User ID is '@currentUserId'
+</div>
         <div class="d-flex align-items-center mb-5 pt-2">
             <a href="/" class="btn btn-link text-secondary p-0 me-4">
                 <i class="fas fa-times fa-2x"></i>
@@ -45,32 +32,19 @@ else
 
             <div class="w-100">
                 <div class="progress" style="height: 16px;">
-                    <div class="progress-bar" style="width: @(GetPercentage(StepOrder))%"></div>
+                    <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
                 </div>
-                
                 <div class="text-end text-muted mt-1 small">
-                    Current Course Progress: @(GetPercentage(savedProgress))%
+                    Current Course Progress: @(savedProgress * 10)%
                 </div>
             </div>
         </div>
 
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
 
-            <div class="mb-5 d-flex align-items-center justify-content-between gap-3">
-                <h2 class="fw-bolder text-dark fs-1 mb-0">@($"Step {StepOrder}")</h2>
-
-                <AuthorizeView Context="authState">
-                    <Authorized>
-                        @if (Utils.AuthUtils.ConvertFromClaim(authState.User.Claims.Single(c => c.Type ==
-                                            "Role").Value).Contains("teacher"))
-                        {
-                            <button class="btn btn-outline-secondary btn-sm px-2 py-1 ms-3" @onclick="GoToEditStep">
-                                EDIT STEP
-                            </button>
-                        }
-                    </Authorized>
-                </AuthorizeView>
-            </div>
+            <h2 class="fw-bolder mb-5 text-center text-dark fs-1">
+                @($"Step {StepOrder}")
+            </h2>
 
             @if (IsMultipleChoiceQuestion)
             {
@@ -159,10 +133,10 @@ else
 @code {
     [Parameter] public int CourseId { get; set; }
     [Parameter] public int StepOrder { get; set; }
-    private LearningStep? currentStep;
     private int savedProgress = 1; 
     private int currentUserId = 0;
-    private int totalSteps = 1;
+
+    private LearningStep? currentStep;
 
     private bool IsMultipleChoiceQuestion => currentStep?.Type == "QuestionMC";
     private bool IsFillBlankQuestion => currentStep?.Type == "QuestionFILL";
@@ -200,19 +174,10 @@ else
                 currentUserId = uid;
             }
 
-            // get current progress
+            // 2. Fetch the saved progress from the database
             if(currentUserId > 0)
             {
                 savedProgress = await CourseService.GetCourseProgressAsync(currentUserId, CourseId);
-            }
-            
-            // get total amount of steps
-            // get the list of courses to find the current one and get its totalsteps
-            var allCourses = await CourseService.GetCourses();
-            var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
-            if(thisCourse != null && thisCourse.TotalSteps > 0)
-            {
-                totalSteps = thisCourse.TotalSteps;
             }
             currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
             if (currentStep?.Content != null)
@@ -228,13 +193,6 @@ else
             isLoading = false;
         }
     }
-    private int GetPercentage(int stepValue)
-    {
-        if (totalSteps <= 0) return 0;
-        double pct = (double)stepValue / totalSteps * 100;
-        return (int)Math.Min(Math.Round(pct), 100);
-    }
-    // ---------------------------------------------------------
 
     private void ParseQuestion(string content)
     {
@@ -243,7 +201,7 @@ else
         McCorrect = false;
         FillAnswered = false;
         FillCorrect = false;
-        FillAnswer = string.Empty;
+        FillAnswer = string.Empty; // Clear the previous text input
 
         if (IsMultipleChoiceQuestion)
         {
@@ -270,7 +228,11 @@ else
     private void CheckFillAnswer()
     {
         FillAnswered = true;
-        FillCorrect = string.Equals(FillAnswer.Trim(), FillCorrectAnswer.Trim(), StringComparison.OrdinalIgnoreCase);
+        FillCorrect = string.Equals(
+        FillAnswer.Trim(),
+        FillCorrectAnswer.Trim(),
+        StringComparison.OrdinalIgnoreCase
+        );
     }
 
     private void GoPrevious()
@@ -281,33 +243,27 @@ else
         }
     }
 
-    private async Task GoNext()
+    private void GoNext()
     {
-        if (currentUserId > 0)
-        {
-            if ((StepOrder + 1) > savedProgress)
-            {
-                await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, StepOrder + 1);
-            }
-        }
-
         NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
     }
 
     private string GetYouTubeEmbedUrl(string url)
     {
-        if (string.IsNullOrWhiteSpace(url)) return "";
-        if (url.Contains("watch?v=")) return url.Replace("watch?v=", "embed/");
+        if (string.IsNullOrWhiteSpace(url))
+            return "";
+
+        if (url.Contains("watch?v="))
+        {
+            return url.Replace("watch?v=", "embed/");
+        }
+
         if (url.Contains("youtu.be"))
         {
             var id = url.Split('/').Last();
             return $"https://www.youtube.com/embed/{id}";
         }
-        return url;
-    }
 
-    private void GoToEditStep()
-    {
-        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}/edit");
+        return url;
     }
 }
