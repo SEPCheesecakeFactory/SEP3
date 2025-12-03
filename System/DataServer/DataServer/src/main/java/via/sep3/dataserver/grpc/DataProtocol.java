@@ -137,14 +137,17 @@ public final class DataProtocol {
       "ourseProgressResponse\022\024\n\014current_step\030\001 " +
       "\001(\005\"P\n\024CourseProgressUpdate\022\017\n\007user_id\030\001" +
       " \001(\005\022\021\n\tcourse_id\030\002 \001(\005\022\024\n\014current_step\030" +
-      "\003 \001(\005\"\007\n\005Empty2\362\001\n\024DataRetrievalService\022" +
+      "\003 \001(\005\"\007\n\005Empty2\357\002\n\024DataRetrievalService\022" +
       "/\n\010GetUsers\022\020.GetUsersRequest\032\021.GetUsers" +
       "Response\022,\n\007AddUser\022\017.AddUserRequest\032\020.A" +
       "ddUserResponse\0225\n\nGetCourses\022\022.GetCourse" +
       "sRequest\032\023.GetCoursesResponse\022D\n\017GetLear" +
       "ningStep\022\027.GetLearningStepRequest\032\030.GetL" +
-      "earningStepResponseB\034\n\030via.sep3.dataserv" +
-      "er.grpcP\001b\006proto3"
+      "earningStepResponse\022D\n\021GetCourseProgress" +
+      "\022\026.CourseProgressRequest\032\027.CourseProgres" +
+      "sResponse\0225\n\024UpdateCourseProgress\022\025.Cour" +
+      "seProgressUpdate\032\006.EmptyB\034\n\030via.sep3.dat" +
+      "aserver.grpcP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
