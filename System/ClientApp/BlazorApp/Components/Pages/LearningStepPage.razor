@@ -13,18 +13,21 @@
 @if (currentStep == null || isLoading || wasError)
 {
     <LoadingSpinner />
-    <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
-        <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious" disabled="@(StepOrder <= 1)">
-            PREVIOUS
-        </button>
-    </div>
 }
 else
 {
     <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-<div class="alert alert-info">
-    Debug Status: User ID is '@currentUserId'
-</div>
+        @*  // debug purposes
+        <div class="alert alert-info small">
+            <strong>Debug Status:</strong><br/>
+            User ID: <strong>@currentUserId</strong> <br/>
+            Course ID: @CourseId <br/>
+            Current Step: @StepOrder <br/>
+            Total Steps: <strong>@totalSteps</strong> <br/>
+            Target to Save on Finish: <strong>@(totalSteps + 1)</strong>
+        </div>
+        *@ 
+
         <div class="d-flex align-items-center mb-5 pt-2">
             <a href="/" class="btn btn-link text-secondary p-0 me-4">
                 <i class="fas fa-times fa-2x"></i>
@@ -32,10 +35,10 @@ else
 
             <div class="w-100">
                 <div class="progress" style="height: 16px;">
-                    <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
+                    <div class="progress-bar" style="width: @(GetPercentage(StepOrder))%"></div>
                 </div>
                 <div class="text-end text-muted mt-1 small">
-                    Current Course Progress: @(savedProgress * 10)%
+                    Current Course Progress: @(GetPercentage(savedProgress))%
                 </div>
             </div>
         </div>
@@ -50,14 +53,12 @@ else
             {
                 <div class="card w-100 border-2 rounded-4 p-4 shadow-sm">
                     <h4 class="fw-bold mb-4 text-center">@McQuestion</h4>
-
                     @foreach (var option in ShuffledOptions)
                     {
                         <button class="btn btn-outline-success w-100 mb-3" @onclick="() => SelectMcOption(option)">
                             @option
                         </button>
                     }
-
                     @if (McAnswered)
                     {
                         <div class="alert @(McCorrect ? "alert-success" : "alert-danger") text-center mt-3">
@@ -70,16 +71,11 @@ else
             {
                 <div class="card w-100 border-2 rounded-4 p-4 shadow-sm text-center">
                     <h4 class="fw-bold mb-4">@FillQuestion</h4>
-
                     <input class="form-control form-control-lg mb-3" @bind="FillAnswer" placeholder="Type your answer..." />
-
                     @if (!CanContinue)
                     {
-                        <button class="btn btn-primary px-4" @onclick="CheckFillAnswer">
-                            SUBMIT
-                        </button>
+                        <button class="btn btn-primary px-4" @onclick="CheckFillAnswer">SUBMIT</button>
                     }
-
                     @if (FillAnswered)
                     {
                         <div class="alert @(FillCorrect ? "alert-success" : "alert-danger") text-center mt-3">
@@ -91,25 +87,19 @@ else
             else if (string.Equals(currentStep?.Type, "image", StringComparison.OrdinalIgnoreCase))
             {
                 <div class="w-100 text-center mb-4">
-                    <img src="@currentStep!.Content!" class="img-fluid rounded-4 border border-2" alt="visual"
-                        style="max-height:400px;">
+                    <img src="@currentStep!.Content!" class="img-fluid rounded-4 border border-2" alt="visual" style="max-height:400px;">
                 </div>
             }
-            else if (currentStep?.Content?.Contains("youtube.com") == true ||
-            currentStep?.Content?.Contains("youtu.be") == true)
+            else if (currentStep?.Content?.Contains("youtube.com") == true || currentStep?.Content?.Contains("youtu.be") == true)
             {
                 <div class="ratio ratio-16x9 mb-4 rounded-4 overflow-hidden border border-2">
-                    <iframe src="@GetYouTubeEmbedUrl(currentStep!.Content!)" frameborder="0" allowfullscreen
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                    </iframe>
+                    <iframe src="@GetYouTubeEmbedUrl(currentStep!.Content!)" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
             }
             else
             {
                 <div class="card w-100 border-2 rounded-4 p-5 text-center shadow-sm">
-                    <p class="fs-3 text-secondary mb-0 lh-base">
-                        @(currentStep?.Content ?? "")
-                    </p>
+                    <p class="fs-3 text-secondary mb-0 lh-base">@(currentStep?.Content ?? "")</p>
                 </div>
             }
         </div>
@@ -121,11 +111,19 @@ else
 
             @if (CanContinue)
             {
-                <button class="btn btn-primary px-5 py-3 text-white" @onclick="GoNext">
-                    NEXT
-                </button>
+                @if (StepOrder >= totalSteps)
+                {
+                    <button class="btn btn-success px-5 py-3 text-white" @onclick="FinishCourse">
+                        FINISH COURSE
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-primary px-5 py-3 text-white" @onclick="GoNext">
+                        NEXT
+                    </button>
+                }
             }
-
         </div>
     </div>
 }
@@ -133,10 +131,16 @@ else
 @code {
     [Parameter] public int CourseId { get; set; }
     [Parameter] public int StepOrder { get; set; }
-    private int savedProgress = 1; 
-    private int currentUserId = 0;
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthState { get; set; }
 
     private LearningStep? currentStep;
+    private int savedProgress = 1; 
+    private int currentUserId = 0;
+    private int totalSteps = 1;
+    
+    private bool isAuthenticated = false;
 
     private bool IsMultipleChoiceQuestion => currentStep?.Type == "QuestionMC";
     private bool IsFillBlankQuestion => currentStep?.Type == "QuestionFILL";
@@ -165,20 +169,47 @@ else
         wasError = false;
         try
         {
-            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var idClaim = user.FindFirst("id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
-            
-            if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+            if (AuthState != null)
             {
-                currentUserId = uid;
+                var authState = await AuthState;
+                var user = authState.User;
+                isAuthenticated = user.Identity?.IsAuthenticated ?? false;
+
+                if (isAuthenticated)
+                {
+                    // search for ID
+                    var idClaim = user.Claims.FirstOrDefault(c => c.Type == "id");
+
+                    if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+                    {
+                        currentUserId = uid;
+                    }
+                    else 
+                    {
+                        // fallback
+                        var subClaim = user.FindFirst("sub");
+                        if (subClaim != null && int.TryParse(subClaim.Value, out int subId))
+                        {
+                            currentUserId = subId;
+                        }
+                    }
+                }
             }
 
-            // 2. Fetch the saved progress from the database
+            // get current progress
             if(currentUserId > 0)
             {
                 savedProgress = await CourseService.GetCourseProgressAsync(currentUserId, CourseId);
             }
+            
+            // get total steps
+            var allCourses = await CourseService.GetCourses();
+            var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
+            if(thisCourse != null && thisCourse.TotalSteps > 0)
+            {
+                totalSteps = thisCourse.TotalSteps;
+            }
+
             currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
             if (currentStep?.Content != null)
             {
@@ -194,21 +225,31 @@ else
         }
     }
 
+    private int GetPercentage(int stepValue)
+    {
+        if (totalSteps <= 0) return 0;
+        
+        // FIX: Subtract 1 to show "Completed" percentage properly. 
+        double adjustedStep = Math.Max(0, stepValue - 1);
+        double pct = adjustedStep / totalSteps * 100;
+        
+        return (int)Math.Min(Math.Round(pct), 100);
+    }
+
+    // ... [ParseQuestion, SelectMcOption, CheckFillAnswer, GoPrevious unchanged] ...
     private void ParseQuestion(string content)
     {
-        // Reset the state logic for the new step
         McAnswered = false;
         McCorrect = false;
         FillAnswered = false;
         FillCorrect = false;
-        FillAnswer = string.Empty; // Clear the previous text input
+        FillAnswer = string.Empty;
 
         if (IsMultipleChoiceQuestion)
         {
             var parts = content.Split('|');
             McQuestion = parts[0];
             CorrectMcAnswer = parts[1];
-            // Re-shuffle for the new question
             ShuffledOptions = parts.Skip(1).OrderBy(x => Guid.NewGuid()).ToList();
         }
         else if (IsFillBlankQuestion)
@@ -228,11 +269,7 @@ else
     private void CheckFillAnswer()
     {
         FillAnswered = true;
-        FillCorrect = string.Equals(
-        FillAnswer.Trim(),
-        FillCorrectAnswer.Trim(),
-        StringComparison.OrdinalIgnoreCase
-        );
+        FillCorrect = string.Equals(FillAnswer.Trim(), FillCorrectAnswer.Trim(), StringComparison.OrdinalIgnoreCase);
     }
 
     private void GoPrevious()
@@ -243,27 +280,58 @@ else
         }
     }
 
-    private void GoNext()
+    private async Task GoNext()
     {
+        if (StepOrder >= totalSteps)
+        {
+            await FinishCourse();
+            return;
+        }
+
+        if (currentUserId > 0)
+        {
+            if ((StepOrder + 1) > savedProgress)
+            {
+                await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, StepOrder + 1);
+            }
+        }
         NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
+    }
+
+    private async Task FinishCourse()
+    {
+        if (currentUserId > 0)
+        {
+            try 
+            {
+                int targetStep = totalSteps + 1;
+                Console.WriteLine($"FINISH COURSE CLICKED. Updating User: {currentUserId} Course: {CourseId} to Step: {targetStep}");
+                
+                // Save (Total + 1) to mark it as fully complete
+                await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, targetStep);
+                
+                Console.WriteLine("Update Success.");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Update FAILED: {ex.Message}");
+            }
+        }
+        
+        // a small delay to ensure the DB update happens before navigation
+        await Task.Delay(100); 
+        NavManager.NavigateTo("/"); 
     }
 
     private string GetYouTubeEmbedUrl(string url)
     {
-        if (string.IsNullOrWhiteSpace(url))
-            return "";
-
-        if (url.Contains("watch?v="))
-        {
-            return url.Replace("watch?v=", "embed/");
-        }
-
+        if (string.IsNullOrWhiteSpace(url)) return "";
+        if (url.Contains("watch?v=")) return url.Replace("watch?v=", "embed/");
         if (url.Contains("youtu.be"))
         {
             var id = url.Split('/').Last();
             return $"https://www.youtube.com/embed/{id}";
         }
-
         return url;
     }
 }
