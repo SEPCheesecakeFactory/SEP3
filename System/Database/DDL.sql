@@ -86,6 +86,10 @@ VALUES (
     (
         'Software Engineering',
         'Courses focused on software development practices and tools.'
+    ),
+    (
+        'default',
+        ''
     );
 
 -- Insert into Course
@@ -237,3 +241,4 @@ VALUES (
         4,
         'To copy a remote repository to your local machine for the first time, use: git ___ .|clone'
     );
+

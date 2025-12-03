@@ -11,6 +11,10 @@ namespace RESTAPI.Controllers;
 [ApiController]
 public class DraftsController(IRepositoryID<Draft, CreateDraftDto, Draft, int> repository, IRepositoryID<Course, CreateCourseDto, Course, int> course_repository ) : GenericController<Draft, CreateDraftDto, Draft, int>(repository)
 {
+    [HttpGet]
+    [Authorize("MustBeAdmin")]
+    public ActionResult<IEnumerable<Draft>> HttpGetMany() => GetMany();
+
     [HttpPost, Authorize("MustBeTeacher")]
     public async Task<ActionResult<Draft>> AddDraft([FromBody] CreateDraftDto dto)
     {
@@ -25,19 +29,25 @@ public class DraftsController(IRepositoryID<Draft, CreateDraftDto, Draft, int> r
         }
     }
     [HttpPut("{id:int}"), Authorize("MustBeAdmin")]
-    public async Task<ActionResult<Draft>> ApproveDraft([FromBody] int approvedBy ,[FromRoute] int draftId)
+    public async Task<ActionResult<Draft>> ApproveDraft([FromBody] int approvedBy,[FromRoute] int id)
     {
         try
         {
-            course_repository.
-            Draft currentDraft = await _repository.GetSingleAsync(draftId);
+            Draft currentDraft = await _repository.GetSingleAsync(id);
+            CreateCourseDto courseDto = new CreateCourseDto{
+                Language = currentDraft.Language,
+                Title = currentDraft.Title,
+                Description = currentDraft.Description,
+                Category = "default"
+            };
+            Course newCourse = await course_repository.AddAsync(courseDto);
             Draft updatedDraft = new Draft{
                 Id=currentDraft.Id,
                 Language=currentDraft.Language,
                 Title=currentDraft.Title,
                 Description=currentDraft.Description,
                 TeacherId=currentDraft.TeacherId,
-                CourseId=courseId,
+                CourseId=newCourse.Id,
                 ApprovedBy=approvedBy
             };
 

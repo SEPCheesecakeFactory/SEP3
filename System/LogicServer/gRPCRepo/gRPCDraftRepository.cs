@@ -10,7 +10,17 @@ public class gRPCDraftRepository(string host, int port) : gRPCRepository<Draft, 
 {
     public override IQueryable<Draft> GetMany()
     {
-        throw new NotImplementedException();
+        var response = Client.GetDrafts(new GetDraftsRequest());
+        return response.Drafts.Select(d => new Draft
+        {
+            Id = d.Id,
+            Language = d.Language,
+            Title = d.Title,
+            Description = d.Description,
+            TeacherId = d.TeacherId == -1 ? null : d.TeacherId,
+            CourseId = d.CourseId == -1 ? null : d.CourseId,
+            ApprovedBy = d.ApprovedBy == -1 ? null : d.ApprovedBy
+        }).AsQueryable();
     }
 
     public override async Task<Draft> UpdateAsync(Draft entity)

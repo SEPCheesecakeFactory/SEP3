@@ -25,4 +25,19 @@ public class HttpCourseService : ICourseService
             throw new Exception($"Error creating draft: {response.ReasonPhrase}");
         }
     }
+
+    public async Task<List<Draft>> GetDrafts()
+    {
+        var result = await client.GetFromJsonAsync<List<Draft>>("drafts");
+        return result ?? new List<Draft>();
+    }
+
+    public async Task ApproveDraft(int draftId, int adminId)
+    {
+        var response = await client.PutAsJsonAsync($"drafts/{draftId}", adminId);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error approving draft: {response.ReasonPhrase}");
+        }
+    }
 }

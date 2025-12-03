@@ -387,6 +387,25 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
     return builder.build();
   }
+
+  @Override public void getDrafts(GetDraftsRequest request,
+      StreamObserver<GetDraftsResponse> responseObserver)
+  {
+    try {
+      List<via.sep3.dataserver.data.CourseDraft> drafts = courseDraftRepository.findAll();
+      GetDraftsResponse.Builder responseBuilder = GetDraftsResponse.newBuilder();
+
+      for (via.sep3.dataserver.data.CourseDraft draft : drafts) {
+        responseBuilder.addDrafts(convertToGrpcDraft(draft));
+      }
+
+      responseObserver.onNext(responseBuilder.build());
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(e);
+    }
+  }
+
   @Override public void updateDraft(UpdateDraftRequest request,
       StreamObserver<UpdateDraftResponse> responseObserver)
   {

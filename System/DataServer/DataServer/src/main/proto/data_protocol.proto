@@ -19,6 +19,7 @@ service DataRetrievalService {
   rpc UpdateDraft (UpdateDraftRequest) returns (UpdateDraftResponse);
 
   rpc UpdateLearningStep (UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
+  rpc GetDrafts (GetDraftsRequest) returns (GetDraftsResponse);
 }
 
 // --- Courses ---
@@ -138,4 +139,10 @@ message UpdateDraftRequest{
 }
 message UpdateDraftResponse{
   CourseDraft courseDraft = 1;
+}
+
+message GetDraftsRequest {}
+
+message GetDraftsResponse {
+  repeated CourseDraft drafts = 1;
 }

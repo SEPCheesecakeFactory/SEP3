@@ -27,6 +27,14 @@
                     </button>
                 </div>
             }
+            @if (context.User.Claims.Any(c => c.Type == "Role") && AuthUtils.ConvertFromClaim(context.User.Claims.First(c => c.Type == "Role").Value).Contains("admin"))
+            {
+                <div class="d-flex justify-content-end mb-4">
+                    <button class="btn btn-warning" @onclick='() => NavManager.NavigateTo("approve-draft")'>
+                        <i class="fas fa-clipboard-check me-2"></i> Waiting Drafts
+                    </button>
+                </div>
+            }
         </Authorized>
     </AuthorizeView>
 
@@ -90,7 +98,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        courses = await CourseService.GetCourses();
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            courses = await CourseService.GetCourses();
+        }
     }
 
     private void OpenCourse(Course course)

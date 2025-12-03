@@ -141,6 +141,16 @@ public final class DataProtocol {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UpdateDraftResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetDraftsRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetDraftsRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetDraftsResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetDraftsResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -186,21 +196,24 @@ public final class DataProtocol {
       "gStep\"7\n\022UpdateDraftRequest\022!\n\013courseDra" +
       "ft\030\001 \001(\0132\014.CourseDraft\"8\n\023UpdateDraftRes" +
       "ponse\022!\n\013courseDraft\030\001 \001(\0132\014.CourseDraft" +
-      "2\221\004\n\024DataRetrievalService\022/\n\010GetUsers\022\020." +
-      "GetUsersRequest\032\021.GetUsersResponse\022,\n\007Ad" +
-      "dUser\022\017.AddUserRequest\032\020.AddUserResponse" +
-      "\0225\n\nGetCourses\022\022.GetCoursesRequest\032\023.Get" +
-      "CoursesResponse\0222\n\tAddCourse\022\021.AddCourse" +
-      "Request\032\022.AddCourseResponse\022D\n\017GetLearni" +
-      "ngStep\022\027.GetLearningStepRequest\032\030.GetLea" +
-      "rningStepResponse\022/\n\010AddDraft\022\020.AddDraft" +
-      "Request\032\021.AddDraftResponse\022/\n\010GetDraft\022\020" +
-      ".GetDraftRequest\032\021.GetDraftResponse\0228\n\013U" +
-      "pdateDraft\022\023.UpdateDraftRequest\032\024.Update" +
-      "DraftResponse\022M\n\022UpdateLearningStep\022\032.Up" +
-      "dateLearningStepRequest\032\033.UpdateLearning" +
-      "StepResponseB7\n\030via.sep3.dataserver.grpc" +
-      "P\001\252\002\030via.sep3.dataserver.grpcb\006proto3"
+      "\"\022\n\020GetDraftsRequest\"1\n\021GetDraftsRespons" +
+      "e\022\034\n\006drafts\030\001 \003(\0132\014.CourseDraft2\305\004\n\024Data" +
+      "RetrievalService\022/\n\010GetUsers\022\020.GetUsersR" +
+      "equest\032\021.GetUsersResponse\022,\n\007AddUser\022\017.A" +
+      "ddUserRequest\032\020.AddUserResponse\0225\n\nGetCo" +
+      "urses\022\022.GetCoursesRequest\032\023.GetCoursesRe" +
+      "sponse\0222\n\tAddCourse\022\021.AddCourseRequest\032\022" +
+      ".AddCourseResponse\022D\n\017GetLearningStep\022\027." +
+      "GetLearningStepRequest\032\030.GetLearningStep" +
+      "Response\022/\n\010AddDraft\022\020.AddDraftRequest\032\021" +
+      ".AddDraftResponse\022/\n\010GetDraft\022\020.GetDraft" +
+      "Request\032\021.GetDraftResponse\0228\n\013UpdateDraf" +
+      "t\022\023.UpdateDraftRequest\032\024.UpdateDraftResp" +
+      "onse\022M\n\022UpdateLearningStep\022\032.UpdateLearn" +
+      "ingStepRequest\032\033.UpdateLearningStepRespo" +
+      "nse\0222\n\tGetDrafts\022\021.GetDraftsRequest\032\022.Ge" +
+      "tDraftsResponseB7\n\030via.sep3.dataserver.g" +
+      "rpcP\001\252\002\030via.sep3.dataserver.grpcb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -344,6 +357,18 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateDraftResponse_descriptor,
         new java.lang.String[] { "CourseDraft", });
+    internal_static_GetDraftsRequest_descriptor =
+      getDescriptor().getMessageTypes().get(23);
+    internal_static_GetDraftsRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetDraftsRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_GetDraftsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(24);
+    internal_static_GetDraftsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetDraftsResponse_descriptor,
+        new java.lang.String[] { "Drafts", });
     descriptor.resolveAllFeaturesImmutable();
   }
 
