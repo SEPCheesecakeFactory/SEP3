@@ -42,6 +42,16 @@ public final class DataProtocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Course_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AddCourseRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AddCourseRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AddCourseResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AddCourseResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GetUsersRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -116,6 +126,26 @@ public final class DataProtocol {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UpdateLearningStepResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UpdateDraftRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UpdateDraftRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UpdateDraftResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UpdateDraftResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetDraftsRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetDraftsRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetDraftsResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetDraftsResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -189,54 +219,66 @@ public final class DataProtocol {
         new java.lang.String[] { "Id", "Title", "Description", "Language", "Category", "TotalSteps", });
     internal_static_GetUsersRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_AddCourseRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_AddCourseRequest_descriptor,
+        new java.lang.String[] { "Title", "Description", "Language", "Category", });
+    internal_static_AddCourseResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_AddCourseResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_AddCourseResponse_descriptor,
+        new java.lang.String[] { "Course", });
+    internal_static_GetUsersRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_GetUsersRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetUsersRequest_descriptor,
         new java.lang.String[] { });
     internal_static_GetUsersResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_GetUsersResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetUsersResponse_descriptor,
         new java.lang.String[] { "Users", });
     internal_static_User_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_User_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_User_descriptor,
         new java.lang.String[] { "Id", "Username", "Password", "Roles", });
     internal_static_Role_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Role_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Role_descriptor,
         new java.lang.String[] { "Role", });
     internal_static_AddUserRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_AddUserRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_AddUserRequest_descriptor,
         new java.lang.String[] { "Username", "Password", "Roles", });
     internal_static_AddUserResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_AddUserResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_AddUserResponse_descriptor,
         new java.lang.String[] { "User", });
     internal_static_GetLearningStepRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_GetLearningStepRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLearningStepRequest_descriptor,
         new java.lang.String[] { "CourseId", "StepNumber", });
     internal_static_GetLearningStepResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_GetLearningStepResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLearningStepResponse_descriptor,
         new java.lang.String[] { "LearningStep", });
     internal_static_LearningStep_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_LearningStep_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_LearningStep_descriptor,
@@ -277,6 +319,30 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateLearningStepResponse_descriptor,
         new java.lang.String[] { "LearningStep", });
+    internal_static_UpdateDraftRequest_descriptor =
+      getDescriptor().getMessageTypes().get(21);
+    internal_static_UpdateDraftRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_UpdateDraftRequest_descriptor,
+        new java.lang.String[] { "CourseDraft", });
+    internal_static_UpdateDraftResponse_descriptor =
+      getDescriptor().getMessageTypes().get(22);
+    internal_static_UpdateDraftResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_UpdateDraftResponse_descriptor,
+        new java.lang.String[] { "CourseDraft", });
+    internal_static_GetDraftsRequest_descriptor =
+      getDescriptor().getMessageTypes().get(23);
+    internal_static_GetDraftsRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetDraftsRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_GetDraftsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(24);
+    internal_static_GetDraftsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetDraftsResponse_descriptor,
+        new java.lang.String[] { "Drafts", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

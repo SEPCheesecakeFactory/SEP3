@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using RepositoryContracts;
+using LearningStep = Entities.LearningStep;
 
 namespace gRPCRepo;
 
-public class gRPCLearningStepRepository(string host, int port, bool useTls = false) : gRPCRepository<Entities.LearningStep, (int, int)>(host, port, useTls)
+public class gRPCLearningStepRepository(string host, int port, bool useTls = false) : gRPCRepository<LearningStep, LearningStep, LearningStep, (int, int)>(host, port, useTls)
 {
-    public override Task<Entities.LearningStep> AddAsync(Entities.LearningStep entity)
+    public override Task<LearningStep> AddAsync(LearningStep entity)
     {
         throw new NotImplementedException();
     }
@@ -25,18 +26,18 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
         throw new NotImplementedException();
     }
 
-    public override IQueryable<Entities.LearningStep> GetMany()
+    public override IQueryable<LearningStep> GetMany()
     {
         throw new NotImplementedException();
     }
 
-    public override async Task<Entities.LearningStep> GetSingleAsync((int, int) id)
+    public override async Task<LearningStep> GetSingleAsync((int, int) id)
     {
         var (courseId, stepOrder) = id;
-        
+
         var response = await Client.GetLearningStepAsync(new GetLearningStepRequest { CourseId = courseId, StepNumber = stepOrder }) ?? throw new KeyNotFoundException($"LearningStep with CourseId {courseId} and StepOrder {stepOrder} not found.");
-        
-        return new Entities.LearningStep
+
+        return new LearningStep
         {
             CourseId = response.LearningStep.CourseId,
             StepOrder = response.LearningStep.StepOrder,
@@ -45,7 +46,7 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
         };
     }
 
-    public override Task UpdateAsync(Entities.LearningStep entity)
+    public override async Task<LearningStep> UpdateAsync(LearningStep entity)
     {
         var request = new UpdateLearningStepRequest
         {
@@ -58,6 +59,13 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
             }
         };
 
-        return Client.UpdateLearningStepAsync(request).ResponseAsync;
+        var response = await Client.UpdateLearningStepAsync(request);
+        return new LearningStep
+        {
+            CourseId = response.LearningStep.CourseId,
+            StepOrder = response.LearningStep.StepOrder,
+            Type = response.LearningStep.Type,
+            Content = response.LearningStep.Content
+        };
     }
 }

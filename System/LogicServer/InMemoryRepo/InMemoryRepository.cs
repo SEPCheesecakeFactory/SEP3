@@ -7,7 +7,7 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class InMemoryRepository<T> : IRepository<T> where T : class, IIdentifiable<int>
+public class InMemoryRepository<T> : IRepositoryID<T> where T : class, IIdentifiable<int>
 {
     private readonly List<T> Ts = [];
 
@@ -22,14 +22,14 @@ public class InMemoryRepository<T> : IRepository<T> where T : class, IIdentifiab
         return Task.FromResult(T);
     }
 
-    public Task UpdateAsync(T T)
+    public Task<T> UpdateAsync(T T)
     {
         T existingT =
             Ts.SingleOrDefault(p => p.Id == T.Id)
                 ?? throw new NotFoundException($"T with ID '{T.Id}' not found");
         Ts.Remove(existingT);
         Ts.Add(T);
-        return Task.CompletedTask;
+        return Task.FromResult(T);
     }
 
     public Task DeleteAsync(int id)

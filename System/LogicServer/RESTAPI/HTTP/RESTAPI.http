@@ -81,10 +81,11 @@ Content-Type: application/json
   "PasswordRepeat": "itsmeurlookingfor",
   "Roles": [
     {
-      "RoleName": "learner"
+      "RoleName": "teacher"
     }
   ]
 }
+
 
 ### Test edit learning step
 PUT {{baseURL}}/learningsteps/1_1
@@ -97,6 +98,87 @@ Content-Type: application/json
   "content": "Introduction to the Roman Empire. v123"  
 }
 
+### Add Draft
+POST {{baseURL}}/drafts
+Content-Type: application/json
+
+{
+  "Language": "C#",
+  "Title": "Advanced C#",
+  "Description": "Deep dive into C#",
+  "TeacherId": 1
+}
+### Get Draft by ID
+GET {{baseURL}}/drafts/4
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiI5MGRiZDFmNi02MDE3LTRhNTktOTRjMS02M2QxODdjNjJmZWMiLCJpYXQiOjE3NjQ2ODgxNDQsInVuaXF1ZV9uYW1lIjoiaGVsbG8iLCJVc2VybmFtZSI6ImhlbGxvIiwiUm9sZSI6InRlYWNoZXIiLCJuYmYiOjE3NjQ2ODgxNDQsImV4cCI6MTc2NDY5MTc0NCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.nf5A1eW1GSg6dK8co4JctpK88FCfVYRbIZJ91vcthuU
+
+### Add Draft
+POST {{baseURL}}/drafts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJhMDU0NDFjMi0yNmE4LTRhODgtOTJmMC05NGM4MTZiY2RhNDUiLCJpYXQiOjE3NjQ3NzEyNDQsInVuaXF1ZV9uYW1lIjoidGVhY2hlcnIiLCJVc2VybmFtZSI6InRlYWNoZXJyIiwiSWQiOiIwIiwiUm9sZSI6InRlYWNoZXIiLCJuYmYiOjE3NjQ3NzEyNDQsImV4cCI6MTc2NDc3NDg0NCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.77wgnCS-8q0T1TtVOTpHsplucIztyhKulzgGTPwjiKQ
+Content-Type: application/json
+
+{
+  "Language": "ENG",
+  "Title": "Advanced C#",
+  "Description": "Deep dive into C#",
+  "TeacherId": 2
+}
+
+
+
+
+### 1. Login test without dataserver
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "hello",
+  "Password": "itsmeurlookingfor"
+}
+### Register test user
+POST {{baseURL}}/Auth/register
+Content-Type: application/json
+
+{
+  "Username": "admin",
+  "Password": "123",
+  "PasswordRepeat": "123",
+  "Roles": [
+    {
+      "RoleName": "admin"
+    }
+  ]
+}
+### Register teacherr
+POST {{baseURL}}/Auth/register
+Content-Type: application/json
+
+{
+  "Username": "teacherr",
+  "Password": "123",
+  "PasswordRepeat": "123",
+  "Roles": [
+    {
+      "RoleName": "teacher"
+    }
+  ]
+}
+### 1. Login as teacher
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "admin",
+  "Password": "123"
+}
+
+### Approve Draft (Admin)
+PUT {{baseURL}}/drafts/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiIwYzBjOWQ4My0wMzc3LTQ4MGQtOGU2ZS01Mzk1MzQ5NmYxZjciLCJpYXQiOjE3NjQ3NzEyODksInVuaXF1ZV9uYW1lIjoiYWRtaW4iLCJVc2VybmFtZSI6ImFkbWluIiwiSWQiOiIyIiwiUm9sZSI6ImFkbWluIiwibmJmIjoxNzY0NzcxMjg5LCJleHAiOjE3NjQ3NzQ4ODksImlzcyI6IkpXVEF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiSldUU2VydmljZUJsYXpvckNsaWVudCJ9.vO3xloDvxDwYhtX-nbSe-JNIfJ7LTDvhxqTL6aprWjM
+Content-Type: application/json
+
+1
 ### Test course progress
 
 ### If your testuser has an ID different than 1 make sure to replace with the 1

@@ -54,6 +54,17 @@ CREATE TABLE LearningStep (
     content TEXT
 );
 
+CREATE TABLE CourseDraft
+(
+    id serial PRIMARY KEY,
+    language varchar(50),
+    title varchar(50),
+    description varchar(300),
+    teacher_id int REFERENCES SystemUser(id),
+    course_id int REFERENCES Course(id),
+    approved_by int REFERENCES SystemUser(id)
+);
+
 -- Insert into LearningStepType
 INSERT INTO
     LearningStepType (name)
@@ -75,6 +86,10 @@ VALUES (
     (
         'Software Engineering',
         'Courses focused on software development practices and tools.'
+    ),
+    (
+        'default',
+        ''
     );
 
 -- Insert into Course

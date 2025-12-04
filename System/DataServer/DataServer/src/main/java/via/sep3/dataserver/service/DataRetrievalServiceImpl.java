@@ -9,15 +9,16 @@ import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
 
 import io.grpc.stub.StreamObserver;
+import via.sep3.dataserver.data.*;
 import via.sep3.dataserver.data.Course;
-import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.LearningStep;
 import via.sep3.dataserver.data.LearningStepRepository;
 import via.sep3.dataserver.data.LearningStepType;
 import via.sep3.dataserver.data.LearningStepTypeRepository;
 import via.sep3.dataserver.data.Role;
-import via.sep3.dataserver.data.RoleRepository;
 import via.sep3.dataserver.data.SystemUser;
+import via.sep3.dataserver.grpc.*;
+import via.sep3.dataserver.grpc.CourseDraft;
 import via.sep3.dataserver.data.SystemUserRepository;
 import via.sep3.dataserver.data.SystemUserRole;
 import via.sep3.dataserver.data.SystemUserRoleRepository;
@@ -50,11 +51,20 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
   private RoleRepository roleRepository;
   @Autowired
   private LearningStepRepository learningStepRepository;
+  
+  @Autowired
+  private CourseDraftRepository courseDraftRepository;
   @Autowired
   private UserCourseProgressRepository progressRepository;
 
   @Autowired
   private LearningStepTypeRepository learningStepTypeRepository;
+
+  @Autowired
+  private LanguageRepository languageRepository;
+
+  @Autowired
+  private CourseCategoryRepository courseCategoryRepository;
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -86,6 +96,40 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       System.out.println("Error in getCourses: " + e.getMessage());
       e.printStackTrace();
       responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+    }
+  }
+
+  @Override
+  public void addCourse(AddCourseRequest request, StreamObserver<AddCourseResponse> responseObserver) {
+    try {
+      via.sep3.dataserver.data.Language language = languageRepository.findById(request.getLanguage()).orElse(null);
+      if (language == null) {
+         responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription("Language not found: " + request.getLanguage()).asRuntimeException());
+         return;
+      }
+      
+      via.sep3.dataserver.data.CourseCategory category = courseCategoryRepository.findByName(request.getCategory());
+       if (category == null) {
+         responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription("Category not found: " + request.getCategory()).asRuntimeException());
+         return;
+      }
+
+      Course course = new Course();
+      course.setTitle(request.getTitle());
+      course.setDescription(request.getDescription());
+      course.setLanguage(language);
+      course.setCategory(category);
+
+      course = courseRepository.save(course);
+
+      AddCourseResponse response = AddCourseResponse.newBuilder()
+          .setCourse(convertToGrpcCourse(course))
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(e);
     }
   }
 
@@ -291,6 +335,174 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
         .build();
   }
 
+  //drafts
+
+  @Override public void addDraft(AddDraftRequest request,
+      StreamObserver<AddDraftResponse> responseObserver)
+  {
+    try
+    {
+      String language = request.getLanguage();
+      String title = request.getTitle();
+      String description = request.getDescription();
+      int teacher_id = request.getTeacherId();
+      SystemUser systemUser = userRepository.getSystemUserById(teacher_id);
+
+
+      via.sep3.dataserver.data.CourseDraft courseDraft = new via.sep3.dataserver.data.CourseDraft();
+      courseDraft.setLanguage(language);
+      courseDraft.setTitle(title);
+      courseDraft.setDescription(description);
+      courseDraft.setSystemUser(systemUser);
+
+
+      courseDraft = courseDraftRepository.save(courseDraft);
+
+      CourseDraft grpcCourseDraft = convertToGrpcDraft(courseDraft);
+
+      AddDraftResponse response = AddDraftResponse.newBuilder()
+          .setCourseDraft(grpcCourseDraft)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+
+    }
+    catch (Exception e)
+    {
+      responseObserver.onError(e);
+    }
+  }
+
+  @Override public void getDraft(GetDraftRequest request,
+      StreamObserver<GetDraftResponse> responseObserver)
+  {
+    try{
+      via.sep3.dataserver.data.CourseDraft courseDraft = courseDraftRepository.getCourseDraftById(request.getDraftId());
+      CourseDraft grpcCourseDraft = convertToGrpcDraft(courseDraft);
+      GetDraftResponse response = GetDraftResponse.newBuilder()
+          .setCourseDraft(grpcCourseDraft)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+    }
+   catch (Exception e) {
+    responseObserver.onError(e);
+  }
+
+  }
+  private CourseDraft convertToGrpcDraft(via.sep3.dataserver.data.CourseDraft courseDraft)
+  {
+    CourseDraft.Builder builder = CourseDraft.newBuilder()
+        .setId(courseDraft.getId())
+        .setLanguage(courseDraft.getLanguage() != null ? courseDraft.getLanguage() : "")
+        .setTitle(courseDraft.getTitle() != null ? courseDraft.getTitle() : "")
+        .setDescription(courseDraft.getDescription() != null ? courseDraft.getDescription() : "");
+
+    if (courseDraft.getCourse() != null) {
+      builder.setCourseId(courseDraft.getCourse().getId());
+    } else {
+      builder.setCourseId(-1);
+    }
+    if (courseDraft.getSystemUser() != null) {
+      builder.setTeacherId(courseDraft.getSystemUser().getId());
+    } else {
+      builder.setTeacherId(-1);
+    }
+    if (courseDraft.getApprovedBy() != null) {
+      builder.setApprovedBy(courseDraft.getApprovedBy().getId());
+    } else {
+      builder.setApprovedBy(-1);
+    }
+
+    return builder.build();
+  }
+
+  @Override public void getDrafts(GetDraftsRequest request,
+      StreamObserver<GetDraftsResponse> responseObserver)
+  {
+    try {
+      List<via.sep3.dataserver.data.CourseDraft> drafts = courseDraftRepository.findAll();
+      GetDraftsResponse.Builder responseBuilder = GetDraftsResponse.newBuilder();
+
+      for (via.sep3.dataserver.data.CourseDraft draft : drafts) {
+        responseBuilder.addDrafts(convertToGrpcDraft(draft));
+      }
+
+      responseObserver.onNext(responseBuilder.build());
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(e);
+    }
+  }
+
+  @Override public void updateDraft(UpdateDraftRequest request,
+      StreamObserver<UpdateDraftResponse> responseObserver)
+  {
+    try
+    {
+      via.sep3.dataserver.grpc.CourseDraft grpcDraft = request.getCourseDraft();
+
+      via.sep3.dataserver.data.CourseDraft existingDraft = courseDraftRepository.findById(grpcDraft.getId()).orElse(null);
+
+      if (existingDraft == null) {
+        responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription("Draft not found").asRuntimeException());
+        return;
+      }
+
+      if (!grpcDraft.getLanguage().isEmpty()) {
+        existingDraft.setLanguage(grpcDraft.getLanguage());
+      }
+      if (!grpcDraft.getTitle().isEmpty()) {
+        existingDraft.setTitle(grpcDraft.getTitle());
+      }
+      if (!grpcDraft.getDescription().isEmpty()) {
+        existingDraft.setDescription(grpcDraft.getDescription());
+      }
+
+      if (grpcDraft.getTeacherId() != -1 && (existingDraft.getSystemUser() == null || existingDraft.getSystemUser().getId() != grpcDraft.getTeacherId())) {
+        SystemUser teacher = userRepository.findById(grpcDraft.getTeacherId()).orElse(null);
+        if (teacher != null) {
+          existingDraft.setSystemUser(teacher);
+        }
+      }
+
+      if (grpcDraft.getCourseId() != -1) {
+        if (existingDraft.getCourse() == null || existingDraft.getCourse().getId() != grpcDraft.getCourseId()) {
+          Course course = courseRepository.findById(grpcDraft.getCourseId()).orElse(null);
+          if (course != null) {
+            existingDraft.setCourse(course);
+          }
+        }
+      }
+
+      if (grpcDraft.getApprovedBy() != -1) {
+        if (existingDraft.getApprovedBy() == null || existingDraft.getApprovedBy().getId() != grpcDraft.getApprovedBy()) {
+          SystemUser approver = userRepository.findById(grpcDraft.getApprovedBy()).orElse(null);
+          if (approver != null) {
+            existingDraft.setApprovedBy(approver);
+          }
+        }
+      }
+
+      existingDraft = courseDraftRepository.save(existingDraft);
+
+      CourseDraft grpcCourseDraft = convertToGrpcDraft(existingDraft);
+
+      UpdateDraftResponse response = UpdateDraftResponse.newBuilder()
+          .setCourseDraft(grpcCourseDraft)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+
+    }
+    catch (Exception e)
+    {
+      responseObserver.onError(e);
+    }
+  }
 @Override
     public void getCourseProgress(CourseProgressRequest request, StreamObserver<CourseProgressResponse> responseObserver) {
         try {
