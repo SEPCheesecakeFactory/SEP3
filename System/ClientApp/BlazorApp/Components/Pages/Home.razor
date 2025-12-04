@@ -5,11 +5,8 @@
 @using BlazorApp.Entities
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
-@inject NavigationManager NavMgr
-@using BlazorApp.Utils
-@using System.Security.Claims
-@inject ICourseService CourseService
 @inject NavigationManager NavManager
+@inject ICourseService CourseService
 
 <PageTitle>Home</PageTitle>
 
@@ -203,12 +200,7 @@
 
     private void OpenCourse(Course course)
     {
-        int saved = GetSavedStep(course.Id);
-        
-        // if completed (saved > total), restart at Step 1 for review
-        int stepToOpen = (saved > course.TotalSteps) ? 1 : saved;
-        
-        NavManager.NavigateTo($"/courses/{course.Id}/steps/{stepToOpen}");
+        NavManager.NavigateTo($"/courses/{course.Id}/steps/1");
     }
 
     private void OpenEditModal(Course course)
