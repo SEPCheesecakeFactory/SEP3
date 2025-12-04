@@ -6,7 +6,7 @@ using via.sep3.dataserver.grpc;
 
 namespace gRPCRepo;
 
-public class gRPCUserRepository : gRPCRepository<Entities.User, int>
+public class gRPCUserRepository : gRPCRepository<Entities.User, int>, ILeaderboardRepository
 {
     public gRPCUserRepository(string host, int port) : base(host, port)
     {
@@ -61,6 +61,20 @@ public class gRPCUserRepository : gRPCRepository<Entities.User, int>
     public override Task ClearAsync()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<List<Entities.LeaderboardEntry>> GetTopPlayersAsync()
+    {
+        // 1. Call Java (gRPC)
+        var response = await Client.GetLeaderboardAsync(new Empty());
+
+        // 2. Map Proto -> C# Entity
+        return response.Entries.Select(e => new Entities.LeaderboardEntry
+        {
+            Username = e.Username,
+            TotalScore = e.TotalScore,
+            Rank = e.Rank
+        }).ToList();
     }
 
 }
