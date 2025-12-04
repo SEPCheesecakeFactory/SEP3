@@ -45,9 +45,21 @@ else
 
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
 
-            <h2 class="fw-bolder mb-5 text-center text-dark fs-1">
-                @($"Step {StepOrder}")
-            </h2>
+            <div class="mb-5 d-flex align-items-center justify-content-between gap-3">
+                <h2 class="fw-bolder text-dark fs-1 mb-0">@($"Step {StepOrder}")</h2>
+
+                <AuthorizeView Context="authState">
+                    <Authorized>
+                        @if (Utils.AuthUtils.ConvertFromClaim(authState.User.Claims.Single(c => c.Type ==
+                                            "Role").Value).Contains("teacher"))
+                        {
+                            <button class="btn btn-outline-secondary btn-sm px-2 py-1 ms-3" @onclick="GoToEditStep">
+                                EDIT STEP
+                            </button>
+                        }
+                    </Authorized>
+                </AuthorizeView>
+            </div>
 
             @if (IsMultipleChoiceQuestion)
             {
@@ -333,5 +345,10 @@ else
             return $"https://www.youtube.com/embed/{id}";
         }
         return url;
+    }
+
+    private void GoToEditStep()
+    {
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}/edit");
     }
 }
