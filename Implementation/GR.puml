@@ -11,6 +11,8 @@ class Course
     title
     description
     category {FK}
+    author_id {FK}
+    approved_by {FK}
 }
 
 class CourseCategory
@@ -58,16 +60,6 @@ class LearningStep
     content
 }
 
-class CourseDraft
-{
-    id {PK}
-    language
-    title
-    description
-    teacher_id {FK}
-    course_id {FK}
-    approved_by {FK}
-}
    
 class UserCourseProgress
 {
@@ -80,9 +72,8 @@ Course "*" -- "1" CourseCategory
 Course "*" -- "1" Language
 SystemUser "1" -- "*" SystemUserRole
 SystemUserRole "*" -- "1" Role
-Course "1" -- "1" CourseDraft
-CourseDraft "*" -- "1" SystemUser : approved_by ▼
-CourseDraft "*" -- "1" SystemUser : created_by ▼
+Course "*" -- "1" SystemUser : approved_by ▼
+Course "*" -- "1" SystemUser : created_by ▼
 
 
 SystemUser "1" -- "*" UserCourseProgress
