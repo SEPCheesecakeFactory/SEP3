@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace RESTAPI.Services;
 
-public class AuthService(IRepositoryID<Entities.User, int> userRepository, ILogger<AuthService> logger) : IAuthService
+public class AuthService(IRepositoryID<User, User, User, int> userRepository, ILogger<AuthService> logger) : IAuthService
 {
     public async Task<Entities.User> ValidateUser(string username, string password)
     {

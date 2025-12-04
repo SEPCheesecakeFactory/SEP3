@@ -3,7 +3,7 @@ using RepositoryContracts;
 
 namespace RESTAPI.Controllers;
 
-public class LearningStepsController(IRepositoryID<Entities.LearningStep, (int, int)> repository) : GenericController<Entities.LearningStep, (int, int)>(repository)
+public class LearningStepsController(IRepositoryID<Entities.LearningStep, Entities.LearningStep, Entities.LearningStep, (int, int)> repository) : GenericDefaultController<Entities.LearningStep, Entities.LearningStep, Entities.LearningStep, (int, int)>(repository)
 {
     protected override Func<string, (int, int)> IdParser { get; } = idStr =>
     {

@@ -54,6 +54,17 @@ CREATE TABLE LearningStep (
     content TEXT
 );
 
+CREATE TABLE CourseDraft
+(
+    id serial PRIMARY KEY,
+    language varchar(50),
+    title varchar(50),
+    description varchar(300),
+    teacher_id int REFERENCES SystemUser(id),
+    course_id int REFERENCES Course(id),
+    approved_by int REFERENCES SystemUser(id)
+);
+
 -- Insert into LearningStepType
 INSERT INTO
     LearningStepType (name)
@@ -75,6 +86,10 @@ VALUES (
     (
         'Software Engineering',
         'Courses focused on software development practices and tools.'
+    ),
+    (
+        'default',
+        ''
     );
 
 -- Insert into Course
@@ -225,4 +240,11 @@ VALUES (
         2,
         4,
         'To copy a remote repository to your local machine for the first time, use: git ___ .|clone'
+    );
+
+    Create Table user_course_progress (
+        user_id INT REFERENCES SystemUser(id) ON DELETE CASCADE,
+        course_id INT REFERENCES Course(id) ON DELETE CASCADE,
+        current_step INT DEFAULT 1,
+        PRIMARY Key (user_id, course_id)
     );

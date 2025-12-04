@@ -11,9 +11,18 @@ service DataRetrievalService {
   
   // courses
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
+  rpc AddCourse (AddCourseRequest) returns (AddCourseResponse);
   rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
+//drafts
+  rpc AddDraft (AddDraftRequest) returns (AddDraftResponse);
+  rpc GetDraft (GetDraftRequest) returns (GetDraftResponse);
+  rpc UpdateDraft (UpdateDraftRequest) returns (UpdateDraftResponse);
+
+  rpc GetCourseProgress (CourseProgressRequest) returns (CourseProgressResponse);
+  rpc UpdateCourseProgress (CourseProgressUpdate) returns (Empty);
   rpc UpdateLearningStep (UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
   rpc UpdateCourse (UpdateCourseRequest) returns (UpdateCourseResponse);
+  rpc GetDrafts (GetDraftsRequest) returns (GetDraftsResponse);
 }
 
 // --- Courses ---
@@ -38,6 +47,18 @@ message Course {
   string description = 3;
   string language = 4;
   string category = 5;
+  int32 total_steps = 6;
+}
+
+message AddCourseRequest {
+  string title = 1;
+  string description = 2;
+  string language = 3;
+  string category = 4;
+}
+
+message AddCourseResponse {
+  Course course = 1;
 }
 
 // --- Users ---
@@ -89,11 +110,66 @@ message LearningStep {
   string content = 3;
   string type = 4;
 }
+  //drafts
+message CourseDraft{
+    int32 id=1;
+    string language=2;
+    string title=3;
+    string description=4;
+    int32 teacher_id=5;
+    int32 course_id=6;
+    int32 approved_by=7;
+}
 
+message AddDraftRequest{
+    string language=1;
+    string title=2;
+    string description=3;
+    int32 teacher_id=4;
+  }
+message AddDraftResponse{
+    CourseDraft courseDraft=1;
+  }
+message GetDraftRequest{
+    int32 draftId=1;
+  }
+message GetDraftResponse{
+    CourseDraft courseDraft=1;
+  }
+
+
+message CourseProgressRequest{
+  int32 user_id = 1;
+  int32 course_id =2;
+}
+
+message CourseProgressResponse {
+  int32 current_step = 1;
+}
+
+message CourseProgressUpdate {
+  int32 user_id =1;
+  int32 course_id =2;
+  int32 current_step =3;
+}
+
+message Empty {}
 message UpdateLearningStepRequest {
   LearningStep learning_step = 1;
 }
 
 message UpdateLearningStepResponse {
   LearningStep learning_step = 1;
+}
+message UpdateDraftRequest{
+  CourseDraft courseDraft = 1;
+}
+message UpdateDraftResponse{
+  CourseDraft courseDraft = 1;
+}
+
+message GetDraftsRequest {}
+
+message GetDraftsResponse {
+  repeated CourseDraft drafts = 1;
 }

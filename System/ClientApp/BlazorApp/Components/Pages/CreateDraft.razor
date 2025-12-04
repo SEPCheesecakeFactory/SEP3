@@ -1,0 +1,128 @@
+@page "/create-draft"
+@using BlazorApp.Services
+@using BlazorApp.Entities
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using BlazorApp.Utils
+@inject ICourseService CourseService
+@inject NavigationManager NavManager
+@inject AuthenticationStateProvider AuthProvider
+
+<AuthorizeView>
+    <Authorized>
+        @if (AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value).Contains("teacher"))
+        {
+            <PageTitle>Create Draft</PageTitle>
+
+            <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
+                <div class="d-flex align-items-center mb-4 pt-2">
+                    <a href="/" class="btn btn-link text-secondary p-0 me-4">
+                        <i class="fas fa-times fa-2x"></i>
+                    </a>
+                    <h2 class="fw-bolder text-secondary mb-0">Create New Course Draft</h2>
+                </div>
+
+                <div class="card p-4 shadow-sm">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        <input type="text" class="form-control" @bind="draft.Title" placeholder="e.g. Advanced C#" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Language</label>
+                        <input type="text" class="form-control" @bind="draft.Language" placeholder="e.g. C#" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Description</label>
+                        <textarea class="form-control" style="min-height: 100px; resize: none;"
+                            @bind="draft.Description" placeholder="Enter course description..."></textarea>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @errorMessage
+                        </div>
+                    }
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <button class="btn btn-primary px-4" @onclick="Create" disabled="@isSaving">
+                            @if (isSaving)
+                            {
+                                <span class="spinner-border spinner-border-sm me-2"></span>
+                            }
+                            Create Draft
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+                <div class="alert alert-warning" role="alert">
+                    You do not have permission to create drafts.
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+            <div class="alert alert-warning" role="alert">
+                Please login to create drafts.
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private CreateDraftDto draft = new();
+    private bool isSaving = false;
+    private string errorMessage = "";
+
+    private async Task Create()
+    {
+        isSaving = true;
+        errorMessage = "";
+        try
+        {
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            
+           
+            var roleClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
+            
+            if (roleClaim != null && AuthUtils.ConvertFromClaim(roleClaim.Value).Contains("teacher"))
+            {
+                var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+                if (idClaim != null && int.TryParse(idClaim.Value, out int tid))
+                {
+                    draft.TeacherId = tid;
+                }
+                else
+                {
+                    errorMessage = "Could not find user ID.";
+                    isSaving = false;
+                    return;
+                }
+
+                await CourseService.CreateDraft(draft);
+                NavManager.NavigateTo("/");
+            }
+            else
+            {
+                errorMessage = "You must be a teacher to create a draft.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+}

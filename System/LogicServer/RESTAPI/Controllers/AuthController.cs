@@ -13,7 +13,7 @@ namespace RESTAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IConfiguration config, IAuthService authService, IRepositoryID<Entities.User, int> userRepository, ILogger<AuthController> logger) : ControllerBase
+public class AuthController(IConfiguration config, IAuthService authService, IRepositoryID<Entities.User, Entities.User, Entities.User, int> userRepository, ILogger<AuthController> logger) : ControllerBase
 {
     private readonly IConfiguration _config = config;
 
@@ -59,7 +59,6 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
         {
             logger.LogInformation("Register attempt for username: {Username}", request.Username);
             Entities.User newUser = await authService.RegisterUser(request);
-            
 
 
 
@@ -107,6 +106,7 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
             new Claim("Username", user.Username),
+            new Claim("Id",user.Id.ToString())
             // new Claim("Email", user.Email),
         };
 
