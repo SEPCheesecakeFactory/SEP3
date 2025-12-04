@@ -41,7 +41,7 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
         return CreatedAtAction(nameof(GetSingleAsync), new { id = createdEntity }, createdEntity);
     }
 
-    protected async Task<IActionResult> UpdateAsync(string id, UpdateType entity)
+    protected async Task<ActionResult<MainType>> UpdateAsync(string id, UpdateType entity)
     {
         ID parsedId = IdParser(id);
         try

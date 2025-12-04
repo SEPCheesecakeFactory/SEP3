@@ -24,5 +24,9 @@ public class CoursesController(ICourseRepository repository) : GenericController
         Console.WriteLine($"Fetched {entities.Count()} courses for user {userId}");
         return Ok(entities);
     }
+
+    [HttpPut("{id}")]
+    [Authorize("MustBeTeacher")]
+    public async Task<ActionResult<Course>> HttpUpdateAsync(string id, [FromBody] Course entity) => await UpdateAsync(id, entity);
     
 }
