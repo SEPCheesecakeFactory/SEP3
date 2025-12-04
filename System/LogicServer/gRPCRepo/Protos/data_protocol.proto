@@ -115,3 +115,14 @@ message CourseProgressUpdate {
 
 message Empty {}
 
+// Single row in the leaderboard
+message LeaderboardEntry {
+  string username = 1;
+  int32 total_score = 2;
+  int32 rank = 3; // We will calculate this 1st, 2nd, 3rd logic in Java
+}
+
+// List of winners
+message GetLeaderboardResponse {
+  repeated LeaderboardEntry entries = 1;
+}
