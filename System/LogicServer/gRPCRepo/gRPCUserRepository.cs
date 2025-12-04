@@ -36,7 +36,7 @@ public class gRPCUserRepository : gRPCRepository<Entities.User, int>
         };
         var response = await Client.AddUserAsync(request);
         return new Entities.User{
-            Id = entity.Id,
+            Id = response.User.Id, // fix takes now id returned by database
             Username = entity.Username,
             Password = entity.Password,
             Roles = entity.Roles.Select(r => new Entities.Role { RoleName = r.RoleName }).ToList()

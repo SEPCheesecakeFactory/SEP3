@@ -12,6 +12,9 @@ service DataRetrievalService {
   // courses
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
   rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
+// progress
+  rpc GetCourseProgress (CourseProgressRequest) returns (CourseProgressResponse);
+  rpc UpdateCourseProgress (CourseProgressUpdate) returns (Empty);
   rpc UpdateLearningStep (UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
 }
 
@@ -30,6 +33,7 @@ message Course {
   string description = 3;
   string language = 4;
   string category = 5;
+  int32 total_steps = 6;
 }
 
 // --- Users ---
@@ -89,3 +93,25 @@ message UpdateLearningStepRequest {
 message UpdateLearningStepResponse {
   LearningStep learning_step = 1;
 }
+
+// progress
+
+message CourseProgressRequest{
+  int32 user_id = 1;
+  int32 course_id = 2;
+}
+
+message CourseProgressResponse {
+  int32 current_step = 1;
+}
+
+message CourseProgressUpdate {
+  int32 user_id = 1;
+  int32 course_id = 2;
+  int32 current_step = 3;
+}
+
+// Empty
+
+message Empty {}
+

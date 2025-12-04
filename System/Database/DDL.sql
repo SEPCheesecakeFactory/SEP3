@@ -226,3 +226,10 @@ VALUES (
         4,
         'To copy a remote repository to your local machine for the first time, use: git ___ .|clone'
     );
+
+    Create Table user_course_progress (
+        user_id INT REFERENCES SystemUser(id) ON DELETE CASCADE,
+        course_id INT REFERENCES Course(id) ON DELETE CASCADE,
+        current_step INT DEFAULT 1,
+        PRIMARY Key (user_id, course_id)
+    );

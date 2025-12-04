@@ -214,6 +214,17 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int TOTAL_STEPS_FIELD_NUMBER = 6;
+  private int totalSteps_ = 0;
+  /**
+   * <code>int32 total_steps = 6;</code>
+   * @return The totalSteps.
+   */
+  @java.lang.Override
+  public int getTotalSteps() {
+    return totalSteps_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -243,6 +254,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(category_)) {
       com.google.protobuf.GeneratedMessage.writeString(output, 5, category_);
     }
+    if (totalSteps_ != 0) {
+      output.writeInt32(6, totalSteps_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -267,6 +281,10 @@ private static final long serialVersionUID = 0L;
     }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(category_)) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(5, category_);
+    }
+    if (totalSteps_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(6, totalSteps_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -293,6 +311,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getLanguage())) return false;
     if (!getCategory()
         .equals(other.getCategory())) return false;
+    if (getTotalSteps()
+        != other.getTotalSteps()) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -314,6 +334,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getLanguage().hashCode();
     hash = (37 * hash) + CATEGORY_FIELD_NUMBER;
     hash = (53 * hash) + getCategory().hashCode();
+    hash = (37 * hash) + TOTAL_STEPS_FIELD_NUMBER;
+    hash = (53 * hash) + getTotalSteps();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -450,6 +472,7 @@ private static final long serialVersionUID = 0L;
       description_ = "";
       language_ = "";
       category_ = "";
+      totalSteps_ = 0;
       return this;
     }
 
@@ -498,6 +521,9 @@ private static final long serialVersionUID = 0L;
       if (((from_bitField0_ & 0x00000010) != 0)) {
         result.category_ = category_;
       }
+      if (((from_bitField0_ & 0x00000020) != 0)) {
+        result.totalSteps_ = totalSteps_;
+      }
     }
 
     @java.lang.Override
@@ -534,6 +560,9 @@ private static final long serialVersionUID = 0L;
         category_ = other.category_;
         bitField0_ |= 0x00000010;
         onChanged();
+      }
+      if (other.getTotalSteps() != 0) {
+        setTotalSteps(other.getTotalSteps());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -586,6 +615,11 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000010;
               break;
             } // case 42
+            case 48: {
+              totalSteps_ = input.readInt32();
+              bitField0_ |= 0x00000020;
+              break;
+            } // case 48
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -919,6 +953,38 @@ private static final long serialVersionUID = 0L;
       checkByteStringIsUtf8(value);
       category_ = value;
       bitField0_ |= 0x00000010;
+      onChanged();
+      return this;
+    }
+
+    private int totalSteps_ ;
+    /**
+     * <code>int32 total_steps = 6;</code>
+     * @return The totalSteps.
+     */
+    @java.lang.Override
+    public int getTotalSteps() {
+      return totalSteps_;
+    }
+    /**
+     * <code>int32 total_steps = 6;</code>
+     * @param value The totalSteps to set.
+     * @return This builder for chaining.
+     */
+    public Builder setTotalSteps(int value) {
+
+      totalSteps_ = value;
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 total_steps = 6;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearTotalSteps() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      totalSteps_ = 0;
       onChanged();
       return this;
     }

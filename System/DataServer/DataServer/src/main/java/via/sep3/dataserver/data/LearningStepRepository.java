@@ -10,4 +10,6 @@ public interface LearningStepRepository extends JpaRepository<LearningStep, Lear
   LearningStep findByIdCourseIdAndIdStepOrder(Integer courseId, Integer stepOrder);
   
   List<LearningStep> findByCourse_TitleOrderByIdStepOrder(String courseTitle);
+
+  int countByIdCourseId(Integer courseId);
 }

@@ -96,3 +96,64 @@ Content-Type: application/json
   "type": "Text",
   "content": "Introduction to the Roman Empire. v123"  
 }
+
+### Test course progress
+
+### If your testuser has an ID different than 1 make sure to replace with the 1
+### 1. Login to get a valid Token and confirm User ID
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "testuser",
+  "Password": "testpass"
+}
+
+### 2. Get Current Progress
+# Check what step User 1 is on for Course 1.
+# If you haven't started, it should return 1.
+GET {{baseURL}}/CourseProgress/1/1
+Accept: application/json
+
+### 3. Update Progress (Simulate finishing Step 1)
+# "User 1 is now on Step 2 of Course 1"
+POST {{baseURL}}/CourseProgress
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "courseId": 1,
+  "currentStep": 2
+}
+
+### 4. Verify the Update
+# Call GET again to make sure it saved.
+# Expected result: 2
+GET {{baseURL}}/CourseProgress/1/1
+Accept: application/json
+
+### 5. Simulate Course Completion
+# If Course 1 has 5 steps, saving "6" means it is completed.
+POST {{baseURL}}/CourseProgress
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "courseId": 1,
+  "currentStep": 6
+}
+
+### 6. Verify Completion
+# Expected result: 6
+GET {{baseURL}}/CourseProgress/1/1
+Accept: application/json
+
+### 7. [Extra] Reset Progress to Step 1
+POST {{baseURL}}/CourseProgress
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "courseId": 1,
+  "currentStep": 1
+}

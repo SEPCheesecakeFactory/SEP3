@@ -54,7 +54,17 @@ class LearningStep
     content
 }
 
+class UserCourseProgress
+{
+    user_id {PPK, FK}
+    course_id {PPK, FK}
+    current_step
+}
+
 Course "*" -- "1" CourseCategory
 Course "*" -- "1" Language
 SystemUser "1" -- "*" SystemUserRole
 SystemUserRole "*" -- "1" Role
+
+SystemUser "1" -- "*" UserCourseProgress
+Course "1" -- "*" UserCourseProgress
