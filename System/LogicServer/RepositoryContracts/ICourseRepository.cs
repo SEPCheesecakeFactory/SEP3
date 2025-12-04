@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace RepositoryContracts
 {
-    public interface ICourseRepository : IRepository<Course>
+    public interface ICourseRepository : IRepositoryID<Course>
     {
         Task<int> GetCourseProgressAsync(int userId, int courseId);  
         Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep);
