@@ -15,6 +15,9 @@ service DataRetrievalService {
   rpc GetCourseProgress (CourseProgressRequest) returns (CourseProgressResponse);
   rpc UpdateCourseProgress (CourseProgressUpdate) returns (Empty);
   rpc UpdateLearningStep (UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
+
+  // leaderboard
+  rpc GetLeaderboard (Empty) returns (GetLeaderboardResponse);
 }
 
 // --- Courses ---
@@ -107,4 +110,16 @@ message UpdateLearningStepRequest {
 
 message UpdateLearningStepResponse {
   LearningStep learning_step = 1;
+}
+
+// Single row in the leaderboard
+message LeaderboardEntry {
+  string username = 1;
+  int32 total_score = 2;
+  int32 rank = 3; // We will calculate this 1st, 2nd, 3rd logic in Java
+}
+
+// List of winners
+message GetLeaderboardResponse {
+  repeated LeaderboardEntry entries = 1;
 }
