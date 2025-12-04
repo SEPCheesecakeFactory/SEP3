@@ -1,0 +1,197 @@
+@page "/my-courses"
+@using BlazorApp.Auth
+@using Microsoft.AspNetCore.Components.Authorization
+@using BlazorApp.Services
+@inject AuthenticationStateProvider AuthProvider
+@inject IAuthService AuthService
+@inject NavigationManager NavMgr
+
+@using BlazorApp.Entities
+@using BlazorApp.Services
+@using BlazorApp.Utils
+@using System.Security.Claims
+@inject ICourseService CourseService
+@inject NavigationManager NavManager
+
+<PageTitle>My Courses</PageTitle>
+
+<div class="container-fluid">
+    <h2 class="fw-bolder text-secondary mb-5">Course Dashboard</h2>
+
+    @if (courses == null)
+    {
+        <LoadingSpinner />
+    }
+    else if (!courses.Any())
+    {
+        <p class="text-muted fs-4 mt-5">No courses available.</p>
+    }
+    else
+    {
+        <!-- Group courses by Category -->
+        @foreach (var group in courses.GroupBy(c => c.Category))
+        {
+            <h5 class="fw-bolder text-secondary text-uppercase mt-5 mb-3 ps-1" style="letter-spacing:0.5px">
+                @group.Key
+            </h5>
+
+            <div class="row g-3">
+                @foreach (var course in group)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <!-- Card: Using 'card-course' class from app.css -->
+                        <div class="card card-course h-100 text-center bg-white @GetBorderClass(course.Category ?? "")"
+                            style="--course-color: var(--game-gray);" @onclick="() => OpenCourse(course)">
+
+                            <!-- Top Color Strip -->
+                            <div class="w-100 @GetBgClass(course.Category ?? "")" style="height: 10px;"></div>
+
+                            <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1">
+                                <!-- Icon -->
+                                <i class="@GetIconClass(course.Category ?? "") fa-3x mb-4 @GetTextClass(course.Category ?? "")"></i>
+
+                                <!-- Title -->
+                                <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
+
+                                <!-- Description -->
+                                <small class="text-muted fw-bold text-uppercase mt-2"
+                                    style="font-size: 0.75rem; letter-spacing: 1px;">
+                                    @course.Description
+                                    @if (!string.IsNullOrEmpty(course.Language))
+                                    {
+                                        <span class="mx-1">• @course.Language</span>
+                                    }
+                                </small>
+                                @{
+                                    int saved = GetSavedStep(course.Id);
+                                    int total = course.TotalSteps;
+                                    
+                                    // math: (saved step - 1) / total steps
+                                    double completedSteps = Math.Max(0, saved - 1);
+                                    double pct = (total > 0) ? (completedSteps / total * 100) : 0;
+                                }
+
+                                @if (saved > total && total > 0) 
+                                {
+                                    <div class="mt-3 badge bg-success text-white border border-success">
+                                        COMPLETED <i class="fas fa-check ms-1"></i>
+                                    </div>
+                                }
+                                else if (saved > 1)
+                                {
+                                    <div class="mt-3 badge bg-info text-dark bg-opacity-10 border border-info">
+                                        RESUME: @Math.Round(pct)%
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mt-3 badge bg-light text-secondary border">
+                                        START
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+            }
+        </div>
+    }
+}
+</div>
+
+@code {
+    private List<Course> courses = new();
+    private Dictionary<int, int> courseProgressMap = new(); 
+    private int currentUserId = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var idClaim = user.FindFirst("id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+        {
+            currentUserId = uid;
+        }
+
+        // get courses
+        courses = await CourseService.GetCourses(currentUserId);
+
+        // when logged in, fetch progress for each course
+        if (currentUserId > 0 && courses.Any())
+        {
+            foreach (var course in courses)
+            {
+                int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+                
+                if (courseProgressMap.ContainsKey(course.Id))
+                    courseProgressMap[course.Id] = step;
+                else
+                    courseProgressMap.Add(course.Id, step);
+            }
+        }
+    }
+
+    private int GetSavedStep(int courseId)
+    {
+        return courseProgressMap.ContainsKey(courseId) ? courseProgressMap[courseId] : 1;
+    }
+
+    private void OpenCourse(Course course)
+    {
+        int saved = GetSavedStep(course.Id);
+        
+        // if completed (saved > total), restart at Step 1 for review
+        int stepToOpen = (saved > course.TotalSteps) ? 1 : saved;
+        
+        NavManager.NavigateTo($"/courses/{course.Id}/steps/{stepToOpen}");
+    }
+
+    // --- Helper Methods for Styles ---
+
+    private string GetBgClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "bg-blue-100",
+        "math" => "bg-purple-100",
+        "history" => "bg-yellow-100",
+        "languages" => "bg-red-100",
+        "science" => "bg-green-100",
+        _ => "bg-blue-100"
+    };
+
+    private string GetTextClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "text-blue-600",
+        "math" => "text-purple-600",
+        "history" => "text-yellow-600",
+        "languages" => "text-red-600",
+        "science" => "text-green-600",
+        _ => "text-blue-600"
+    };
+
+    private string GetBorderClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "border-blue-200",
+        "math" => "border-purple-200",
+        "history" => "border-yellow-200",
+        "languages" => "border-red-200",
+        "science" => "border-green-200",
+        _ => "border-blue-200"
+    };
+
+    private string GetIconClass(string category) => (category?.ToLower()) switch
+    {
+        "computer science" => "fa-brands fa-git-alt",
+        "software engineering" => "fa-brands fa-git-alt",
+        "math" => "fas fa-calculator",
+        "history" => "fas fa-landmark",
+        "languages" => "fas fa-language",
+        "science" => "fas fa-flask",
+        _ => "fas fa-book"
+    };
+
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+    }
+}

@@ -202,76 +202,76 @@ public final class DataProtocol {
     java.lang.String[] descriptorData = {
       "\n\023data_protocol.proto\".\n\023UpdateCourseReq" +
       "uest\022\027\n\006course\030\001 \001(\0132\007.Course\"/\n\024UpdateC" +
-      "ourseResponse\022\027\n\006course\030\001 \001(\0132\007.Course\"\023" +
-      "\n\021GetCoursesRequest\".\n\022GetCoursesRespons" +
-      "e\022\030\n\007courses\030\001 \003(\0132\007.Course\"q\n\006Course\022\n\n" +
-      "\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(\t\022\023\n\013description\030" +
-      "\003 \001(\t\022\020\n\010language\030\004 \001(\t\022\020\n\010category\030\005 \001(" +
-      "\t\022\023\n\013total_steps\030\006 \001(\005\"Z\n\020AddCourseReque" +
-      "st\022\r\n\005title\030\001 \001(\t\022\023\n\013description\030\002 \001(\t\022\020" +
-      "\n\010language\030\003 \001(\t\022\020\n\010category\030\004 \001(\t\",\n\021Ad" +
-      "dCourseResponse\022\027\n\006course\030\001 \001(\0132\007.Course" +
-      "\"\021\n\017GetUsersRequest\"(\n\020GetUsersResponse\022" +
-      "\024\n\005users\030\001 \003(\0132\005.User\"L\n\004User\022\n\n\002id\030\001 \001(" +
-      "\005\022\020\n\010username\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\024\n" +
-      "\005roles\030\004 \003(\0132\005.Role\"\024\n\004Role\022\014\n\004role\030\001 \001(" +
-      "\t\"C\n\016AddUserRequest\022\020\n\010username\030\001 \001(\t\022\020\n" +
-      "\010password\030\002 \001(\t\022\r\n\005roles\030\003 \003(\t\"&\n\017AddUse" +
-      "rResponse\022\023\n\004user\030\001 \001(\0132\005.User\"@\n\026GetLea" +
-      "rningStepRequest\022\021\n\tcourse_id\030\001 \001(\005\022\023\n\013s" +
-      "tep_number\030\002 \001(\005\"?\n\027GetLearningStepRespo" +
-      "nse\022$\n\rlearning_step\030\001 \001(\0132\r.LearningSte" +
-      "p\"T\n\014LearningStep\022\021\n\tcourse_id\030\001 \001(\005\022\022\n\n" +
-      "step_order\030\002 \001(\005\022\017\n\007content\030\003 \001(\t\022\014\n\004typ" +
-      "e\030\004 \001(\t\"\213\001\n\013CourseDraft\022\n\n\002id\030\001 \001(\005\022\020\n\010l" +
-      "anguage\030\002 \001(\t\022\r\n\005title\030\003 \001(\t\022\023\n\013descript" +
-      "ion\030\004 \001(\t\022\022\n\nteacher_id\030\005 \001(\005\022\021\n\tcourse_" +
-      "id\030\006 \001(\005\022\023\n\013approved_by\030\007 \001(\005\"[\n\017AddDraf" +
-      "tRequest\022\020\n\010language\030\001 \001(\t\022\r\n\005title\030\002 \001(" +
-      "\t\022\023\n\013description\030\003 \001(\t\022\022\n\nteacher_id\030\004 \001" +
-      "(\005\"5\n\020AddDraftResponse\022!\n\013courseDraft\030\001 " +
-      "\001(\0132\014.CourseDraft\"\"\n\017GetDraftRequest\022\017\n\007" +
-      "draftId\030\001 \001(\005\"5\n\020GetDraftResponse\022!\n\013cou" +
-      "rseDraft\030\001 \001(\0132\014.CourseDraft\";\n\025CoursePr" +
-      "ogressRequest\022\017\n\007user_id\030\001 \001(\005\022\021\n\tcourse" +
-      "_id\030\002 \001(\005\".\n\026CourseProgressResponse\022\024\n\014c" +
-      "urrent_step\030\001 \001(\005\"P\n\024CourseProgressUpdat" +
-      "e\022\017\n\007user_id\030\001 \001(\005\022\021\n\tcourse_id\030\002 \001(\005\022\024\n" +
-      "\014current_step\030\003 \001(\005\"\007\n\005Empty\"A\n\031UpdateLe" +
-      "arningStepRequest\022$\n\rlearning_step\030\001 \001(\013" +
-      "2\r.LearningStep\"B\n\032UpdateLearningStepRes" +
-      "ponse\022$\n\rlearning_step\030\001 \001(\0132\r.LearningS" +
-      "tep\"G\n\020LeaderboardEntry\022\020\n\010username\030\001 \001(" +
-      "\t\022\023\n\013total_score\030\002 \001(\005\022\014\n\004rank\030\003 \001(\005\"<\n\026" +
-      "GetLeaderboardResponse\022\"\n\007entries\030\001 \003(\0132" +
-      "\021.LeaderboardEntry\"7\n\022UpdateDraftRequest" +
-      "\022!\n\013courseDraft\030\001 \001(\0132\014.CourseDraft\"8\n\023U" +
-      "pdateDraftResponse\022!\n\013courseDraft\030\001 \001(\0132" +
-      "\014.CourseDraft\"\022\n\020GetDraftsRequest\"1\n\021Get" +
-      "DraftsResponse\022\034\n\006drafts\030\001 \003(\0132\014.CourseD" +
-      "raft2\262\006\n\024DataRetrievalService\022/\n\010GetUser" +
-      "s\022\020.GetUsersRequest\032\021.GetUsersResponse\022," +
-      "\n\007AddUser\022\017.AddUserRequest\032\020.AddUserResp" +
-      "onse\0225\n\nGetCourses\022\022.GetCoursesRequest\032\023" +
-      ".GetCoursesResponse\0222\n\tAddCourse\022\021.AddCo" +
-      "urseRequest\032\022.AddCourseResponse\022D\n\017GetLe" +
-      "arningStep\022\027.GetLearningStepRequest\032\030.Ge" +
-      "tLearningStepResponse\022;\n\014UpdateCourse\022\024." +
-      "UpdateCourseRequest\032\025.UpdateCourseRespon" +
-      "se\022/\n\010AddDraft\022\020.AddDraftRequest\032\021.AddDr" +
-      "aftResponse\022/\n\010GetDraft\022\020.GetDraftReques" +
-      "t\032\021.GetDraftResponse\0228\n\013UpdateDraft\022\023.Up" +
-      "dateDraftRequest\032\024.UpdateDraftResponse\022D" +
-      "\n\021GetCourseProgress\022\026.CourseProgressRequ" +
-      "est\032\027.CourseProgressResponse\0225\n\024UpdateCo" +
-      "urseProgress\022\025.CourseProgressUpdate\032\006.Em" +
-      "pty\022M\n\022UpdateLearningStep\022\032.UpdateLearni" +
-      "ngStepRequest\032\033.UpdateLearningStepRespon" +
-      "se\0221\n\016GetLeaderboard\022\006.Empty\032\027.GetLeader" +
-      "boardResponse\0222\n\tGetDrafts\022\021.GetDraftsRe" +
-      "quest\032\022.GetDraftsResponseB7\n\030via.sep3.da" +
-      "taserver.grpcP\001\252\002\030via.sep3.dataserver.gr" +
-      "pcb\006proto3"
+      "ourseResponse\022\027\n\006course\030\001 \001(\0132\007.Course\"$" +
+      "\n\021GetCoursesRequest\022\017\n\007user_id\030\001 \001(\005\".\n\022" +
+      "GetCoursesResponse\022\030\n\007courses\030\001 \003(\0132\007.Co" +
+      "urse\"q\n\006Course\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(" +
+      "\t\022\023\n\013description\030\003 \001(\t\022\020\n\010language\030\004 \001(\t" +
+      "\022\020\n\010category\030\005 \001(\t\022\023\n\013total_steps\030\006 \001(\005\"" +
+      "Z\n\020AddCourseRequest\022\r\n\005title\030\001 \001(\t\022\023\n\013de" +
+      "scription\030\002 \001(\t\022\020\n\010language\030\003 \001(\t\022\020\n\010cat" +
+      "egory\030\004 \001(\t\",\n\021AddCourseResponse\022\027\n\006cour" +
+      "se\030\001 \001(\0132\007.Course\"\021\n\017GetUsersRequest\"(\n\020" +
+      "GetUsersResponse\022\024\n\005users\030\001 \003(\0132\005.User\"L" +
+      "\n\004User\022\n\n\002id\030\001 \001(\005\022\020\n\010username\030\002 \001(\t\022\020\n\010" +
+      "password\030\003 \001(\t\022\024\n\005roles\030\004 \003(\0132\005.Role\"\024\n\004" +
+      "Role\022\014\n\004role\030\001 \001(\t\"C\n\016AddUserRequest\022\020\n\010" +
+      "username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\r\n\005role" +
+      "s\030\003 \003(\t\"&\n\017AddUserResponse\022\023\n\004user\030\001 \001(\013" +
+      "2\005.User\"@\n\026GetLearningStepRequest\022\021\n\tcou" +
+      "rse_id\030\001 \001(\005\022\023\n\013step_number\030\002 \001(\005\"?\n\027Get" +
+      "LearningStepResponse\022$\n\rlearning_step\030\001 " +
+      "\001(\0132\r.LearningStep\"T\n\014LearningStep\022\021\n\tco" +
+      "urse_id\030\001 \001(\005\022\022\n\nstep_order\030\002 \001(\005\022\017\n\007con" +
+      "tent\030\003 \001(\t\022\014\n\004type\030\004 \001(\t\"\213\001\n\013CourseDraft" +
+      "\022\n\n\002id\030\001 \001(\005\022\020\n\010language\030\002 \001(\t\022\r\n\005title\030" +
+      "\003 \001(\t\022\023\n\013description\030\004 \001(\t\022\022\n\nteacher_id" +
+      "\030\005 \001(\005\022\021\n\tcourse_id\030\006 \001(\005\022\023\n\013approved_by" +
+      "\030\007 \001(\005\"[\n\017AddDraftRequest\022\020\n\010language\030\001 " +
+      "\001(\t\022\r\n\005title\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022" +
+      "\022\n\nteacher_id\030\004 \001(\005\"5\n\020AddDraftResponse\022" +
+      "!\n\013courseDraft\030\001 \001(\0132\014.CourseDraft\"\"\n\017Ge" +
+      "tDraftRequest\022\017\n\007draftId\030\001 \001(\005\"5\n\020GetDra" +
+      "ftResponse\022!\n\013courseDraft\030\001 \001(\0132\014.Course" +
+      "Draft\";\n\025CourseProgressRequest\022\017\n\007user_i" +
+      "d\030\001 \001(\005\022\021\n\tcourse_id\030\002 \001(\005\".\n\026CourseProg" +
+      "ressResponse\022\024\n\014current_step\030\001 \001(\005\"P\n\024Co" +
+      "urseProgressUpdate\022\017\n\007user_id\030\001 \001(\005\022\021\n\tc" +
+      "ourse_id\030\002 \001(\005\022\024\n\014current_step\030\003 \001(\005\"\007\n\005" +
+      "Empty\"A\n\031UpdateLearningStepRequest\022$\n\rle" +
+      "arning_step\030\001 \001(\0132\r.LearningStep\"B\n\032Upda" +
+      "teLearningStepResponse\022$\n\rlearning_step\030" +
+      "\001 \001(\0132\r.LearningStep\"G\n\020LeaderboardEntry" +
+      "\022\020\n\010username\030\001 \001(\t\022\023\n\013total_score\030\002 \001(\005\022" +
+      "\014\n\004rank\030\003 \001(\005\"<\n\026GetLeaderboardResponse\022" +
+      "\"\n\007entries\030\001 \003(\0132\021.LeaderboardEntry\"7\n\022U" +
+      "pdateDraftRequest\022!\n\013courseDraft\030\001 \001(\0132\014" +
+      ".CourseDraft\"8\n\023UpdateDraftResponse\022!\n\013c" +
+      "ourseDraft\030\001 \001(\0132\014.CourseDraft\"\022\n\020GetDra" +
+      "ftsRequest\"1\n\021GetDraftsResponse\022\034\n\006draft" +
+      "s\030\001 \003(\0132\014.CourseDraft2\262\006\n\024DataRetrievalS" +
+      "ervice\022/\n\010GetUsers\022\020.GetUsersRequest\032\021.G" +
+      "etUsersResponse\022,\n\007AddUser\022\017.AddUserRequ" +
+      "est\032\020.AddUserResponse\0225\n\nGetCourses\022\022.Ge" +
+      "tCoursesRequest\032\023.GetCoursesResponse\0222\n\t" +
+      "AddCourse\022\021.AddCourseRequest\032\022.AddCourse" +
+      "Response\022D\n\017GetLearningStep\022\027.GetLearnin" +
+      "gStepRequest\032\030.GetLearningStepResponse\022;" +
+      "\n\014UpdateCourse\022\024.UpdateCourseRequest\032\025.U" +
+      "pdateCourseResponse\022/\n\010AddDraft\022\020.AddDra" +
+      "ftRequest\032\021.AddDraftResponse\022/\n\010GetDraft" +
+      "\022\020.GetDraftRequest\032\021.GetDraftResponse\0228\n" +
+      "\013UpdateDraft\022\023.UpdateDraftRequest\032\024.Upda" +
+      "teDraftResponse\022D\n\021GetCourseProgress\022\026.C" +
+      "ourseProgressRequest\032\027.CourseProgressRes" +
+      "ponse\0225\n\024UpdateCourseProgress\022\025.CoursePr" +
+      "ogressUpdate\032\006.Empty\022M\n\022UpdateLearningSt" +
+      "ep\022\032.UpdateLearningStepRequest\032\033.UpdateL" +
+      "earningStepResponse\0221\n\016GetLeaderboard\022\006." +
+      "Empty\032\027.GetLeaderboardResponse\0222\n\tGetDra" +
+      "fts\022\021.GetDraftsRequest\032\022.GetDraftsRespon" +
+      "seB7\n\030via.sep3.dataserver.grpcP\001\252\002\030via.s" +
+      "ep3.dataserver.grpcb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -294,7 +294,7 @@ public final class DataProtocol {
     internal_static_GetCoursesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetCoursesRequest_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "UserId", });
     internal_static_GetCoursesResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_GetCoursesResponse_fieldAccessorTable = new

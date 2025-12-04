@@ -19,6 +19,15 @@ public class HttpCourseService : ICourseService
         var result = await client.GetFromJsonAsync<List<Course>>("courses");
         return new List<Course>(result ?? new List<Course>());
     }
+    public async Task<List<Course>> GetCourses(int? userId = null)
+    {
+        // If userId has a value, use the user-specific URL; otherwise, use the "all courses" URL
+        var uri = userId.HasValue ? $"courses/my-courses/{userId}" : "courses";
+
+        var result = await client.GetFromJsonAsync<List<Course>>(uri);
+
+        return result ?? new List<Course>();
+    }
 
     public async Task CreateDraft(CreateDraftDto dto)
     {

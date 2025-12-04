@@ -43,6 +43,17 @@ private static final long serialVersionUID = 0L;
             via.sep3.dataserver.grpc.GetCoursesRequest.class, via.sep3.dataserver.grpc.GetCoursesRequest.Builder.class);
   }
 
+  public static final int USER_ID_FIELD_NUMBER = 1;
+  private int userId_ = 0;
+  /**
+   * <code>int32 user_id = 1;</code>
+   * @return The userId.
+   */
+  @java.lang.Override
+  public int getUserId() {
+    return userId_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -57,6 +68,9 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (userId_ != 0) {
+      output.writeInt32(1, userId_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -66,6 +80,10 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (userId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, userId_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
@@ -81,6 +99,8 @@ private static final long serialVersionUID = 0L;
     }
     via.sep3.dataserver.grpc.GetCoursesRequest other = (via.sep3.dataserver.grpc.GetCoursesRequest) obj;
 
+    if (getUserId()
+        != other.getUserId()) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -92,6 +112,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + USER_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getUserId();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -222,6 +244,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
+      bitField0_ = 0;
+      userId_ = 0;
       return this;
     }
 
@@ -248,8 +272,16 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public via.sep3.dataserver.grpc.GetCoursesRequest buildPartial() {
       via.sep3.dataserver.grpc.GetCoursesRequest result = new via.sep3.dataserver.grpc.GetCoursesRequest(this);
+      if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
+    }
+
+    private void buildPartial0(via.sep3.dataserver.grpc.GetCoursesRequest result) {
+      int from_bitField0_ = bitField0_;
+      if (((from_bitField0_ & 0x00000001) != 0)) {
+        result.userId_ = userId_;
+      }
     }
 
     @java.lang.Override
@@ -264,6 +296,9 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(via.sep3.dataserver.grpc.GetCoursesRequest other) {
       if (other == via.sep3.dataserver.grpc.GetCoursesRequest.getDefaultInstance()) return this;
+      if (other.getUserId() != 0) {
+        setUserId(other.getUserId());
+      }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
@@ -290,6 +325,11 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
+            case 8: {
+              userId_ = input.readInt32();
+              bitField0_ |= 0x00000001;
+              break;
+            } // case 8
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -303,6 +343,39 @@ private static final long serialVersionUID = 0L;
       } finally {
         onChanged();
       } // finally
+      return this;
+    }
+    private int bitField0_;
+
+    private int userId_ ;
+    /**
+     * <code>int32 user_id = 1;</code>
+     * @return The userId.
+     */
+    @java.lang.Override
+    public int getUserId() {
+      return userId_;
+    }
+    /**
+     * <code>int32 user_id = 1;</code>
+     * @param value The userId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setUserId(int value) {
+
+      userId_ = value;
+      bitField0_ |= 0x00000001;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 user_id = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearUserId() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      userId_ = 0;
+      onChanged();
       return this;
     }
 

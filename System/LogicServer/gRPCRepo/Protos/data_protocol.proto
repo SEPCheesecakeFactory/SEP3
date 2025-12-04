@@ -39,6 +39,7 @@ message UpdateCourseResponse {
   Course course = 1;
 }
 message GetCoursesRequest {
+  int32 user_id = 1; 
 }
 
 message GetCoursesResponse {

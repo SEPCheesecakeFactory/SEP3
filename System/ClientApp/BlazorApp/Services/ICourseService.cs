@@ -7,6 +7,7 @@ public interface ICourseService
 {
     Task UpdateCourse(int id, Course course);
     public Task<List<Course>> GetCourses();
+    public Task<List<Course>> GetCourses(int? userId = null);
     public Task CreateDraft(CreateDraftDto dto);
     public Task<List<Draft>> GetDrafts();
     public Task ApproveDraft(int draftId, int adminId);
