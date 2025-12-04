@@ -5,35 +5,37 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.grpc.server.service.GrpcService;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.grpc.server.service.GrpcService;
+import org.springframework.stereotype.Service;
 
 import io.grpc.stub.StreamObserver;
-import via.sep3.dataserver.data.*;
 import via.sep3.dataserver.data.Course;
+import via.sep3.dataserver.data.CourseCategory;
+import via.sep3.dataserver.data.CourseCategoryRepository;
+import via.sep3.dataserver.data.CourseDraftRepository;
+import via.sep3.dataserver.data.CourseRepository;
+import via.sep3.dataserver.data.Language;
+import via.sep3.dataserver.data.LanguageRepository;
 import via.sep3.dataserver.data.LearningStep;
 import via.sep3.dataserver.data.LearningStepRepository;
 import via.sep3.dataserver.data.LearningStepType;
 import via.sep3.dataserver.data.LearningStepTypeRepository;
-import via.sep3.dataserver.grpc.UpdateCourseRequest;
-import via.sep3.dataserver.grpc.UpdateCourseResponse;
-import via.sep3.dataserver.data.Language;
-import via.sep3.dataserver.data.LanguageRepository;
-import via.sep3.dataserver.data.CourseCategory;
-import via.sep3.dataserver.data.CoursecourseCategoryRepository;
 import via.sep3.dataserver.data.Role;
+import via.sep3.dataserver.data.RoleRepository;
 import via.sep3.dataserver.data.SystemUser;
-import via.sep3.dataserver.grpc.*;
-import via.sep3.dataserver.grpc.CourseDraft;
 import via.sep3.dataserver.data.SystemUserRepository;
 import via.sep3.dataserver.data.SystemUserRole;
 import via.sep3.dataserver.data.SystemUserRoleRepository;
-import via.sep3.dataserver.data.UserCourseProgress;
 import via.sep3.dataserver.data.UserCourseProgressRepository;
+import via.sep3.dataserver.grpc.AddCourseRequest;
+import via.sep3.dataserver.grpc.AddCourseResponse;
+import via.sep3.dataserver.grpc.AddDraftRequest;
+import via.sep3.dataserver.grpc.AddDraftResponse;
 import via.sep3.dataserver.grpc.AddUserRequest;
 import via.sep3.dataserver.grpc.AddUserResponse;
+import via.sep3.dataserver.grpc.CourseDraft;
 import via.sep3.dataserver.grpc.CourseProgressRequest;
 import via.sep3.dataserver.grpc.CourseProgressResponse;
 import via.sep3.dataserver.grpc.CourseProgressUpdate;
@@ -41,10 +43,18 @@ import via.sep3.dataserver.grpc.DataRetrievalServiceGrpc;
 import via.sep3.dataserver.grpc.Empty;
 import via.sep3.dataserver.grpc.GetCoursesRequest;
 import via.sep3.dataserver.grpc.GetCoursesResponse;
+import via.sep3.dataserver.grpc.GetDraftRequest;
+import via.sep3.dataserver.grpc.GetDraftResponse;
+import via.sep3.dataserver.grpc.GetDraftsRequest;
+import via.sep3.dataserver.grpc.GetDraftsResponse;
+import via.sep3.dataserver.grpc.GetLeaderboardResponse;
 import via.sep3.dataserver.grpc.GetLearningStepResponse;
 import via.sep3.dataserver.grpc.GetUsersRequest;
 import via.sep3.dataserver.grpc.GetUsersResponse;
-import via.sep3.dataserver.grpc.GetLeaderboardResponse;
+import via.sep3.dataserver.grpc.UpdateCourseRequest;
+import via.sep3.dataserver.grpc.UpdateCourseResponse;
+import via.sep3.dataserver.grpc.UpdateDraftRequest;
+import via.sep3.dataserver.grpc.UpdateDraftResponse;
 
 @GrpcService
 @Service
@@ -73,7 +83,7 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
   private LanguageRepository languageRepository;
 
   @Autowired
-  private CoursecourseCategoryRepository coursecourseCategoryRepository;
+  private CourseCategoryRepository courseCategoryRepository;
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -117,7 +127,7 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
          return;
       }
       
-      via.sep3.dataserver.data.CourseCategory category = coursecourseCategoryRepository.findByName(request.getCategory());
+      via.sep3.dataserver.data.CourseCategory category = courseCategoryRepository.findByName(request.getCategory());
        if (category == null) {
          responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription("Category not found: " + request.getCategory()).asRuntimeException());
          return;

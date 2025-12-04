@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using BlazorApp.Services
 @using BlazorApp.Entities
+@using System.Security.Claims
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
 @inject NavigationManager NavManager
@@ -103,7 +104,7 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Description</label>
                                 <textarea class="form-control" style="min-height:80px;" @bind="editModel.Description"
-                                @bind:event="oninput"></textarea>
+                                    @bind:event="oninput"></textarea>
                             </div>
 
                             <div class="mb-3">
@@ -164,12 +165,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
         try
         {
-            var authState = await AuthProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
-
             if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
             {
                 courses = await CourseService.GetCourses();
