@@ -65,6 +65,13 @@ class CourseDraft
     course_id {FK}
     approved_by {FK}
 }
+   
+class UserCourseProgress
+{
+    user_id {PPK, FK}
+    course_id {PPK, FK}
+    current_step
+}
 
 Course "*" -- "1" CourseCategory
 Course "*" -- "1" Language
@@ -74,3 +81,6 @@ Course "1" -- "1" CourseDraft
 CourseDraft "*" -- "1" SystemUser : approved_by ▼
 CourseDraft "*" -- "1" SystemUser : created_by ▼
 
+
+SystemUser "1" -- "*" UserCourseProgress
+Course "1" -- "*" UserCourseProgress
