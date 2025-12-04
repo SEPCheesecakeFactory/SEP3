@@ -46,22 +46,31 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
         };
     }
 
-   public override async Task UpdateAsync(Entities.Course entity)
-{
-    var request = new UpdateCourseRequest
+    public override async Task<Course> UpdateAsync(Course entity)
     {
-        Course = new via.sep3.dataserver.grpc.Course
+        var request = new UpdateCourseRequest
         {
-            Id = entity.Id,
-            Title = entity.Title ?? "",
-            Description = entity.Description ?? "",
-            Language = entity.Language ?? "",
-            Category = entity.Category ?? ""
-        }
-    };
+            Course = new via.sep3.dataserver.grpc.Course
+            {
+                Id = entity.Id,
+                Title = entity.Title ?? "",
+                Description = entity.Description ?? "",
+                Language = entity.Language ?? "",
+                Category = entity.Category ?? ""
+            }
+        };
 
-    await Client.UpdateCourseAsync(request);
-}
+        var response = await Client.UpdateCourseAsync(request);
+
+        return new Course
+        {
+            Id = response.Course.Id,
+            Title = response.Course.Title,
+            Description = response.Course.Description,
+            Language = response.Course.Language,
+            Category = response.Course.Category
+        };
+    }
 
 
     public override Task DeleteAsync(int id)
@@ -69,25 +78,25 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
         throw new NotImplementedException();
     }
 
-   public override async Task<Entities.Course> GetSingleAsync(int id)
-{
-    // gRPC has no GetCourseById, so we fetch all and find it (like repository.Memory)
-    var resp = Client.GetCourses(new GetCoursesRequest());
-
-    var c = resp.Courses.FirstOrDefault(c => c.Id == id);
-
-    if (c == null)
-        throw new KeyNotFoundException($"Course {id} not found");
-
-    return new Entities.Course
+    public override async Task<Entities.Course> GetSingleAsync(int id)
     {
-        Id = c.Id,
-        Title = c.Title,
-        Description = c.Description,
-        Language = c.Language,
-        Category = c.Category
-    };
-}
+        // gRPC has no GetCourseById, so we fetch all and find it (like repository.Memory)
+        var resp = Client.GetCourses(new GetCoursesRequest());
+
+        var c = resp.Courses.FirstOrDefault(c => c.Id == id);
+
+        if (c == null)
+            throw new KeyNotFoundException($"Course {id} not found");
+
+        return new Entities.Course
+        {
+            Id = c.Id,
+            Title = c.Title,
+            Description = c.Description,
+            Language = c.Language,
+            Category = c.Category
+        };
+    }
 
 
     public override Task ClearAsync()
@@ -115,7 +124,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw; 
+            throw;
         }
     }
 
