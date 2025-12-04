@@ -13,17 +13,20 @@ service DataRetrievalService {
   rpc GetCourses(GetCoursesRequest) returns (GetCoursesResponse);
   rpc AddCourse(AddCourseRequest) returns (AddCourseResponse);
   rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
+  rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
+
   //drafts
   rpc AddDraft(AddDraftRequest) returns (AddDraftResponse);
   rpc GetDraft(GetDraftRequest) returns (GetDraftResponse);
   rpc UpdateDraft(UpdateDraftRequest) returns (UpdateDraftResponse);
-  rpc GetDrafts(GetDraftsRequest) returns (GetDraftsResponse);
-  // progress
+
   rpc GetCourseProgress(CourseProgressRequest) returns (CourseProgressResponse);
   rpc UpdateCourseProgress(CourseProgressUpdate) returns (Empty);
   rpc UpdateLearningStep(UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
-  rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
 
+  // leaderboard
+  rpc GetLeaderboard(Empty) returns (GetLeaderboardResponse);
+  rpc GetDrafts(GetDraftsRequest) returns (GetDraftsResponse);
 }
 
 // --- Courses ---
@@ -35,7 +38,6 @@ message UpdateCourseRequest {
 message UpdateCourseResponse {
   Course course = 1;
 }
-
 message GetCoursesRequest {
 }
 
@@ -112,7 +114,6 @@ message LearningStep {
   string content = 3;
   string type = 4;
 }
-
 //drafts
 message CourseDraft {
   int32 id = 1;
@@ -139,27 +140,7 @@ message GetDraftRequest {
 message GetDraftResponse {
   CourseDraft courseDraft = 1;
 }
-message UpdateLearningStepRequest {
-  LearningStep learning_step = 1;
-}
 
-message UpdateLearningStepResponse {
-  LearningStep learning_step = 1;
-}
-message UpdateDraftRequest {
-  CourseDraft courseDraft = 1;
-}
-message UpdateDraftResponse {
-  CourseDraft courseDraft = 1;
-}
-
-message GetDraftsRequest {}
-
-message GetDraftsResponse {
-  repeated CourseDraft drafts = 1;
-}
-
-// progress
 
 message CourseProgressRequest {
   int32 user_id = 1;
@@ -176,7 +157,35 @@ message CourseProgressUpdate {
   int32 current_step = 3;
 }
 
-// Empty
-
 message Empty {}
+message UpdateLearningStepRequest {
+  LearningStep learning_step = 1;
+}
 
+message UpdateLearningStepResponse {
+  LearningStep learning_step = 1;
+}
+
+// Single row in the leaderboard
+message LeaderboardEntry {
+  string username = 1;
+  int32 total_score = 2;
+  int32 rank = 3;// We will calculate this 1st, 2nd, 3rd logic in Java
+}
+
+// List of winners
+message GetLeaderboardResponse {
+  repeated LeaderboardEntry entries = 1;
+}
+message UpdateDraftRequest {
+  CourseDraft courseDraft = 1;
+}
+message UpdateDraftResponse {
+  CourseDraft courseDraft = 1;
+}
+
+message GetDraftsRequest {}
+
+message GetDraftsResponse {
+  repeated CourseDraft drafts = 1;
+}

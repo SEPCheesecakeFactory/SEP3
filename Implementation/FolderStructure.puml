@@ -6,15 +6,40 @@ scale 1
 
 folder "System" {
     folder "ClientApp" {
-        
+        folder "BlazorApp" {
+            folder "Auth" {
+            }
+            folder "Components" {
+            }
+            folder "Services" {
+            }
+            folder "wwwroot" {
+            }
+        }
+        folder "Entities" {
+        }
     }
     folder "LogicServer" {
-        
-    } 
+        folder "RESTAPI" {
+        }
+        folder "Entities" {
+        }
+        folder "gRPCRepo" {
+        }
+        folder "InMemoryRepo" {
+        }
+        folder "RepositoryContracts" {
+        }
+        folder "Utils" {
+        }
+    }
+
     folder "Database" {
-        
+        folder "DDL.sql" {
+        }
     }
     folder "DataServer" {
-        
+        folder "DataServer" {
+        }
     }
 }

@@ -6,7 +6,7 @@ using Course = Entities.Course;
 
 namespace gRPCRepo;
 
-public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course, CreateCourseDto, Course, int>(host, port)
+public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course, CreateCourseDto, Course, int>(host, port), ICourseRepository
 {
     public override IQueryable<Course> GetMany()
     {

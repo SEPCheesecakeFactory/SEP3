@@ -5,6 +5,8 @@ using BlazorApp.Entities;
 using System.Net.Http.Json;
 namespace BlazorApp.Services;
 
+using BlazorApp.Entities;
+
 public class HttpCourseService : ICourseService
 {
     private readonly HttpClient client;
@@ -41,28 +43,28 @@ public class HttpCourseService : ICourseService
             throw new Exception($"Error approving draft: {response.ReasonPhrase}");
         }
     }
-public async Task<int> GetCourseProgressAsync(int userId, int courseId)
+    public async Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
         try
         {
             var response = await client.GetAsync($"CourseProgress/{userId}/{courseId}");
-            
+
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<int>();
             }
-            return 1; 
+            return 1;
         }
         catch
         {
-            return 1; 
+            return 1;
         }
     }
 
     public async Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
         var dto = new { UserId = userId, CourseId = courseId, CurrentStep = currentStep };
-        
+
         await client.PostAsJsonAsync("CourseProgress", dto);
     }
     public async Task UpdateCourse(int id, Course course)
@@ -76,5 +78,11 @@ public async Task<int> GetCourseProgressAsync(int userId, int courseId)
         {
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
+    }
+
+    public async Task<List<LeaderboardEntry>> GetLeaderboardAsync()
+    {
+        var result = await client.GetFromJsonAsync<List<LeaderboardEntry>>("Leaderboard");
+        return result ?? new List<LeaderboardEntry>();
     }
 }

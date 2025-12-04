@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import io.grpc.stub.StreamObserver;
 import via.sep3.dataserver.data.*;
@@ -42,6 +44,7 @@ import via.sep3.dataserver.grpc.GetCoursesResponse;
 import via.sep3.dataserver.grpc.GetLearningStepResponse;
 import via.sep3.dataserver.grpc.GetUsersRequest;
 import via.sep3.dataserver.grpc.GetUsersResponse;
+import via.sep3.dataserver.grpc.GetLeaderboardResponse;
 
 @GrpcService
 @Service
@@ -648,6 +651,42 @@ public void updateCourse(UpdateCourseRequest request,
         }
     }
 
+@Override
+  public void getLeaderboard(Empty request, StreamObserver<GetLeaderboardResponse> responseObserver) {
+    try {
+      // create a pagerequest to get the top 10 results
+      Pageable topTen = PageRequest.of(0, 10);
 
+      // call the custom repo method
+      List<via.sep3.dataserver.data.LeaderboardEntry> dbEntries = userRepository.findTopPlayers(topTen);
+
+      // map db entries to proto messages
+      List<via.sep3.dataserver.grpc.LeaderboardEntry> grpcEntries = new ArrayList<>();
+      int rank = 1;
+
+      for (via.sep3.dataserver.data.LeaderboardEntry dbEntry : dbEntries) {
+        grpcEntries.add(via.sep3.dataserver.grpc.LeaderboardEntry.newBuilder()
+            .setUsername(dbEntry.getUsername())
+            .setTotalScore((int) dbEntry.getTotalScore()) 
+            .setRank(rank++) // cncrement rank 1, 2, 3...
+            .build());
+      }
+
+      // build and send response
+      GetLeaderboardResponse response = GetLeaderboardResponse.newBuilder()
+          .addAllEntries(grpcEntries)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+
+    } catch (Exception e) {
+      System.out.println("Error fetching leaderboard: " + e.getMessage());
+      e.printStackTrace();
+      responseObserver.onError(io.grpc.Status.INTERNAL
+          .withDescription("Error fetching leaderboard: " + e.getMessage())
+          .asRuntimeException());
+    }
+  }
 
 }

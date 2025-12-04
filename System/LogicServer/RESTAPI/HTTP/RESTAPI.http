@@ -136,7 +136,7 @@ Content-Type: application/json
   "Username": "hello",
   "Password": "itsmeurlookingfor"
 }
-### Register test user
+### Register Admin
 POST {{baseURL}}/Auth/register
 Content-Type: application/json
 

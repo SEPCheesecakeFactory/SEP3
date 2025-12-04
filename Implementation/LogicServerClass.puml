@@ -1,0 +1,49 @@
+@startuml LogicServerClass
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+scale 1
+
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+
+title "LogicServer Class Diagram"
+
+package Entities
+{
+    interface IIdentifiable<ID>
+    class Course
+    class Draft
+    class LearningStep
+    class Role
+    class User    
+
+    package DTOs
+    {
+        class CreateDraftDTO
+        class LoginRequest
+        class RegisterRequest
+        class UserDto
+    }
+}
+
+package RepositoryContracts
+{
+    interface IRepository<T, TAdd, TUpdate, ID>
+}
+
+package gRPCRepo
+{
+    class gRPCRepository<T, TAdd, TUpdate, ID>
+}
+
+package Controllers
+{
+    class GenericController<T, TAdd, TUpdate, ID>
+    class GenericDefaultController<T, TAdd, TUpdate, ID>
+    note right of GenericDefaultController : "Has all endpoints open by default"
+}
+
+Course -up-|> IIdentifiable : int
+LearningStep -up-|> IIdentifiable : int
+Draft -up-|> IIdentifiable : int
+User -up-|> IIdentifiable : int
+gRPCRepository -up-|> IRepository
