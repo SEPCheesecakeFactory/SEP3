@@ -24,4 +24,5 @@ public class CoursesController(ICourseRepository repository) : GenericController
         Console.WriteLine($"Fetched {entities.Count()} courses for user {userId}");
         return Ok(entities);
     }
+    
 }

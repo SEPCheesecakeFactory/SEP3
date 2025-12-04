@@ -155,7 +155,7 @@ POST {{baseURL}}/Auth/register
 Content-Type: application/json
 
 {
-  "Username": "teacherr",
+  "Username": "teacher",
   "Password": "123",
   "PasswordRepeat": "123",
   "Roles": [
@@ -239,3 +239,36 @@ Content-Type: application/json
   "courseId": 1,
   "currentStep": 1
 }
+
+###############################################
+### EDIT COURSE TESTS
+###############################################
+
+### 8. Login as Teacher/Admin first to get token
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "teacher",
+  "Password": "123"
+}
+
+### 9. Update Course (PUT /courses/{id})
+### IMPORTANT: First run "Get Courses" to see existing course IDs, categories, and languages
+### Then use values that exist in your database
+PUT {{baseURL}}/courses/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJmNDYyNWI5ZC05MjY1LTQzNWQtYjIwMS04ZDBlNDllZWUwM2MiLCJpYXQiOjE3NjQ4NzAwMDEsInVuaXF1ZV9uYW1lIjoidGVhY2hlciIsIlVzZXJuYW1lIjoidGVhY2hlciIsIklkIjoiMiIsImlkIjoiMiIsIlJvbGUiOiJ0ZWFjaGVyIiwibmJmIjoxNzY0ODcwMDAxLCJleHAiOjE3NjQ4NzM2MDEsImlzcyI6IkpXVEF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiSldUU2VydmljZUJsYXpvckNsaWVudCJ9.y99JxQUmQS__nraHZwRvXyzrzQlLiAkZnBpwwgextK4
+
+{
+  "id": 1,
+  "title": "Updated Course Title",
+  "description": "This is the updated description",
+  "category": "History",
+  "language": "ENG"
+}
+
+### 10. Verify Course Update
+GET {{baseURL}}/courses/
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiIzMGQxMTg2Mi03MjhhLTRhMmUtODczMy1mMTI0ZDVjYTUxNDEiLCJpYXQiOjE3NjQ4Njk3MTMsInVuaXF1ZV9uYW1lIjoidGVhY2hlciIsIlVzZXJuYW1lIjoidGVhY2hlciIsIklkIjoiMiIsImlkIjoiMiIsIlJvbGUiOiJ0ZWFjaGVyIiwibmJmIjoxNzY0ODY5NzEzLCJleHAiOjE3NjQ4NzMzMTMsImlzcyI6IkpXVEF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiSldUU2VydmljZUJsYXpvckNsaWVudCJ9.ApAkX7NC48u7goOcAUpjeAQecHXvEeBIzigWdJt8Rho

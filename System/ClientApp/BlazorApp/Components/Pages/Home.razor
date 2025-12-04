@@ -92,6 +92,30 @@
                                             <span class="mx-1">• @course.Language</span>
                                         }
                                     </small>
+                                    @{
+                                        int saved = GetSavedStep(course.Id);
+                                        int total = course.TotalSteps;
+                                        double completedSteps = Math.Max(0, saved - 1);
+                                        double pct = (total > 0) ? (completedSteps / total * 100) : 0;
+                                    }
+                                    @if (saved > total && total > 0)
+                                    {
+                                        <div class="mt-3 badge bg-success text-white border border-success">
+                                            COMPLETED <i class="fas fa-check ms-1"></i>
+                                        </div>
+                                    }
+                                    else if (saved > 1)
+                                    {
+                                        <div class="mt-3 badge bg-info text-dark bg-opacity-10 border border-info">
+                                            RESUME: @Math.Round(pct)%
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="mt-3 badge bg-light text-secondary border">
+                                            START
+                                        </div>
+                                    }
                                 </div>
                             </div>
 
@@ -166,6 +190,8 @@
 
 @code {
     private List<Course> courses = new();
+    private Dictionary<int, int> courseProgressMap = new();
+    private int currentUserId = 0;
     private bool isModalOpen = false;
     private bool isSaving = false;
     private bool wasSavingError = false;
@@ -187,11 +213,27 @@
         var authState = await AuthProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+        
+        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+        {
+            currentUserId = uid;
+        }
+        
         try
         {
-            if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+            courses = await CourseService.GetCourses();
+            
+            // Fetch progress for each course when logged in
+            if (currentUserId > 0 && courses.Any())
             {
-                courses = await CourseService.GetCourses();
+                foreach (var course in courses)
+                {
+                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+                    if (courseProgressMap.ContainsKey(course.Id))
+                        courseProgressMap[course.Id] = step;
+                    else
+                        courseProgressMap.Add(course.Id, step);
+                }
             }
         }
         catch
@@ -213,9 +255,16 @@
         return roles.Contains("teacher") || roles.Contains("admin");
     }
 
+    private int GetSavedStep(int courseId)
+    {
+        return courseProgressMap.ContainsKey(courseId) ? courseProgressMap[courseId] : 1;
+    }
+
     private void OpenCourse(Course course)
     {
-        NavManager.NavigateTo($"/courses/{course.Id}/steps/1");
+        int saved = GetSavedStep(course.Id);
+        int stepToOpen = (saved > course.TotalSteps) ? 1 : saved;
+        NavManager.NavigateTo($"/courses/{course.Id}/steps/{stepToOpen}");
     }
 
     private void OpenEditModal(Course course)
