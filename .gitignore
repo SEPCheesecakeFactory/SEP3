@@ -48,4 +48,4 @@ project.assets.json
 
 appsettings*.json
 
-*/src/main/java/via/sep3/dataserver/grpc/
+**/src/main/java/via/sep3/dataserver/grpc/
