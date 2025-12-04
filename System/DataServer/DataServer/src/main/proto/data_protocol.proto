@@ -23,6 +23,7 @@ service DataRetrievalService {
   rpc GetCourseProgress(CourseProgressRequest) returns (CourseProgressResponse);
   rpc UpdateCourseProgress(CourseProgressUpdate) returns (Empty);
   rpc UpdateLearningStep(UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
+  rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
 
   // leaderboard
   rpc GetLeaderboard(Empty) returns (GetLeaderboardResponse);
@@ -78,8 +79,6 @@ message GetUsersResponse {
 message User {
   int32 id = 1;
   string username = 2;
-  // Merged: C# called this 'password', Java called this 'password_hash'. 
-  // Kept as 'password' to align with AddUserRequest, but semantically this likely holds a hash in the response.
   string password = 3;
   repeated Role roles = 4;
 }
@@ -115,6 +114,15 @@ message LearningStep {
   string content = 3;
   string type = 4;
 }
+
+message AddLearningStepRequest {
+  LearningStep learning_step = 1;
+}
+
+message AddLearningStepResponse {
+  LearningStep learning_step = 1;
+}
+
 //drafts
 message CourseDraft {
   int32 id = 1;

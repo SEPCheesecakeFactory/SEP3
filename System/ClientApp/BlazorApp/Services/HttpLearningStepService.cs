@@ -7,4 +7,5 @@ public class HttpLearningStepService(HttpCrudService service) : ILearningStepSer
 {
     public async Task<LearningStep> GetLearningStepAsync(int courseId, int stepOrder) => await service.GetAsync<LearningStep>($"learningsteps/{courseId}_{stepOrder}");
     public Task<LearningStep> UpdateLearningStepAsync(LearningStep updatedStep) => service.UpdateAsync<LearningStep, LearningStep>($"learningsteps/{updatedStep.CourseId}_{updatedStep.StepOrder}", updatedStep);
+    public Task<LearningStep> CreateLearningStepAsync(LearningStep newStep) => service.CreateAsync<LearningStep, LearningStep>("learningsteps", newStep);
 }

@@ -19,6 +19,7 @@ import via.sep3.dataserver.data.CourseRepository;
 import via.sep3.dataserver.data.Language;
 import via.sep3.dataserver.data.LanguageRepository;
 import via.sep3.dataserver.data.LearningStep;
+import via.sep3.dataserver.data.LearningStepId;
 import via.sep3.dataserver.data.LearningStepRepository;
 import via.sep3.dataserver.data.LearningStepType;
 import via.sep3.dataserver.data.LearningStepTypeRepository;
@@ -446,6 +447,67 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
         .setStepOrder(step.getId().getStepOrder())
         .setType(step.getStepType().getName())
         .build();
+  }
+
+  @Override
+  public void addLearningStep(via.sep3.dataserver.grpc.AddLearningStepRequest request,
+      StreamObserver<via.sep3.dataserver.grpc.AddLearningStepResponse> responseObserver) {
+    try {
+      via.sep3.dataserver.grpc.LearningStep grpcStep = request.getLearningStep();
+
+      // Find the course
+      Course course = courseRepository.findById(grpcStep.getCourseId()).orElse(null);
+      if (course == null) {
+        responseObserver.onError(
+            io.grpc.Status.NOT_FOUND
+                .withDescription("Course not found: " + grpcStep.getCourseId())
+                .asRuntimeException());
+        return;
+      }
+
+      // Find the step type
+      LearningStepType stepType = learningStepTypeRepository.findByName(grpcStep.getType());
+      if (stepType == null) {
+        responseObserver.onError(
+            io.grpc.Status.NOT_FOUND
+                .withDescription("Learning step type not found: " + grpcStep.getType())
+                .asRuntimeException());
+        return;
+      }
+
+      // Create composite key
+      LearningStepId stepId = new LearningStepId(grpcStep.getStepOrder(), grpcStep.getCourseId());
+
+      // Check if step already exists
+      LearningStep existingStep = learningStepRepository.findByIdCourseIdAndIdStepOrder(
+          grpcStep.getCourseId(), grpcStep.getStepOrder());
+      if (existingStep != null) {
+        responseObserver.onError(
+            io.grpc.Status.ALREADY_EXISTS
+                .withDescription("Learning step already exists for courseId=" + grpcStep.getCourseId()
+                    + ", stepOrder=" + grpcStep.getStepOrder())
+                .asRuntimeException());
+        return;
+      }
+
+      // Create and save new learning step
+      LearningStep newStep = new LearningStep(stepId, course, stepType, grpcStep.getContent());
+      newStep = learningStepRepository.save(newStep);
+
+      responseObserver.onNext(via.sep3.dataserver.grpc.AddLearningStepResponse.newBuilder()
+          .setLearningStep(convertToGrpcLearningStep(newStep))
+          .build());
+      responseObserver.onCompleted();
+
+    } catch (Exception e) {
+      System.out.println("Error in addLearningStep: " + e.getMessage());
+      e.printStackTrace();
+      responseObserver.onError(
+          io.grpc.Status.INTERNAL
+              .withDescription("Error adding learning step: " + e.getMessage())
+              .withCause(e)
+              .asRuntimeException());
+    }
   }
 
   // drafts

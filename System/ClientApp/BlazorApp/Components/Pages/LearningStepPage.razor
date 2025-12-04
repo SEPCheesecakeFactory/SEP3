@@ -17,31 +17,8 @@
 else
 {
     <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-        @*  // debug purposes
-        <div class="alert alert-info small">
-            <strong>Debug Status:</strong><br/>
-            User ID: <strong>@currentUserId</strong> <br/>
-            Course ID: @CourseId <br/>
-            Current Step: @StepOrder <br/>
-            Total Steps: <strong>@totalSteps</strong> <br/>
-            Target to Save on Finish: <strong>@(totalSteps + 1)</strong>
-        </div>
-        *@ 
-
-        <div class="d-flex align-items-center mb-5 pt-2">
-            <a href="/" class="btn btn-link text-secondary p-0 me-4">
-                <i class="fas fa-times fa-2x"></i>
-            </a>
-
-            <div class="w-100">
-                <div class="progress" style="height: 16px;">
-                    <div class="progress-bar" style="width: @(GetPercentage(StepOrder))%"></div>
-                </div>
-                <div class="text-end text-muted mt-1 small">
-                    Current Course Progress: @(GetPercentage(savedProgress))%
-                </div>
-            </div>
-        </div>
+        <LearningStepHeader CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
+            SavedProgress="@savedProgress" ShowProgressText="true" BottomMargin="5" />
 
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
 
@@ -116,27 +93,9 @@ else
             }
         </div>
 
-        <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
-            <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious" disabled="@(StepOrder <= 1)">
-                PREVIOUS
-            </button>
-
-            @if (CanContinue)
-            {
-                @if (StepOrder >= totalSteps)
-                {
-                    <button class="btn btn-success px-5 py-3 text-white" @onclick="FinishCourse">
-                        FINISH COURSE
-                    </button>
-                }
-                else
-                {
-                    <button class="btn btn-primary px-5 py-3 text-white" @onclick="GoNext">
-                        NEXT
-                    </button>
-                }
-            }
-        </div>
+        <StepNavigationButtons CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
+            IsEditMode="false" CanContinue="@CanContinue"
+            OnPrevious="GoPrevious" OnNext="GoNext" OnFinish="FinishCourse" />
     </div>
 }
 
@@ -237,18 +196,6 @@ else
         }
     }
 
-    private int GetPercentage(int stepValue)
-    {
-        if (totalSteps <= 0) return 0;
-        
-        // FIX: Subtract 1 to show "Completed" percentage properly. 
-        double adjustedStep = Math.Max(0, stepValue - 1);
-        double pct = adjustedStep / totalSteps * 100;
-        
-        return (int)Math.Min(Math.Round(pct), 100);
-    }
-
-    // ... [ParseQuestion, SelectMcOption, CheckFillAnswer, GoPrevious unchanged] ...
     private void ParseQuestion(string content)
     {
         McAnswered = false;

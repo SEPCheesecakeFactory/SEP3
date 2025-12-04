@@ -11,9 +11,27 @@ namespace gRPCRepo;
 
 public class gRPCLearningStepRepository(string host, int port, bool useTls = false) : gRPCRepository<LearningStep, LearningStep, LearningStep, (int, int)>(host, port, useTls)
 {
-    public override Task<LearningStep> AddAsync(LearningStep entity)
+    public override async Task<LearningStep> AddAsync(LearningStep entity)
     {
-        throw new NotImplementedException();
+        var request = new AddLearningStepRequest
+        {
+            LearningStep = new via.sep3.dataserver.grpc.LearningStep
+            {
+                CourseId = entity.CourseId,
+                StepOrder = entity.StepOrder,
+                Content = entity.Content,
+                Type = entity.Type
+            }
+        };
+
+        var response = await Client.AddLearningStepAsync(request);
+        return new LearningStep
+        {
+            CourseId = response.LearningStep.CourseId,
+            StepOrder = response.LearningStep.StepOrder,
+            Type = response.LearningStep.Type,
+            Content = response.LearningStep.Content
+        };
     }
 
     public override Task ClearAsync()

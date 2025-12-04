@@ -3,50 +3,47 @@
 @using BlazorApp.Entities
 @using Microsoft.AspNetCore.Authorization
 @using System.Text.Json
+@using AuthorizeView = Microsoft.AspNetCore.Components.Authorization.AuthorizeView
+@using LearningStepHeader = BlazorApp.Components.LearningStepHeader;
+@using StepNavigationButtons = BlazorApp.Components.StepNavigationButtons;
+
 @inject ILearningStepService StepService
+@inject ICourseService CourseService
 @inject NavigationManager NavManager
 
 <AuthorizeView>
     <Authorized>
         @if (Utils.AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value).Contains("teacher"))
         {
-            <PageTitle>Learning Step @StepOrder</PageTitle>
+            <PageTitle>Edit Learning Step @StepOrder</PageTitle>
 
-            @if (currentStep == null || isLoading || wasError)
+            @if (isLoading)
             {
-                @if (isLoading)
-                {
-                    <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
-                        <LoadingSpinner />
-                    </div>
-                }
-                else if (wasError)
-                {
+                <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
+                    <LoadingSpinner />
+                </div>
+            }
+            else if (wasError)
+            {
+                <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
+                    <LearningStepHeader CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
+                        ShowProgressText="false" BottomMargin="4" />
+                    
                     <div class="alert alert-danger mt-5 mx-auto" role="alert" style="max-width: 600px;">
                         An error occurred while loading the learning step. Please try again later.
                     </div>
-                }
-                <div class="d-flex justify-content-between border-top pt-4 mt-4 mb-5">
-                    <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoPrevious"
-                        disabled="@(StepOrder <= 1)">
-                        PREVIOUS
-                    </button>
-                    <button class="btn btn-outline-secondary px-4 py-3 border-2" @onclick="GoNext">
-                        NEXT
-                    </button>
+                    
+                    <StepNavigationButtons CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
+                        IsEditMode="true" CanContinue="true" IsCreating="@isCreatingStep"
+                        ShowCreateError="@wasCreateError" CreateErrorMessage="@createErrorMessage"
+                        OnPrevious="GoPrevious" OnNext="GoNext" OnAddNewStep="AddNewStep" />
                 </div>
             }
-            else
+            else if (currentStep != null)
             {
                 <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-                    <div class="d-flex align-items-center mb-4 pt-2">
-                        <a href="/" class="btn btn-link text-secondary p-0 me-4">
-                            <i class="fas fa-times fa-2x"></i>
-                        </a>
-                        <div class="progress w-100" style="height: 16px;">
-                            <div class="progress-bar" style="width: @(StepOrder * 10)%"></div>
-                        </div>
-                    </div>
+                    <LearningStepHeader CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
+                        ShowProgressText="false" BottomMargin="4" />
 
                     <div class="card p-4 shadow-sm">
                         <div class="mb-3">
@@ -62,17 +59,7 @@
                                 placeholder="Enter learning content..."></textarea>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div>
-                                <button class="btn btn-outline-secondary me-2" @onclick="GoPrevious"
-                                    disabled="@(StepOrder <= 1)">
-                                    Previous
-                                </button>
-                                <button class="btn btn-outline-secondary" @onclick="GoNext">
-                                    Next
-                                </button>
-                            </div>
-
+                        <div class="d-flex justify-content-end align-items-center mt-3">
                             <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")" @onclick="Save"
                                 disabled="@(!IsDirty || isSaving)">
                                 @if (isSaving)
@@ -84,7 +71,12 @@
                         </div>
                     </div>
 
-                    <div class="mt-4 mb-5">
+                    <StepNavigationButtons CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
+                        IsEditMode="true" CanContinue="true" IsCreating="@isCreatingStep"
+                        ShowCreateError="@wasCreateError" CreateErrorMessage="@createErrorMessage"
+                        OnPrevious="GoPrevious" OnNext="GoNext" OnAddNewStep="AddNewStep" />
+
+                    <div class="mb-5">
                         <button class="btn btn-outline-secondary" @onclick="BackToPreview">
                             Back to Preview
                         </button>
@@ -116,11 +108,15 @@
 
     private LearningStep? currentStep;
     private LearningStep? originalState;
+    private int totalSteps = 1;
 
     private bool isLoading = true;
     private bool isSaving = false;
+    private bool isCreatingStep = false;
     private bool wasError = false;
     private bool wasSavingError = false;
+    private bool wasCreateError = false;
+    private string? createErrorMessage = null;
 
     private bool IsDirty => currentStep != null && originalState != null &&
     (currentStep.Type != originalState.Type ||
@@ -133,6 +129,14 @@
 
         try
         {
+            // Get total steps for the course
+            var allCourses = await CourseService.GetCourses();
+            var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
+            if (thisCourse != null && thisCourse.TotalSteps > 0)
+            {
+                totalSteps = thisCourse.TotalSteps;
+            }
+
             var fetched = await StepService.GetLearningStepAsync(CourseId, StepOrder);
 
             originalState = fetched.DeepCopy();
@@ -189,6 +193,41 @@
     private async Task UploadEdit(int courseId, int stepOrder, LearningStep editedStep)
     {
         await StepService.UpdateLearningStepAsync(editedStep);
+    }
+
+    private async Task AddNewStep()
+    {
+        isCreatingStep = true;
+        wasCreateError = false;
+        createErrorMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            var newStep = new LearningStep
+            {
+                CourseId = CourseId,
+                StepOrder = totalSteps + 1,
+                Type = "Text",
+                Content = "Work in progress - edit this step to add content."
+            };
+
+            await StepService.CreateLearningStepAsync(newStep);
+            
+            // Update local totalSteps and navigate to edit the new step
+            totalSteps++;
+            NavManager.NavigateTo($"/courses/{CourseId}/steps/{newStep.StepOrder}/edit");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating new step: {ex.Message}");
+            wasCreateError = true;
+            createErrorMessage = ex.Message;
+        }
+        finally
+        {
+            isCreatingStep = false;
+        }
     }
 
     private void BackToPreview()

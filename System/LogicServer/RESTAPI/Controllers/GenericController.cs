@@ -38,7 +38,7 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
     protected async Task<ActionResult<MainType>> CreateAsync(AddType entity)
     {
         var createdEntity = await _repository.AddAsync(entity);
-        return CreatedAtAction(nameof(GetSingleAsync), new { id = createdEntity }, createdEntity);
+        return Created("", createdEntity);
     }
 
     protected async Task<ActionResult<MainType>> UpdateAsync(string id, UpdateType entity)

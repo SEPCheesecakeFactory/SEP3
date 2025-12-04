@@ -71,7 +71,7 @@ Content-Type: application/json
 
 GET {{baseURL}}/learningsteps/1_1
 
-### Register test user
+### Register teacher
 POST {{baseURL}}/Auth/register
 Content-Type: application/json
 
@@ -84,6 +84,15 @@ Content-Type: application/json
       "RoleName": "teacher"
     }
   ]
+}
+
+### Login as teacher
+POST {{baseURL}}/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "hello",
+  "Password": "itsmeurlookingfor"
 }
 
 
@@ -272,3 +281,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2a
 GET {{baseURL}}/courses/
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiIzMGQxMTg2Mi03MjhhLTRhMmUtODczMy1mMTI0ZDVjYTUxNDEiLCJpYXQiOjE3NjQ4Njk3MTMsInVuaXF1ZV9uYW1lIjoidGVhY2hlciIsIlVzZXJuYW1lIjoidGVhY2hlciIsIklkIjoiMiIsImlkIjoiMiIsIlJvbGUiOiJ0ZWFjaGVyIiwibmJmIjoxNzY0ODY5NzEzLCJleHAiOjE3NjQ4NzMzMTMsImlzcyI6IkpXVEF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiSldUU2VydmljZUJsYXpvckNsaWVudCJ9.ApAkX7NC48u7goOcAUpjeAQecHXvEeBIzigWdJt8Rho
+
+### Add Learning Step
+POST {{baseURL}}/learningsteps/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiI2MDU5NjUyZC1kMmNlLTRmZGItYjBhYy05NWY4MmZiYjljM2YiLCJpYXQiOjE3NjQ4ODQxNTIsInVuaXF1ZV9uYW1lIjoiaGVsbG8iLCJVc2VybmFtZSI6ImhlbGxvIiwiSWQiOiIyIiwiaWQiOiIyIiwiUm9sZSI6InRlYWNoZXIiLCJuYmYiOjE3NjQ4ODQxNTIsImV4cCI6MTc2NDg4Nzc1MiwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlQmxhem9yQ2xpZW50In0.24Z5xHNtjIOjUP6ouiiehxwONkj4dF6Ne8iH39_Bh2I
+
+{
+  "courseId": 1,
+  "stepOrder": 11,
+  "type": "Text",
+  "content": "This is a text content for the learning step."  
+}
+

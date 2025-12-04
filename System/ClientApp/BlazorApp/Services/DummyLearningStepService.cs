@@ -19,4 +19,9 @@ public class DummyLearningStepService : ILearningStepService
     {
         throw new NotImplementedException();
     }
+
+    public Task<LearningStep> CreateLearningStepAsync(LearningStep newStep)
+    {
+        throw new NotImplementedException();
+    }
 }
