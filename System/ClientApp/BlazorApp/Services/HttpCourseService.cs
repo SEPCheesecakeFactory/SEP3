@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http.Json;
 namespace BlazorApp.Services;
+using BlazorApp.Entities;
 
 public class HttpCourseService : ICourseService
 {
@@ -38,4 +39,10 @@ public async Task<int> GetCourseProgressAsync(int userId, int courseId)
         
         await client.PostAsJsonAsync("CourseProgress", dto);
     }
+
+    public async Task<List<LeaderboardEntry>> GetLeaderboardAsync()
+{
+    var result = await client.GetFromJsonAsync<List<LeaderboardEntry>>("Leaderboard");
+    return result ?? new List<LeaderboardEntry>();
+}
 }
