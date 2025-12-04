@@ -1,6 +1,8 @@
 /* --- GLOBAL VARIABLES --- */
 :root {
   --font-main: "Nunito", sans-serif;
+  --primary: #3b82f6;
+  --primary-shadow: #2563eb;
   --green: #58cc02;
   --green-shadow: #46a302;
   --blue: #1cb0f6;
@@ -33,6 +35,9 @@ body {
 
 a { text-decoration: none; }
 
+/* Override Bootstrap's text-primary to use our blue */
+.text-primary { color: var(--primary) !important; }
+
 /* --- LAYOUT & SIDEBAR --- */
 .page {
   position: relative;
@@ -59,6 +64,13 @@ main {
     z-index: 1030;
     padding: 24px 16px;
     background-color: white;
+}
+
+/* Mascot Image */
+.mascot-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
 }
 
 /* Desktop Logic */
@@ -121,11 +133,11 @@ main {
 
 /* Action Buttons */
 .btn-primary {
-  background-color: var(--green);
-  box-shadow: 0 4px 0 var(--green-shadow);
+  background-color: #3b82f6;
+  box-shadow: 0 4px 0 #2563eb;
   color: white;
 }
-.btn-primary:hover { background-color: #61e002; color: white; filter: brightness(1.1); }
+.btn-primary:hover { background-color: #60a5fa; color: white; filter: brightness(1.05); }
 .btn-primary:active { transform: translateY(4px); box-shadow: none; margin-bottom: 0; margin-top: 4px; }
 .btn-primary:disabled {
   background-color: white;
@@ -138,7 +150,7 @@ main {
   opacity: 1;
 }
 .btn-primary:focus:active { 
-  background-color: var(--green) !important; 
+  background-color: #3b82f6 !important; 
   border-color: transparent !important;
   transform: translateY(4px); 
   box-shadow: none !important; 
@@ -146,9 +158,9 @@ main {
   margin-top: 4px; 
 }
 .btn-primary:focus {
-  background-color: var(--green);
+  background-color: #3b82f6;
   border-color: transparent;
-  box-shadow: 0 4px 0 var(--green-shadow); 
+  box-shadow: 0 4px 0 #2563eb; 
 }
 
 .btn-error {
@@ -206,6 +218,20 @@ main {
     box-shadow: 0 10px 0 rgba(0,0,0,0.05);
 }
 .card-course:active { transform: translateY(0); box-shadow: none; }
+
+.btn-edit-card {
+    background: white;
+    border: 2px solid var(--gray) !important;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #777;
+    transition: all 0.15s ease;
+}
+.btn-edit-card:hover {
+    background: #f0f0f0;
+    color: #555;
+    border-color: #ccc !important;
+}
 
 /* Colors */
 .bg-blue-100 { background-color: #dbeafe; }

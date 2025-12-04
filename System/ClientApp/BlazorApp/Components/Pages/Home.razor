@@ -68,8 +68,8 @@
 
                                 @if (UserIsTeacherOrAdmin(context))
                                 {
-                                    <button class="btn btn-light border position-absolute"
-                                        style="top: 5px; right: 5px; border-radius: 5px;" @onclick:stopPropagation="true"
+                                    <button class="btn btn-edit-card position-absolute"
+                                        style="top: 8px; right: 8px;" @onclick:stopPropagation="true"
                                         @onclick="() => OpenEditModal(course)">
                                         <i class="fas fa-pen fa-sm"></i>
                                     </button>
