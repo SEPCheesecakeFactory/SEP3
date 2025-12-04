@@ -229,6 +229,37 @@ public final class DataRetrievalServiceGrpc {
     return getUpdateLearningStepMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.Empty,
+      via.sep3.dataserver.grpc.GetLeaderboardResponse> getGetLeaderboardMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetLeaderboard",
+      requestType = via.sep3.dataserver.grpc.Empty.class,
+      responseType = via.sep3.dataserver.grpc.GetLeaderboardResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.Empty,
+      via.sep3.dataserver.grpc.GetLeaderboardResponse> getGetLeaderboardMethod() {
+    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.Empty, via.sep3.dataserver.grpc.GetLeaderboardResponse> getGetLeaderboardMethod;
+    if ((getGetLeaderboardMethod = DataRetrievalServiceGrpc.getGetLeaderboardMethod) == null) {
+      synchronized (DataRetrievalServiceGrpc.class) {
+        if ((getGetLeaderboardMethod = DataRetrievalServiceGrpc.getGetLeaderboardMethod) == null) {
+          DataRetrievalServiceGrpc.getGetLeaderboardMethod = getGetLeaderboardMethod =
+              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.Empty, via.sep3.dataserver.grpc.GetLeaderboardResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetLeaderboard"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.GetLeaderboardResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("GetLeaderboard"))
+              .build();
+        }
+      }
+    }
+    return getGetLeaderboardMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -346,6 +377,16 @@ public final class DataRetrievalServiceGrpc {
         io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateLearningStepMethod(), responseObserver);
     }
+
+    /**
+     * <pre>
+     * leaderboard
+     * </pre>
+     */
+    default void getLeaderboard(via.sep3.dataserver.grpc.Empty request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLeaderboardResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetLeaderboardMethod(), responseObserver);
+    }
   }
 
   /**
@@ -436,6 +477,17 @@ public final class DataRetrievalServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUpdateLearningStepMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * leaderboard
+     * </pre>
+     */
+    public void getLeaderboard(via.sep3.dataserver.grpc.Empty request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLeaderboardResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetLeaderboardMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -508,6 +560,16 @@ public final class DataRetrievalServiceGrpc {
       return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
           getChannel(), getUpdateLearningStepMethod(), getCallOptions(), request);
     }
+
+    /**
+     * <pre>
+     * leaderboard
+     * </pre>
+     */
+    public via.sep3.dataserver.grpc.GetLeaderboardResponse getLeaderboard(via.sep3.dataserver.grpc.Empty request) throws io.grpc.StatusException {
+      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
+          getChannel(), getGetLeaderboardMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -579,6 +641,16 @@ public final class DataRetrievalServiceGrpc {
     public via.sep3.dataserver.grpc.UpdateLearningStepResponse updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUpdateLearningStepMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * leaderboard
+     * </pre>
+     */
+    public via.sep3.dataserver.grpc.GetLeaderboardResponse getLeaderboard(via.sep3.dataserver.grpc.Empty request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetLeaderboardMethod(), getCallOptions(), request);
     }
   }
 
@@ -659,6 +731,17 @@ public final class DataRetrievalServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUpdateLearningStepMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * leaderboard
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.GetLeaderboardResponse> getLeaderboard(
+        via.sep3.dataserver.grpc.Empty request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetLeaderboardMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_USERS = 0;
@@ -668,6 +751,7 @@ public final class DataRetrievalServiceGrpc {
   private static final int METHODID_GET_COURSE_PROGRESS = 4;
   private static final int METHODID_UPDATE_COURSE_PROGRESS = 5;
   private static final int METHODID_UPDATE_LEARNING_STEP = 6;
+  private static final int METHODID_GET_LEADERBOARD = 7;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -713,6 +797,10 @@ public final class DataRetrievalServiceGrpc {
         case METHODID_UPDATE_LEARNING_STEP:
           serviceImpl.updateLearningStep((via.sep3.dataserver.grpc.UpdateLearningStepRequest) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse>) responseObserver);
+          break;
+        case METHODID_GET_LEADERBOARD:
+          serviceImpl.getLeaderboard((via.sep3.dataserver.grpc.Empty) request,
+              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.GetLeaderboardResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -781,6 +869,13 @@ public final class DataRetrievalServiceGrpc {
               via.sep3.dataserver.grpc.UpdateLearningStepRequest,
               via.sep3.dataserver.grpc.UpdateLearningStepResponse>(
                 service, METHODID_UPDATE_LEARNING_STEP)))
+        .addMethod(
+          getGetLeaderboardMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              via.sep3.dataserver.grpc.Empty,
+              via.sep3.dataserver.grpc.GetLeaderboardResponse>(
+                service, METHODID_GET_LEADERBOARD)))
         .build();
   }
 
@@ -836,6 +931,7 @@ public final class DataRetrievalServiceGrpc {
               .addMethod(getGetCourseProgressMethod())
               .addMethod(getUpdateCourseProgressMethod())
               .addMethod(getUpdateLearningStepMethod())
+              .addMethod(getGetLeaderboardMethod())
               .build();
         }
       }

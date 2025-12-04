@@ -116,6 +116,16 @@ public final class DataProtocol {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UpdateLearningStepResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LeaderboardEntry_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_LeaderboardEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetLeaderboardResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetLeaderboardResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -150,20 +160,25 @@ public final class DataProtocol {
       "\001(\005\"\007\n\005Empty\"A\n\031UpdateLearningStepReques" +
       "t\022$\n\rlearning_step\030\001 \001(\0132\r.LearningStep\"" +
       "B\n\032UpdateLearningStepResponse\022$\n\rlearnin" +
-      "g_step\030\001 \001(\0132\r.LearningStep2\276\003\n\024DataRetr" +
-      "ievalService\022/\n\010GetUsers\022\020.GetUsersReque" +
-      "st\032\021.GetUsersResponse\022,\n\007AddUser\022\017.AddUs" +
-      "erRequest\032\020.AddUserResponse\0225\n\nGetCourse" +
-      "s\022\022.GetCoursesRequest\032\023.GetCoursesRespon" +
-      "se\022D\n\017GetLearningStep\022\027.GetLearningStepR" +
-      "equest\032\030.GetLearningStepResponse\022D\n\021GetC" +
-      "ourseProgress\022\026.CourseProgressRequest\032\027." +
-      "CourseProgressResponse\0225\n\024UpdateCoursePr" +
-      "ogress\022\025.CourseProgressUpdate\032\006.Empty\022M\n" +
-      "\022UpdateLearningStep\022\032.UpdateLearningStep" +
-      "Request\032\033.UpdateLearningStepResponseB7\n\030" +
-      "via.sep3.dataserver.grpcP\001\252\002\030via.sep3.da" +
-      "taserver.grpcb\006proto3"
+      "g_step\030\001 \001(\0132\r.LearningStep\"G\n\020Leaderboa" +
+      "rdEntry\022\020\n\010username\030\001 \001(\t\022\023\n\013total_score" +
+      "\030\002 \001(\005\022\014\n\004rank\030\003 \001(\005\"<\n\026GetLeaderboardRe" +
+      "sponse\022\"\n\007entries\030\001 \003(\0132\021.LeaderboardEnt" +
+      "ry2\361\003\n\024DataRetrievalService\022/\n\010GetUsers\022" +
+      "\020.GetUsersRequest\032\021.GetUsersResponse\022,\n\007" +
+      "AddUser\022\017.AddUserRequest\032\020.AddUserRespon" +
+      "se\0225\n\nGetCourses\022\022.GetCoursesRequest\032\023.G" +
+      "etCoursesResponse\022D\n\017GetLearningStep\022\027.G" +
+      "etLearningStepRequest\032\030.GetLearningStepR" +
+      "esponse\022D\n\021GetCourseProgress\022\026.CoursePro" +
+      "gressRequest\032\027.CourseProgressResponse\0225\n" +
+      "\024UpdateCourseProgress\022\025.CourseProgressUp" +
+      "date\032\006.Empty\022M\n\022UpdateLearningStep\022\032.Upd" +
+      "ateLearningStepRequest\032\033.UpdateLearningS" +
+      "tepResponse\0221\n\016GetLeaderboard\022\006.Empty\032\027." +
+      "GetLeaderboardResponseB7\n\030via.sep3.datas" +
+      "erver.grpcP\001\252\002\030via.sep3.dataserver.grpcb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -277,6 +292,18 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateLearningStepResponse_descriptor,
         new java.lang.String[] { "LearningStep", });
+    internal_static_LeaderboardEntry_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_LeaderboardEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_LeaderboardEntry_descriptor,
+        new java.lang.String[] { "Username", "TotalScore", "Rank", });
+    internal_static_GetLeaderboardResponse_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_GetLeaderboardResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetLeaderboardResponse_descriptor,
+        new java.lang.String[] { "Entries", });
     descriptor.resolveAllFeaturesImmutable();
   }
 
