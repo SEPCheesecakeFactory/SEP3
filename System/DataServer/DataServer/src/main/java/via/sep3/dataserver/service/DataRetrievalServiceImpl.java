@@ -321,9 +321,13 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       course.setTitle(grpcCourse.getTitle());
       course.setDescription(grpcCourse.getDescription());
 
-      // 3. Convert language string → entity
-      Language lang = languageRepository.findById(grpcCourse.getLanguage())
-          .orElse(null);
+      // 3. Convert language name → entity (try by name first, then by code as fallback)
+      Language lang = languageRepository.findByName(grpcCourse.getLanguage());
+      
+      if (lang == null) {
+        // Fallback to finding by code if name lookup fails
+        lang = languageRepository.findById(grpcCourse.getLanguage()).orElse(null);
+      }
 
       if (lang == null) {
         responseObserver.onError(

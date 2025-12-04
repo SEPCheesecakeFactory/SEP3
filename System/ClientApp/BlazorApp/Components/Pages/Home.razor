@@ -51,7 +51,7 @@
         }
         else
         {
-            @foreach (var group in courses.GroupBy(c => c.Category))
+            @foreach (var group in courses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c => c.Category))
             {
                 <h5 class="fw-bolder text-secondary text-uppercase mt-5 mb-3 ps-1" style="letter-spacing:0.5px">
                     @group.Key
