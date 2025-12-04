@@ -75,7 +75,7 @@
     {
       "label": "Run DataServer",
       "type": "shell",
-      "command": "mvn exec:java",
+      "command": "mvn clean install compile exec:java",
       "options": {
         "cwd": "${workspaceFolder}/System/DataServer/DataServer"
       },
@@ -87,7 +87,7 @@
     {
       "label": "Run LogicServer",
       "type": "shell",
-      "command": "dotnet watch run",
+      "command": "dotnet watch",
       "options": {
         "cwd": "${workspaceFolder}/System/LogicServer/RESTAPI"
       },
@@ -98,7 +98,7 @@
     {
       "label": "Run ClientApp",
       "type": "shell",
-      "command": "dotnet watch run",
+      "command": "dotnet watch",
       "options": {
         "cwd": "${workspaceFolder}/System/ClientApp/BlazorApp"
       },
