@@ -1,4 +1,5 @@
 using System;
+using BlazorApp.Entities;
 
 namespace BlazorApp.Services;
 
