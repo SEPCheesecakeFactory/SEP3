@@ -7,12 +7,8 @@ using User = Entities.User;
 
 namespace gRPCRepo;
 
-public class gRPCUserRepository : gRPCRepository<User, User, User, int>
+public class gRPCUserRepository(string host, int port) : gRPCRepository<User, User, User, int>(host, port)
 {
-    public gRPCUserRepository(string host, int port) : base(host, port)
-    {
-    }
-
     public override IQueryable<User> GetMany()
     {
         var resp = Client.GetUsers(new GetUsersRequest());
@@ -63,5 +59,4 @@ public class gRPCUserRepository : gRPCRepository<User, User, User, int>
     {
         throw new NotImplementedException();
     }
-
 }

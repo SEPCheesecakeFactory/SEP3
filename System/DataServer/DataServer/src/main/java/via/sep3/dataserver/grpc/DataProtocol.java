@@ -152,6 +152,16 @@ public final class DataProtocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UpdateLearningStepResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LeaderboardEntry_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_LeaderboardEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetLeaderboardResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetLeaderboardResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_UpdateDraftRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -219,31 +229,35 @@ public final class DataProtocol {
       "arningStepRequest\022$\n\rlearning_step\030\001 \001(\013" +
       "2\r.LearningStep\"B\n\032UpdateLearningStepRes" +
       "ponse\022$\n\rlearning_step\030\001 \001(\0132\r.LearningS" +
-      "tep\"7\n\022UpdateDraftRequest\022!\n\013courseDraft" +
-      "\030\001 \001(\0132\014.CourseDraft\"8\n\023UpdateDraftRespo" +
-      "nse\022!\n\013courseDraft\030\001 \001(\0132\014.CourseDraft\"\022" +
-      "\n\020GetDraftsRequest\"1\n\021GetDraftsResponse\022" +
-      "\034\n\006drafts\030\001 \003(\0132\014.CourseDraft2\302\005\n\024DataRe" +
-      "trievalService\022/\n\010GetUsers\022\020.GetUsersReq" +
-      "uest\032\021.GetUsersResponse\022,\n\007AddUser\022\017.Add" +
-      "UserRequest\032\020.AddUserResponse\0225\n\nGetCour" +
-      "ses\022\022.GetCoursesRequest\032\023.GetCoursesResp" +
-      "onse\0222\n\tAddCourse\022\021.AddCourseRequest\032\022.A" +
-      "ddCourseResponse\022D\n\017GetLearningStep\022\027.Ge" +
-      "tLearningStepRequest\032\030.GetLearningStepRe" +
-      "sponse\022/\n\010AddDraft\022\020.AddDraftRequest\032\021.A" +
-      "ddDraftResponse\022/\n\010GetDraft\022\020.GetDraftRe" +
-      "quest\032\021.GetDraftResponse\0228\n\013UpdateDraft\022" +
-      "\023.UpdateDraftRequest\032\024.UpdateDraftRespon" +
-      "se\022D\n\021GetCourseProgress\022\026.CourseProgress" +
-      "Request\032\027.CourseProgressResponse\0225\n\024Upda" +
-      "teCourseProgress\022\025.CourseProgressUpdate\032" +
-      "\006.Empty\022M\n\022UpdateLearningStep\022\032.UpdateLe" +
-      "arningStepRequest\032\033.UpdateLearningStepRe" +
-      "sponse\0222\n\tGetDrafts\022\021.GetDraftsRequest\032\022" +
-      ".GetDraftsResponseB7\n\030via.sep3.dataserve" +
-      "r.grpcP\001\252\002\030via.sep3.dataserver.grpcb\006pro" +
-      "to3"
+      "tep\"G\n\020LeaderboardEntry\022\020\n\010username\030\001 \001(" +
+      "\t\022\023\n\013total_score\030\002 \001(\005\022\014\n\004rank\030\003 \001(\005\"<\n\026" +
+      "GetLeaderboardResponse\022\"\n\007entries\030\001 \003(\0132" +
+      "\021.LeaderboardEntry\"7\n\022UpdateDraftRequest" +
+      "\022!\n\013courseDraft\030\001 \001(\0132\014.CourseDraft\"8\n\023U" +
+      "pdateDraftResponse\022!\n\013courseDraft\030\001 \001(\0132" +
+      "\014.CourseDraft\"\022\n\020GetDraftsRequest\"1\n\021Get" +
+      "DraftsResponse\022\034\n\006drafts\030\001 \003(\0132\014.CourseD" +
+      "raft2\365\005\n\024DataRetrievalService\022/\n\010GetUser" +
+      "s\022\020.GetUsersRequest\032\021.GetUsersResponse\022," +
+      "\n\007AddUser\022\017.AddUserRequest\032\020.AddUserResp" +
+      "onse\0225\n\nGetCourses\022\022.GetCoursesRequest\032\023" +
+      ".GetCoursesResponse\0222\n\tAddCourse\022\021.AddCo" +
+      "urseRequest\032\022.AddCourseResponse\022D\n\017GetLe" +
+      "arningStep\022\027.GetLearningStepRequest\032\030.Ge" +
+      "tLearningStepResponse\022/\n\010AddDraft\022\020.AddD" +
+      "raftRequest\032\021.AddDraftResponse\022/\n\010GetDra" +
+      "ft\022\020.GetDraftRequest\032\021.GetDraftResponse\022" +
+      "8\n\013UpdateDraft\022\023.UpdateDraftRequest\032\024.Up" +
+      "dateDraftResponse\022D\n\021GetCourseProgress\022\026" +
+      ".CourseProgressRequest\032\027.CourseProgressR" +
+      "esponse\0225\n\024UpdateCourseProgress\022\025.Course" +
+      "ProgressUpdate\032\006.Empty\022M\n\022UpdateLearning" +
+      "Step\022\032.UpdateLearningStepRequest\032\033.Updat" +
+      "eLearningStepResponse\0221\n\016GetLeaderboard\022" +
+      "\006.Empty\032\027.GetLeaderboardResponse\0222\n\tGetD" +
+      "rafts\022\021.GetDraftsRequest\032\022.GetDraftsResp" +
+      "onseB7\n\030via.sep3.dataserver.grpcP\001\252\002\030via" +
+      ".sep3.dataserver.grpcb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -399,26 +413,38 @@ public final class DataProtocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateLearningStepResponse_descriptor,
         new java.lang.String[] { "LearningStep", });
-    internal_static_UpdateDraftRequest_descriptor =
+    internal_static_LeaderboardEntry_descriptor =
       getDescriptor().getMessageTypes().get(25);
+    internal_static_LeaderboardEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_LeaderboardEntry_descriptor,
+        new java.lang.String[] { "Username", "TotalScore", "Rank", });
+    internal_static_GetLeaderboardResponse_descriptor =
+      getDescriptor().getMessageTypes().get(26);
+    internal_static_GetLeaderboardResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetLeaderboardResponse_descriptor,
+        new java.lang.String[] { "Entries", });
+    internal_static_UpdateDraftRequest_descriptor =
+      getDescriptor().getMessageTypes().get(27);
     internal_static_UpdateDraftRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateDraftRequest_descriptor,
         new java.lang.String[] { "CourseDraft", });
     internal_static_UpdateDraftResponse_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_UpdateDraftResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_UpdateDraftResponse_descriptor,
         new java.lang.String[] { "CourseDraft", });
     internal_static_GetDraftsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_GetDraftsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetDraftsRequest_descriptor,
         new java.lang.String[] { });
     internal_static_GetDraftsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_GetDraftsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetDraftsResponse_descriptor,

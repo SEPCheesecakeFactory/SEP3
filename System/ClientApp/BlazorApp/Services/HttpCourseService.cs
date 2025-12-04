@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 
 using System.Net.Http.Json;
 namespace BlazorApp.Services;
+using BlazorApp.Entities;
 
 public class HttpCourseService : ICourseService
 {
@@ -74,4 +75,10 @@ public class HttpCourseService : ICourseService
 
         await client.PostAsJsonAsync("CourseProgress", dto);
     }
+
+    public async Task<List<LeaderboardEntry>> GetLeaderboardAsync()
+{
+    var result = await client.GetFromJsonAsync<List<LeaderboardEntry>>("Leaderboard");
+    return result ?? new List<LeaderboardEntry>();
+}
 }

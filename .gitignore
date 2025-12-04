@@ -47,3 +47,5 @@ project.assets.json
 *.csproj.user
 
 appsettings*.json
+
+*/src/main/java/via/sep3/dataserver/grpc/

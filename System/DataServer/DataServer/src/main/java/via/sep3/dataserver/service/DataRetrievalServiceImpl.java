@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,7 @@ import via.sep3.dataserver.grpc.GetDraftRequest;
 import via.sep3.dataserver.grpc.GetDraftResponse;
 import via.sep3.dataserver.grpc.GetDraftsRequest;
 import via.sep3.dataserver.grpc.GetDraftsResponse;
+import via.sep3.dataserver.grpc.GetLeaderboardResponse;
 import via.sep3.dataserver.grpc.GetLearningStepResponse;
 import via.sep3.dataserver.grpc.GetUsersRequest;
 import via.sep3.dataserver.grpc.GetUsersResponse;
@@ -63,7 +66,7 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
   private RoleRepository roleRepository;
   @Autowired
   private LearningStepRepository learningStepRepository;
-  
+
   @Autowired
   private CourseDraftRepository courseDraftRepository;
   @Autowired
@@ -80,50 +83,51 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
-      try {
-          List<via.sep3.dataserver.data.Course> courses;
+    try {
+      List<via.sep3.dataserver.data.Course> courses;
 
-          // Check if the request contains a User ID (filtering)
-          if (request.getUserId() > 0) {
-              // Get the progress records for this user
-              List<via.sep3.dataserver.data.UserCourseProgress> progressList = progressRepository.findBySystemUser_Id(request.getUserId());
-              
-              // Extract the 'Course' object from each progress record
-              courses = new ArrayList<>();
-              for (via.sep3.dataserver.data.UserCourseProgress progress : progressList) {
-                  courses.add(progress.getCourse());
-              }
-          } else {
-              // Get ALL courses directly
-              courses = courseRepository.findAll();
-          }
-          GetCoursesResponse.Builder responseBuilder = GetCoursesResponse.newBuilder();
+      // Check if the request contains a User ID (filtering)
+      if (request.getUserId() > 0) {
+        // Get the progress records for this user
+        List<via.sep3.dataserver.data.UserCourseProgress> progressList = progressRepository
+            .findBySystemUser_Id(request.getUserId());
 
-          for (via.sep3.dataserver.data.Course course : courses) {
-
-              // Calculate steps
-              int stepCount = learningStepRepository.countByIdCourseId(course.getId());
-
-              via.sep3.dataserver.grpc.Course grpcCourse = via.sep3.dataserver.grpc.Course.newBuilder()
-                  .setId(course.getId())
-                  .setTitle(course.getTitle())
-                  .setDescription(course.getDescription())
-                  .setLanguage(course.getLanguage() != null ? course.getLanguage().getName() : "")
-                  .setCategory(course.getCategory() != null ? course.getCategory().getName() : "")
-                  .setTotalSteps(stepCount)
-                  .build();
-
-              responseBuilder.addCourses(grpcCourse);
-          }
-
-          responseObserver.onNext(responseBuilder.build());
-          responseObserver.onCompleted();
-
-      } catch (Exception e) {
-          System.out.println("Error in getCourses: " + e.getMessage());
-          e.printStackTrace();
-          responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        // Extract the 'Course' object from each progress record
+        courses = new ArrayList<>();
+        for (via.sep3.dataserver.data.UserCourseProgress progress : progressList) {
+          courses.add(progress.getCourse());
+        }
+      } else {
+        // Get ALL courses directly
+        courses = courseRepository.findAll();
       }
+      GetCoursesResponse.Builder responseBuilder = GetCoursesResponse.newBuilder();
+
+      for (via.sep3.dataserver.data.Course course : courses) {
+
+        // Calculate steps
+        int stepCount = learningStepRepository.countByIdCourseId(course.getId());
+
+        via.sep3.dataserver.grpc.Course grpcCourse = via.sep3.dataserver.grpc.Course.newBuilder()
+            .setId(course.getId())
+            .setTitle(course.getTitle())
+            .setDescription(course.getDescription())
+            .setLanguage(course.getLanguage() != null ? course.getLanguage().getName() : "")
+            .setCategory(course.getCategory() != null ? course.getCategory().getName() : "")
+            .setTotalSteps(stepCount)
+            .build();
+
+        responseBuilder.addCourses(grpcCourse);
+      }
+
+      responseObserver.onNext(responseBuilder.build());
+      responseObserver.onCompleted();
+
+    } catch (Exception e) {
+      System.out.println("Error in getCourses: " + e.getMessage());
+      e.printStackTrace();
+      responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+    }
   }
 
   @Override
@@ -131,14 +135,16 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     try {
       via.sep3.dataserver.data.Language language = languageRepository.findById(request.getLanguage()).orElse(null);
       if (language == null) {
-         responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription("Language not found: " + request.getLanguage()).asRuntimeException());
-         return;
+        responseObserver.onError(io.grpc.Status.NOT_FOUND
+            .withDescription("Language not found: " + request.getLanguage()).asRuntimeException());
+        return;
       }
-      
+
       via.sep3.dataserver.data.CourseCategory category = courseCategoryRepository.findByName(request.getCategory());
-       if (category == null) {
-         responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription("Category not found: " + request.getCategory()).asRuntimeException());
-         return;
+      if (category == null) {
+        responseObserver.onError(io.grpc.Status.NOT_FOUND
+            .withDescription("Category not found: " + request.getCategory()).asRuntimeException());
+        return;
       }
 
       Course course = new Course();
@@ -323,21 +329,18 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       }
 
       LearningStepType newStepType;
-      try
-      {
+      try {
         newStepType = learningStepTypeRepository
-          .findByName(grpcStep.getType());
-      }
-      catch (Exception e)
-      {
+            .findByName(grpcStep.getType());
+      } catch (Exception e) {
         responseObserver.onError(
-          io.grpc.Status.NOT_FOUND
-            .withDescription("Learning step type not found: " + grpcStep.getType())
-            .asRuntimeException());
+            io.grpc.Status.NOT_FOUND
+                .withDescription("Learning step type not found: " + grpcStep.getType())
+                .asRuntimeException());
         return;
       }
       step.setStepType(newStepType);
-      step.setContent(grpcStep.getContent());      
+      step.setContent(grpcStep.getContent());
       learningStepRepository.save(step);
 
       responseObserver.onNext(via.sep3.dataserver.grpc.UpdateLearningStepResponse.newBuilder()
@@ -362,26 +365,23 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
         .build();
   }
 
-  //drafts
+  // drafts
 
-  @Override public void addDraft(AddDraftRequest request,
-      StreamObserver<AddDraftResponse> responseObserver)
-  {
-    try
-    {
+  @Override
+  public void addDraft(AddDraftRequest request,
+      StreamObserver<AddDraftResponse> responseObserver) {
+    try {
       String language = request.getLanguage();
       String title = request.getTitle();
       String description = request.getDescription();
       int teacher_id = request.getTeacherId();
       SystemUser systemUser = userRepository.getSystemUserById(teacher_id);
 
-
       via.sep3.dataserver.data.CourseDraft courseDraft = new via.sep3.dataserver.data.CourseDraft();
       courseDraft.setLanguage(language);
       courseDraft.setTitle(title);
       courseDraft.setDescription(description);
       courseDraft.setSystemUser(systemUser);
-
 
       courseDraft = courseDraftRepository.save(courseDraft);
 
@@ -394,17 +394,15 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       responseObserver.onNext(response);
       responseObserver.onCompleted();
 
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       responseObserver.onError(e);
     }
   }
 
-  @Override public void getDraft(GetDraftRequest request,
-      StreamObserver<GetDraftResponse> responseObserver)
-  {
-    try{
+  @Override
+  public void getDraft(GetDraftRequest request,
+      StreamObserver<GetDraftResponse> responseObserver) {
+    try {
       via.sep3.dataserver.data.CourseDraft courseDraft = courseDraftRepository.getCourseDraftById(request.getDraftId());
       CourseDraft grpcCourseDraft = convertToGrpcDraft(courseDraft);
       GetDraftResponse response = GetDraftResponse.newBuilder()
@@ -413,14 +411,13 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
       responseObserver.onNext(response);
       responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(e);
     }
-   catch (Exception e) {
-    responseObserver.onError(e);
-  }
 
   }
-  private CourseDraft convertToGrpcDraft(via.sep3.dataserver.data.CourseDraft courseDraft)
-  {
+
+  private CourseDraft convertToGrpcDraft(via.sep3.dataserver.data.CourseDraft courseDraft) {
     CourseDraft.Builder builder = CourseDraft.newBuilder()
         .setId(courseDraft.getId())
         .setLanguage(courseDraft.getLanguage() != null ? courseDraft.getLanguage() : "")
@@ -446,9 +443,9 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     return builder.build();
   }
 
-  @Override public void getDrafts(GetDraftsRequest request,
-      StreamObserver<GetDraftsResponse> responseObserver)
-  {
+  @Override
+  public void getDrafts(GetDraftsRequest request,
+      StreamObserver<GetDraftsResponse> responseObserver) {
     try {
       List<via.sep3.dataserver.data.CourseDraft> drafts = courseDraftRepository.findAll();
       GetDraftsResponse.Builder responseBuilder = GetDraftsResponse.newBuilder();
@@ -464,14 +461,14 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
     }
   }
 
-  @Override public void updateDraft(UpdateDraftRequest request,
-      StreamObserver<UpdateDraftResponse> responseObserver)
-  {
-    try
-    {
+  @Override
+  public void updateDraft(UpdateDraftRequest request,
+      StreamObserver<UpdateDraftResponse> responseObserver) {
+    try {
       via.sep3.dataserver.grpc.CourseDraft grpcDraft = request.getCourseDraft();
 
-      via.sep3.dataserver.data.CourseDraft existingDraft = courseDraftRepository.findById(grpcDraft.getId()).orElse(null);
+      via.sep3.dataserver.data.CourseDraft existingDraft = courseDraftRepository.findById(grpcDraft.getId())
+          .orElse(null);
 
       if (existingDraft == null) {
         responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription("Draft not found").asRuntimeException());
@@ -488,7 +485,8 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
         existingDraft.setDescription(grpcDraft.getDescription());
       }
 
-      if (grpcDraft.getTeacherId() != -1 && (existingDraft.getSystemUser() == null || existingDraft.getSystemUser().getId() != grpcDraft.getTeacherId())) {
+      if (grpcDraft.getTeacherId() != -1 && (existingDraft.getSystemUser() == null
+          || existingDraft.getSystemUser().getId() != grpcDraft.getTeacherId())) {
         SystemUser teacher = userRepository.findById(grpcDraft.getTeacherId()).orElse(null);
         if (teacher != null) {
           existingDraft.setSystemUser(teacher);
@@ -505,7 +503,8 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       }
 
       if (grpcDraft.getApprovedBy() != -1) {
-        if (existingDraft.getApprovedBy() == null || existingDraft.getApprovedBy().getId() != grpcDraft.getApprovedBy()) {
+        if (existingDraft.getApprovedBy() == null
+            || existingDraft.getApprovedBy().getId() != grpcDraft.getApprovedBy()) {
           SystemUser approver = userRepository.findById(grpcDraft.getApprovedBy()).orElse(null);
           if (approver != null) {
             existingDraft.setApprovedBy(approver);
@@ -524,72 +523,110 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       responseObserver.onNext(response);
       responseObserver.onCompleted();
 
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       responseObserver.onError(e);
     }
   }
-@Override
-    public void getCourseProgress(CourseProgressRequest request, StreamObserver<CourseProgressResponse> responseObserver) {
-        try {
-            Optional<via.sep3.dataserver.data.UserCourseProgress> progressEntity = progressRepository.findBySystemUser_IdAndCourse_Id(
-                    request.getUserId(),
-                    request.getCourseId());
 
-            int step = 1;
+  @Override
+  public void getCourseProgress(CourseProgressRequest request,
+      StreamObserver<CourseProgressResponse> responseObserver) {
+    try {
+      Optional<via.sep3.dataserver.data.UserCourseProgress> progressEntity = progressRepository
+          .findBySystemUser_IdAndCourse_Id(
+              request.getUserId(),
+              request.getCourseId());
 
-            if (progressEntity.isPresent()) {
-                step = progressEntity.get().getCurrentStep();
-            }
+      int step = 1;
 
-            CourseProgressResponse response = CourseProgressResponse.newBuilder()
-                    .setCurrentStep(step)
-                    .build();
+      if (progressEntity.isPresent()) {
+        step = progressEntity.get().getCurrentStep();
+      }
 
-            responseObserver.onNext(response);
-            responseObserver.onCompleted();
+      CourseProgressResponse response = CourseProgressResponse.newBuilder()
+          .setCurrentStep(step)
+          .build();
 
-        } catch (Exception e) {
-            System.out.println("Error in getCourseProgress: " + e.getMessage());
-            e.printStackTrace();
-            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
-        }
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+
+    } catch (Exception e) {
+      System.out.println("Error in getCourseProgress: " + e.getMessage());
+      e.printStackTrace();
+      responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
     }
+  }
 
-    @Override
-    public void updateCourseProgress(CourseProgressUpdate request, StreamObserver<Empty> responseObserver) {
-        try {
-            Optional<via.sep3.dataserver.data.UserCourseProgress> existingProgress = progressRepository.findBySystemUser_IdAndCourse_Id(
-                    request.getUserId(),
-                    request.getCourseId());
+  @Override
+  public void updateCourseProgress(CourseProgressUpdate request, StreamObserver<Empty> responseObserver) {
+    try {
+      Optional<via.sep3.dataserver.data.UserCourseProgress> existingProgress = progressRepository
+          .findBySystemUser_IdAndCourse_Id(
+              request.getUserId(),
+              request.getCourseId());
 
-            via.sep3.dataserver.data.UserCourseProgress progressToSave;
+      via.sep3.dataserver.data.UserCourseProgress progressToSave;
 
-            if (existingProgress.isPresent()) {
-                progressToSave = existingProgress.get();
-                progressToSave.setCurrentStep(request.getCurrentStep());
-            } else {
-                via.sep3.dataserver.data.SystemUser user = userRepository.findById(request.getUserId())
-                        .orElseThrow(() -> new RuntimeException("User not found: " + request.getUserId()));
-                via.sep3.dataserver.data.Course course = courseRepository.findById(request.getCourseId())
-                        .orElseThrow(() -> new RuntimeException("Course not found: " + request.getCourseId()));
+      if (existingProgress.isPresent()) {
+        progressToSave = existingProgress.get();
+        progressToSave.setCurrentStep(request.getCurrentStep());
+      } else {
+        via.sep3.dataserver.data.SystemUser user = userRepository.findById(request.getUserId())
+            .orElseThrow(() -> new RuntimeException("User not found: " + request.getUserId()));
+        via.sep3.dataserver.data.Course course = courseRepository.findById(request.getCourseId())
+            .orElseThrow(() -> new RuntimeException("Course not found: " + request.getCourseId()));
 
-                progressToSave = new via.sep3.dataserver.data.UserCourseProgress(user, course, request.getCurrentStep());
-            }
+        progressToSave = new via.sep3.dataserver.data.UserCourseProgress(user, course, request.getCurrentStep());
+      }
 
-            progressRepository.save(progressToSave);
+      progressRepository.save(progressToSave);
 
-            responseObserver.onNext(Empty.newBuilder().build());
-            responseObserver.onCompleted();
+      responseObserver.onNext(Empty.newBuilder().build());
+      responseObserver.onCompleted();
 
-        } catch (Exception e) {
-            System.out.println("Error in updateCourseProgress: " + e.getMessage());
-            e.printStackTrace();
-            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
-        }
+    } catch (Exception e) {
+      System.out.println("Error in updateCourseProgress: " + e.getMessage());
+      e.printStackTrace();
+      responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
     }
+  }
 
+  @Override
+  public void getLeaderboard(Empty request, StreamObserver<GetLeaderboardResponse> responseObserver) {
+    try {
+      // create a pagerequest to get the top 10 results
+      Pageable topTen = PageRequest.of(0, 10);
 
+      // call the custom repo method
+      List<via.sep3.dataserver.data.LeaderboardEntry> dbEntries = userRepository.findTopPlayers(topTen);
+
+      // map db entries to proto messages
+      List<via.sep3.dataserver.grpc.LeaderboardEntry> grpcEntries = new ArrayList<>();
+      int rank = 1;
+
+      for (via.sep3.dataserver.data.LeaderboardEntry dbEntry : dbEntries) {
+        grpcEntries.add(via.sep3.dataserver.grpc.LeaderboardEntry.newBuilder()
+            .setUsername(dbEntry.getUsername())
+            .setTotalScore((int) dbEntry.getTotalScore())
+            .setRank(rank++) // cncrement rank 1, 2, 3...
+            .build());
+      }
+
+      // build and send response
+      GetLeaderboardResponse response = GetLeaderboardResponse.newBuilder()
+          .addAllEntries(grpcEntries)
+          .build();
+
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+
+    } catch (Exception e) {
+      System.out.println("Error fetching leaderboard: " + e.getMessage());
+      e.printStackTrace();
+      responseObserver.onError(io.grpc.Status.INTERNAL
+          .withDescription("Error fetching leaderboard: " + e.getMessage())
+          .asRuntimeException());
+    }
+  }
 
 }

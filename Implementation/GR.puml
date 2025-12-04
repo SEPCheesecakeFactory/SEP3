@@ -2,6 +2,8 @@
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 scale 1
 
+title Global Relations Diagram
+
 class Course
 {
     id {PK}
@@ -41,6 +43,7 @@ class SystemUserRole
     systemUserId {PPK, FK}
     role {PPK, FK}
 }
+
 class LearningStepType
 {
     id {PK}
@@ -84,3 +87,5 @@ CourseDraft "*" -- "1" SystemUser : created_by ▼
 
 SystemUser "1" -- "*" UserCourseProgress
 Course "1" -- "*" UserCourseProgress
+LearningStep "*" -- "1" Course
+LearningStep "*" -- "1" LearningStepType
