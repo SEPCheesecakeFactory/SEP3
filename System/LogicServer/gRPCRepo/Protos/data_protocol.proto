@@ -27,6 +27,7 @@ service DataRetrievalService {
 // --- Courses ---
 
 message GetCoursesRequest {
+  int32 user_id = 1; 
 }
 
 message GetCoursesResponse {

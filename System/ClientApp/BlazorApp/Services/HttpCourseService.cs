@@ -17,6 +17,15 @@ public class HttpCourseService : ICourseService
         var result = await client.GetFromJsonAsync<List<Course>>("courses");
         return new List<Course>(result ?? new List<Course>());
     }
+    public async Task<List<Course>> GetCourses(int? userId = null)
+    {
+        // If userId has a value, use the user-specific URL; otherwise, use the "all courses" URL
+        var uri = userId.HasValue ? $"courses/my-courses/{userId}" : "courses";
+
+        var result = await client.GetFromJsonAsync<List<Course>>(uri);
+
+        return result ?? new List<Course>();
+    }
 
     public async Task CreateDraft(CreateDraftDto dto)
     {
@@ -41,28 +50,28 @@ public class HttpCourseService : ICourseService
             throw new Exception($"Error approving draft: {response.ReasonPhrase}");
         }
     }
-public async Task<int> GetCourseProgressAsync(int userId, int courseId)
+    public async Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
         try
         {
             var response = await client.GetAsync($"CourseProgress/{userId}/{courseId}");
-            
+
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<int>();
             }
-            return 1; 
+            return 1;
         }
         catch
         {
-            return 1; 
+            return 1;
         }
     }
 
     public async Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
         var dto = new { UserId = userId, CourseId = courseId, CurrentStep = currentStep };
-        
+
         await client.PostAsJsonAsync("CourseProgress", dto);
     }
 }

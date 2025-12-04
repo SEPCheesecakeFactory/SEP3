@@ -6,8 +6,8 @@
 package via.sep3.dataserver.grpc;
 
 @com.google.protobuf.Generated
-public interface GetCoursesRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:GetCoursesRequest)
+public interface GetMyCoursesRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:GetMyCoursesRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**

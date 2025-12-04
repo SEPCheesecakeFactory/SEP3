@@ -6,12 +6,25 @@ using Course = Entities.Course;
 
 namespace gRPCRepo;
 
-public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course, CreateCourseDto, Course, int>(host, port)
+public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course, CreateCourseDto, Course, int>(host, port), ICourseRepository
 {
     public override IQueryable<Course> GetMany()
     {
-        var resp = Client.GetCourses(new GetCoursesRequest());
-        var courses = resp.Courses.Select(c => new Course
+        // Hardcode the default behavior (e.g., 0 for public courses)
+        var request = new GetCoursesRequest();
+        return FetchCoursesRequestFromGrpc(request);
+    }
+    public IQueryable<Course> GetManyByUserId(int? userId = null)
+    {
+        var request = new GetCoursesRequest { UserId = userId ?? 0 };
+        return FetchCoursesRequestFromGrpc(request);
+    }
+
+    private IQueryable<Course> FetchCoursesRequestFromGrpc(GetCoursesRequest request)
+    {
+        var resp = Client.GetCourses(request);
+
+        return resp.Courses.Select(c => new Course
         {
             Id = c.Id,
             Title = c.Title,
@@ -19,9 +32,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Language = c.Language,
             Category = c.Category,
             TotalSteps = c.TotalSteps
-        }).ToList();
-
-        return courses.AsQueryable();
+        }).AsQueryable();
     }
 
     public override async Task<Course> AddAsync(CreateCourseDto entity)
@@ -86,7 +97,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw; 
+            throw;
         }
     }
 
@@ -110,5 +121,10 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    public Task<Course> AddAsync(Course entity)
+    {
+        throw new NotImplementedException();
     }
 }
