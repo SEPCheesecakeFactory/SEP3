@@ -27,20 +27,49 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Entiti
         throw new NotImplementedException();
     }
 
-    public override Task UpdateAsync(Entities.Course entity)
+   public override async Task UpdateAsync(Entities.Course entity)
+{
+    var request = new UpdateCourseRequest
     {
-        throw new NotImplementedException();
-    }
+        Course = new via.sep3.dataserver.grpc.Course
+        {
+            Id = entity.Id,
+            Title = entity.Title ?? "",
+            Description = entity.Description ?? "",
+            Language = entity.Language ?? "",
+            Category = entity.Category ?? ""
+        }
+    };
+
+    await Client.UpdateCourseAsync(request);
+}
+
 
     public override Task DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public override Task<Entities.Course> GetSingleAsync(int id)
+   public override async Task<Entities.Course> GetSingleAsync(int id)
+{
+    // gRPC has no GetCourseById, so we fetch all and find it (like repository.Memory)
+    var resp = Client.GetCourses(new GetCoursesRequest());
+
+    var c = resp.Courses.FirstOrDefault(c => c.Id == id);
+
+    if (c == null)
+        throw new KeyNotFoundException($"Course {id} not found");
+
+    return new Entities.Course
     {
-        throw new NotImplementedException();
-    }
+        Id = c.Id,
+        Title = c.Title,
+        Description = c.Description,
+        Language = c.Language,
+        Category = c.Category
+    };
+}
+
 
     public override Task ClearAsync()
     {

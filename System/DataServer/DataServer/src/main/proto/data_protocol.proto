@@ -13,10 +13,18 @@ service DataRetrievalService {
   rpc GetCourses (GetCoursesRequest) returns (GetCoursesResponse);
   rpc GetLearningStep (GetLearningStepRequest) returns (GetLearningStepResponse);
   rpc UpdateLearningStep (UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
+  rpc UpdateCourse (UpdateCourseRequest) returns (UpdateCourseResponse);
 }
 
 // --- Courses ---
 
+message UpdateCourseRequest {
+  Course course = 1;
+}
+
+message UpdateCourseResponse {
+  Course course = 1;
+}
 message GetCoursesRequest {
 }
 

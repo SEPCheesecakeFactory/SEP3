@@ -14,6 +14,12 @@ import via.sep3.dataserver.data.LearningStep;
 import via.sep3.dataserver.data.LearningStepRepository;
 import via.sep3.dataserver.data.LearningStepType;
 import via.sep3.dataserver.data.LearningStepTypeRepository;
+import via.sep3.dataserver.grpc.UpdateCourseRequest;
+import via.sep3.dataserver.grpc.UpdateCourseResponse;
+import via.sep3.dataserver.data.Language;
+import via.sep3.dataserver.data.LanguageRepository;
+import via.sep3.dataserver.data.CourseCategory;
+import via.sep3.dataserver.data.CourseCategoryRepository;
 import via.sep3.dataserver.data.Role;
 import via.sep3.dataserver.data.RoleRepository;
 import via.sep3.dataserver.data.SystemUser;
@@ -47,6 +53,15 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
 
   @Autowired
   private LearningStepTypeRepository learningStepTypeRepository;
+
+  @Autowired
+  private LanguageRepository languageRepository;
+
+  @Autowired
+  private CourseCategoryRepository categoryRepository;
+
+
+
 
   @Override
   public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -197,6 +212,85 @@ public class DataRetrievalServiceImpl extends DataRetrievalServiceGrpc.DataRetri
       responseObserver.onError(e);
     }
   }
+
+@Override
+public void updateCourse(UpdateCourseRequest request,
+                         StreamObserver<UpdateCourseResponse> responseObserver) {
+    try {
+        var grpcCourse = request.getCourse();
+
+        // 1. Load the existing course
+        Course course = courseRepository.findById(grpcCourse.getId())
+                .orElse(null);
+
+        if (course == null) {
+            responseObserver.onError(
+                io.grpc.Status.NOT_FOUND
+                    .withDescription("Course not found: id=" + grpcCourse.getId())
+                    .asRuntimeException());
+            return;
+        }
+
+        // 2. Update simple fields
+        course.setTitle(grpcCourse.getTitle());
+        course.setDescription(grpcCourse.getDescription());
+
+        // 3. Convert language string → entity
+        Language lang = languageRepository.findById(grpcCourse.getLanguage())
+                .orElse(null);
+
+        if (lang == null) {
+            responseObserver.onError(
+                io.grpc.Status.NOT_FOUND
+                    .withDescription("Language not found: " + grpcCourse.getLanguage())
+                    .asRuntimeException());
+            return;
+        }
+
+        course.setLanguage(lang);
+
+        // 4. Convert category string → entity
+        CourseCategory cat = categoryRepository.findByName(grpcCourse.getCategory());
+
+        if (cat == null) {
+            responseObserver.onError(
+                io.grpc.Status.NOT_FOUND
+                    .withDescription("Category not found: " + grpcCourse.getCategory())
+                    .asRuntimeException());
+            return;
+        }
+
+        course.setCategory(cat);
+
+        // 5. Save
+        courseRepository.save(course);
+
+        // 6. Convert back to gRPC response
+        var grpcUpdated = via.sep3.dataserver.grpc.Course.newBuilder()
+            .setId(course.getId())
+            .setTitle(course.getTitle())
+            .setDescription(course.getDescription())
+            .setLanguage(course.getLanguage().getCode())
+            .setCategory(course.getCategory().getName())
+            .build();
+
+        var response = UpdateCourseResponse.newBuilder()
+            .setCourse(grpcUpdated)
+            .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+    catch (Exception e) {
+        responseObserver.onError(
+            io.grpc.Status.INTERNAL
+                .withDescription("Error updating course: " + e.getMessage())
+                .asRuntimeException());
+    }
+}
+
+
+
 
   @Override
   public void updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request,

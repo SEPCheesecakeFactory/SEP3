@@ -167,6 +167,37 @@ public final class DataRetrievalServiceGrpc {
     return getUpdateLearningStepMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.UpdateCourseRequest,
+      via.sep3.dataserver.grpc.UpdateCourseResponse> getUpdateCourseMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "UpdateCourse",
+      requestType = via.sep3.dataserver.grpc.UpdateCourseRequest.class,
+      responseType = via.sep3.dataserver.grpc.UpdateCourseResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.UpdateCourseRequest,
+      via.sep3.dataserver.grpc.UpdateCourseResponse> getUpdateCourseMethod() {
+    io.grpc.MethodDescriptor<via.sep3.dataserver.grpc.UpdateCourseRequest, via.sep3.dataserver.grpc.UpdateCourseResponse> getUpdateCourseMethod;
+    if ((getUpdateCourseMethod = DataRetrievalServiceGrpc.getUpdateCourseMethod) == null) {
+      synchronized (DataRetrievalServiceGrpc.class) {
+        if ((getUpdateCourseMethod = DataRetrievalServiceGrpc.getUpdateCourseMethod) == null) {
+          DataRetrievalServiceGrpc.getUpdateCourseMethod = getUpdateCourseMethod =
+              io.grpc.MethodDescriptor.<via.sep3.dataserver.grpc.UpdateCourseRequest, via.sep3.dataserver.grpc.UpdateCourseResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "UpdateCourse"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.UpdateCourseRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sep3.dataserver.grpc.UpdateCourseResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataRetrievalServiceMethodDescriptorSupplier("UpdateCourse"))
+              .build();
+        }
+      }
+    }
+    return getUpdateCourseMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -270,6 +301,13 @@ public final class DataRetrievalServiceGrpc {
         io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateLearningStepMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void updateCourse(via.sep3.dataserver.grpc.UpdateCourseRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateCourseResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateCourseMethod(), responseObserver);
+    }
   }
 
   /**
@@ -344,6 +382,14 @@ public final class DataRetrievalServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUpdateLearningStepMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void updateCourse(via.sep3.dataserver.grpc.UpdateCourseRequest request,
+        io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateCourseResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getUpdateCourseMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -402,6 +448,13 @@ public final class DataRetrievalServiceGrpc {
       return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
           getChannel(), getUpdateLearningStepMethod(), getCallOptions(), request);
     }
+
+    /**
+     */
+    public via.sep3.dataserver.grpc.UpdateCourseResponse updateCourse(via.sep3.dataserver.grpc.UpdateCourseRequest request) throws io.grpc.StatusException {
+      return io.grpc.stub.ClientCalls.blockingV2UnaryCall(
+          getChannel(), getUpdateCourseMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -459,6 +512,13 @@ public final class DataRetrievalServiceGrpc {
     public via.sep3.dataserver.grpc.UpdateLearningStepResponse updateLearningStep(via.sep3.dataserver.grpc.UpdateLearningStepRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUpdateLearningStepMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public via.sep3.dataserver.grpc.UpdateCourseResponse updateCourse(via.sep3.dataserver.grpc.UpdateCourseRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getUpdateCourseMethod(), getCallOptions(), request);
     }
   }
 
@@ -523,6 +583,14 @@ public final class DataRetrievalServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUpdateLearningStepMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sep3.dataserver.grpc.UpdateCourseResponse> updateCourse(
+        via.sep3.dataserver.grpc.UpdateCourseRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getUpdateCourseMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_USERS = 0;
@@ -530,6 +598,7 @@ public final class DataRetrievalServiceGrpc {
   private static final int METHODID_GET_COURSES = 2;
   private static final int METHODID_GET_LEARNING_STEP = 3;
   private static final int METHODID_UPDATE_LEARNING_STEP = 4;
+  private static final int METHODID_UPDATE_COURSE = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -567,6 +636,10 @@ public final class DataRetrievalServiceGrpc {
         case METHODID_UPDATE_LEARNING_STEP:
           serviceImpl.updateLearningStep((via.sep3.dataserver.grpc.UpdateLearningStepRequest) request,
               (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateLearningStepResponse>) responseObserver);
+          break;
+        case METHODID_UPDATE_COURSE:
+          serviceImpl.updateCourse((via.sep3.dataserver.grpc.UpdateCourseRequest) request,
+              (io.grpc.stub.StreamObserver<via.sep3.dataserver.grpc.UpdateCourseResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -621,6 +694,13 @@ public final class DataRetrievalServiceGrpc {
               via.sep3.dataserver.grpc.UpdateLearningStepRequest,
               via.sep3.dataserver.grpc.UpdateLearningStepResponse>(
                 service, METHODID_UPDATE_LEARNING_STEP)))
+        .addMethod(
+          getUpdateCourseMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              via.sep3.dataserver.grpc.UpdateCourseRequest,
+              via.sep3.dataserver.grpc.UpdateCourseResponse>(
+                service, METHODID_UPDATE_COURSE)))
         .build();
   }
 
@@ -674,6 +754,7 @@ public final class DataRetrievalServiceGrpc {
               .addMethod(getGetCoursesMethod())
               .addMethod(getGetLearningStepMethod())
               .addMethod(getUpdateLearningStepMethod())
+              .addMethod(getUpdateCourseMethod())
               .build();
         }
       }

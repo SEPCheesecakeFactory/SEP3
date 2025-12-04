@@ -2,11 +2,10 @@
 @using BlazorApp.Auth
 @using Microsoft.AspNetCore.Components.Authorization
 @using BlazorApp.Services
+@using BlazorApp.Entities
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
 @inject NavigationManager NavManager
-
-@using BlazorApp.Entities
 @inject ICourseService CourseService
 
 <PageTitle>Home</PageTitle>
@@ -14,19 +13,17 @@
 <AuthorizeView>
     <Authorized Context="context">
 
-        <!-- DEBUG: show current roles -->
-        <p>
-            Current roles:
-            @string.Join(", ", context.User.Claims
-                .Where(c => c.Type == "Role")
-                .Select(c => c.Value))
-        </p>
-
         <h2 class="fw-bolder text-secondary mb-5">Course Dashboard</h2>
 
-        @if (courses == null)
+        @if (courses == null || isLoading)
         {
-            <LoadingSpinner />
+            <div class="d-flex justify-content-center align-items-center" style="height:40vh;">
+                <LoadingSpinner />
+            </div>
+        }
+        else if (loadError)
+        {
+            <div class="alert alert-danger">Failed to load courses.</div>
         }
         else if (!courses.Any())
         {
@@ -49,11 +46,9 @@
                             <div class="card card-course h-100 text-center bg-white @GetBorderClass(course.Category ?? "")"
                                  style="--course-color: var(--game-gray);">
 
-                                <!-- EDIT ICON (teacher/admin only) -->
                                 @if (UserIsTeacherOrAdmin(context))
                                 {
                                     <button class="btn btn-light border position-absolute"
-
                                             style="top: 5px; right: 5px; border-radius: 5px;"
                                             @onclick:stopPropagation="true"
                                             @onclick="() => OpenEditModal(course)">
@@ -61,10 +56,8 @@
                                     </button>
                                 }
 
-                                <!-- Color strip -->
                                 <div class="w-100 @GetBgClass(course.Category ?? "")" style="height: 10px;"></div>
 
-                                <!-- CARD CLICK ONLY OPENS COURSE (NOT EDIT) -->
                                 <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1"
                                      @onclick="() => OpenCourse(course)">
 
@@ -89,7 +82,7 @@
             }
         }
 
-        <!-- MODAL for Editing -->
+        <!-- EDIT MODAL -->
         @if (isModalOpen)
         {
             <div class="modal fade show"
@@ -105,38 +98,50 @@
                         <div class="modal-body">
 
                             <div class="mb-3">
-                                <label class="form-label">Title</label>
+                                <label class="form-label fw-bold">Title</label>
                                 <input class="form-control"
                                        @bind="editModel.Title"
                                        @bind:event="oninput" />
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Description</label>
+                                <label class="form-label fw-bold">Description</label>
                                 <textarea class="form-control"
+                                          style="min-height:80px;"
                                           @bind="editModel.Description"
                                           @bind:event="oninput"></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Category</label>
+                                <label class="form-label fw-bold">Category</label>
                                 <input class="form-control"
                                        @bind="editModel.Category"
                                        @bind:event="oninput" />
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Language</label>
+                                <label class="form-label fw-bold">Language</label>
                                 <input class="form-control"
                                        @bind="editModel.Language"
                                        @bind:event="oninput" />
                             </div>
 
+                           
                         </div>
 
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
-                            <button class="btn btn-primary" @onclick="SaveChanges">Save</button>
+                            <button class="btn btn-secondary" @onclick="CloseModal">Close</button>
+
+                            <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")"
+                                    disabled="@(!IsDirty || isSaving)"
+                                    @onclick="SaveChanges">
+
+                                @if (isSaving)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                }
+                                Save Changes
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -153,11 +158,35 @@
 @code {
     private List<Course> courses = new();
     private bool isModalOpen = false;
+    private bool isSaving = false;
+    private bool wasSavingError = false;
+    private bool loadError = false;
+    private bool isLoading = true;
+
     private Course editModel = new();
+    private Course originalModel = new();
+
+    private bool IsDirty =>
+        editModel != null && originalModel != null &&
+        (editModel.Title != originalModel.Title ||
+         editModel.Description != originalModel.Description ||
+         editModel.Category != originalModel.Category ||
+         editModel.Language != originalModel.Language);
 
     protected override async Task OnInitializedAsync()
     {
-        courses = await CourseService.GetCourses();
+        try
+        {
+            courses = await CourseService.GetCourses();
+        }
+        catch
+        {
+            loadError = true;
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
     private bool UserIsTeacherOrAdmin(AuthenticationState context)
@@ -176,6 +205,15 @@
 
     private void OpenEditModal(Course course)
     {
+        originalModel = new Course
+        {
+            Id = course.Id,
+            Title = course.Title,
+            Description = course.Description,
+            Category = course.Category,
+            Language = course.Language
+        };
+
         editModel = new Course
         {
             Id = course.Id,
@@ -185,6 +223,7 @@
             Language = course.Language
         };
 
+        wasSavingError = false;
         isModalOpen = true;
     }
 
@@ -192,22 +231,42 @@
 
     private async Task SaveChanges()
     {
+        if (!IsDirty) return;
+
+        isSaving = true;
+
         try
         {
             await CourseService.UpdateCourse(editModel.Id, editModel);
 
-            isModalOpen = false;
+            // Keep modal open (different from step editor)
+            wasSavingError = false;
 
+            // Update original model → disables save button
+            originalModel = new Course
+            {
+                Id = editModel.Id,
+                Title = editModel.Title,
+                Description = editModel.Description,
+                Category = editModel.Category,
+                Language = editModel.Language
+            };
+
+            // Refresh list in background
             courses = await CourseService.GetCourses();
             await InvokeAsync(StateHasChanged);
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine("Error updating course: " + ex.Message);
+            wasSavingError = true;
+        }
+        finally
+        {
+            isSaving = false;
         }
     }
 
-    // Styling helpers...
+    // UI Helper Methods
     private string GetBgClass(string category) => (category?.ToLower()) switch
     {
         "computer science" => "bg-blue-100",
