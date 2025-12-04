@@ -1,0 +1,64 @@
+@startuml EER
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+scale 1
+' ▶ ◀ ▲ ▼
+
+skinparam ranksep 120
+skinparam nodesep 120
+skinparam ArrowFontSize 9
+
+title Enhanced Entity-Relationship Diagram
+
+together {
+    class User
+    class Role
+}
+
+class User
+{
+    id
+}
+
+together {
+    class Course
+    class CourseDraft
+    class LearningStep
+    class CourseCategory
+    class LearningStepType
+    class LearningStepContent
+}
+class Course {
+    id
+    language
+    title
+    description
+}
+class LearningStep {
+    id
+    content
+}
+class LearningStepType{
+    id
+    name
+}
+class CourseDraft
+{
+    language
+    title
+    description
+}
+class CourseCategory
+{
+    name
+    description
+}
+
+
+LearningStep "*" -- "1" Course : Belongs to
+LearningStepType "1" -- "*" LearningStep : Is of type
+Course "*" -- "1" CourseCategory : has 
+CourseDraft "1" -- "1" Course : versionOf
+
+User "*" -- "*" Role : has
+
+@enduml
