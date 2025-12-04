@@ -3,19 +3,16 @@ using Entities;
 using RepositoryContracts;
 using System.Linq;
 using via.sep3.dataserver.grpc;
+using User = Entities.User;
 
 namespace gRPCRepo;
 
-public class gRPCUserRepository : gRPCRepository<Entities.User, int>, ILeaderboardRepository
+public class gRPCUserRepository(string host, int port) : gRPCRepository<User, User, User, int>(host, port)
 {
-    public gRPCUserRepository(string host, int port) : base(host, port)
-    {
-    }
-
-    public override IQueryable<Entities.User> GetMany()
+    public override IQueryable<User> GetMany()
     {
         var resp = Client.GetUsers(new GetUsersRequest());
-        var users = resp.Users.Select(c => new Entities.User
+        var users = resp.Users.Select(c => new User
         {
             Id = c.Id,
             Username = c.Username,
@@ -43,7 +40,7 @@ public class gRPCUserRepository : gRPCRepository<Entities.User, int>, ILeaderboa
         };        
     }
 
-    public override Task UpdateAsync(Entities.User entity)
+    public override Task<Entities.User> UpdateAsync(Entities.User entity)
     {
         throw new NotImplementedException();
     }
@@ -62,19 +59,4 @@ public class gRPCUserRepository : gRPCRepository<Entities.User, int>, ILeaderboa
     {
         throw new NotImplementedException();
     }
-
-    public async Task<List<Entities.LeaderboardEntry>> GetTopPlayersAsync()
-    {
-        // 1. Call Java (gRPC)
-        var response = await Client.GetLeaderboardAsync(new Empty());
-
-        // 2. Map Proto -> C# Entity
-        return response.Entries.Select(e => new Entities.LeaderboardEntry
-        {
-            Username = e.Username,
-            TotalScore = e.TotalScore,
-            Rank = e.Rank
-        }).ToList();
-    }
-
 }

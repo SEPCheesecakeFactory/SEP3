@@ -6,7 +6,7 @@ using via.sep3.dataserver.grpc;
 
 namespace gRPCRepo;
 
-public abstract class gRPCRepository<T, ID> : IRepositoryID<T, ID> where T : class, IIdentifiable<ID>
+public abstract class gRPCRepository<T, TAdd, TUpdate, ID> : IRepositoryID<T, TAdd, TUpdate, ID> where T : class, IIdentifiable<ID>
 {
     public DataRetrievalService.DataRetrievalServiceClient Client { protected get; init; }
 
@@ -20,10 +20,16 @@ public abstract class gRPCRepository<T, ID> : IRepositoryID<T, ID> where T : cla
         Client = client;
     }
 
-    public abstract Task<T> AddAsync(T entity);
     public abstract Task ClearAsync();
     public abstract Task DeleteAsync(ID id);
     public abstract IQueryable<T> GetMany();
     public abstract Task<T> GetSingleAsync(ID id);
-    public abstract Task UpdateAsync(T entity);
+    public abstract Task<T> AddAsync(TAdd entity);
+    public abstract Task<T> UpdateAsync(TUpdate entity);
+}
+
+public abstract class gRPCRepository<T, ID> : gRPCRepository<T, T, T, ID> where T : class, IIdentifiable<ID>
+{
+    public gRPCRepository(string host, int port, bool useTls = false) : base(host, port, useTls) { }
+    public gRPCRepository(DataRetrievalService.DataRetrievalServiceClient client) : base(client) { }
 }

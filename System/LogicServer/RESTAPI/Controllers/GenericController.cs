@@ -1,80 +1,71 @@
-using Microsoft.AspNetCore.Http;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
 
-namespace RESTAPI.Controllers
+namespace RESTAPI.Controllers;
+
+public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<MainType, AddType, UpdateType, ID> repository) : ControllerBase where MainType : class
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class GenericController<MainType, ID>(IRepositoryID<MainType, ID> repository) : ControllerBase where MainType : class
+    protected readonly IRepositoryID<MainType, AddType, UpdateType, ID> _repository = repository;
+    protected virtual Func<string, ID> IdParser { get; } = idStr => (ID)Convert.ChangeType(idStr, typeof(ID));
+
+    protected IActionResult GetStatus()
     {
-        private readonly IRepositoryID<MainType, ID> _repository = repository;
-        protected virtual Func<string, ID> IdParser { get; } = idStr => (ID)Convert.ChangeType(idStr, typeof(ID));
+        _repository.GetMany(); // Dummy call to avoid unused field warning
+        return Ok(new { status = $"Service is running" });
+    }
 
-        [HttpGet("status")]
-        public IActionResult GetStatus()
+    protected async Task<ActionResult<MainType>> GetSingleAsync(string id)
+    {
+        ID parsedId = IdParser(id);
+        try
         {
-            _repository.GetMany(); // Dummy call to avoid unused field warning
-            return Ok(new { status = $"Service is running" });
+            var entity = await _repository.GetSingleAsync(parsedId);
+            return Ok(entity);
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MainType>> GetSingleAsync(string id)
+        catch
         {
-            ID parsedId = IdParser(id);
-            try
-            {
-                var entity = await _repository.GetSingleAsync(parsedId);
-                return Ok(entity);
-            }
-            catch
-            {
-                return NotFound();
-            }
+            return NotFound();
         }
+    }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<MainType>> GetMany()
+    protected ActionResult<IEnumerable<MainType>> GetMany()
+    {
+        var entities = _repository.GetMany();
+        return Ok(entities);
+    }
+
+    protected async Task<ActionResult<MainType>> CreateAsync(AddType entity)
+    {
+        var createdEntity = await _repository.AddAsync(entity);
+        return CreatedAtAction(nameof(GetSingleAsync), new { id = createdEntity }, createdEntity);
+    }
+
+    protected async Task<IActionResult> UpdateAsync(string id, UpdateType entity)
+    {
+        ID parsedId = IdParser(id);
+        try
         {
-            var entities = _repository.GetMany();
-            return Ok(entities);
+            await _repository.UpdateAsync(entity);
+            return Ok(_repository.GetSingleAsync(parsedId).Result);
         }
-
-        [HttpPost]
-        public async Task<ActionResult<MainType>> CreateAsync([FromBody] MainType entity)
+        catch
         {
-            var createdEntity = await _repository.AddAsync(entity);
-            return CreatedAtAction(nameof(GetSingleAsync), new { id = createdEntity }, createdEntity);
+            return NotFound();
         }
+    }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(string id, [FromBody] MainType entity)
+    protected async Task<IActionResult> DeleteAsync(string id)
+    {
+        ID parsedId = IdParser(id);
+        try
         {
-            ID parsedId = IdParser(id);
-            try
-            {
-                await _repository.UpdateAsync(entity);
-                return Ok(_repository.GetSingleAsync(parsedId).Result);
-            }
-            catch
-            {
-                return NotFound();
-            }
+            await _repository.DeleteAsync(parsedId);
+            return NoContent();
         }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        catch
         {
-            ID parsedId = IdParser(id);
-            try
-            {
-                await _repository.DeleteAsync(parsedId);
-                return NoContent();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            return NotFound();
         }
     }
 }
