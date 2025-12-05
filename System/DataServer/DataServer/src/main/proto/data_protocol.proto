@@ -4,77 +4,51 @@ option csharp_namespace = "via.sep3.dataserver.grpc";
 option java_multiple_files = true;
 option java_package = "via.sep3.dataserver.grpc";
 
-service DataRetrievalService {
-  // users
+// ============================================================================
+//  SERVICES
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+//  User Service
+// ----------------------------------------------------------------------------
+service UserService {
   rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
   rpc AddUser(AddUserRequest) returns (AddUserResponse);
+}
 
-  // courses
+// ----------------------------------------------------------------------------
+//  Course Service
+// ----------------------------------------------------------------------------
+service CourseService {
+
   rpc GetCourses(GetCoursesRequest) returns (GetCoursesResponse);
   rpc AddCourse(AddCourseRequest) returns (AddCourseResponse);
-  rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
-  rpc UpdateCourse (UpdateCourseRequest) returns (UpdateCourseResponse);
-  
-  //drafts
-  rpc AddDraft(AddDraftRequest) returns (AddDraftResponse);
-  rpc GetDraft(GetDraftRequest) returns (GetDraftResponse);
-  rpc UpdateDraft(UpdateDraftRequest) returns (UpdateDraftResponse);
+  rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
 
+  rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
+  rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
+  rpc UpdateLearningStep(UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
+}
+
+// ----------------------------------------------------------------------------
+//  Progress Service
+// ----------------------------------------------------------------------------
+service ProgressService {
   rpc GetCourseProgress(CourseProgressRequest) returns (CourseProgressResponse);
   rpc UpdateCourseProgress(CourseProgressUpdate) returns (Empty);
-  rpc UpdateLearningStep(UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
-  rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
-
-  // leaderboard
   rpc GetLeaderboard(Empty) returns (GetLeaderboardResponse);
-  rpc GetDrafts(GetDraftsRequest) returns (GetDraftsResponse);
 }
 
-// --- Courses ---
+// ============================================================================
+//  MESSAGES
+// ============================================================================
 
-message UpdateCourseRequest {
-  Course course = 1;
-}
+// --- Shared ---
+message Empty {}
 
-message UpdateCourseResponse {
-  Course course = 1;
-}
-message GetCoursesRequest {
-  int32 user_id = 1; 
-}
-
-message GetCoursesResponse {
-  repeated Course courses = 1;
-}
-
-message Course {
-  int32 id = 1;
-  string title = 2;
-  string description = 3;
-  string language = 4;
-  string category = 5;
-  int32 total_steps = 6;
-}
-
-message AddCourseRequest {
-  string title = 1;
-  string description = 2;
-  string language = 3;
-  string category = 4;
-}
-
-message AddCourseResponse {
-  Course course = 1;
-}
-
-// --- Users ---
-
-message GetUsersRequest {
-}
-
-message GetUsersResponse {
-  repeated User users = 1;
-}
+// ----------------------------------------------------------------------------
+//  Domain: Users
+// ----------------------------------------------------------------------------
 
 message User {
   int32 id = 1;
@@ -87,6 +61,12 @@ message Role {
   string role = 1;
 }
 
+message GetUsersRequest {}
+
+message GetUsersResponse {
+  repeated User users = 1;
+}
+
 message AddUserRequest {
   string username = 1;
   string password = 2;
@@ -97,7 +77,60 @@ message AddUserResponse {
   User user = 1;
 }
 
-// --- Learning Steps ---
+
+// ----------------------------------------------------------------------------
+//  Domain: Courses
+// ----------------------------------------------------------------------------
+
+message Course {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string language = 4;
+  string category = 5;
+  int32 total_steps = 6;
+  int32 author_id = 7;// author
+  int32 approved_by = 8;// if 0, it is a draft. if > 0, it is pulished
+}
+
+message GetCoursesRequest {
+  int32 user_id = 1;
+}
+
+message GetCoursesResponse {
+  repeated Course courses = 1;
+}
+
+message AddCourseRequest {
+  string title = 1;
+  string description = 2;
+  string language = 3;
+  string category = 4;
+  int32 author_id = 5;
+}
+
+message AddCourseResponse {
+  Course course = 1;
+}
+
+message UpdateCourseRequest {
+  Course course = 1;
+}
+
+message UpdateCourseResponse {
+  Course course = 1;
+}
+
+// ----------------------------------------------------------------------------
+//  Domain: Learning Steps
+// ----------------------------------------------------------------------------
+
+message LearningStep {
+  int32 course_id = 1;
+  int32 step_order = 2;
+  string content = 3;
+  string type = 4;
+}
 
 message GetLearningStepRequest {
   int32 course_id = 1;
@@ -108,13 +141,6 @@ message GetLearningStepResponse {
   LearningStep learning_step = 1;
 }
 
-message LearningStep {
-  int32 course_id = 1;
-  int32 step_order = 2;
-  string content = 3;
-  string type = 4;
-}
-
 message AddLearningStepRequest {
   LearningStep learning_step = 1;
 }
@@ -123,33 +149,17 @@ message AddLearningStepResponse {
   LearningStep learning_step = 1;
 }
 
-//drafts
-message CourseDraft {
-  int32 id = 1;
-  string language = 2;
-  string title = 3;
-  string description = 4;
-  int32 teacher_id = 5;
-  int32 course_id = 6;
-  int32 approved_by = 7;
+message UpdateLearningStepRequest {
+  LearningStep learning_step = 1;
 }
 
-message AddDraftRequest {
-  string language = 1;
-  string title = 2;
-  string description = 3;
-  int32 teacher_id = 4;
-}
-message AddDraftResponse {
-  CourseDraft courseDraft = 1;
-}
-message GetDraftRequest {
-  int32 draftId = 1;
-}
-message GetDraftResponse {
-  CourseDraft courseDraft = 1;
+message UpdateLearningStepResponse {
+  LearningStep learning_step = 1;
 }
 
+// ----------------------------------------------------------------------------
+//  Domain: Progress & Leaderboard
+// ----------------------------------------------------------------------------
 
 message CourseProgressRequest {
   int32 user_id = 1;
@@ -166,35 +176,12 @@ message CourseProgressUpdate {
   int32 current_step = 3;
 }
 
-message Empty {}
-message UpdateLearningStepRequest {
-  LearningStep learning_step = 1;
-}
-
-message UpdateLearningStepResponse {
-  LearningStep learning_step = 1;
-}
-
-// Single row in the leaderboard
 message LeaderboardEntry {
   string username = 1;
   int32 total_score = 2;
-  int32 rank = 3;// We will calculate this 1st, 2nd, 3rd logic in Java
+  int32 rank = 3;
 }
 
-// List of winners
 message GetLeaderboardResponse {
   repeated LeaderboardEntry entries = 1;
-}
-message UpdateDraftRequest {
-  CourseDraft courseDraft = 1;
-}
-message UpdateDraftResponse {
-  CourseDraft courseDraft = 1;
-}
-
-message GetDraftsRequest {}
-
-message GetDraftsResponse {
-  repeated CourseDraft drafts = 1;
 }
