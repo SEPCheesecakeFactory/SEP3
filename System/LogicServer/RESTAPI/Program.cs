@@ -42,8 +42,6 @@ builder.Services.AddScoped<IRepositoryID<User, User, User, int>>(sp => new gRPCU
 builder.Services.AddScoped<IAuthService, SecureAuthService>();
 builder.Services.AddScoped<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>(sp =>
     new gRPCLearningStepRepository(host, port));
-builder.Services.AddScoped<IRepositoryID<Draft, CreateDraftDto, Draft, int>>(sp => new gRPCDraftRepository(host, port));
-builder.Services.AddScoped<ICourseRepository>(sp => new gRPCCourseRepository(host, port));
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
     options.MapInboundClaims = false;

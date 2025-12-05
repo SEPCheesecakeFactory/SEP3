@@ -8,4 +8,6 @@ public class Course : IIdentifiable<int>
     public string? Description { get; set; }
     public string? Category { get; set; }
     public int TotalSteps { get; set; }
+    public int? AuthorId{set;get;}
+    public int? ApprovedBy{set;get;}
 }

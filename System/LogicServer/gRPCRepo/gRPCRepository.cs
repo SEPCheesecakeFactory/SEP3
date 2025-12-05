@@ -8,16 +8,22 @@ namespace gRPCRepo;
 
 public abstract class gRPCRepository<T, TAdd, TUpdate, ID> : IRepositoryID<T, TAdd, TUpdate, ID> where T : class, IIdentifiable<ID>
 {
-    public DataRetrievalService.DataRetrievalServiceClient Client { protected get; init; }
+    public UserService.UserServiceClient UserServiceClient { protected get; init; }
+    public CourseService.CourseServiceClient CourseServiceClient { protected get; init; }
+    public ProgressService.ProgressServiceClient ProgressServiceClient { protected get; init; }
 
     public gRPCRepository(string host, int port, bool useTls = false)
     {
         var channel = GrpcChannel.ForAddress($"http{(useTls ? "s" : "")}://{host}:{port}");
-        Client = new DataRetrievalService.DataRetrievalServiceClient(channel);
+        UserServiceClient = new UserService.UserServiceClient(channel);
+        CourseServiceClient = new CourseService.CourseServiceClient(channel);
+        ProgressServiceClient = new ProgressService.ProgressServiceClient(channel);
     }
-    public gRPCRepository(DataRetrievalService.DataRetrievalServiceClient client)
+    public gRPCRepository(UserService.UserServiceClient UserServiceClient, CourseService.CourseServiceClient CourseServiceClient, ProgressService.ProgressServiceClient ProgressServiceClient)
     {
-        Client = client;
+        this.UserServiceClient = UserServiceClient;
+        this.CourseServiceClient=CourseServiceClient;
+        this.ProgressServiceClient = ProgressServiceClient;
     }
 
     public abstract Task ClearAsync();
@@ -31,5 +37,9 @@ public abstract class gRPCRepository<T, TAdd, TUpdate, ID> : IRepositoryID<T, TA
 public abstract class gRPCRepository<T, ID> : gRPCRepository<T, T, T, ID> where T : class, IIdentifiable<ID>
 {
     public gRPCRepository(string host, int port, bool useTls = false) : base(host, port, useTls) { }
-    public gRPCRepository(DataRetrievalService.DataRetrievalServiceClient client) : base(client) { }
+    // public gRPCRepository(DataRetrievalService.DataRetrievalServiceClient client) : base(client) { }
+     public gRPCRepository(UserService.UserServiceClient UserServiceClient, CourseService.CourseServiceClient CourseServiceClient, ProgressService.ProgressServiceClient ProgressServiceClient) : base(UserServiceClient, CourseServiceClient, ProgressServiceClient)
+    {
+        
+    }
 }
