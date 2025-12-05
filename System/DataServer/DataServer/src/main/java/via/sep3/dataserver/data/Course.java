@@ -1,17 +1,11 @@
 package via.sep3.dataserver.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import via.sep3.dataserver.grpc.User;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "course", schema = "learn_db")
 public class Course {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -21,27 +15,21 @@ public class Course {
   private Language language;
 
   private String title;
+
+  @Column(length = 1000)
   private String description;
 
   @ManyToOne
   @JoinColumn(name = "category")
   private CourseCategory category;
 
-  public Language getLanguage() {
-    return language;
-  }
+  @ManyToOne
+  @JoinColumn(name = "author_id", nullable = false)
+  private SystemUser author;
 
-  public void setLanguage(Language language) {
-    this.language = language;
-  }
-
-  public CourseCategory getCategory() {
-    return category;
-  }
-
-  public void setCategory(CourseCategory category) {
-    this.category = category;
-  }
+  @ManyToOne
+  @JoinColumn(name = "approved_by", nullable = true)
+  private SystemUser approvedBy;
 
   public Integer getId() {
     return id;
@@ -49,6 +37,14 @@ public class Course {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public Language getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(Language language) {
+    this.language = language;
   }
 
   public String getTitle() {
@@ -65,5 +61,29 @@ public class Course {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public CourseCategory getCategory() {
+    return category;
+  }
+
+  public void setCategory(CourseCategory category) {
+    this.category = category;
+  }
+
+  public SystemUser getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(SystemUser author) {
+    this.author = author;
+  }
+
+  public SystemUser getApprovedBy() {
+    return approvedBy;
+  }
+
+  public void setApprovedBy(SystemUser approvedBy) {
+    this.approvedBy = approvedBy;
   }
 }
