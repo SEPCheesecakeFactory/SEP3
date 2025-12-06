@@ -8,7 +8,8 @@ public class Optional<T>
     public bool HasError { get; }
     public string? ErrorMessage { get; }
 
-    // --- Constructors ---
+    public bool IsSuccess => HasValue && !HasError;
+    public bool IsFailure => HasError;
 
     private Optional(T value)
     {
@@ -29,8 +30,6 @@ public class Optional<T>
         HasValue = false;
         HasError = false;
     }
-
-    // --- Factory Methods ---
 
     public static Optional<T> Success(T value) => new Optional<T>(value);
 
