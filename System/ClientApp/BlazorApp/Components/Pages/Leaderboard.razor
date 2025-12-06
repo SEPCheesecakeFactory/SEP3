@@ -2,6 +2,7 @@
 @using BlazorApp.Entities
 @using BlazorApp.Services
 @inject ICourseService CourseService
+@inject NavigationManager NavManager
 
 <PageTitle>Leaderboard</PageTitle>
 
@@ -76,16 +77,26 @@
     private List<LeaderboardEntry>? entries;
 
     protected override async Task OnInitializedAsync()
+{
+    try
     {
-        try 
+        var result = await CourseService.GetLeaderboardAsync();
+
+        if (result.HasError)
         {
-            entries = await CourseService.GetLeaderboardAsync();
+            NavManager.NavigateTo("/no-connection");
+            return;
         }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Error loading leaderboard: {ex.Message}");
-        }
+
+        entries = result.Value ?? new List<LeaderboardEntry>();
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error loading leaderboard: {ex.Message}");
+        entries = new List<LeaderboardEntry>();
+    }
+}
+
 
     // Helper to add a very subtle highlight to the top 3 rows
     private string GetRowClass(int rank)

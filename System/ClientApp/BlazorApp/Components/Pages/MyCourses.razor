@@ -107,44 +107,66 @@
     private bool loadError = false;
     private bool isLoading = true;
 
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+   protected override async Task OnInitializedAsync()
+{
+    var authState = await AuthProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+    var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
 
-        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+    if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+    {
+        currentUserId = uid;
+    }
+
+    try
+    {
+        var result = await CourseService.GetCourses(currentUserId);
+
+        if (!result.IsSuccess)
         {
-            currentUserId = uid;
+            if (result.ErrorMessage?.Contains("connection", StringComparison.OrdinalIgnoreCase) == true ||
+                result.ErrorMessage?.Contains("refused", StringComparison.OrdinalIgnoreCase) == true ||
+                result.ErrorMessage?.Contains("unreachable", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                NavManager.NavigateTo("/no-connection");
+                return;
+            }
+
+            loadError = true;
+            return;
         }
 
-        try
-        {
-            // Get courses for this user
-            courses = await CourseService.GetCourses(currentUserId);
+        courses = result.Value ?? new List<Course>();
 
-            // Fetch progress for each course when logged in
-            if (currentUserId > 0 && courses.Any())
+        // --- FETCH COURSE PROGRESS ---
+        if (currentUserId > 0 && courses.Any())
+        {
+            foreach (var course in courses)
             {
-                foreach (var course in courses)
+                var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+
+                if (!progressResult.IsSuccess)
                 {
-                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
-                    if (courseProgressMap.ContainsKey(course.Id))
-                        courseProgressMap[course.Id] = step;
-                    else
-                        courseProgressMap.Add(course.Id, step);
+                    // Progress failures should NOT break the page
+                    courseProgressMap[course.Id] = 1;
+                }
+                else
+                {
+                    courseProgressMap[course.Id] = progressResult.Value;
                 }
             }
         }
-        catch
-        {
-            loadError = true;
-        }
-        finally
-        {
-            isLoading = false;
-        }
     }
+    catch
+    {
+        loadError = true;
+    }
+    finally
+    {
+        isLoading = false;
+    }
+}
+
 
     private int GetSavedStep(int courseId)
     {

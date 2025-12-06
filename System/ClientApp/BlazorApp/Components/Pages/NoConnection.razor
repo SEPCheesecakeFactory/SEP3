@@ -1,0 +1,49 @@
+@page "/no-connection"
+@layout MainLayout
+@inject NavigationManager NavManager
+
+
+<PageTitle>No Connection</PageTitle>
+
+<div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+    <div class="card p-5 shadow-lg text-center" 
+         style="max-width: 480px; width: 100%; border-radius: 20px;">
+
+        <div class="mb-4">
+            <i class="fas fa-wifi-slash fa-4x text-danger"></i>
+        </div>
+
+        <h3 class="fw-bolder text-danger mb-3">
+            No Connection
+        </h3>
+
+        <p class="text-muted mb-4" style="font-size: 1.1rem;">
+            We couldn't connect to the server.<br />
+            Please check your internet connection or try again later.
+        </p>
+
+        <button class="btn btn-primary px-4 py-2" @onclick="ReloadPage">
+            <i class="fas fa-sync-alt me-2"></i> Retry
+        </button>
+
+        <div class="mt-4">
+            <button class="btn btn-outline-secondary" @onclick="GoHome">
+                <i class="fas fa-home me-2"></i> Back to Home
+            </button>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    private void ReloadPage()
+{
+    NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+}
+
+private void GoHome()
+{
+    NavManager.NavigateTo("/");
+}
+
+}

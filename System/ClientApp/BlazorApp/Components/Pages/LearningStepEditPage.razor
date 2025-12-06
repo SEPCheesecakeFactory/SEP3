@@ -123,35 +123,53 @@
     currentStep.Content != originalState.Content);
 
     protected override async Task OnParametersSetAsync()
+{
+    isLoading = true;
+    wasError = false;
+
+    try
     {
-        isLoading = true;
-        wasError = false;
-
-        try
+        var resultCourses = await CourseService.GetCourses();
+        if (resultCourses.HasError)
         {
-            // Get total steps for the course
-            var allCourses = await CourseService.GetCourses();
-            var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
-            if (thisCourse != null && thisCourse.TotalSteps > 0)
-            {
-                totalSteps = thisCourse.TotalSteps;
-            }
-
-            var fetched = await StepService.GetLearningStepAsync(CourseId, StepOrder);
-
-            originalState = fetched.DeepCopy();
-
-            currentStep = fetched.DeepCopy();
+            NavManager.NavigateTo("/no-connection");
+            return;
         }
-        catch
+
+        var allCourses = resultCourses.Value ?? new List<Course>();
+        var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
+
+        if (thisCourse != null && thisCourse.TotalSteps > 0)
+            totalSteps = thisCourse.TotalSteps;
+
+        var resultStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+
+        if (resultStep.HasError)
+        {
+            NavManager.NavigateTo("/no-connection");
+            return;
+        }
+
+        var fetched = resultStep.Value;
+        if (fetched == null)
         {
             wasError = true;
+            return;
         }
-        finally
-        {
-            isLoading = false;
-        }
+
+        originalState = fetched.DeepCopy();
+        currentStep = fetched.DeepCopy();
     }
+    catch
+    {
+        wasError = true;
+    }
+    finally
+    {
+        isLoading = false;
+    }
+}
+
 
     private void GoPrevious()
     {
@@ -167,68 +185,85 @@
     }
 
     private async Task Save()
+{
+    if (!IsDirty || currentStep == null) return;
+
+    isSaving = true;
+    try
     {
-        if (!IsDirty || currentStep == null) return;
+        var result = await StepService.UpdateLearningStepAsync(currentStep);
 
-        isSaving = true;
-        try
+        if (result.HasError)
         {
-            await UploadEdit(CourseId, StepOrder, currentStep);
-
-            // Re-sync original state to new saved state to disable button
-            originalState = currentStep.DeepCopy();
-            wasSavingError = false;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error saving: {ex.Message}");
+            NavManager.NavigateTo("/no-connection");
             wasSavingError = true;
+            return;
         }
-        finally
-        {
-            isSaving = false;
-        }
-    }
 
+        originalState = currentStep.DeepCopy();
+        wasSavingError = false;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error saving: {ex.Message}");
+        wasSavingError = true;
+    }
+    finally
+    {
+        isSaving = false;
+    }
+}
+
+
+    /*
     private async Task UploadEdit(int courseId, int stepOrder, LearningStep editedStep)
     {
         await StepService.UpdateLearningStepAsync(editedStep);
     }
+    */
 
     private async Task AddNewStep()
+{
+    isCreatingStep = true;
+    wasCreateError = false;
+    createErrorMessage = null;
+    StateHasChanged();
+
+    try
     {
-        isCreatingStep = true;
-        wasCreateError = false;
-        createErrorMessage = null;
-        StateHasChanged();
-
-        try
+        var newStep = new LearningStep
         {
-            var newStep = new LearningStep
-            {
-                CourseId = CourseId,
-                StepOrder = totalSteps + 1,
-                Type = "Text",
-                Content = "Work in progress - edit this step to add content."
-            };
+            CourseId = CourseId,
+            StepOrder = totalSteps + 1,
+            Type = "Text",
+            Content = "Work in progress - edit this step to add content."
+        };
 
-            await StepService.CreateLearningStepAsync(newStep);
-            
-            // Update local totalSteps and navigate to edit the new step
-            totalSteps++;
-            NavManager.NavigateTo($"/courses/{CourseId}/steps/{newStep.StepOrder}/edit");
-        }
-        catch (Exception ex)
+        var result = await StepService.CreateLearningStepAsync(newStep);
+
+        if (result.HasError)
         {
-            Console.WriteLine($"Error creating new step: {ex.Message}");
+            NavManager.NavigateTo("/no-connection");
             wasCreateError = true;
-            createErrorMessage = ex.Message;
+            createErrorMessage = result.ErrorMessage;
+            return;
         }
-        finally
-        {
-            isCreatingStep = false;
-        }
+
+        totalSteps++;
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{newStep.StepOrder}/edit");
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error creating new step: {ex.Message}");
+        wasCreateError = true;
+        createErrorMessage = ex.Message;
+    }
+    finally
+    {
+        isCreatingStep = false;
+    }
+}
+
 
     private void BackToPreview()
     {
