@@ -1,9 +1,15 @@
 using BlazorApp.Entities;
+using BlazorApp.Shared;
+
 namespace BlazorApp.Services;
 
 public interface ILearningStepService
 {
-    Task<LearningStep> GetLearningStepAsync(int courseId, int stepOrder);
-    Task<LearningStep> UpdateLearningStepAsync(LearningStep updatedStep);
-    Task<LearningStep> CreateLearningStepAsync(LearningStep newStep);
+    // GET LEARNING STEP
+    Task<Optional<LearningStep>> GetLearningStepAsync(int courseId, int stepOrder);
+
+    // UPDATE LEARNING STEP
+    Task<Optional<LearningStep>> UpdateLearningStepAsync(LearningStep updatedStep);
+    // CREATE LEARNING STEP
+    Task<Optional<LearningStep>> CreateLearningStepAsync(LearningStep newStep);
 }

@@ -83,46 +83,61 @@
     private string errorMessage = "";
 
     private async Task Create()
-    {
-        isSaving = true;
-        errorMessage = "";
-        try
-        {
-            var authState = await AuthProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            
-           
-            var roleClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
-            
-            if (roleClaim != null && AuthUtils.ConvertFromClaim(roleClaim.Value).Contains("teacher"))
-            {
-                var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
-                if (idClaim != null && int.TryParse(idClaim.Value, out int tid))
-                {
-                    draft.TeacherId = tid;
-                }
-                else
-                {
-                    errorMessage = "Could not find user ID.";
-                    isSaving = false;
-                    return;
-                }
+{
+    isSaving = true;
+    errorMessage = "";
 
-                await CourseService.CreateDraft(draft);
-                NavManager.NavigateTo("/");
+    try
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        var roleClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
+
+        if (roleClaim != null && AuthUtils.ConvertFromClaim(roleClaim.Value).Contains("teacher"))
+        {
+            var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+            if (idClaim != null && int.TryParse(idClaim.Value, out int tid))
+            {
+                draft.TeacherId = tid;
             }
             else
             {
-                errorMessage = "You must be a teacher to create a draft.";
+                errorMessage = "Could not find user ID.";
+                isSaving = false;
+                return;
             }
+
+            var result = await CourseService.CreateDraft(draft);
+
+            if (result.HasError)
+            {
+                if (result.ErrorMessage?.Contains("connection", StringComparison.OrdinalIgnoreCase) == true ||
+                    result.ErrorMessage?.Contains("Failed", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    NavManager.NavigateTo("/no-connection");
+                    return;
+                }
+
+                errorMessage = result.ErrorMessage ?? "Error creating draft.";
+                return;
+            }
+
+            NavManager.NavigateTo("/");
         }
-        catch (Exception ex)
+        else
         {
-            errorMessage = ex.Message;
-        }
-        finally
-        {
-            isSaving = false;
+            errorMessage = "You must be a teacher to create a draft.";
         }
     }
+    catch (Exception ex)
+    {
+        errorMessage = ex.Message;
+    }
+    finally
+    {
+        isSaving = false;
+    }
+}
+
 }

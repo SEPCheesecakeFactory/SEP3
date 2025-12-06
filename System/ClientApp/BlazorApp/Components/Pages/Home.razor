@@ -210,42 +210,63 @@
     editModel.Language != originalModel.Language);
 
     protected override async Task OnInitializedAsync()
+{
+    var authState = await AuthProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+    var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+
+    if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
     {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+        currentUserId = uid;
+    }
+
+    try
+    {
         
-        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+        var result = await CourseService.GetCourses();
+
+        if (result.HasError)
         {
-            currentUserId = uid;
+            // Handle no-connection here
+            NavManager.NavigateTo("/no-connection");
+            return;
         }
-        
-        try
+
+        courses = result.Value ?? new List<Course>();
+
+        // Fetch progress
+        if (currentUserId > 0 && courses.Any())
         {
-            courses = await CourseService.GetCourses();
-            
-            // Fetch progress for each course when logged in
-            if (currentUserId > 0 && courses.Any())
-            {
-                foreach (var course in courses)
-                {
-                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
-                    if (courseProgressMap.ContainsKey(course.Id))
-                        courseProgressMap[course.Id] = step;
-                    else
-                        courseProgressMap.Add(course.Id, step);
-                }
-            }
-        }
-        catch
-        {
-            loadError = true;
-        }
-        finally
-        {
-            isLoading = false;
+            foreach (var course in courses)
+{
+    var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+
+    if (progressResult.HasError)
+    {
+        NavManager.NavigateTo("/no-connection");
+        return;
+    }
+
+    int step = progressResult.HasValue ? progressResult.Value : 1;
+
+    if (courseProgressMap.ContainsKey(course.Id))
+        courseProgressMap[course.Id] = step;
+    else
+        courseProgressMap.Add(course.Id, step);
+}
+
         }
     }
+    catch
+    {
+        loadError = true;
+    }
+    finally
+    {
+        isLoading = false;
+    }
+}
+
 
     private bool UserIsTeacherOrAdmin(AuthenticationState context)
     {
@@ -295,39 +316,55 @@
     private void CloseModal() => isModalOpen = false;
 
     private async Task SaveChanges()
+{
+    if (!IsDirty) return;
+
+    isSaving = true;
+
+    try
     {
-        if (!IsDirty) return;
+        var result = await CourseService.UpdateCourse(editModel.Id, editModel);
 
-        isSaving = true;
-
-        try
-        {
-            await CourseService.UpdateCourse(editModel.Id, editModel);
-
-            // Keep modal open (different from step editor)
-            wasSavingError = false;
-
-            // Update original model → disables save button
-            originalModel = new Course
-            {
-                Id = editModel.Id,
-                Title = editModel.Title,
-                Description = editModel.Description,
-                Category = editModel.Category,
-                Language = editModel.Language
-            };
-
-            // Refresh list in background
-            courses = await CourseService.GetCourses();
-            await InvokeAsync(StateHasChanged);
-        }
-        catch
+        if (result.HasError)
         {
             wasSavingError = true;
+
+            if (result.ErrorMessage?.Contains("Failed") == false)
+                NavManager.NavigateTo("/no-connection");
+
+            return;
         }
-        finally
+
+        wasSavingError = false;
+
+        originalModel = new Course
         {
-            isSaving = false;
+            Id = editModel.Id,
+            Title = editModel.Title,
+            Description = editModel.Description,
+            Category = editModel.Category,
+            Language = editModel.Language
+        };
+
+        var resultCourses = await CourseService.GetCourses();
+
+        if (resultCourses.HasError)
+        {
+            NavManager.NavigateTo("/no-connection");
+            return;
         }
+
+        courses = resultCourses.Value ?? new List<Course>();
+        await InvokeAsync(StateHasChanged);
     }
+    catch
+    {
+        wasSavingError = true;
+    }
+    finally
+    {
+        isSaving = false;
+    }
+}
+
 }

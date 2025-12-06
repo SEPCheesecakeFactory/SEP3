@@ -7,6 +7,8 @@
 @inject NavigationManager NavManager
 @inject ICourseService CourseService
 @inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavManager
+
 
 <PageTitle>Learning Step @StepOrder</PageTitle>
 
@@ -135,66 +137,86 @@ else
     private bool CanContinue => !IsQuestion || (McCorrect || FillCorrect);
 
     protected override async Task OnParametersSetAsync()
+{
+    isLoading = true;
+    wasError = false;
+
+    try
     {
-        isLoading = true;
-        wasError = false;
-        try
+        // --- AUTHENTICATION HANDLING ---
+        if (AuthState != null)
         {
-            if (AuthState != null)
+            var authState = await AuthState;
+            var user = authState.User;
+            isAuthenticated = user.Identity?.IsAuthenticated ?? false;
+
+            if (isAuthenticated)
             {
-                var authState = await AuthState;
-                var user = authState.User;
-                isAuthenticated = user.Identity?.IsAuthenticated ?? false;
+                // get user ID
+                var idClaim = user.Claims.FirstOrDefault(c => c.Type == "id")
+                              ?? user.Claims.FirstOrDefault(c => c.Type == "Id");
 
-                if (isAuthenticated)
+                if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
                 {
-                    // search for ID
-                    var idClaim = user.Claims.FirstOrDefault(c => c.Type == "id");
-
-                    if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
-                    {
-                        currentUserId = uid;
-                    }
-                    else 
-                    {
-                        // fallback
-                        var subClaim = user.FindFirst("sub");
-                        if (subClaim != null && int.TryParse(subClaim.Value, out int subId))
-                        {
-                            currentUserId = subId;
-                        }
-                    }
+                    currentUserId = uid;
                 }
             }
-
-            // get current progress
-            if(currentUserId > 0)
-            {
-                savedProgress = await CourseService.GetCourseProgressAsync(currentUserId, CourseId);
-            }
-            
-            // get total steps
-            var allCourses = await CourseService.GetCourses();
-            var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
-            if(thisCourse != null && thisCourse.TotalSteps > 0)
-            {
-                totalSteps = thisCourse.TotalSteps;
-            }
-
-            currentStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
-            if (currentStep?.Content != null)
-            {
-                ParseQuestion(currentStep.Content);
-            }
-            isLoading = false;
         }
-        catch (Exception ex)
+
+        // --- LOAD PROGRESS ---
+        if (currentUserId > 0)
         {
-            Console.Error.WriteLine($"Error fetching step: {ex.Message}");
-            wasError = true;
-            isLoading = false;
+            var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, CourseId);
+
+            if (progressResult.HasError)
+            {
+                NavManager.NavigateTo("/no-connection");
+                return;
+            }
+
+            savedProgress = progressResult.HasValue ? progressResult.Value : 1;
+
         }
+
+        // --- LOAD COURSE INFO ---
+        var courseResult = await CourseService.GetCourses();
+
+        if (courseResult.HasError)
+        {
+            NavManager.NavigateTo("/no-connection");
+            return;
+        }
+
+        var allCourses = courseResult.Value ?? new List<Course>();
+        var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
+
+        if (thisCourse != null)
+            totalSteps = thisCourse.TotalSteps;
+
+        // --- LOAD LEARNING STEP ---
+        var stepResult = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+
+        if (stepResult.HasError)
+        {
+            NavManager.NavigateTo("/no-connection");
+            return;
+        }
+
+        currentStep = stepResult.Value;
+
+        if (currentStep?.Content != null)
+            ParseQuestion(currentStep.Content);
+
+        isLoading = false;
     }
+    catch (Exception ex)
+    {
+        Console.Error.WriteLine($"Error fetching step: {ex.Message}");
+        wasError = true;
+        isLoading = false;
+    }
+}
+
 
     private void ParseQuestion(string content)
     {
@@ -239,48 +261,60 @@ else
         }
     }
 
-    private async Task GoNext()
+private async Task GoNext()
+{
+    if (StepOrder >= totalSteps)
     {
-        if (StepOrder >= totalSteps)
-        {
-            await FinishCourse();
-            return;
-        }
-
-        if (currentUserId > 0)
-        {
-            if ((StepOrder + 1) > savedProgress)
-            {
-                await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, StepOrder + 1);
-            }
-        }
-        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
+        await FinishCourse();
+        return;
     }
 
-    private async Task FinishCourse()
+    if (currentUserId > 0)
     {
-        if (currentUserId > 0)
+        if ((StepOrder + 1) > savedProgress)
         {
-            try 
+            var updateResult = await CourseService.UpdateCourseProgressAsync(
+                currentUserId, CourseId, StepOrder + 1);
+
+            if (updateResult.HasError)
             {
-                int targetStep = totalSteps + 1;
-                Console.WriteLine($"FINISH COURSE CLICKED. Updating User: {currentUserId} Course: {CourseId} to Step: {targetStep}");
-                
-                // Save (Total + 1) to mark it as fully complete
-                await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, targetStep);
-                
-                Console.WriteLine("Update Success.");
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"Update FAILED: {ex.Message}");
+                NavManager.NavigateTo("/no-connection");
+                return;
             }
         }
-        
-        // a small delay to ensure the DB update happens before navigation
-        await Task.Delay(100); 
-        NavManager.NavigateTo("/"); 
     }
+
+    NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
+}
+
+
+private async Task FinishCourse()
+{
+    if (currentUserId > 0)
+    {
+        try
+        {
+            int targetStep = totalSteps + 1;
+
+            var result = await CourseService.UpdateCourseProgressAsync(
+                currentUserId, CourseId, targetStep);
+
+            if (result.HasError)
+            {
+                NavManager.NavigateTo("/no-connection");
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Finish update FAILED: {ex.Message}");
+        }
+    }
+
+    await Task.Delay(100);
+    NavManager.NavigateTo("/");
+}
+
 
     private string GetYouTubeEmbedUrl(string url)
     {

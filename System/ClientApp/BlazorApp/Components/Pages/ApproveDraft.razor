@@ -78,37 +78,63 @@
     private List<Draft> drafts;
 
     protected override async Task OnInitializedAsync()
+{
+    try
     {
-        try
+        
+        var result = await CourseService.GetDrafts();
+
+        if (result.HasError)
         {
-            var allDrafts = await CourseService.GetDrafts();
-            drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
+            NavManager.NavigateTo("/no-connection");
+            return;
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            drafts = new List<Draft>();
-        }
+
+        var allDrafts = result.Value ?? new List<Draft>();
+        drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        drafts = new List<Draft>();
+    }
+}
+
 
     private async Task Approve(int draftId)
+{
+    try
     {
-        try
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+
+        if (idClaim != null && int.TryParse(idClaim.Value, out int adminId))
         {
-            var authState = await AuthProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
-            
-            if (idClaim != null && int.TryParse(idClaim.Value, out int adminId))
+            var approveResult = await CourseService.ApproveDraft(draftId, adminId);
+
+            if (approveResult.HasError)
             {
-                await CourseService.ApproveDraft(draftId, adminId);
-                var allDrafts = await CourseService.GetDrafts();
-                drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
+                NavManager.NavigateTo("/no-connection");
+                return;
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error approving draft: {ex.Message}");
+
+            var refreshResult = await CourseService.GetDrafts();
+
+            if (refreshResult.HasError)
+            {
+                NavManager.NavigateTo("/no-connection");
+                return;
+            }
+
+            var allDrafts = refreshResult.Value ?? new List<Draft>();
+            drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
         }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error approving draft: {ex.Message}");
+    }
+}
+
 }
