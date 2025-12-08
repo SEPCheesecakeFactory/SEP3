@@ -141,7 +141,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             };
 
             // Call Java
-            CourseProgressResponse response = await CourseServiceClient.GetCourseProgressAsync(request);
+            CourseProgressResponse response = await ProgressServiceClient.GetCourseProgressAsync(request);
 
             // Return Step
             return response.CurrentStep;
@@ -166,7 +166,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             };
 
             // Call Java (Wait for Empty response)
-            await CourseServiceClient.UpdateCourseProgressAsync(request);
+            await ProgressServiceClient.UpdateCourseProgressAsync(request);
         }
         catch (Exception e)
         {
