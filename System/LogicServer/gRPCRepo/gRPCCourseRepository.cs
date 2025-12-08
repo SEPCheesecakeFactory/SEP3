@@ -57,8 +57,8 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Description = response.Course.Description,
             Language = response.Course.Language,
             Category = response.Course.Category,
-            AuthorId = response.AuthorId,
-            ApprovedBy = response.ApprovedBy
+            AuthorId = response.Course.AuthorId,
+            ApprovedBy = response.Course.ApprovedBy
         };
     }
 
@@ -89,7 +89,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Category = response.Course.Category,
             AuthorId = response.Course.AuthorId,
             ApprovedBy = response.Course.ApprovedBy,
-            TotalSteps = response.TotalSteps
+            TotalSteps = response.Course.TotalSteps
 
         };
     }
@@ -119,7 +119,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Category = c.Category,
             AuthorId = c.AuthorId,
             ApprovedBy = c.ApprovedBy,
-            TotalSteps = response.TotalSteps
+            TotalSteps = c.TotalSteps
         };
     }
 
