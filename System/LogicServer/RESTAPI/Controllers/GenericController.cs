@@ -47,7 +47,7 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
         try
         {
             await _repository.UpdateAsync(entity);
-            return Ok(_repository.GetSingleAsync(parsedId).Result);
+            return Ok(await _repository.GetSingleAsync(parsedId));
         }
         catch
         {

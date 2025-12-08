@@ -28,7 +28,7 @@ public class CoursesController(ICourseRepository repository) : GenericController
     [HttpPut("{id}")]
     [Authorize("MustBeTeacher")]
     public async Task<ActionResult<Course>> HttpUpdateAsync(string id, [FromBody] Course entity) => await UpdateAsync(id, entity);
-    [HttpPut("{id:int}"), Authorize("MustBeAdmin")]
+    [HttpPut("/drafts/{id:int}"), Authorize("MustBeAdmin")]
     public async Task<ActionResult<Course>> ApproveDraft([FromBody] int approvedBy,[FromRoute] int id)
     {
         try
