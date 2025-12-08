@@ -46,8 +46,8 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
         ID parsedId = IdParser(id);
         try
         {
-            await _repository.UpdateAsync(entity);
-            return Ok(await _repository.GetSingleAsync(parsedId));
+            var updated = await _repository.UpdateAsync(entity);
+            return Ok(updated);
         }
         catch
         {

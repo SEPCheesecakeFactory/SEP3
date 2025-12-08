@@ -13,7 +13,9 @@ option java_package = "via.sep3.dataserver.grpc";
 // ----------------------------------------------------------------------------
 service UserService {
   rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+  rpc GetUser(GetUserRequest) returns (User);
   rpc AddUser(AddUserRequest) returns (AddUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (User);
 }
 
 // ----------------------------------------------------------------------------
@@ -67,6 +69,10 @@ message GetUsersResponse {
   repeated User users = 1;
 }
 
+message GetUserRequest {
+  int32 id = 1;
+}
+
 message AddUserRequest {
   string username = 1;
   string password = 2;
@@ -75,6 +81,13 @@ message AddUserRequest {
 
 message AddUserResponse {
   User user = 1;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string username = 2;
+  string password = 3;
+  repeated string roles = 4;
 }
 
 

@@ -59,7 +59,7 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
 
         IEnumerable<Claim> claims = ParseClaimsFromJwt(Jwt);
 
-        ClaimsIdentity identity = new(claims, "jwt");
+        ClaimsIdentity identity = new(claims, "jwt", "Username", "Role");
 
         ClaimsPrincipal principal = new(identity);
         return principal;
@@ -120,8 +120,26 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
     {
         string payload = jwt.Split('.')[1];
         byte[] jsonBytes = ParseBase64WithoutPadding(payload);
-        Dictionary<string, object>? keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes) ?? [];
-        return keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString()!));
+        Dictionary<string, object>? keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
+        
+        var claims = new List<Claim>();
+        if (keyValuePairs == null) return claims;
+
+        foreach (var kvp in keyValuePairs)
+        {
+            if (kvp.Value is JsonElement element && element.ValueKind == JsonValueKind.Array)
+            {
+                foreach (var item in element.EnumerateArray())
+                {
+                    claims.Add(new Claim(kvp.Key, item.ToString()));
+                }
+            }
+            else
+            {
+                claims.Add(new Claim(kvp.Key, kvp.Value.ToString()!));
+            }
+        }
+        return claims;
     }
 
     private static byte[] ParseBase64WithoutPadding(string base64)

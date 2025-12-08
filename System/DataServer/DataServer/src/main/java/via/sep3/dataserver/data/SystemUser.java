@@ -19,7 +19,7 @@ public class SystemUser
   @Column(name = "password_hash")
   private String password_hash;
 
-  @OneToMany(mappedBy = "systemUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "systemUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<SystemUserRole> systemUserRoles = new ArrayList<>();
 
   public Integer getId()

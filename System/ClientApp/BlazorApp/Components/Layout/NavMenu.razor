@@ -28,6 +28,15 @@
                 <i class="fas fa-user"></i> Profile
             </NavLink>
         </div>
+        <AuthorizeView Roles="admin">
+            <Authorized>
+                <div class="nav-item">
+                    <NavLink class="btn nav-btn" href="admin-panel">
+                        <i class="fas fa-user-shield"></i> Admin Panel
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
     </nav>
     <div class="mt-auto px-2">
         <AuthorizeView>
