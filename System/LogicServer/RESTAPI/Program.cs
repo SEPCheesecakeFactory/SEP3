@@ -35,6 +35,7 @@ var port = 9090;
 builder.Services.AddScoped<ILeaderboardRepository>(sp => new gRPCLeaderBoardEntryRepository(host, port));
 builder.Services.AddScoped<IRepositoryID<Course, CreateCourseDto, Course, int>>(sp => new gRPCCourseRepository(host, port));
 builder.Services.AddScoped<ICourseRepository>(sp => new gRPCCourseRepository(host, port));
+builder.Services.AddScoped<ICourseCategoryRepository>(sp => new gRPCCourseCategoryRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();

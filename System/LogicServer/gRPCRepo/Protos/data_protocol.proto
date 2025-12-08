@@ -30,6 +30,9 @@ service CourseService {
   rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
   rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
   rpc UpdateLearningStep(UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
+
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc GetCategories(GetCategoriesRequest) returns (GetCategoriesResponse);
 }
 
 // ----------------------------------------------------------------------------
@@ -132,6 +135,27 @@ message UpdateCourseRequest {
 
 message UpdateCourseResponse {
   Course course = 1;
+}
+
+message CourseCategory {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CreateCategoryRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateCategoryResponse {
+  CourseCategory category = 1;
+}
+
+message GetCategoriesRequest {}
+
+message GetCategoriesResponse {
+  repeated CourseCategory categories = 1;
 }
 
 // ----------------------------------------------------------------------------

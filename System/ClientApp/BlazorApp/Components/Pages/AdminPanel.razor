@@ -9,6 +9,7 @@
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
 @inject IUserService UserService
+@inject ICourseService CourseService
 
 
 <div class="container-fluid p-4">
@@ -21,72 +22,146 @@
 
     <AuthorizeView Roles="admin">
         <Authorized>
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Registered Users</h5>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" @onclick="() => isCategoriesExpanded = !isCategoriesExpanded" style="cursor: pointer;">
+                    <h5 class="mb-0">Course Categories</h5>
+                    <i class="bi @(isCategoriesExpanded ? "bi-chevron-up" : "bi-chevron-down")"></i>
                 </div>
-                <div class="card-body">
-
-                    @if (isLoading)
-                    {
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    }
-                    else if (loadError)
-                    {
-                        <div class="alert alert-danger">
-                            Error loading users. Please try again later.
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="mb-3 row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Filter by Username" @bind="usernameFilter" @bind:event="oninput" />
-                            </div>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control" placeholder="Filter by ID" @bind="idFilter" @bind:event="oninput" />
+                @if (isCategoriesExpanded)
+                {
+                    <div class="card-body">
+                        <!-- Create Category Form -->
+                        <div class="mb-4 p-4 bg-light rounded border">
+                            <h6 class="fw-bold text-secondary text-uppercase mb-3" style="letter-spacing: 0.5px;">Create New Category</h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold text-muted text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">Name</label>
+                                    <input type="text" class="form-control" placeholder="Category Name" @bind="newCategoryName" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold text-muted text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">Description</label>
+                                    <input type="text" class="form-control" placeholder="Description" @bind="newCategoryDescription" />
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button class="btn btn-success w-100 fw-bold text-uppercase" style="letter-spacing: 1px;" @onclick="CreateCategory">Create</button>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="d-flex flex-column gap-3">
-                            @foreach (User user in FilteredUsers)
-                            {
-                                <div class="card shadow-sm cursor-pointer" @onclick="() => ToggleUser(user.Id)" style="cursor: pointer; transition: all 0.2s ease;">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <span class="fw-bold text-secondary text-uppercase" style="letter-spacing: 0.5px;">ID: @user.Id</span>
-                                                <span class="mx-2 text-muted">|</span>
-                                                <span class="fw-bolder text-dark">@user.Username</span>
-                                            </div>
-                                            <div>
-                                                <i class="bi @(expandedUserIds.Contains(user.Id) ? "bi-chevron-up" : "bi-chevron-down")"></i>
+                        <!-- Categories List -->
+                        @if (categories == null)
+                        {
+                            <div class="d-flex justify-content-center p-3">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        }
+                        else if (!categories.Any())
+                        {
+                            <div class="alert alert-info">No categories found.</div>
+                        }
+                        else
+                        {
+                            <div class="row g-3">
+                                @foreach (CourseCategory category in categories)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="card h-100 shadow-sm border-0 bg-white">
+                                            <div class="card-body">
+                                                <h6 class="fw-bold text-dark mb-2">@category.Name</h6>
+                                                <p class="text-muted small mb-0">@category.Descritpion</p>
                                             </div>
                                         </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
 
-                                        @if (expandedUserIds.Contains(user.Id))
-                                        {
-                                            <div class="mt-4 pt-3 border-top">
-                                                <div class="d-flex gap-2 justify-content-end">
-                                                    <button class="btn @(user.Roles.Any(r => r.RoleName == "teacher") ? "btn-danger" : "btn-outline-secondary") fw-bold text-uppercase" style="letter-spacing: 1px; font-size: 0.8rem;" @onclick:stopPropagation="true" @onclick="() => ToggleTeacherRole(user.Id)">
-                                                        @(user.Roles.Any(r => r.RoleName == "teacher") ? "Remove Teacher" : "Add Teacher")
-                                                    </button>
-                                                    <button class="btn @(user.Roles.Any(r => r.RoleName == "admin") ? "btn-danger" : "btn-primary") fw-bold text-uppercase" style="letter-spacing: 1px; font-size: 0.8rem;" @onclick:stopPropagation="true" @onclick="() => ToggleAdminRole(user.Id)">
-                                                        @(user.Roles.Any(r => r.RoleName == "admin") ? "Remove Admin" : "Add Admin")
-                                                    </button>
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" @onclick="() => isUsersExpanded = !isUsersExpanded" style="cursor: pointer;">
+                    <h5 class="mb-0">Registered Users</h5>
+                    <i class="bi @(isUsersExpanded ? "bi-chevron-up" : "bi-chevron-down")"></i>
+                </div>
+                @if (isUsersExpanded)
+                {
+                    <div class="card-body">
+
+                        @if (isLoading)
+                        {
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        }
+                        else if (loadError)
+                        {
+                            <div class="alert alert-danger">
+                                Error loading users. Please try again later.
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="Filter by Username"
+                                        @bind="usernameFilter" @bind:event="oninput" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control" placeholder="Filter by ID" @bind="idFilter"
+                                        @bind:event="oninput" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-column gap-3">
+                                @foreach (User user in FilteredUsers)
+                                {
+                                    <div class="card shadow-sm cursor-pointer" @onclick="() => ToggleUser(user.Id)"
+                                        style="cursor: pointer; transition: all 0.2s ease;">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span class="fw-bold text-secondary text-uppercase"
+                                                        style="letter-spacing: 0.5px;">ID: @user.Id</span>
+                                                    <span class="mx-2 text-muted">|</span>
+                                                    <span class="fw-bolder text-dark">@user.Username</span>
+                                                </div>
+                                                <div>
+                                                    <i
+                                                        class="bi @(expandedUserIds.Contains(user.Id) ? "bi-chevron-up" : "bi-chevron-down")"></i>
                                                 </div>
                                             </div>
-                                        }
+
+                                            @if (expandedUserIds.Contains(user.Id))
+                                            {
+                                                <div class="mt-4 pt-3 border-top">
+                                                    <div class="d-flex gap-2 justify-content-end">
+                                                        <button
+                                                            class="btn @(user.Roles.Any(r => r.RoleName == "teacher") ? "btn-danger" : "btn-outline-secondary") fw-bold text-uppercase"
+                                                            style="letter-spacing: 1px; font-size: 0.8rem;"
+                                                            @onclick:stopPropagation="true" @onclick="() => ToggleTeacherRole(user.Id)">
+                                                            @(user.Roles.Any(r => r.RoleName == "teacher") ? "Remove Teacher" : "Add Teacher")
+                                                        </button>
+                                                        <button
+                                                            class="btn @(user.Roles.Any(r => r.RoleName == "admin") ? "btn-danger" : "btn-primary") fw-bold text-uppercase"
+                                                            style="letter-spacing: 1px; font-size: 0.8rem;"
+                                                            @onclick:stopPropagation="true" @onclick="() => ToggleAdminRole(user.Id)">
+                                                            @(user.Roles.Any(r => r.RoleName == "admin") ? "Remove Admin" : "Add Admin")
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        </div>
-                    }
-                </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
             </div>
         </Authorized>
         <NotAuthorized>
@@ -99,6 +174,8 @@
 </div>
 
 @code {
+    private bool isCategoriesExpanded = false;
+    private bool isUsersExpanded = false;
     private int currentUserId = 0;
     private bool isLoading = true;
     private bool loadError = false;
@@ -106,10 +183,34 @@
     private HashSet<int> expandedUserIds = new HashSet<int>();
     private string usernameFilter = "";
     private int? idFilter;
+    private List<CourseCategory> categories = new List<CourseCategory>();
+    private string newCategoryName = "";
+    private string newCategoryDescription = "";
+
+    private async Task CreateCategory()
+    {
+        if (string.IsNullOrWhiteSpace(newCategoryName)) return;
+
+        try
+        {
+            await CourseService.CreateCategory(new CreateCourseCategoryDto 
+            { 
+                Name = newCategoryName, 
+                Descritpion = newCategoryDescription 
+            });
+            categories = await CourseService.GetCategories();
+            newCategoryName = "";
+            newCategoryDescription = "";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating category: {ex.Message}");
+        }
+    }
 
     private IEnumerable<User> FilteredUsers => users.Where(u =>
-        (string.IsNullOrEmpty(usernameFilter) || u.Username.Contains(usernameFilter, StringComparison.OrdinalIgnoreCase)) &&
-        (!idFilter.HasValue || u.Id == idFilter.Value)
+    (string.IsNullOrEmpty(usernameFilter) || u.Username.Contains(usernameFilter, StringComparison.OrdinalIgnoreCase)) &&
+    (!idFilter.HasValue || u.Id == idFilter.Value)
     );
 
     private void ToggleUser(int userId)
@@ -188,8 +289,7 @@
         try
         {
             users = await UserService.GetUsers();
-
-
+            categories = await CourseService.GetCategories();
         }
         catch
         {
@@ -200,5 +300,4 @@
             isLoading = false;
         }
     }
-    // Add your admin panel logic here
 }

@@ -2,6 +2,7 @@ using Entities;
 using RepositoryContracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using BlazorApp.Entities;
 
 namespace RESTAPI.Controllers;
 
@@ -52,5 +53,4 @@ public class CoursesController(ICourseRepository repository) : GenericController
             return StatusCode(500, e.Message);
         }
     }
-    
 }

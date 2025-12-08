@@ -94,4 +94,17 @@ public class HttpCourseService : ICourseService
         var result = await client.GetFromJsonAsync<List<LeaderboardEntry>>("Leaderboard");
         return result ?? new List<LeaderboardEntry>();
     }
+    public async Task CreateCategory(CreateCourseCategoryDto dto)
+    {
+        var response = await client.PostAsJsonAsync("categories", dto);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error creating category: {response.ReasonPhrase}");
+        }
+    }
+    public async Task<List<CourseCategory>> GetCategories()
+    {
+        var result = await client.GetFromJsonAsync<List<CourseCategory>>("categories");
+        return result ?? new List<CourseCategory>();
+    }
 }
