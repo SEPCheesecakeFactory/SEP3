@@ -74,13 +74,11 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         OnAuthStateChanged.Invoke(principal);
     }
 
-    public async Task RegisterAsync(string userName, string password, string passwordRepeat, bool isLearner, bool isTeacher)
+    public async Task RegisterAsync(string userName, string password, string passwordRepeat, bool isTeacher)
     {
         var roles = new List<BlazorApp.Entities.Role>();
-        if (isLearner)
-        {
-            roles.Add(new BlazorApp.Entities.Role { RoleName = "learner" });
-        }
+        roles.Add(new BlazorApp.Entities.Role { RoleName = "learner" });
+        
         if (isTeacher)
         {
             roles.Add(new BlazorApp.Entities.Role { RoleName = "teacher" });

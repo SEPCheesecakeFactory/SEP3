@@ -9,9 +9,6 @@ public static class AuthorizationPolicies
     {
         services.AddAuthorizationCore(options =>
         {
-            options.AddPolicy("MustBeLearner", a =>
-                a.RequireAuthenticatedUser().RequireClaim("Role", "learner"));
-
             options.AddPolicy("MustBeTeacher", a =>
                 a.RequireAuthenticatedUser().RequireClaim("Role", "teacher"));
 
