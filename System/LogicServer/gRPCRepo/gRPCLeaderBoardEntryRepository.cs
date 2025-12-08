@@ -36,7 +36,7 @@ public class gRPCLeaderBoardEntryRepository(string host, int port) : gRPCReposit
     public async Task<List<Entities.LeaderboardEntry>> GetTopPlayersAsync()
     {
         // 1. Call Java (gRPC)
-        var response = await Client.GetLeaderboardAsync(new Empty());
+        var response = await ProgressServiceClient.GetLeaderboardAsync(new Empty());
 
         // 2. Map Proto -> C# Entity
         return [.. response.Entries.Select(e => new Entities.LeaderboardEntry

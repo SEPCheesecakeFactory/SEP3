@@ -11,7 +11,7 @@ public class gRPCUserRepository(string host, int port) : gRPCRepository<User, Us
 {
     public override IQueryable<User> GetMany()
     {
-        var resp = Client.GetUsers(new GetUsersRequest());
+        var resp = UserServiceClient.GetUsers(new GetUsersRequest());
         var users = resp.Users.Select(c => new User
         {
             Id = c.Id,
@@ -31,7 +31,7 @@ public class gRPCUserRepository(string host, int port) : gRPCRepository<User, Us
             Password = entity.Password,
             Roles = { entity.Roles.Select(r => r.RoleName) }
         };
-        var response = await Client.AddUserAsync(request);
+        var response = await UserServiceClient.AddUserAsync(request);
         return new Entities.User{
             Id = response.User.Id, // fix takes now id returned by database
             Username = entity.Username,
