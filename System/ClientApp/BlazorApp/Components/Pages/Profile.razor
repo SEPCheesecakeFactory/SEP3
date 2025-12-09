@@ -31,21 +31,24 @@
                                 claim.Type.Equals("Username")).Value</h2>
 
             <div class="row justify-content-center g-4 mx-auto" style="max-width: 600px;">
-                @foreach (var claim in Utils.AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value))
-                                {
-                <div class="col-12">
-                    <div class="card border-2 rounded-4 p-3" style="border-color: var(--game-gray);">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="fw-bold text-secondary mb-1" style="letter-spacing: 0.5px;">
-                                    ROLE
-                                </h5>
-                                <p class="mb-0 text-dark" style="font-size: 1.1rem;">@claim</p>
+                @foreach (var claim in context.User.Claims.Where(c => c.Type == "Role"))
+                {
+                    @foreach (var role in Utils.AuthUtils.ConvertFromClaim(claim.Value))
+                    {
+                        <div class="col-12">
+                            <div class="card border-2 rounded-4 p-3" style="border-color: var(--game-gray);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="fw-bold text-secondary mb-1" style="letter-spacing: 0.5px;">
+                                            ROLE
+                                        </h5>
+                                        <p class="mb-0 text-dark" style="font-size: 1.1rem;">@role</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                                }
+                    }
+                }
             </div>
         </div>
     </Authorized>
