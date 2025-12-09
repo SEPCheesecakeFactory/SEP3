@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 @Table(name = "learningsteptype", schema = "learn_db")
 public class LearningStepType {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   private String name;

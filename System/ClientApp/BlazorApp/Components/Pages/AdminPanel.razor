@@ -141,16 +141,16 @@
                                                 <div class="mt-4 pt-3 border-top">
                                                     <div class="d-flex gap-2 justify-content-end">
                                                         <button
-                                                            class="btn @(user.Roles.Any(r => r.RoleName == "teacher") ? "btn-danger" : "btn-outline-secondary") fw-bold text-uppercase"
+                                                            class="btn @(user.IsTeacher() ? "btn-danger" : "btn-outline-secondary") fw-bold text-uppercase"
                                                             style="letter-spacing: 1px; font-size: 0.8rem;"
                                                             @onclick:stopPropagation="true" @onclick="() => ToggleTeacherRole(user.Id)">
-                                                            @(user.Roles.Any(r => r.RoleName == "teacher") ? "Remove Teacher" : "Add Teacher")
+                                                            @(user.IsTeacher() ? "Remove Teacher" : "Add Teacher")
                                                         </button>
                                                         <button
-                                                            class="btn @(user.Roles.Any(r => r.RoleName == "admin") ? "btn-danger" : "btn-primary") fw-bold text-uppercase"
+                                                            class="btn @(user.IsAdmin() ? "btn-danger" : "btn-primary") fw-bold text-uppercase"
                                                             style="letter-spacing: 1px; font-size: 0.8rem;"
                                                             @onclick:stopPropagation="true" @onclick="() => ToggleAdminRole(user.Id)">
-                                                            @(user.Roles.Any(r => r.RoleName == "admin") ? "Remove Admin" : "Add Admin")
+                                                            @(user.IsAdmin() ? "Remove Admin" : "Add Admin")
                                                         </button>
                                                     </div>
                                                 </div>

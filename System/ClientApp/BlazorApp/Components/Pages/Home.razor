@@ -17,7 +17,7 @@
 
         <h2 class="fw-bolder text-secondary mb-5">All Courses</h2>
 
-        @if (UserHasRole(context, "teacher"))
+        @if (context.User.IsTeacher())
         {
             <div class="d-flex justify-content-end mb-4">
                 <button class="btn btn-primary" @onclick='() => NavManager.NavigateTo("create-draft")'>
@@ -25,7 +25,7 @@
                 </button>
             </div>
         }
-        @if (UserHasRole(context, "admin"))
+        @if (context.User.IsAdmin())
         {
             <div class="d-flex justify-content-end mb-4">
                 <button class="btn btn-warning" @onclick='() => NavManager.NavigateTo("approve-draft")'>
@@ -64,7 +64,7 @@
                             <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(course.Category)"
                                 style="--course-color: var(--game-gray);">
 
-                                @if (UserIsTeacherOrAdmin(context))
+                                @if (context.User.IsTeacherOrAdmin())
                                 {
                                     <button class="btn btn-edit-card position-absolute"
                                         style="top: 8px; right: 8px;" @onclick:stopPropagation="true"
@@ -243,18 +243,6 @@
         {
             isLoading = false;
         }
-    }
-
-    private bool UserHasRole(AuthenticationState context, string role)
-    {
-        return context.User.Claims
-            .Where(c => c.Type == "Role")
-            .Any(c => Utils.AuthUtils.ConvertFromClaim(c.Value).Contains(role));
-    }
-
-    private bool UserIsTeacherOrAdmin(AuthenticationState context)
-    {
-        return UserHasRole(context, "teacher") || UserHasRole(context, "admin");
     }
 
     private int GetSavedStep(int courseId)
