@@ -17,8 +17,7 @@
 
         <h2 class="fw-bolder text-secondary mb-5">All Courses</h2>
 
-        @if (UserIsTeacherOrAdmin(context) && Utils.AuthUtils.ConvertFromClaim(context.User.Claims.First(c => c.Type ==
-                "Role").Value).Contains("teacher"))
+        @if (context.User.IsTeacher())
         {
             <div class="d-flex justify-content-end mb-4">
                 <button class="btn btn-primary" @onclick='() => NavManager.NavigateTo("create-draft")'>
@@ -26,8 +25,7 @@
                 </button>
             </div>
         }
-        @if (Utils.AuthUtils.ConvertFromClaim(context.User.Claims.FirstOrDefault(c => c.Type == "Role")?.Value ??
-                "").Contains("admin"))
+        @if (context.User.IsAdmin())
         {
             <div class="d-flex justify-content-end mb-4">
                 <button class="btn btn-warning" @onclick='() => NavManager.NavigateTo("approve-draft")'>
@@ -66,7 +64,7 @@
                             <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(course.Category)"
                                 style="--course-color: var(--game-gray);">
 
-                                @if (UserIsTeacherOrAdmin(context))
+                                @if (context.User.IsTeacherOrAdmin())
                                 {
                                     <button class="btn btn-edit-card position-absolute"
                                         style="top: 8px; right: 8px;" @onclick:stopPropagation="true"
@@ -245,15 +243,6 @@
         {
             isLoading = false;
         }
-    }
-
-    private bool UserIsTeacherOrAdmin(AuthenticationState context)
-    {
-        var claim = context.User.Claims.FirstOrDefault(c => c.Type == "Role");
-        if (claim is null) return false;
-
-        var roles = Utils.AuthUtils.ConvertFromClaim(claim.Value);
-        return roles.Contains("teacher") || roles.Contains("admin");
     }
 
     private int GetSavedStep(int courseId)

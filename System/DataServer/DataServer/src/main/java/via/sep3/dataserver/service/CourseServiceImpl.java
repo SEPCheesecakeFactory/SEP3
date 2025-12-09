@@ -36,6 +36,8 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
 
     @Autowired
     private SystemUserRepository userRepository;
+    @Autowired
+    private CourseCategoryRepository categoryRepository;
 
     @Override
     public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -287,6 +289,53 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
                 .setContent(step.getContent())
                 .setStepOrder(step.getId().getStepOrder())
                 .setType(step.getStepType().getName())
+                .build();
+    }
+
+    @Override
+    public void createCategory(CreateCategoryRequest request,
+            StreamObserver<CreateCategoryResponse> responseObserver) {
+        try {
+            CourseCategory category = new CourseCategory();
+            category.setName(request.getName());
+            category.setDescription(request.getDescription());
+
+            category = courseCategoryRepository.save(category);
+
+            CreateCategoryResponse response = CreateCategoryResponse.newBuilder()
+                    .setCategory(convertToGrpcCategory(category))
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getCategories(GetCategoriesRequest request,
+            StreamObserver<GetCategoriesResponse> responseObserver) {
+        try {
+            List<CourseCategory> categories = courseCategoryRepository.findAll();
+            GetCategoriesResponse.Builder responseBuilder = GetCategoriesResponse.newBuilder();
+
+            for (CourseCategory category : categories) {
+                responseBuilder.addCategories(convertToGrpcCategory(category));
+            }
+
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    private via.sep3.dataserver.grpc.CourseCategory convertToGrpcCategory(CourseCategory category) {
+        return via.sep3.dataserver.grpc.CourseCategory.newBuilder()
+                .setId(category.getId())
+                .setName(category.getName())
+                .setDescription(category.getDescription() != null ? category.getDescription() : "")
                 .build();
     }
 }

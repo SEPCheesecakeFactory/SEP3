@@ -13,7 +13,9 @@ option java_package = "via.sep3.dataserver.grpc";
 // ----------------------------------------------------------------------------
 service UserService {
   rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+  rpc GetUser(GetUserRequest) returns (User);
   rpc AddUser(AddUserRequest) returns (AddUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (User);
 }
 
 // ----------------------------------------------------------------------------
@@ -28,6 +30,9 @@ service CourseService {
   rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
   rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
   rpc UpdateLearningStep(UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
+
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc GetCategories(GetCategoriesRequest) returns (GetCategoriesResponse);
 }
 
 // ----------------------------------------------------------------------------
@@ -67,6 +72,10 @@ message GetUsersResponse {
   repeated User users = 1;
 }
 
+message GetUserRequest {
+  int32 id = 1;
+}
+
 message AddUserRequest {
   string username = 1;
   string password = 2;
@@ -75,6 +84,13 @@ message AddUserRequest {
 
 message AddUserResponse {
   User user = 1;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string username = 2;
+  string password = 3;
+  repeated string roles = 4;
 }
 
 
@@ -119,6 +135,27 @@ message UpdateCourseRequest {
 
 message UpdateCourseResponse {
   Course course = 1;
+}
+
+message CourseCategory {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CreateCategoryRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateCategoryResponse {
+  CourseCategory category = 1;
+}
+
+message GetCategoriesRequest {}
+
+message GetCategoriesResponse {
+  repeated CourseCategory categories = 1;
 }
 
 // ----------------------------------------------------------------------------

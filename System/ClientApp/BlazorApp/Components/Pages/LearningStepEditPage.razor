@@ -1,6 +1,7 @@
 ﻿@page "/courses/{CourseId:int}/steps/{StepOrder:int}/edit"
 @using BlazorApp.Services
 @using BlazorApp.Entities
+@using BlazorApp.Utils
 @using Microsoft.AspNetCore.Authorization
 @using System.Text.Json
 @using AuthorizeView = Microsoft.AspNetCore.Components.Authorization.AuthorizeView
@@ -13,7 +14,7 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (Utils.AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value).Contains("teacher"))
+        @if (context.User.IsTeacher())
         {
             <PageTitle>Edit Learning Step @StepOrder</PageTitle>
 

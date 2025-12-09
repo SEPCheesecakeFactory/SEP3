@@ -11,7 +11,7 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (context.User.Claims.Any(c => c.Type == "Role") && AuthUtils.ConvertFromClaim(context.User.Claims.First(c => c.Type == "Role").Value).Contains("admin"))
+        @if (context.User.IsAdmin())
         {
             <PageTitle>Approve Drafts</PageTitle>
 

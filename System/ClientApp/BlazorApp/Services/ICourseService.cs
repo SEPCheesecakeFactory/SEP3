@@ -16,4 +16,7 @@ public interface ICourseService
     Task<int> GetCourseProgressAsync(int userId, int courseId);
     Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep);
     Task<List<LeaderboardEntry>> GetLeaderboardAsync();
+    // categories
+    public Task CreateCategory(CreateCourseCategoryDto createCourseCategoryDto);
+    public Task<List<CourseCategory>> GetCategories(); 
 }
