@@ -11,7 +11,7 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value).Contains("teacher"))
+        @if (context.User.IsTeacher())
         {
             <PageTitle>Create Draft</PageTitle>
 
@@ -99,7 +99,7 @@
             var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
             if (idClaim != null && int.TryParse(idClaim.Value, out int tid))
             {
-                draft.TeacherId = tid;
+                draft.AuthorId = tid;
             }
             else
             {

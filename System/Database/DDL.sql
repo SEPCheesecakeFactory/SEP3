@@ -4,6 +4,7 @@ CREATE SCHEMA learn_db;
 
 SET SCHEMA 'learn_db';
 
+-- 1. Independent Tables
 CREATE TABLE Language (
     code VARCHAR(3) PRIMARY KEY,
     name VARCHAR(20) UNIQUE
@@ -13,14 +14,6 @@ CREATE TABLE CourseCategory (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     description VARCHAR(200)
-);
-
-CREATE TABLE Course (
-    id SERIAL PRIMARY KEY,
-    language VARCHAR(3) REFERENCES Language (code),
-    title VARCHAR(50),
-    description VARCHAR(300),
-    category INT REFERENCES CourseCategory (id)
 );
 
 CREATE TABLE SystemUser (
@@ -35,37 +28,52 @@ CREATE TABLE Role (
     )
 );
 
+CREATE TABLE LearningStepType (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+-- 2. Dependent Tables (Level 1)
+
 CREATE TABLE SystemUserRole (
     systemUserId int REFERENCES SystemUser (id),
     role varchar(7) REFERENCES Role (role),
     PRIMARY KEY (systemUserId, role)
 );
 
-CREATE TABLE LearningStepType (
+CREATE TABLE Course (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50)
+    language VARCHAR(3) REFERENCES Language (code),
+    title VARCHAR(50),
+    description VARCHAR(300),
+    category INT REFERENCES CourseCategory (id),
+    -- New fields per GR Diagram
+    author_id INT REFERENCES SystemUser (id),
+    approved_by INT REFERENCES SystemUser (id)
 );
+
+-- 3. Dependent Tables (Level 2)
 
 CREATE TABLE LearningStep (
     step_order INT,
     course_id INT REFERENCES Course (id),
-    PRIMARY KEY (step_order, course_id),
     step_type INT REFERENCES LearningStepType (id),
-    content TEXT
+    content TEXT,
+    PRIMARY KEY (step_order, course_id)
 );
 
-CREATE TABLE CourseDraft
-(
-    id serial PRIMARY KEY,
-    language varchar(50),
-    title varchar(50),
-    description varchar(300),
-    teacher_id int REFERENCES SystemUser(id),
-    course_id int REFERENCES Course(id),
-    approved_by int REFERENCES SystemUser(id)
+CREATE TABLE user_course_progress (
+    user_id INT REFERENCES SystemUser (id) ON DELETE CASCADE,
+    course_id INT REFERENCES Course (id) ON DELETE CASCADE,
+    current_step INT DEFAULT 1,
+    PRIMARY Key (user_id, course_id)
 );
 
--- Insert into LearningStepType
+-- =============================================
+-- SEED DATA INSERTION
+-- =============================================
+
+-- 1. Reference Data
 INSERT INTO
     LearningStepType (name)
 VALUES ('Text'),
@@ -73,10 +81,8 @@ VALUES ('Text'),
     ('QuestionMC'),
     ('QuestionFILL');
 
--- Insert into Language
 INSERT INTO Language (code, name) VALUES ('ENG', 'English');
 
--- Insert into CourseCategory
 INSERT INTO
     CourseCategory (name, description)
 VALUES (
@@ -87,55 +93,56 @@ VALUES (
         'Software Engineering',
         'Courses focused on software development practices and tools.'
     ),
-    (
-        'default',
-        ''
-    );
+    ('default', '');
 
--- Insert into Course
-INSERT INTO
-    Course (
-        language,
-        title,
-        description,
-        category
-    )
-VALUES (
-        'ENG',
-        'The Roman Empire',
-        'An in-depth look at the events of the Roman Empire.',
-        1
-    ),
-    (
-        'ENG',
-        'Git & GitHub',
-        'Basics of Git version control and GitHub collaboration.',
-        2
-    );
-
--- Insert into Role
 INSERT INTO
     Role (role)
 VALUES ('admin'),
     ('learner'),
     ('teacher');
 
--- Questions --
-UPDATE LearningStep
-SET
-    step_order = 5
-WHERE
-    course_id = 1
-    AND step_order = 3;
+-- 2. Users (Must exist before courses for author_id)
+-- insert admin with password $argon2i$v=19$m=16,t=2,p=1$am5PMUNzT1FSeTg2UXVaVA$FEnJk9CY+ATMEVtpIP91tQ
+INSERT INTO
+    SystemUser (username, password_hash)
+VALUES (
+        'admin',
+        '$argon2i$v=19$m=16,t=2,p=1$am5PMUNzT1FSeTg2UXVaVA$FEnJk9CY+ATMEVtpIP91tQ'
+    );
 
-UPDATE LearningStep
-SET
-    step_order = 3
-WHERE
-    course_id = 1
-    AND step_order = 2;
+INSERT INTO
+    SystemUserRole (systemUserId, role)
+VALUES (1, 'admin'),
+    (1, 'teacher');
 
--- Insert into LearningStep
+-- 3. Courses (Updated to include author_id and approved_by)
+INSERT INTO
+    Course (
+        language,
+        title,
+        description,
+        category,
+        author_id,
+        approved_by
+    )
+VALUES (
+        'ENG',
+        'The Roman Empire',
+        'An in-depth look at the events of the Roman Empire.',
+        1,
+        1,
+        1
+    ),
+    (
+        'ENG',
+        'Git & GitHub',
+        'Basics of Git version control and GitHub collaboration.',
+        2,
+        1,
+        1
+    );
+
+-- 4. Learning Steps
 INSERT INTO
     LearningStep (
         step_order,
@@ -185,7 +192,7 @@ VALUES (
         1,
         2,
         1,
-        'Git Architecture: DAG and Three-Tree Model. Git is not just a backup system; it is a distributed system based on a Directed Acyclic Graph (DAG). You must understand the three states: Working Directory, Staging Area (Index), and the Repository (HEAD) to effectively manage snapshots.'
+        'Git Architecture: DAG and Three-Tree Model...'
     ),
     (
         2,
@@ -203,7 +210,7 @@ VALUES (
         4,
         2,
         1,
-        'Branching Strategy: Merge vs. Rebase. Branches are cheap pointers to commits. Merging preserves history topology, while rebasing rewrites history for linearity. Warning: Never rebase shared branches (public history) as it de-synchronizes collaborators.'
+        'Branching Strategy: Merge vs. Rebase...'
     ),
     (
         5,
@@ -221,7 +228,7 @@ VALUES (
         7,
         2,
         1,
-        'Remotes and GitHub. "Origin" is simply the default alias for your remote URL. Pull Requests are not a Git command; they are a platform-specific (GitHub/GitLab) workflow for code review before merging.'
+        'Remotes and GitHub...'
     ),
     (
         8,
@@ -233,18 +240,11 @@ VALUES (
         9,
         2,
         3,
-        'What is the destructive consequence of using "git push --force" on a shared branch?|It overwrites remote history, potentially causing data loss for team members.|It automatically merges conflicts.|It duplicates the repository.|It locks the branch.'
+        'What is the destructive consequence of using "git push --force" on a shared branch?|It overwrites remote history...|It automatically merges conflicts.|It duplicates the repository.|It locks the branch.'
     ),
     (
         10,
         2,
         4,
         'To copy a remote repository to your local machine for the first time, use: git ___ .|clone'
-    );
-
-    Create Table user_course_progress (
-        user_id INT REFERENCES SystemUser(id) ON DELETE CASCADE,
-        course_id INT REFERENCES Course(id) ON DELETE CASCADE,
-        current_step INT DEFAULT 1,
-        PRIMARY Key (user_id, course_id)
     );

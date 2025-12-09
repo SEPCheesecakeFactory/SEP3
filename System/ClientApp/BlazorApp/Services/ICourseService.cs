@@ -28,4 +28,6 @@ public interface ICourseService
 
     // LEADERBOARD
     Task<Optional<List<LeaderboardEntry>>> GetLeaderboardAsync();
+    Task CreateCategory(CreateCourseCategoryDto createCourseCategoryDto);
+    Task<List<CourseCategory>> GetCategories();
 }

@@ -35,6 +35,7 @@ var port = 9090;
 builder.Services.AddScoped<ILeaderboardRepository>(sp => new gRPCLeaderBoardEntryRepository(host, port));
 builder.Services.AddScoped<IRepositoryID<Course, CreateCourseDto, Course, int>>(sp => new gRPCCourseRepository(host, port));
 builder.Services.AddScoped<ICourseRepository>(sp => new gRPCCourseRepository(host, port));
+builder.Services.AddScoped<ICourseCategoryRepository>(sp => new gRPCCourseCategoryRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
@@ -42,8 +43,6 @@ builder.Services.AddScoped<IRepositoryID<User, User, User, int>>(sp => new gRPCU
 builder.Services.AddScoped<IAuthService, SecureAuthService>();
 builder.Services.AddScoped<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>(sp =>
     new gRPCLearningStepRepository(host, port));
-builder.Services.AddScoped<IRepositoryID<Draft, CreateDraftDto, Draft, int>>(sp => new gRPCDraftRepository(host, port));
-builder.Services.AddScoped<ICourseRepository>(sp => new gRPCCourseRepository(host, port));
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
     options.MapInboundClaims = false;

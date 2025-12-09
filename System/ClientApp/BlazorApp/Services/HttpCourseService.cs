@@ -219,4 +219,17 @@ public class HttpCourseService : ICourseService
             return Optional<List<LeaderboardEntry>>.Error("Failed to load leaderboard: " + ex.Message);
         }
     }
+    public async Task CreateCategory(CreateCourseCategoryDto dto)
+    {
+        var response = await client.PostAsJsonAsync("categories", dto);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error creating category: {response.ReasonPhrase}");
+        }
+    }
+    public async Task<List<CourseCategory>> GetCategories()
+    {
+        var result = await client.GetFromJsonAsync<List<CourseCategory>>("categories");
+        return result ?? new List<CourseCategory>();
+    }
 }

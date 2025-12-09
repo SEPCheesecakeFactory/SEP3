@@ -20,6 +20,7 @@ builder.Services.AddScoped(sp => new HttpClient
 builder.Services.AddScoped<IAuthService, JwtAuthService>();
 builder.Services.AddScoped<HttpCrudService>();
 builder.Services.AddScoped<ICourseService,HttpCourseService>();
+builder.Services.AddScoped<IUserService,HttpUserService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 builder.Services.AddScoped<ILearningStepService, HttpLearningStepService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

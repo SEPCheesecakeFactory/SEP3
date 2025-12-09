@@ -22,7 +22,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
 
     private IQueryable<Course> FetchCoursesRequestFromGrpc(GetCoursesRequest request)
     {
-        var resp = Client.GetCourses(request);
+        var resp = CourseServiceClient.GetCourses(request);
 
         return resp.Courses.Select(c => new Course
         {
@@ -31,7 +31,9 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Description = c.Description,
             Language = c.Language,
             Category = c.Category,
-            TotalSteps = c.TotalSteps
+            TotalSteps = c.TotalSteps,
+            AuthorId = c.AuthorId,
+            ApprovedBy = c.ApprovedBy
         }).AsQueryable();
     }
 
@@ -42,10 +44,11 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Title = entity.Title ?? "",
             Description = entity.Description ?? "",
             Language = entity.Language ?? "",
-            Category = entity.Category ?? ""
+            Category = entity.Category ?? "",
+            AuthorId = entity.AuthorId ?? -1
         };
 
-        var response = await Client.AddCourseAsync(request);
+        var response = await CourseServiceClient.AddCourseAsync(request);
 
         return new Course
         {
@@ -53,7 +56,9 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Title = response.Course.Title,
             Description = response.Course.Description,
             Language = response.Course.Language,
-            Category = response.Course.Category
+            Category = response.Course.Category,
+            AuthorId = response.Course.AuthorId,
+            ApprovedBy = response.Course.ApprovedBy
         };
     }
 
@@ -67,11 +72,13 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
                 Title = entity.Title ?? "",
                 Description = entity.Description ?? "",
                 Language = entity.Language ?? "",
-                Category = entity.Category ?? ""
+                Category = entity.Category ?? "",
+                AuthorId = entity.AuthorId ?? -1,
+                ApprovedBy = entity.ApprovedBy ?? -1
             }
         };
 
-        var response = await Client.UpdateCourseAsync(request);
+        var response = await CourseServiceClient.UpdateCourseAsync(request);
 
         return new Course
         {
@@ -79,7 +86,11 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Title = response.Course.Title,
             Description = response.Course.Description,
             Language = response.Course.Language,
-            Category = response.Course.Category
+            Category = response.Course.Category,
+            AuthorId = response.Course.AuthorId,
+            ApprovedBy = response.Course.ApprovedBy,
+            TotalSteps = response.Course.TotalSteps
+
         };
     }
 
@@ -92,7 +103,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
     public override async Task<Entities.Course> GetSingleAsync(int id)
     {
         // gRPC has no GetCourseById, so we fetch all and find it (like repository.Memory)
-        var resp = Client.GetCourses(new GetCoursesRequest());
+        var resp = CourseServiceClient.GetCourses(new GetCoursesRequest());
 
         var c = resp.Courses.FirstOrDefault(c => c.Id == id);
 
@@ -105,7 +116,10 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             Title = c.Title,
             Description = c.Description,
             Language = c.Language,
-            Category = c.Category
+            Category = c.Category,
+            AuthorId = c.AuthorId,
+            ApprovedBy = c.ApprovedBy,
+            TotalSteps = c.TotalSteps
         };
     }
 
@@ -127,7 +141,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             };
 
             // Call Java
-            CourseProgressResponse response = await Client.GetCourseProgressAsync(request);
+            CourseProgressResponse response = await ProgressServiceClient.GetCourseProgressAsync(request);
 
             // Return Step
             return response.CurrentStep;
@@ -152,7 +166,7 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
             };
 
             // Call Java (Wait for Empty response)
-            await Client.UpdateCourseProgressAsync(request);
+            await ProgressServiceClient.UpdateCourseProgressAsync(request);
         }
         catch (Exception e)
         {

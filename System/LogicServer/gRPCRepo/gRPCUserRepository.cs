@@ -11,7 +11,7 @@ public class gRPCUserRepository(string host, int port) : gRPCRepository<User, Us
 {
     public override IQueryable<User> GetMany()
     {
-        var resp = Client.GetUsers(new GetUsersRequest());
+        var resp = UserServiceClient.GetUsers(new GetUsersRequest());
         var users = resp.Users.Select(c => new User
         {
             Id = c.Id,
@@ -31,7 +31,7 @@ public class gRPCUserRepository(string host, int port) : gRPCRepository<User, Us
             Password = entity.Password,
             Roles = { entity.Roles.Select(r => r.RoleName) }
         };
-        var response = await Client.AddUserAsync(request);
+        var response = await UserServiceClient.AddUserAsync(request);
         return new Entities.User{
             Id = response.User.Id, // fix takes now id returned by database
             Username = entity.Username,
@@ -40,9 +40,22 @@ public class gRPCUserRepository(string host, int port) : gRPCRepository<User, Us
         };        
     }
 
-    public override Task<Entities.User> UpdateAsync(Entities.User entity)
+    public override async Task<Entities.User> UpdateAsync(Entities.User entity)
     {
-        throw new NotImplementedException();
+        var request = new UpdateUserRequest
+        {
+            Id = entity.Id,
+            Username = entity.Username,
+            Password = entity.Password,
+            Roles = { entity.Roles.Select(r => r.RoleName) }
+        };
+        var response = await UserServiceClient.UpdateUserAsync(request);
+        return new Entities.User{
+            Id = response.Id,
+            Username = response.Username,
+            Password = response.Password,
+            Roles = response.Roles.Select(r => new Entities.Role { RoleName = r.Role_ }).ToList()
+        };
     }
 
     public override Task DeleteAsync(int id)
@@ -50,9 +63,17 @@ public class gRPCUserRepository(string host, int port) : gRPCRepository<User, Us
         throw new NotImplementedException();
     }
 
-    public override Task<Entities.User> GetSingleAsync(int id)
+    public override async Task<Entities.User> GetSingleAsync(int id)
     {
-        throw new NotImplementedException();
+        var request = new GetUserRequest { Id = id };
+        var response = await UserServiceClient.GetUserAsync(request);
+        return new Entities.User
+        {
+            Id = response.Id,
+            Username = response.Username,
+            Password = response.Password,
+            Roles = response.Roles.Select(r => new Entities.Role { RoleName = r.Role_ }).ToList()
+        };
     }
 
     public override Task ClearAsync()

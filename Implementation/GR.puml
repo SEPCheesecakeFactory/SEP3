@@ -13,6 +13,7 @@ class Course
     category {FK}
     author_id {FK}
     approved_by {FK}
+    total_steps
 }
 
 class CourseCategory

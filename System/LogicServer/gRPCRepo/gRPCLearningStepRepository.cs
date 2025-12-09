@@ -24,7 +24,7 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
             }
         };
 
-        var response = await Client.AddLearningStepAsync(request);
+        var response = await CourseServiceClient.AddLearningStepAsync(request);
         return new LearningStep
         {
             CourseId = response.LearningStep.CourseId,
@@ -53,7 +53,7 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
     {
         var (courseId, stepOrder) = id;
 
-        var response = await Client.GetLearningStepAsync(new GetLearningStepRequest { CourseId = courseId, StepNumber = stepOrder }) ?? throw new KeyNotFoundException($"LearningStep with CourseId {courseId} and StepOrder {stepOrder} not found.");
+        var response = await CourseServiceClient.GetLearningStepAsync(new GetLearningStepRequest { CourseId = courseId, StepNumber = stepOrder }) ?? throw new KeyNotFoundException($"LearningStep with CourseId {courseId} and StepOrder {stepOrder} not found.");
 
         return new LearningStep
         {
@@ -77,7 +77,7 @@ public class gRPCLearningStepRepository(string host, int port, bool useTls = fal
             }
         };
 
-        var response = await Client.UpdateLearningStepAsync(request);
+        var response = await CourseServiceClient.UpdateLearningStepAsync(request);
         return new LearningStep
         {
             CourseId = response.LearningStep.CourseId,
