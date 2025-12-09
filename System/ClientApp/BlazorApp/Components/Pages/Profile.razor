@@ -9,18 +9,15 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        @if (isLoading)
-        {
-            <LoadingSpinner />
-        }
-        else
-        {
-            <div class="alert alert-warning" role="alert">
-                You must be logged in to view your profile. Please <a href="login" class="alert-link">log in</a>.
-            </div>
-        }
+        @* Updated to show only the message, relying on the sidebar's Log In button *@
+        <div class="text-center py-5 my-5 border rounded-3 bg-light">
+            <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
+            <h2 class="fw-bold text-dark">Welcome to Learnify!</h2>
+            <p class="lead text-muted mb-4">Please log in to view your profile.</p>
+            @* Removed the dedicated Log In button here *@
+        </div>
     </NotAuthorized>
-    <Authorized>
+    <Authorized Context="context">
         <div class="text-center mt-4">
             <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning text-white border border-4 border-white shadow mb-3"
                 style="width: 120px; height: 120px; font-size: 3rem; font-weight: 800;">
@@ -28,11 +25,11 @@
                 claim.Type.Equals("Username")).Value)
             </div>
             <h2 class="fw-bolder text-dark mb-5">@context.User.Claims.First(claim =>
-                                claim.Type.Equals("Username")).Value</h2>
+                                 claim.Type.Equals("Username")).Value</h2>
 
             <div class="row justify-content-center g-4 mx-auto" style="max-width: 600px;">
                 @foreach (var claim in Utils.AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value))
-                                {
+                {
                 <div class="col-12">
                     <div class="card border-2 rounded-4 p-3" style="border-color: var(--game-gray);">
                         <div class="d-flex justify-content-between align-items-center">
@@ -45,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                                }
+                }
             </div>
         </div>
     </Authorized>
