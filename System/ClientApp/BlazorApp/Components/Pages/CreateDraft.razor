@@ -99,7 +99,8 @@
                 var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
                 if (idClaim != null && int.TryParse(idClaim.Value, out int tid))
                 {
-                    draft.TeacherId = tid;
+                    draft.AuthorId = tid;
+                    draft.Category = "default";
                 }
                 else
                 {
