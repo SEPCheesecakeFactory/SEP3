@@ -9,12 +9,10 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        @* Updated to show only the message, relying on the sidebar's Log In button *@
         <div class="text-center py-5 my-5 border rounded-3 bg-light">
             <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
             <h2 class="fw-bold text-dark">Welcome to Learnify!</h2>
             <p class="lead text-muted mb-4">Please log in to view your profile.</p>
-            @* Removed the dedicated Log In button here *@
         </div>
     </NotAuthorized>
     <Authorized Context="context">

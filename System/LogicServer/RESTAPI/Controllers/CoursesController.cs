@@ -27,21 +27,22 @@ public class CoursesController(ICourseRepository repository) : GenericController
     }
 
     [HttpPut("{id}")]
-    [Authorize("MustBeTeacher")]
+    [Authorize("MustBeTeacherOrAdmin")]
     public async Task<ActionResult<Course>> HttpUpdateAsync(string id, [FromBody] Course entity) => await UpdateAsync(id, entity);
     [HttpPut("/drafts/{id:int}"), Authorize("MustBeAdmin")]
-    public async Task<ActionResult<Course>> ApproveDraft([FromBody] int approvedBy,[FromRoute] int id)
+    public async Task<ActionResult<Course>> ApproveDraft([FromBody] int approvedBy, [FromRoute] int id)
     {
         try
         {
             Course currentCourse = await _repository.GetSingleAsync(id);
-            Course updatedCourse = new Course{
-                Id=currentCourse.Id,
-                Language=currentCourse.Language,
-                Title=currentCourse.Title,
-                Description=currentCourse.Description,
-                AuthorId=currentCourse.AuthorId,
-                ApprovedBy=approvedBy,
+            Course updatedCourse = new Course
+            {
+                Id = currentCourse.Id,
+                Language = currentCourse.Language,
+                Title = currentCourse.Title,
+                Description = currentCourse.Description,
+                AuthorId = currentCourse.AuthorId,
+                ApprovedBy = approvedBy,
                 TotalSteps = currentCourse.TotalSteps //added this because i dont know at what point we are changing this value yet
             };
 

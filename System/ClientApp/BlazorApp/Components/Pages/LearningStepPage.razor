@@ -1,6 +1,7 @@
 @page "/courses/{CourseId:int}/steps/{StepOrder:int}"
 @using BlazorApp.Services
 @using BlazorApp.Entities
+@using BlazorApp.Utils
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
 @inject ILearningStepService StepService
@@ -27,8 +28,7 @@ else
 
                 <AuthorizeView Context="authState">
                     <Authorized>
-                        @if (Utils.AuthUtils.ConvertFromClaim(authState.User.Claims.Single(c => c.Type ==
-                                            "Role").Value).Contains("teacher"))
+                        @if (authState.User.IsTeacher())
                         {
                             <button class="btn btn-outline-secondary btn-sm px-2 py-1 ms-3" @onclick="GoToEditStep">
                                 EDIT STEP

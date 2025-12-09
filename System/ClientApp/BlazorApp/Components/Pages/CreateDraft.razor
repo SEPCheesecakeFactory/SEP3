@@ -11,7 +11,7 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (AuthUtils.ConvertFromClaim(context.User.Claims.Single(c => c.Type == "Role").Value).Contains("teacher"))
+        @if (context.User.IsTeacher())
         {
             <PageTitle>Create Draft</PageTitle>
 
@@ -91,15 +91,12 @@
             var authState = await AuthProvider.GetAuthenticationStateAsync();
             var user = authState.User;
             
-           
-            var roleClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
-            
-            if (roleClaim != null && AuthUtils.ConvertFromClaim(roleClaim.Value).Contains("teacher"))
+            if (user.IsTeacher())
             {
-                var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
-                if (idClaim != null && int.TryParse(idClaim.Value, out int tid))
+                var id = user.GetID();
+                if (id != null)
                 {
-                    draft.AuthorId = tid;
+                    draft.AuthorId = id.Value;
                     draft.Category = "default";
                 }
                 else

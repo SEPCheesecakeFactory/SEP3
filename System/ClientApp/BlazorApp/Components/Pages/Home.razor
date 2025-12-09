@@ -78,6 +78,66 @@
                     {
                         <CourseCard Course="course" OnOpen="OpenCourse" OnEdit="OpenEditModal"
                             ProgressStep="GetSavedStep(course.Id)" />
+                        <div class="col-md-6 col-lg-4">
+
+                            <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(course.Category)"
+                                style="--course-color: var(--game-gray);">
+
+                                @if (context.User.IsTeacherOrAdmin())
+                                {
+                                    <button class="btn btn-edit-card position-absolute"
+                                        style="top: 8px; right: 8px;" @onclick:stopPropagation="true"
+                                        @onclick="() => OpenEditModal(course)">
+                                        <i class="fas fa-pen fa-sm"></i>
+                                    </button>
+                                }
+
+                                <div class="w-100 @CourseDisplayUtils.GetBgClass(course.Category)" style="height: 10px;"></div>
+
+                                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1"
+                                    @onclick="() => OpenCourse(course)">
+
+                                    <i
+                                        class="@CourseDisplayUtils.GetIconClass(course.Category) fa-3x mb-4 @CourseDisplayUtils.GetTextClass(course.Category)"></i>
+
+                                    <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
+
+                                    <small class="text-muted fw-bold text-uppercase mt-2"
+                                        style="font-size: 0.75rem; letter-spacing: 1px;">
+                                        @course.Description
+                                        @if (!string.IsNullOrEmpty(course.Language))
+                                        {
+                                            <span class="mx-1">• @course.Language</span>
+                                        }
+                                    </small>
+                                    @{
+                                        int saved = GetSavedStep(course.Id);
+                                        int total = course.TotalSteps;
+                                        double completedSteps = Math.Max(0, saved - 1);
+                                        double pct = (total > 0) ? (completedSteps / total * 100) : 0;
+                                    }
+                                    @if (saved > total && total > 0)
+                                    {
+                                        <div class="mt-3 badge bg-success text-white border border-success">
+                                            COMPLETED <i class="fas fa-check ms-1"></i>
+                                        </div>
+                                    }
+                                    else if (saved > 1)
+                                    {
+                                        <div class="mt-3 badge bg-info text-dark bg-opacity-10 border border-info">
+                                            RESUME: @Math.Round(pct)%
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="mt-3 badge bg-light text-secondary border">
+                                            START
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
                     }
                 </div>
             }
