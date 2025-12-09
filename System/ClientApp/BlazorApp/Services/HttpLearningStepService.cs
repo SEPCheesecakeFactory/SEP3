@@ -8,19 +8,36 @@ public class HttpLearningStepService(HttpCrudService service) : ILearningStepSer
 {
     // GET LEARNING STEP
     public async Task<Optional<LearningStep>> GetLearningStepAsync(int courseId, int stepOrder)
+{
+    try
     {
-        try
-        {
-            // return await service.GetAsync<LearningStep>($"learningsteps/{courseId}_{stepOrder}");
+        var result = await service.GetAsync<LearningStep>($"learningsteps/{courseId}_{stepOrder}");
 
-            var result = await service.GetAsync<LearningStep>($"learningsteps/{courseId}_{stepOrder}");
-            return result; // result is already Optional<LearningStep>
-        }
-        catch (Exception ex)
+        if (result.HasError)
         {
-            return Optional<LearningStep>.Error("Failed to load learning step: " + ex.Message);
+            
+            if (!string.IsNullOrWhiteSpace(result.ErrorMessage) &&
+                result.ErrorMessage.Contains("404"))
+            {
+                return Optional<LearningStep>.Error(
+                    $"Step {stepOrder} was not found for course {courseId}.");
+            }
+
+            return Optional<LearningStep>.Error(result.ErrorMessage);
         }
+
+        return result;
     }
+    catch (HttpRequestException)
+    {
+        return Optional<LearningStep>.Error("NO_CONNECTION");
+    }
+    catch (Exception ex)
+    {
+        return Optional<LearningStep>.Error("Failed to load learning step: " + ex.Message);
+    }
+}
+
 
     // UPDATE LEARNING STEP
     public async Task<Optional<LearningStep>> UpdateLearningStepAsync(LearningStep updatedStep)

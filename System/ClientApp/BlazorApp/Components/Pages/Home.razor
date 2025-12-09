@@ -209,7 +209,9 @@
     editModel.Category != originalModel.Category ||
     editModel.Language != originalModel.Language);
 
-    protected override async Task OnInitializedAsync()
+ 
+/*
+protected override async Task OnInitializedAsync()
 {
     var authState = await AuthProvider.GetAuthenticationStateAsync();
     var user = authState.User;
@@ -222,7 +224,6 @@
 
     try
     {
-        
         var result = await CourseService.GetCourses();
 
         if (result.HasError)
@@ -234,27 +235,25 @@
 
         courses = result.Value ?? new List<Course>();
 
-        // Fetch progress
         if (currentUserId > 0 && courses.Any())
         {
             foreach (var course in courses)
-{
-    var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+            {
+                var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
 
-    if (progressResult.HasError)
-    {
-        NavManager.NavigateTo("/no-connection");
-        return;
-    }
+                if (progressResult.HasError)
+                {
+                    NavManager.NavigateTo("/no-connection");
+                    return;
+                }
 
-    int step = progressResult.HasValue ? progressResult.Value : 1;
+                int step = progressResult.HasValue ? progressResult.Value : 1;
 
-    if (courseProgressMap.ContainsKey(course.Id))
-        courseProgressMap[course.Id] = step;
-    else
-        courseProgressMap.Add(course.Id, step);
-}
-
+                if (courseProgressMap.ContainsKey(course.Id))
+                    courseProgressMap[course.Id] = step;
+                else
+                    courseProgressMap.Add(course.Id, step);
+            }
         }
     }
     catch
@@ -264,6 +263,88 @@
     finally
     {
         isLoading = false;
+    }
+}
+*/
+
+
+
+private bool _loaded = false;
+
+protected override async Task OnAfterRenderAsync(bool firstRender)
+{
+    if (!firstRender || _loaded)
+        return;
+
+    _loaded = true;
+
+    var authState = await AuthProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+   
+    if (!user.Identity?.IsAuthenticated ?? true)
+        return;
+
+    var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+
+    if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+        currentUserId = uid;
+
+    try
+    {
+        isLoading = true;
+
+        var result = await CourseService.GetCourses();
+
+       
+        if (result.HasError && result.ErrorMessage?.Contains("Unauthorized") == true)
+        {
+            NavManager.NavigateTo("/login", true);
+            return;
+        }
+
+        
+        if (result.HasError)
+        {
+            NavManager.NavigateTo("/no-connection");
+            return;
+        }
+
+        courses = result.Value ?? new List<Course>();
+
+        if (currentUserId > 0 && courses.Any())
+        {
+            foreach (var course in courses)
+            {
+                var progressResult =
+                    await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+
+                if (progressResult.HasError &&
+                    progressResult.ErrorMessage?.Contains("Unauthorized") == true)
+                {
+                    NavManager.NavigateTo("/login", true);
+                    return;
+                }
+
+                if (progressResult.HasError)
+                {
+                    NavManager.NavigateTo("/no-connection");
+                    return;
+                }
+
+                int step = progressResult.HasValue ? progressResult.Value : 1;
+                courseProgressMap[course.Id] = step;
+            }
+        }
+    }
+    catch
+    {
+        loadError = true;
+    }
+    finally
+    {
+        isLoading = false;
+        StateHasChanged();
     }
 }
 

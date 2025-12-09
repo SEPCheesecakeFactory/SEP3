@@ -16,6 +16,15 @@
             <PageTitle>Approve Drafts</PageTitle>
 
             <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
+
+                
+                @if (!string.IsNullOrWhiteSpace(errorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @errorMessage
+                    </div>
+                }
+
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <a href="/" class="btn btn-link text-secondary p-0 me-4">
                         <i class="fas fa-times fa-2x"></i>
@@ -76,65 +85,98 @@
 
 @code {
     private List<Draft> drafts;
+    private string errorMessage;
 
     protected override async Task OnInitializedAsync()
-{
-    try
     {
-        
-        var result = await CourseService.GetDrafts();
-
-        if (result.HasError)
+        try
         {
-            NavManager.NavigateTo("/no-connection");
-            return;
-        }
+            errorMessage = null;
 
-        var allDrafts = result.Value ?? new List<Draft>();
-        drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-        drafts = new List<Draft>();
-    }
-}
+            var result = await CourseService.GetDrafts();
 
-
-    private async Task Approve(int draftId)
-{
-    try
-    {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
-
-        if (idClaim != null && int.TryParse(idClaim.Value, out int adminId))
-        {
-            var approveResult = await CourseService.ApproveDraft(draftId, adminId);
-
-            if (approveResult.HasError)
+            if (result.HasError)
             {
-                NavManager.NavigateTo("/no-connection");
+                
+                if (result.ErrorMessage == "NO_CONNECTION")
+                {
+                    errorMessage = "Cannot connect to the server. Please try again later.";
+                }
+                else
+                {
+                    errorMessage = result.ErrorMessage;
+                }
+
+                drafts = new List<Draft>();
                 return;
             }
 
-            var refreshResult = await CourseService.GetDrafts();
-
-            if (refreshResult.HasError)
-            {
-                NavManager.NavigateTo("/no-connection");
-                return;
-            }
-
-            var allDrafts = refreshResult.Value ?? new List<Draft>();
+            var allDrafts = result.Value ?? new List<Draft>();
             drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            errorMessage = "Unexpected error while loading drafts.";
+            drafts = new List<Draft>();
+        }
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error approving draft: {ex.Message}");
-    }
-}
 
+    private async Task Approve(int draftId)
+    {
+        try
+        {
+            errorMessage = null;
+
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+
+            if (idClaim != null && int.TryParse(idClaim.Value, out int adminId))
+            {
+                var approveResult = await CourseService.ApproveDraft(draftId, adminId);
+
+                if (approveResult.HasError)
+                {
+                    if (approveResult.ErrorMessage == "NO_CONNECTION")
+                    {
+                        errorMessage = "Cannot connect to the server. Please try again later.";
+                    }
+                    else
+                    {
+                       
+                        errorMessage = approveResult.ErrorMessage;
+                    }
+                    return;
+                }
+
+                var refreshResult = await CourseService.GetDrafts();
+
+                if (refreshResult.HasError)
+                {
+                    if (refreshResult.ErrorMessage == "NO_CONNECTION")
+                    {
+                        errorMessage = "Cannot connect to the server. Please try again later.";
+                    }
+                    else
+                    {
+                        errorMessage = refreshResult.ErrorMessage;
+                    }
+                    return;
+                }
+
+                var allDrafts = refreshResult.Value ?? new List<Draft>();
+                drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
+            }
+            else
+            {
+                errorMessage = "Could not resolve admin ID from authentication.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error approving draft: {ex.Message}");
+            errorMessage = "Unexpected error while approving the draft.";
+        }
+    }
 }

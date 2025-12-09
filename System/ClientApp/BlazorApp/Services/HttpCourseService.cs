@@ -78,43 +78,53 @@ public class HttpCourseService : ICourseService
 
     // GET DRAFTS
     public async Task<Optional<List<Draft>>> GetDrafts()
+{
+    try
     {
-        try
-        {
-            // var result = await client.GetFromJsonAsync<List<Draft>>("drafts");
-            // return result ?? new List<Draft>();
-
-            var result = await client.GetFromJsonAsync<List<Draft>>("drafts");
-            return Optional<List<Draft>>.Success(result ?? new List<Draft>());
-        }
-        catch (Exception ex)
-        {
-            return Optional<List<Draft>>.Error("Failed to load drafts: " + ex.Message);
-        }
+        var result = await client.GetFromJsonAsync<List<Draft>>("drafts");
+        return Optional<List<Draft>>.Success(result ?? new List<Draft>());
     }
+    catch (HttpRequestException)
+    {
+        return Optional<List<Draft>>.Error("NO_CONNECTION");
+    }
+    catch (Exception ex)
+    {
+        return Optional<List<Draft>>.Error("Failed to load drafts: " + ex.Message);
+    }
+}
+
 
     // APPROVE DRAFT
     public async Task<Optional<bool>> ApproveDraft(int draftId, int adminId)
+{
+    try
     {
-        try
-        {
-            // var response = await client.PutAsJsonAsync($"drafts/{draftId}", adminId);
-            // if (!response.IsSuccessStatusCode)
-            // {
-            //     throw new Exception($"Error approving draft: {response.ReasonPhrase}");
-            // }
+        var response = await client.PutAsJsonAsync($"drafts/{draftId}", adminId);
 
-            var response = await client.PutAsJsonAsync($"drafts/{draftId}", adminId);
-            if (!response.IsSuccessStatusCode)
-                return Optional<bool>.Error("Error approving draft");
-
-            return Optional<bool>.Success(true);
-        }
-        catch (Exception ex)
+        if (!response.IsSuccessStatusCode)
         {
-            return Optional<bool>.Error(ex.Message);
+            var serverMessage = await response.Content.ReadAsStringAsync();
+
+            var errorMessage = string.IsNullOrWhiteSpace(serverMessage)
+                ? $"Server error: {response.StatusCode}"
+                : serverMessage;
+
+            return Optional<bool>.Error(errorMessage);
         }
+
+        return Optional<bool>.Success(true);
     }
+    catch (HttpRequestException)
+    {
+        return Optional<bool>.Error("NO_CONNECTION");
+    }
+    catch (Exception ex)
+    {
+        return Optional<bool>.Error("Unexpected error: " + ex.Message);
+    }
+}
+
 
     // COURSE PROGRESS
     public async Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId)
