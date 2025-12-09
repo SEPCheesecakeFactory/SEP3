@@ -81,10 +81,11 @@
     try
     {
         var result = await CourseService.GetLeaderboardAsync();
-
+        
         if (result.HasError)
         {
-            NavManager.NavigateTo("/no-connection");
+            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
             return;
         }
 

@@ -194,7 +194,10 @@ else
                 if (progressResult.HasError)
                 {
                     if (progressResult.ErrorMessage == "NO_CONNECTION")
-                        NavManager.NavigateTo("/no-connection");
+                        {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        }
                     else
                         errorMessage = progressResult.ErrorMessage;
 
@@ -210,7 +213,10 @@ else
             if (courseResult.HasError)
             {
                 if (courseResult.ErrorMessage == "NO_CONNECTION")
-                    NavManager.NavigateTo("/no-connection");
+                    {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                    }
                 else
                     errorMessage = courseResult.ErrorMessage;
 
@@ -229,7 +235,10 @@ else
             if (stepResult.HasError)
             {
                 if (stepResult.ErrorMessage == "NO_CONNECTION")
-                    NavManager.NavigateTo("/no-connection");
+                    {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                    }
                 else
                     errorMessage = stepResult.ErrorMessage;
 
@@ -320,7 +329,10 @@ else
             if (updateResult.HasError)
             {
                 if (updateResult.ErrorMessage == "NO_CONNECTION")
-                    NavManager.NavigateTo("/no-connection");
+                    {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        }
                 else
                     errorMessage = updateResult.ErrorMessage;
 
@@ -345,7 +357,10 @@ else
                 if (result.HasError)
                 {
                     if (result.ErrorMessage == "NO_CONNECTION")
-                        NavManager.NavigateTo("/no-connection");
+                        {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        }
                     else
                         errorMessage = result.ErrorMessage;
 

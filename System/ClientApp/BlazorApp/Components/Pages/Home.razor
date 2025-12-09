@@ -304,7 +304,8 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
         
         if (result.HasError)
         {
-            NavManager.NavigateTo("/no-connection");
+            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
             return;
         }
 
@@ -326,7 +327,8 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
 
                 if (progressResult.HasError)
                 {
-                    NavManager.NavigateTo("/no-connection");
+                    var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                    NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
                     return;
                 }
 
@@ -400,7 +402,10 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
             wasSavingError = true;
 
             if (result.ErrorMessage?.Contains("Failed") == false)
-                NavManager.NavigateTo("/no-connection");
+                {
+                    var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                    NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                    }
 
             return;
         }
@@ -420,7 +425,8 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
 
         if (resultCourses.HasError)
         {
-            NavManager.NavigateTo("/no-connection");
+            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
             return;
         }
 

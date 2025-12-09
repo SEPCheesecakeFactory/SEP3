@@ -133,7 +133,8 @@
         var resultCourses = await CourseService.GetCourses();
         if (resultCourses.HasError)
         {
-            NavManager.NavigateTo("/no-connection");
+            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
             return;
         }
 
@@ -147,7 +148,8 @@
 
         if (resultStep.HasError)
         {
-            NavManager.NavigateTo("/no-connection");
+            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
             return;
         }
 
@@ -196,7 +198,8 @@
 
         if (result.HasError)
         {
-            NavManager.NavigateTo("/no-connection");
+            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
             wasSavingError = true;
             return;
         }
@@ -244,7 +247,8 @@
 
         if (result.HasError)
         {
-            NavManager.NavigateTo("/no-connection");
+            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
             wasCreateError = true;
             createErrorMessage = result.ErrorMessage;
             return;

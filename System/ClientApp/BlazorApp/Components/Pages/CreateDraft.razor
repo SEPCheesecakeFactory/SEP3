@@ -115,7 +115,8 @@
                 if (result.ErrorMessage?.Contains("connection", StringComparison.OrdinalIgnoreCase) == true ||
                     result.ErrorMessage?.Contains("Failed", StringComparison.OrdinalIgnoreCase) == true)
                 {
-                    NavManager.NavigateTo("/no-connection");
+                    var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                    NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
                     return;
                 }
 

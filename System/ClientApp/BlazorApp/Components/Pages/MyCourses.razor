@@ -107,53 +107,76 @@
     private bool loadError = false;
     private bool isLoading = true;
 
-   protected override async Task OnInitializedAsync()
+ private bool _loaded = false;
+
+protected override async Task OnAfterRenderAsync(bool firstRender)
 {
+    if (!firstRender || _loaded)
+        return;
+
+    _loaded = true;
+
     var authState = await AuthProvider.GetAuthenticationStateAsync();
     var user = authState.User;
+
+    if (!user.Identity?.IsAuthenticated ?? true)
+        return;
+
     var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
 
     if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
-    {
         currentUserId = uid;
-    }
 
     try
     {
+        isLoading = true;
+
         var result = await CourseService.GetCourses(currentUserId);
 
-        if (!result.IsSuccess)
+        
+        if (result.HasError && result.ErrorMessage?.Contains("Unauthorized") == true)
         {
-            if (result.ErrorMessage?.Contains("connection", StringComparison.OrdinalIgnoreCase) == true ||
-                result.ErrorMessage?.Contains("refused", StringComparison.OrdinalIgnoreCase) == true ||
-                result.ErrorMessage?.Contains("unreachable", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                NavManager.NavigateTo("/no-connection");
-                return;
-            }
+            NavManager.NavigateTo("/login", true);
+            return;
+        }
 
-            loadError = true;
+      
+        if (result.HasError)
+        {
+             var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+             NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        
             return;
         }
 
         courses = result.Value ?? new List<Course>();
 
-        // --- FETCH COURSE PROGRESS ---
+      
         if (currentUserId > 0 && courses.Any())
         {
             foreach (var course in courses)
             {
-                var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+                var progressResult =
+                    await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
 
-                if (!progressResult.IsSuccess)
+                if (progressResult.HasError &&
+                    progressResult.ErrorMessage?.Contains("Unauthorized") == true)
                 {
-                    // Progress failures should NOT break the page
-                    courseProgressMap[course.Id] = 1;
+                    NavManager.NavigateTo("/login", true);
+                    return;
                 }
-                else
+
+                if (progressResult.HasError)
                 {
-                    courseProgressMap[course.Id] = progressResult.Value;
+                    
+                     var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                     NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                    
+                    return;
                 }
+
+                int step = progressResult.HasValue ? progressResult.Value : 1;
+                courseProgressMap[course.Id] = step;
             }
         }
     }
@@ -164,8 +187,10 @@
     finally
     {
         isLoading = false;
+        StateHasChanged();
     }
 }
+
 
 
     private int GetSavedStep(int courseId)
