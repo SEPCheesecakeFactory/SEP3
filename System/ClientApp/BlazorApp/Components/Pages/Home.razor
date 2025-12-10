@@ -25,7 +25,6 @@
                 </button>
             }
             @if (context.User.IsAdmin())
-
             {
                 <button class="btn btn-warning" @onclick='() => NavManager.NavigateTo("approve-draft")'>
                     <i class="fas fa-clipboard-check me-2"></i> Waiting Drafts
@@ -36,7 +35,7 @@
         @if (courses != null && courses.Any())
         {
             <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
-                UniqueCategories="uniqueCategories" />
+                          UniqueCategories="uniqueCategories" />
             <div class="mb-5"></div>
         }
 
@@ -76,7 +75,7 @@
                     @foreach (var course in group)
                     {
                         <CourseCard Course="course" OnOpen="OpenCourse" OnEdit="OpenEditModal"
-                            ProgressStep="GetSavedStep(course.Id)" />
+                                    ProgressStep="GetSavedStep(course.Id)" />
                     }
                 </div>
             }
@@ -99,7 +98,7 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Description</label>
                                 <textarea class="form-control" style="min-height:80px;" @bind="editModel.Description"
-                                @bind:event="oninput"></textarea>
+                                          @bind:event="oninput"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Category</label>
@@ -113,7 +112,7 @@
                         <div class="modal-footer">
                             <button class="btn btn-secondary" @onclick="CloseModal">Close</button>
                             <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")"
-                                disabled="@(!IsDirty || isSaving)" @onclick="SaveChanges">
+                                    disabled="@(!IsDirty || isSaving)" @onclick="SaveChanges">
                                 @if (isSaving)
                                 {
                                     <span class="spinner-border spinner-border-sm me-2"></span>
@@ -153,17 +152,17 @@
     private List<string> uniqueCategories = new();
 
     private IEnumerable<Course> FilteredCourses => courses
-    .Where(c => string.IsNullOrEmpty(searchQuery)
-    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
-    .Where(c => string.IsNullOrEmpty(selectedCategory)
-    || c.Category == selectedCategory);
+        .Where(c => string.IsNullOrEmpty(searchQuery)
+                    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+        .Where(c => string.IsNullOrEmpty(selectedCategory)
+                    || c.Category == selectedCategory);
 
     private bool IsDirty =>
-    editModel != null && originalModel != null &&
-    (editModel.Title != originalModel.Title ||
-    editModel.Description != originalModel.Description ||
-    editModel.Category != originalModel.Category ||
-    editModel.Language != originalModel.Language);
+        editModel != null && originalModel != null &&
+        (editModel.Title != originalModel.Title ||
+         editModel.Description != originalModel.Description ||
+         editModel.Category != originalModel.Category ||
+         editModel.Language != originalModel.Language);
 
     protected override async Task OnInitializedAsync()
     {
@@ -178,6 +177,7 @@
 
         await LoadCoursesAndProgress();
     }
+
     private async Task LoadCoursesAndProgress()
     {
         isLoading = true;
@@ -189,28 +189,25 @@
             if (courses != null)
             {
                 uniqueCategories = courses
-                .Select(c => c.Category)
-                .Where(c => !string.IsNullOrEmpty(c))
-                .Select(c => c!)
-                .Distinct()
-                .OrderBy(c => c)
-                .ToList();
+                    .Select(c => c.Category)
+                    .Where(c => !string.IsNullOrEmpty(c))
+                    .Select(c => c!)
+                    .Distinct()
+                    .OrderBy(c => c)
+                    .ToList();
             }
 
             if (currentUserId > 0 && courses != null && courses.Any())
             {
-                var tasks = courses.Select(async c =>
-                {
-                    var step = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
-                    return new { c.Id, Step = step };
-                });
-
-                var results = await Task.WhenAll(tasks);
-
                 courseProgressMap.Clear();
-                foreach (var res in results)
+                foreach (var course in courses)
                 {
-                    courseProgressMap.Add(res.Id, res.Step);
+                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+                    
+                    if (courseProgressMap.ContainsKey(course.Id))
+                        courseProgressMap[course.Id] = step;
+                    else
+                        courseProgressMap.Add(course.Id, step);
                 }
             }
         }
@@ -276,6 +273,7 @@
         {
             await CourseService.UpdateCourse(editModel.Id, editModel);
             wasSavingError = false;
+            
             CloseModal();
             await LoadCoursesAndProgress();
             await InvokeAsync(StateHasChanged);
