@@ -107,44 +107,91 @@
     private bool loadError = false;
     private bool isLoading = true;
 
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+ private bool _loaded = false;
 
-        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+protected override async Task OnAfterRenderAsync(bool firstRender)
+{
+    if (!firstRender || _loaded)
+        return;
+
+    _loaded = true;
+
+    var authState = await AuthProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (!user.Identity?.IsAuthenticated ?? true)
+        return;
+
+    var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+
+    if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+        currentUserId = uid;
+
+    try
+    {
+        isLoading = true;
+
+        var result = await CourseService.GetCourses(currentUserId);
+
+        
+        if (result.HasError && result.ErrorMessage?.Contains("Unauthorized") == true)
         {
-            currentUserId = uid;
+            NavManager.NavigateTo("/login", true);
+            return;
         }
 
-        try
+      
+        if (result.HasError)
         {
-            // Get courses for this user
-            courses = await CourseService.GetCourses(currentUserId);
+             var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+             NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        
+            return;
+        }
 
-            // Fetch progress for each course when logged in
-            if (currentUserId > 0 && courses.Any())
+        courses = result.Value ?? new List<Course>();
+
+      
+        if (currentUserId > 0 && courses.Any())
+        {
+            foreach (var course in courses)
             {
-                foreach (var course in courses)
+                var progressResult =
+                    await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+
+                if (progressResult.HasError &&
+                    progressResult.ErrorMessage?.Contains("Unauthorized") == true)
                 {
-                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
-                    if (courseProgressMap.ContainsKey(course.Id))
-                        courseProgressMap[course.Id] = step;
-                    else
-                        courseProgressMap.Add(course.Id, step);
+                    NavManager.NavigateTo("/login", true);
+                    return;
                 }
+
+                if (progressResult.HasError)
+                {
+                    
+                     var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                     NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                    
+                    return;
+                }
+
+                int step = progressResult.HasValue ? progressResult.Value : 1;
+                courseProgressMap[course.Id] = step;
             }
         }
-        catch
-        {
-            loadError = true;
-        }
-        finally
-        {
-            isLoading = false;
-        }
     }
+    catch
+    {
+        loadError = true;
+    }
+    finally
+    {
+        isLoading = false;
+        StateHasChanged();
+    }
+}
+
+
 
     private int GetSavedStep(int courseId)
     {
