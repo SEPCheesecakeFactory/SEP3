@@ -83,51 +83,44 @@
     private string errorMessage = "";
 
     private async Task Create()
-{
-    isSaving = true;
-    errorMessage = "";
-
-    try
     {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        if (!user.IsTeacher())
+        isSaving = true;
+        errorMessage = "";
+        try
         {
-            errorMessage = "You must be a teacher to create a draft.";
-            return;
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            
+            if (user.IsTeacher())
+            {
+                var id = user.GetID();
+                if (id != null)
+                {
+                    draft.AuthorId = id.Value;
+                    draft.Category = "default";
+                }
+                else
+                {
+                    errorMessage = "Could not find user ID.";
+                    isSaving = false;
+                    return;
+                }
+
+                await CourseService.CreateDraft(draft);
+                NavManager.NavigateTo("/");
+            }
+            else
+            {
+                errorMessage = "You must be a teacher to create a draft.";
+            }
         }
-
-        var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
-
-        if (idClaim == null || !int.TryParse(idClaim.Value, out int tid))
+        catch (Exception ex)
         {
-            errorMessage = "Could not find user ID.";
-            return;
+            errorMessage = ex.Message;
         }
-
-        draft.TeacherId = tid;
-
-        var result = await CourseService.CreateDraft(draft);
-
-        if (result.HasError)
+        finally
         {
-            errorMessage = result.ErrorMessage ?? "Error creating draft.";
-            return;
+            isSaving = false;
         }
-
-        NavManager.NavigateTo("/");
-    }
-    catch (Exception ex)
-    {
-        errorMessage = ex.Message;
-    }
-    finally
-    {
-        isSaving = false;
     }
 }
-
-}
-
-
