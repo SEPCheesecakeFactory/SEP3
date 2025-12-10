@@ -47,6 +47,9 @@
                             <p>@draft.Description</p>
                             
                             <div class="d-flex justify-content-end mt-3">
+                                <button class="btn btn-danger px-4" @onclick="() => Disapprove(draft.Id)">
+                                    Disapprove
+                                </button>
                                 <button class="btn btn-success px-4" @onclick="() => Approve(draft.Id)">
                                     Approve
                                 </button>
@@ -111,4 +114,29 @@
             Console.WriteLine($"Error approving draft: {ex.Message}");
         }
     }
+
+    private async Task Disapprove(int draftId)
+{
+    try
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+
+        if (idClaim != null && int.TryParse(idClaim.Value, out int adminId))
+        {
+            await CourseService.DisapproveDraft(draftId, adminId);
+
+            var allDrafts = await CourseService.GetDrafts();
+            drafts = allDrafts
+                .Where(d => d.ApprovedBy == null || d.ApprovedBy == 0)
+                .ToList();
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error disapproving draft: {ex.Message}");
+    }
+}
+
 }

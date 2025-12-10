@@ -54,4 +54,35 @@ public class CoursesController(ICourseRepository repository) : GenericController
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpPut("/drafts/disapprove/{id:int}")]
+    [Authorize("MustBeAdmin")]
+    public async Task<ActionResult<Course>> DisapproveDraft([FromBody] int disapprovedBy, [FromRoute] int id)
+    {
+        try
+        {
+            Course currentCourse = await _repository.GetSingleAsync(id);
+             Course updatedCourse = new Course
+            {
+                Id = currentCourse.Id,
+                Language = currentCourse.Language,
+                Title = currentCourse.Title,
+                 Description = currentCourse.Description,
+                 AuthorId = currentCourse.AuthorId,
+
+            
+                 ApprovedBy = -disapprovedBy, 
+
+                    TotalSteps = currentCourse.TotalSteps
+            };
+
+            currentCourse = await _repository.UpdateAsync(updatedCourse);
+            return Ok(updatedCourse);
+        }
+        catch (Exception e)
+        {
+             return StatusCode(500, e.Message);
+        }
+    }
+
 }

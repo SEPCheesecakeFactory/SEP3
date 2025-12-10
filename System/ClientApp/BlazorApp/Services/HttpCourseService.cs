@@ -52,6 +52,17 @@ public class HttpCourseService : ICourseService
             throw new Exception($"Error approving draft: {response.ReasonPhrase}");
         }
     }
+
+    public async Task DisapproveDraft(int draftId, int adminId)
+    {
+        var response = await client.PutAsJsonAsync($"drafts/disapprove/{draftId}", adminId);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error disapproving draft: {response.ReasonPhrase}");
+        }
+    }
+
     public async Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
         try
