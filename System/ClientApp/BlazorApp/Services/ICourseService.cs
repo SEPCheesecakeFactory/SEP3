@@ -1,22 +1,33 @@
 using System;
 using BlazorApp.Entities;
+using BlazorApp.Shared;
 
 namespace BlazorApp.Services;
 
 public interface ICourseService
 {
-    Task UpdateCourse(int id, Course course);
-    public Task<List<Course>> GetCourses();
-    public Task<List<Course>> GetCourses(int? userId = null);
-    public Task CreateDraft(CreateDraftDto dto);
-    public Task<List<Draft>> GetDrafts();
-    public Task ApproveDraft(int draftId, int adminId);
+    // UPDATE COURSE
+    Task<Optional<bool>> UpdateCourse(int id, Course course);
 
-    // progress
-    Task<int> GetCourseProgressAsync(int userId, int courseId);
-    Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep);
-    Task<List<LeaderboardEntry>> GetLeaderboardAsync();
-    // categories
-    public Task CreateCategory(CreateCourseCategoryDto createCourseCategoryDto);
-    public Task<List<CourseCategory>> GetCategories(); 
+    // GET COURSES
+    Task<Optional<List<Course>>> GetCourses();
+    Task<Optional<List<Course>>> GetCourses(int? userId = null);
+
+    // CREATE DRAFT
+    Task<Optional<bool>> CreateDraft(CreateDraftDto dto);
+
+    // GET DRAFTS
+    Task<Optional<List<Draft>>> GetDrafts();
+
+    // APPROVE DRAFT
+    Task<Optional<bool>> ApproveDraft(int draftId, int adminId);
+
+    // PROGRESS
+    Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId);
+    Task<Optional<bool>> UpdateCourseProgressAsync(int userId, int courseId, int currentStep);
+
+    // LEADERBOARD
+    Task<Optional<List<LeaderboardEntry>>> GetLeaderboardAsync();
+    Task CreateCategory(CreateCourseCategoryDto createCourseCategoryDto);
+    Task<List<CourseCategory>> GetCategories();
 }
