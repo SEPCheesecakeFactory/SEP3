@@ -55,26 +55,34 @@ public class HttpCourseService : ICourseService
 
     // CREATE DRAFT
     public async Task<Optional<bool>> CreateDraft(CreateDraftDto dto)
+{
+    try
     {
-        try
-        {
-            // var response = await client.PostAsJsonAsync("drafts", dto);
-            // if (!response.IsSuccessStatusCode)
-            // {
-            //     throw new Exception($"Error creating draft: {response.ReasonPhrase}");
-            // }
+        var response = await client.PostAsJsonAsync("drafts", dto);
 
-            var response = await client.PostAsJsonAsync("drafts", dto);
-            if (!response.IsSuccessStatusCode)
-                return Optional<bool>.Error("Error creating draft");
-
-            return Optional<bool>.Success(true);
-        }
-        catch (Exception ex)
+        if (!response.IsSuccessStatusCode)
         {
-            return Optional<bool>.Error(ex.Message);
+            var serverMsg = await response.Content.ReadAsStringAsync();
+
+            return Optional<bool>.Error(
+                string.IsNullOrWhiteSpace(serverMsg)
+                    ? $"Server error: {response.StatusCode}"
+                    : serverMsg
+            );
         }
+
+        return Optional<bool>.Success(true);
     }
+    catch (HttpRequestException)
+    {
+        return Optional<bool>.Error("NO_CONNECTION");
+    }
+    catch (Exception ex)
+    {
+        return Optional<bool>.Error("Unexpected error: " + ex.Message);
+    }
+}
+
 
     // GET DRAFTS
  public async Task<Optional<List<Draft>>> GetDrafts()

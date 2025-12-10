@@ -92,44 +92,31 @@
         var authState = await AuthProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
-        var roleClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
-
-        if (roleClaim != null && AuthUtils.ConvertFromClaim(roleClaim.Value).Contains("teacher"))
-        {
-            var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
-            if (idClaim != null && int.TryParse(idClaim.Value, out int tid))
-            {
-                draft.AuthorId = tid;
-            }
-            else
-            {
-                errorMessage = "Could not find user ID.";
-                isSaving = false;
-                return;
-            }
-
-            var result = await CourseService.CreateDraft(draft);
-
-            if (result.HasError)
-            {
-                if (result.ErrorMessage?.Contains("connection", StringComparison.OrdinalIgnoreCase) == true ||
-                    result.ErrorMessage?.Contains("Failed", StringComparison.OrdinalIgnoreCase) == true)
-                {
-                    var returnUrl = Uri.EscapeDataString(NavManager.Uri);
-                    NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
-                    return;
-                }
-
-                errorMessage = result.ErrorMessage ?? "Error creating draft.";
-                return;
-            }
-
-            NavManager.NavigateTo("/");
-        }
-        else
+        if (!user.IsTeacher())
         {
             errorMessage = "You must be a teacher to create a draft.";
+            return;
         }
+
+        var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+
+        if (idClaim == null || !int.TryParse(idClaim.Value, out int tid))
+        {
+            errorMessage = "Could not find user ID.";
+            return;
+        }
+
+        draft.TeacherId = tid;
+
+        var result = await CourseService.CreateDraft(draft);
+
+        if (result.HasError)
+        {
+            errorMessage = result.ErrorMessage ?? "Error creating draft.";
+            return;
+        }
+
+        NavManager.NavigateTo("/");
     }
     catch (Exception ex)
     {
@@ -142,3 +129,5 @@
 }
 
 }
+
+
