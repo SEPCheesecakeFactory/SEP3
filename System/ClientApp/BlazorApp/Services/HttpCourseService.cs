@@ -77,11 +77,23 @@ public class HttpCourseService : ICourseService
     }
 
     // GET DRAFTS
-    public async Task<Optional<List<Draft>>> GetDrafts()
+ public async Task<Optional<List<Draft>>> GetDrafts()
 {
     try
     {
-        var result = await client.GetFromJsonAsync<List<Draft>>("drafts");
+        var response = await client.GetAsync("drafts");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var serverMsg = await response.Content.ReadAsStringAsync();
+            return Optional<List<Draft>>.Error(
+                string.IsNullOrWhiteSpace(serverMsg)
+                    ? $"Server error: {response.StatusCode}"
+                    : serverMsg
+            );
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<List<Draft>>();
         return Optional<List<Draft>>.Success(result ?? new List<Draft>());
     }
     catch (HttpRequestException)
@@ -90,9 +102,10 @@ public class HttpCourseService : ICourseService
     }
     catch (Exception ex)
     {
-        return Optional<List<Draft>>.Error("Failed to load drafts: " + ex.Message);
+        return Optional<List<Draft>>.Error($"Unexpected error: {ex.Message}");
     }
 }
+
 
 
     // APPROVE DRAFT
