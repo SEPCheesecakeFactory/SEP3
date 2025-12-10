@@ -17,6 +17,7 @@
     <Authorized Context="context">
         <h2 class="fw-bolder text-secondary mb-4">All Courses</h2>
 
+        @* --- Action Buttons (Teacher/Admin) --- *@
         <div class="d-flex justify-content-end gap-2 mb-4">
             @if (context.User.IsTeacher())
             {
@@ -32,13 +33,15 @@
             }
         </div>
 
+        @* --- Filter Component --- *@
         @if (courses != null && courses.Any())
         {
             <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
-                          UniqueCategories="uniqueCategories" />
+                UniqueCategories="uniqueCategories" />
             <div class="mb-5"></div>
         }
 
+        @* --- Loading & Error States --- *@
         @if (courses == null || isLoading)
         {
             <div class="d-flex justify-content-center align-items-center" style="height:40vh;">
@@ -65,6 +68,7 @@
         }
         else
         {
+            @* --- Course Grid --- *@
             @foreach (var group in FilteredCourses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c => c.Category))
             {
                 <h5 class="fw-bolder text-secondary text-uppercase mt-4 mb-3 ps-1" style="letter-spacing:0.5px">
@@ -75,55 +79,16 @@
                     @foreach (var course in group)
                     {
                         <CourseCard Course="course" OnOpen="OpenCourse" OnEdit="OpenEditModal"
-                                    ProgressStep="GetSavedStep(course.Id)" />
+                            ProgressStep="GetSavedStep(course.Id)" />
                     }
                 </div>
             }
         }
 
-        @if (isModalOpen)
-        {
-            <div class="modal fade show" style="display:block; background-color:rgba(0,0,0,0.5);">
-                <div class="modal-dialog">
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Course</h5>
-                            <button type="button" class="btn-close" @onclick="CloseModal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Title</label>
-                                <input class="form-control" @bind="editModel.Title" @bind:event="oninput" />
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Description</label>
-                                <textarea class="form-control" style="min-height:80px;" @bind="editModel.Description"
-                                          @bind:event="oninput"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Category</label>
-                                <input class="form-control" @bind="editModel.Category" @bind:event="oninput" />
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Language</label>
-                                <input class="form-control" @bind="editModel.Language" @bind:event="oninput" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" @onclick="CloseModal">Close</button>
-                            <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")"
-                                    disabled="@(!IsDirty || isSaving)" @onclick="SaveChanges">
-                                @if (isSaving)
-                                {
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                }
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+        @* --- Edit Modal --- *@
+        <CourseEditModal Show="isModalOpen" CourseToEdit="editModel" OriginalCourse="originalModel" IsSaving="isSaving"
+            WasError="wasSavingError" OnClose="CloseModal" OnSave="SaveChanges" />
+
     </Authorized>
 
     <NotAuthorized>
@@ -139,30 +104,28 @@
     private List<Course> courses = new();
     private Dictionary<int, int> courseProgressMap = new();
     private int currentUserId = 0;
+
+    // UI State
     private bool isModalOpen = false;
     private bool isSaving = false;
     private bool wasSavingError = false;
     private bool loadError = false;
     private bool isLoading = true;
 
-    private Course editModel = new();
-    private Course originalModel = new();
+    // Filter State
     private string searchQuery = "";
     private string selectedCategory = "";
     private List<string> uniqueCategories = new();
 
-    private IEnumerable<Course> FilteredCourses => courses
-        .Where(c => string.IsNullOrEmpty(searchQuery)
-                    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
-        .Where(c => string.IsNullOrEmpty(selectedCategory)
-                    || c.Category == selectedCategory);
+    // Edit Models
+    private Course editModel = new();
+    private Course originalModel = new();
 
-    private bool IsDirty =>
-        editModel != null && originalModel != null &&
-        (editModel.Title != originalModel.Title ||
-         editModel.Description != originalModel.Description ||
-         editModel.Category != originalModel.Category ||
-         editModel.Language != originalModel.Language);
+    private IEnumerable<Course> FilteredCourses => courses
+    .Where(c => string.IsNullOrEmpty(searchQuery)
+    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+    .Where(c => string.IsNullOrEmpty(selectedCategory)
+    || c.Category == selectedCategory);
 
     protected override async Task OnInitializedAsync()
     {
@@ -189,12 +152,12 @@
             if (courses != null)
             {
                 uniqueCategories = courses
-                    .Select(c => c.Category)
-                    .Where(c => !string.IsNullOrEmpty(c))
-                    .Select(c => c!)
-                    .Distinct()
-                    .OrderBy(c => c)
-                    .ToList();
+                .Select(c => c.Category)
+                .Where(c => !string.IsNullOrEmpty(c))
+                .Select(c => c!)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
             }
 
             if (currentUserId > 0 && courses != null && courses.Any())
@@ -203,7 +166,7 @@
                 foreach (var course in courses)
                 {
                     int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
-                    
+
                     if (courseProgressMap.ContainsKey(course.Id))
                         courseProgressMap[course.Id] = step;
                     else
@@ -267,15 +230,14 @@
 
     private async Task SaveChanges()
     {
-        if (!IsDirty) return;
         isSaving = true;
         try
         {
             await CourseService.UpdateCourse(editModel.Id, editModel);
             wasSavingError = false;
-            
+
             CloseModal();
-            await LoadCoursesAndProgress();
+            await LoadCoursesAndProgress(); 
             await InvokeAsync(StateHasChanged);
         }
         catch
