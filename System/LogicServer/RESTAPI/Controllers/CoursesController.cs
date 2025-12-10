@@ -15,7 +15,7 @@ public class CoursesController(ICourseRepository repository) : GenericController
     public ActionResult<IEnumerable<Course>> HttpGetMany() => GetMany();
 
     [HttpPost("/drafts")]//so that we dont need to change at least this route in blazor
-    [Authorize("MustBeTeacher")]
+    [Authorize("MustBeTeacherOrAdmin")]
     public async Task<ActionResult<Course>> HttpCreateAsync([FromBody] CreateCourseDto entity) => await CreateAsync(entity);
 
     [HttpGet("my-courses/{userId:int}")]
@@ -35,7 +35,7 @@ public class CoursesController(ICourseRepository repository) : GenericController
         try
         {
             Course currentCourse = await _repository.GetSingleAsync(id);
-            Course updatedCourse = new Course
+             Course updatedCourse = new Course
             {
                 Id = currentCourse.Id,
                 Language = currentCourse.Language,

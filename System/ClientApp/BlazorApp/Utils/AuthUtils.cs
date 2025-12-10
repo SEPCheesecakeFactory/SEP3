@@ -9,9 +9,10 @@ public static class AuthUtils
 {
     const string ROLE_TEACHER = "teacher";
     const string ROLE_ADMIN = "admin";
-    public static IEnumerable<string> ConvertFromClaim(string jsonInput)
+     public static IEnumerable<string> ConvertFromClaim(string jsonInput)
     {
         if (jsonInput == null)
+            return new List<string>();
             return [];
         try
         {

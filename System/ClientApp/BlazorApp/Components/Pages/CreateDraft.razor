@@ -36,8 +36,8 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold">Description</label>
-                        <textarea class="form-control" style="min-height: 100px; resize: none;"
-                            @bind="draft.Description" placeholder="Enter course description..."></textarea>
+                        <textarea class="form-control" style="min-height: 100px; resize: none;" @bind="draft.Description"
+                        placeholder="Enter course description..."></textarea>
                     </div>
 
                     @if (!string.IsNullOrEmpty(errorMessage))
@@ -90,10 +90,10 @@
         {
             var authState = await AuthProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            
+
             if (user.IsTeacher())
             {
-                var id = user.GetID();
+                 var id = user.GetID();
                 if (id != null)
                 {
                     draft.AuthorId = id.Value;
