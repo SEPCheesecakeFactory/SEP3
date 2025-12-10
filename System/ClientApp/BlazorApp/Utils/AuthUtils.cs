@@ -20,7 +20,7 @@ public static class AuthUtils
         try
         {
             // Try to parse as a JSON array (e.g. ["teacher", "admin"])
-            if (jsonInput.Trim().StartsWith("[")) 
+            if (jsonInput.Trim().StartsWith("["))
             {
                 var result = JsonSerializer.Deserialize<List<string>>(jsonInput);
                 return result ?? new List<string>();
@@ -41,7 +41,7 @@ public static class AuthUtils
 
         // 1. Check standard ClaimTypes.Role
         var standardRoles = user.FindAll(ClaimTypes.Role).Select(c => c.Value);
-        
+
         // 2. Check custom "Role" claim and parse JSON if necessary
         var customRoles = user.FindAll("Role")
                               .SelectMany(c => ConvertFromClaim(c.Value));
@@ -71,16 +71,16 @@ public static class AuthUtils
     public static int? GetID(this ClaimsPrincipal user)
     {
         var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
-        
+
         if (idClaim != null && int.TryParse(idClaim.Value, out int id))
         {
             return id;
         }
         return null;
     }
-    
+
     // Entity helpers
     public static bool IsTeacher(this User user) => user.Roles.Any(r => r.RoleName == ROLE_TEACHER);
-    public static bool IsAdmin(this User user) => user.Roles.Any(r => r.RoleName == ROLE_ADMIN); 
-    public static bool IsTeacherOrAdmin(this User user) => user.IsTeacher() || user.IsAdmin();   
+    public static bool IsAdmin(this User user) => user.Roles.Any(r => r.RoleName == ROLE_ADMIN);
+    public static bool IsTeacherOrAdmin(this User user) => user.IsTeacher() || user.IsAdmin();
 }
