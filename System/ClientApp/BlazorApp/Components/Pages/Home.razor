@@ -293,14 +293,6 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
         isLoading = true;
 
         var result = await CourseService.GetCourses();
-
-       
-        if (result.HasError && result.ErrorMessage?.Contains("Unauthorized") == true)
-        {
-            NavManager.NavigateTo("/login", true);
-            return;
-        }
-
         
         if (result.HasError)
         {
