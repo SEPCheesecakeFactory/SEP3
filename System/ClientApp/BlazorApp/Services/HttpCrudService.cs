@@ -4,32 +4,19 @@ using BlazorApp.Shared;
 
 namespace BlazorApp.Services;
 
-public class HttpCrudService
+public class HttpCrudService(HttpClient client)
 {
-    private readonly HttpClient client;
+    private readonly HttpClient client = client;
     private readonly JsonSerializerOptions jsonOptions = new()
     {
         PropertyNameCaseInsensitive = true
     };
-
-    public HttpCrudService(HttpClient client)
-    {
-        this.client = client;
-    }
 
     // CREATE
     public async Task<Optional<T>> CreateAsync<T, R>(string endpoint, R request)
     {
         try
         {
-            // HttpResponseMessage httpResponse = await client.PostAsJsonAsync(endpoint, request);
-            // string response = await httpResponse.Content.ReadAsStringAsync();
-            // if (!httpResponse.IsSuccessStatusCode)
-            // {
-            //     throw new Exception($"Exception: {response}");
-            // }
-            // return JsonSerializer.Deserialize<T>(response, jsonOptions)!;
-
             HttpResponseMessage httpResponse = await client.PostAsJsonAsync(endpoint, request);
             string response = await httpResponse.Content.ReadAsStringAsync();
 
@@ -50,15 +37,6 @@ public class HttpCrudService
     {
         try
         {
-            // var finalEndpoint = id.HasValue ? $"{endpoint}/{id.Value}" : endpoint;
-            // HttpResponseMessage httpResponse = await client.GetAsync(finalEndpoint);
-            // string response = await httpResponse.Content.ReadAsStringAsync();
-            // if (!httpResponse.IsSuccessStatusCode)
-            // {
-            //     throw new Exception($"Exception: {response}");
-            // }
-            // return JsonSerializer.Deserialize<T>(response, jsonOptions)!;
-
             var finalEndpoint = id.HasValue ? $"{endpoint}/{id.Value}" : endpoint;
             HttpResponseMessage httpResponse = await client.GetAsync(finalEndpoint);
             string response = await httpResponse.Content.ReadAsStringAsync();
@@ -80,14 +58,6 @@ public class HttpCrudService
     {
         try
         {
-            // var finalEndpoint = id.HasValue ? $"{endpoint}/{id.Value}" : endpoint;
-            // HttpResponseMessage httpResponse = await client.DeleteAsync(finalEndpoint);
-            // string response = await httpResponse.Content.ReadAsStringAsync();
-            // if (!httpResponse.IsSuccessStatusCode)
-            // {
-            //     throw new Exception($"Exception: {response}");
-            // }
-
             var finalEndpoint = id.HasValue ? $"{endpoint}/{id.Value}" : endpoint;
             HttpResponseMessage httpResponse = await client.DeleteAsync(finalEndpoint);
             string response = await httpResponse.Content.ReadAsStringAsync();
@@ -108,15 +78,6 @@ public class HttpCrudService
     {
         try
         {
-            // var finalEndpoint = id.HasValue ? $"{endpoint}/{id.Value}" : endpoint;
-            // HttpResponseMessage httpResponse = await client.PutAsJsonAsync(finalEndpoint, request);
-            // string response = await httpResponse.Content.ReadAsStringAsync();
-            // if (!httpResponse.IsSuccessStatusCode)
-            // {
-            //     throw new Exception($"Exception: {response}");
-            // }
-            // return JsonSerializer.Deserialize<T>(response, jsonOptions)!;
-
             var finalEndpoint = id.HasValue ? $"{endpoint}/{id.Value}" : endpoint;
             HttpResponseMessage httpResponse = await client.PutAsJsonAsync(finalEndpoint, request);
             string response = await httpResponse.Content.ReadAsStringAsync();
