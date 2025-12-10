@@ -11,29 +11,17 @@ public class Optional<T>
     public bool IsSuccess => HasValue && !HasError;
     public bool IsFailure => HasError;
 
-    private Optional(T value)
+    private Optional(bool hasValue = false, bool hasError = false, T? value = default, string? error = null)
     {
+        HasValue = hasValue;
+        HasError = hasError;
         Value = value;
-        HasValue = true;
-        HasError = false;
-    }
-
-    private Optional(string error)
-    {
         ErrorMessage = error;
-        HasValue = false;
-        HasError = true;
     }
+    private Optional(T value) : this(true, false, value, null) { }
+    private Optional() : this(false, false, default, null) { }
 
-    private Optional()
-    {
-        HasValue = false;
-        HasError = false;
-    }
-
-    public static Optional<T> Success(T value) => new Optional<T>(value);
-
-    public static Optional<T> Error(string message) => new Optional<T>(message);
-
-    public static Optional<T> Empty() => new Optional<T>();
+    public static Optional<T> Success(T value) => new(value);
+    public static Optional<T> Error(string message) => new(false, true, default, message);
+    public static Optional<T> Empty() => new();
 }
