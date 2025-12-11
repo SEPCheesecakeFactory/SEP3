@@ -176,14 +176,9 @@ public static class PureTests
     }
     public static async Task CourseProgressLifeCycle(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
     {
-        // Test GET /courseprogress/{userId}/{courseId}
+        // TODO: should only be able to post own progress unless admin/teacher
         var token = TokenProvider(["learner"]);
         client.Login(token);
-
-        var getResponse = await client.GetAsync("/courseprogress/1/1");
-        getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        var progress = await getResponse.Content.ReadFromJsonAsync<int>();
-        progress.Should().Be(1); // default from in-memory
 
         // Test POST /courseprogress (update progress)
         var updateDto = new
@@ -195,10 +190,26 @@ public static class PureTests
         var postResponse = await client.PostAsJsonAsync("/courseprogress", updateDto);
         postResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        // Verify update
+        // Test GET /courseprogress/{userId}/{courseId}
         var getResponse2 = await client.GetAsync("/courseprogress/1/1");
         getResponse2.StatusCode.Should().Be(HttpStatusCode.OK);
         var progress2 = await getResponse2.Content.ReadFromJsonAsync<int>();
         progress2.Should().Be(2);
+
+        // Test POST /courseprogress (update progress)
+        var updateDto2 = new
+        {
+            UserId = 1,
+            CourseId = 1,
+            CurrentStep = 4
+        };
+        var postResponse2 = await client.PostAsJsonAsync("/courseprogress", updateDto2);
+        postResponse2.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Verify update
+        var getResponse3 = await client.GetAsync("/courseprogress/1/1");
+        getResponse3.StatusCode.Should().Be(HttpStatusCode.OK);
+        var progress3 = await getResponse3.Content.ReadFromJsonAsync<int>();
+        progress3.Should().Be(4);
     }
 }
