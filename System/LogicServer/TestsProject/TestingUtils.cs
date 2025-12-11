@@ -37,6 +37,10 @@ public static class TestingUtils
         {
             return ("teacherito", "passwordini");
         }
+        else if (roles.Contains("learner"))
+        {
+            return ("userito", "passwordini");
+        }
         throw new ArgumentException("No suitable user found for the given roles.");
     }
 

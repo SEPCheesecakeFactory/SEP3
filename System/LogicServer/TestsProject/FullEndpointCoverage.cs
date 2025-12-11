@@ -31,51 +31,90 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     }
 
     [Fact]
-    public async Task Full_Course_Lifecycle_Real()
+    public async Task Can_Reach_Server()
     {
-        // 1. AUTHENTICATE (Teacher)
-        var teacherToken = await TestingUtils.GetTokenWithRoles(["teacher"], _client);
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", teacherToken);
+        var response = await _client.GetAsync("/status");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
 
-        // 2. CREATE
-        var createDto = new CreateCourseDto
+    [Fact]
+    public async Task Full_User_Registration_And_Login_Cycle()
+    {
+        // 1. REGISTER
+        var registerRequest = new RegisterRequest
         {
-            Title = $"Test Course {Guid.NewGuid()}",
-            Description = "Testing the full system",
-            Language = "English",
-            Category = "History"
+            Username = "testuser",
+            Password = "testpassword",
+            PasswordRepeat = "testpassword",
+            Roles = [new Role { RoleName = "learner" }]
         };
 
-        Course? createdCourse = null;
+        var registerResponse = await _client.PostAsJsonAsync("/Auth/register", registerRequest);
+        registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        try
+        // 2. LOGIN
+        var loginRequest = new LoginRequest
         {
-            var createRes = await _client.PostAsJsonAsync("/drafts", createDto);
-            createRes.StatusCode.Should().Be(HttpStatusCode.Created);
+            Username = "testuser",
+            Password = "testpassword"
+        };
 
-            createdCourse = await createRes.Content.ReadFromJsonAsync<Course>();
-            createdCourse.Should().NotBeNull();
-            createdCourse!.Id.Should().BeGreaterThan(0);
+        var loginResponse = await _client.PostAsJsonAsync("/Auth/login", loginRequest);
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            // 3. READ
-            var getRes = await _client.GetAsync($"/courses/{createdCourse.Id}");
+        var token = await loginResponse.Content.ReadAsStringAsync();
+        token.Should().NotBeNullOrEmpty();
 
-            // 4. APPROVE (Admin Workflow)
-            var adminToken = await TestingUtils.GetTokenWithRoles(["admin"], _client);
+        // 3. ACCESS PROTECTED RESOURCE
+        _client.Login(token);
 
-            var adminClient = _factory.CreateClient();
-            adminClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
+        // TODO: test if the token allows access to a protected resource
+    }
 
-            var approveRes = await adminClient.PutAsJsonAsync($"/drafts/{createdCourse.Id}", 1);
-            approveRes.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-        finally
+    [Fact]
+    public async Task Full_Course_Lifecycle_Real()
+    {
+        var client = _factory.CreateClient();
+
+        // Test GET /courses (requires auth)
+        var token = await TestingUtils.GetTokenWithRoles(["learner"], client);
+        client.Login(token);
+
+        var response = await client.GetAsync("/courses");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Test POST /drafts (create course)
+        token = await TestingUtils.GetTokenWithRoles(["teacher"], client);
+        client.Login(token);
+
+        var createDto = new CreateCourseDto
         {
-            // 5. CLEANUP
-            if (createdCourse != null)
-            {
-                await _client.DeleteAsync($"/courses/{createdCourse.Id}");
-            }
-        }
+            Language = "ENG",
+            Title = "Test Course",
+            Description = "Test Description",
+            Category = "History",
+            AuthorId = 1
+        };
+        var createResponse = await client.PostAsJsonAsync("/drafts", createDto);
+        createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+
+        var createdCourse = await createResponse.Content.ReadFromJsonAsync<Course>();
+        createdCourse.Should().NotBeNull();
+        createdCourse!.Title.Should().Be("Test Course");
+
+        // Test GET /courses/my-courses/{userId}
+        var myCoursesResponse = await client.GetAsync("/courses/my-courses/1");
+        myCoursesResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Test PUT /courses/{id} (update)
+        createdCourse.Description = "Updated Description";
+        var updateResponse = await client.PutAsJsonAsync($"/courses/{createdCourse.Id}", createdCourse);
+        updateResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Test PUT /drafts/{id} (approve draft) - requires admin
+        var adminToken = await TestingUtils.GetTokenWithRoles(["admin"], client);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
+        var approveResponse = await client.PutAsJsonAsync($"/drafts/{createdCourse.Id}", 1); // approvedBy = 1
+        approveResponse.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }

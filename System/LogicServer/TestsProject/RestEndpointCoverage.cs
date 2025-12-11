@@ -45,10 +45,10 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                 services.AddSingleton<IRepositoryID<User, User, User, int>>(sp =>
                 {
                     var repo = new InMemoryRepository<User, int>();
-                    repo.AddAsync(new User { Id = 1, Username = "adminito", Password = "passwordini", Roles = [new() { RoleName = "Admin" }] }).Wait();
-                    repo.AddAsync(new User { Id = 2, Username = "teacherito", Password = "passwordini", Roles = [new() { RoleName = "Teacher" }] }).Wait();
-                    repo.AddAsync(new User { Id = 3, Username = "superuserito", Password = "passwordini", Roles = [new() { RoleName = "Admin" }, new() { RoleName = "Teacher" }] }).Wait();
-                    repo.AddAsync(new User { Id = 4, Username = "userito", Password = "passwordini", Roles = [new() { RoleName = "Learner" }] }).Wait();
+                    repo.AddAsync(new User { Id = 1, Username = "adminito", Password = "passwordini", Roles = [new() { RoleName = "admin" }] }).Wait();
+                    repo.AddAsync(new User { Id = 2, Username = "teacherito", Password = "passwordini", Roles = [new() { RoleName = "teacher" }] }).Wait();
+                    repo.AddAsync(new User { Id = 3, Username = "superuserito", Password = "passwordini", Roles = [new() { RoleName = "admin" }, new() { RoleName = "teacher" }] }).Wait();
+                    repo.AddAsync(new User { Id = 4, Username = "userito", Password = "passwordini", Roles = [new() { RoleName = "learner" }] }).Wait();
                     return repo;
                 });
                 services.AddSingleton<IAuthService, AuthService>();
