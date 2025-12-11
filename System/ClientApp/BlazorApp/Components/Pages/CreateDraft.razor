@@ -31,7 +31,25 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Language</label>
-                        <input type="text" class="form-control" @bind="draft.Language" placeholder="e.g. C#" />
+                        <input type="text" class="form-control" @bind="draft.Language" placeholder="e.g. English" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Category</label>
+                        @if (categories == null)
+                        {
+                            <div class="spinner-border spinner-border-sm ms-2 text-secondary"></div>
+                        }
+                        else
+                        {
+                            <select class="form-select" @bind="draft.Category">
+                                <option value="" disabled selected>Select a category...</option>
+                                @foreach (var cat in categories)
+                                {
+                                    <option value="@cat.Name">@cat.Name</option>
+                                }
+                            </select>
+                        }
                     </div>
 
                     <div class="mb-4">
@@ -79,13 +97,30 @@
 
 @code {
     private CreateDraftDto draft = new();
+    private List<CourseCategory> categories = new(); 
     private bool isSaving = false;
     private string errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try 
+        {
+            categories = await CourseService.GetCategories();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error fetching categories: " + ex.Message);
+        }
+    }
 
     private async Task Create()
     {
         isSaving = true;
         errorMessage = "";
+
+        if (string.IsNullOrEmpty(draft.Title)) { errorMessage = "Title is required."; isSaving = false; return; }
+        if (string.IsNullOrEmpty(draft.Category)) { errorMessage = "Please select a category."; isSaving = false; return; }
+
         try
         {
             var authState = await AuthProvider.GetAuthenticationStateAsync();
@@ -97,7 +132,6 @@
                 if (id != null)
                 {
                     draft.AuthorId = id.Value;
-                    draft.Category = "default";
                 }
                 else
                 {
