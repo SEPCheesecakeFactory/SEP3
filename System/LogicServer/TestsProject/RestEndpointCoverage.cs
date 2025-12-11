@@ -1,20 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
+using System.Net.Http; // Fixed missing using
 using Entities;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.DependencyInjection.Extensions; // REQUIRED for RemoveAll
 using RepositoryContracts;
 using RESTAPI;
 using RESTAPI.Services;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Xunit;
 using InMemoryRepositories;
 
@@ -35,7 +31,6 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
         {
             builder.ConfigureAppConfiguration((context, config) =>
             {
-                // Override JWT settings for testing
                 config.AddInMemoryCollection(new Dictionary<string, string?>
                 {
                     ["Jwt:Key"] = JwtTestKey,
@@ -43,19 +38,34 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                     ["Jwt:Audience"] = JwtAudience
                 });
             });
+
             builder.ConfigureServices(services =>
             {
-                // Override services to use in-memory repos for testing
-                services.AddSingleton<ICourseRepository, InMemoryCourseRepository>();
-                services.AddSingleton<IRepositoryID<User, User, User, int>>(sp =>
-                {
-                    var repo = new InMemoryRepository<User, int>();
-                    repo.AddAsync(new User { Id = 1, Username = "adminito", Password = "passwordini", Roles = [new() { RoleName = "admin" }] }).Wait();
-                    repo.AddAsync(new User { Id = 2, Username = "teacherito", Password = "passwordini", Roles = [new() { RoleName = "teacher" }] }).Wait();
-                    repo.AddAsync(new User { Id = 3, Username = "superuserito", Password = "passwordini", Roles = [new() { RoleName = "admin" }, new() { RoleName = "teacher" }] }).Wait();
-                    repo.AddAsync(new User { Id = 4, Username = "userito", Password = "passwordini", Roles = [new() { RoleName = "learner" }] }).Wait();
-                    return repo;
-                });
+                // 1. Remove ALL existing gRPC registrations to prevent accidental resolution
+                services.RemoveAll<ICourseRepository>();
+                services.RemoveAll<IRepositoryID<Course, CreateCourseDto, Course, int>>();
+                services.RemoveAll<IRepositoryID<User, User, User, int>>();
+                services.RemoveAll<IAuthService>();
+                services.RemoveAll<ILeaderboardRepository>();
+                services.RemoveAll<ICourseProgressRepository>();
+
+                // 2. Create the InMemory instances
+                var courseRepo = new InMemoryCourseRepository();
+                var userRepo = new InMemoryRepository<User, int>();
+
+                // Add fake user data
+                userRepo.AddAsync(new User { Id = 1, Username = "adminito", Password = "passwordini", Roles = [new() { RoleName = "admin" }] }).Wait();
+                userRepo.AddAsync(new User { Id = 2, Username = "teacherito", Password = "passwordini", Roles = [new() { RoleName = "teacher" }] }).Wait();
+                userRepo.AddAsync(new User { Id = 3, Username = "superuserito", Password = "passwordini", Roles = [new() { RoleName = "admin" }, new() { RoleName = "teacher" }] }).Wait();
+                userRepo.AddAsync(new User { Id = 4, Username = "userito", Password = "passwordini", Roles = [new() { RoleName = "learner" }] }).Wait();
+
+                // 3. Add the InMemory instances to the DI container
+
+                services.AddSingleton<ICourseRepository>(courseRepo);
+                services.AddSingleton<IRepositoryID<Course, CreateCourseDto, Course, int>>(courseRepo);
+                services.AddSingleton<IRepositoryID<User, User, User, int>>(userRepo);
+
+                // Override Auth Service
                 services.AddSingleton<IAuthService, AuthService>();
             });
         });
