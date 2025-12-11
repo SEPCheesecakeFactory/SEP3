@@ -204,6 +204,21 @@ main {
 .progress { height: 16px; border-radius: 8px; background-color: #e5e5e5; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
 .progress-bar { background-color: var(--green); border-radius: 8px; transition: width 0.5s ease; }
 
+.fade-in {
+    animation: fadeIn 0.4s ease-out backwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .card-course {
     border: 2px solid var(--gray);
     border-radius: 16px;

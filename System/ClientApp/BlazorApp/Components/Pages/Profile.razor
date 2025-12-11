@@ -11,8 +11,8 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        @* Matching the 'Empty State' style *@
-        <div class="text-center py-5 my-5 border-2 rounded-4 bg-light" style="border: 2px solid var(--gray);">
+        @* Matching the 'Empty State' style with animation *@
+        <div class="text-center py-5 my-5 border-2 rounded-4 bg-light fade-in" style="border: 2px solid var(--gray);">
             <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
             <h2 class="fw-bold text-dark">Welcome to Learnify!</h2>
             <p class="lead text-muted mb-4">Please <a href="login">log in</a> to view your profile.</p>
@@ -20,12 +20,13 @@
     </NotAuthorized>
     <Authorized Context="context">
         <div class="container-fluid mt-2">
-            @* --- Page Header --- *@
-            <h2 class="fw-bolder text-secondary mb-4">My Profile</h2>
+            @* --- Page Header with Animation --- *@
+            <h2 class="fw-bolder text-secondary mb-4 fade-in">My Profile</h2>
 
             <div class="row g-4">
                 @* --- Left Column: Identity Card --- *@
                 <div class="col-md-5 col-lg-4">
+                    @* Added fade-in class *@
                     <div class="card h-100 bg-white fade-in profile-card">
                         <div class="card-body d-flex flex-column align-items-center justify-content-center py-5 text-center">
                             
@@ -39,14 +40,13 @@
                                 @(context.User.FindFirst("Username")?.Value ?? "User")
                             </h3>
 
-                            @* Roles Badges (Using your CSS utility classes) *@
+                            @* Roles Badges *@
                             <div class="mt-2">
                                 @foreach (var roleClaim in context.User.Claims.Where(c => c.Type == "Role"))
                                 {
                                     var roles = AuthUtils.ConvertFromClaim(roleClaim.Value);
                                     foreach (var roleName in roles)
                                     {
-                                        // Dynamic color assignment based on role
                                         var badgeClass = roleName.ToLower() == "admin" ? "bg-red-100 text-red-600 border-red-200" : "bg-blue-100 text-blue-600 border-blue-200";
                                         
                                         <span class="badge @badgeClass border px-3 py-2 rounded-pill fs-6 text-uppercase fw-bold mx-1">
@@ -61,6 +61,7 @@
 
                 @* --- Right Column: Settings Card --- *@
                 <div class="col-md-7 col-lg-8">
+                    @* Added fade-in class & animation delay *@
                     <div class="card h-100 bg-white fade-in profile-card" style="animation-delay: 0.1s;">
                         <div class="card-body p-4 p-lg-5">
                             <h4 class="fw-bold text-dark mb-4 border-bottom pb-3" style="border-color: var(--gray) !important;">
@@ -69,13 +70,13 @@
 
                             @if (!string.IsNullOrEmpty(successMessage))
                             {
-                                <div class="alert bg-green-100 text-green-600 border-green-200 border-2 rounded-3 d-flex align-items-center fw-bold" role="alert">
+                                <div class="alert bg-green-100 text-green-600 border-green-200 border-2 rounded-3 d-flex align-items-center fw-bold fade-in" role="alert">
                                     <i class="fas fa-check-circle me-2"></i> @successMessage
                                 </div>
                             }
                             @if (!string.IsNullOrEmpty(errorMessage))
                             {
-                                <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 d-flex align-items-center fw-bold" role="alert">
+                                <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 d-flex align-items-center fw-bold fade-in" role="alert">
                                     <i class="fas fa-exclamation-circle me-2"></i> @errorMessage
                                 </div>
                             }
@@ -98,7 +99,6 @@
                             </div>
 
                             <div class="d-flex justify-content-end mt-5">
-                                @* Using your specific .btn .btn-primary classes *@
                                 <button class="btn btn-primary px-5" @onclick="() => ChangePassword(context.User)" disabled="@isBusy">
                                     @if(isBusy) {
                                         <span class="spinner-border spinner-border-sm me-2"></span> <span>Updating...</span>
