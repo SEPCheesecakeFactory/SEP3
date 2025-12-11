@@ -44,7 +44,7 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     [Fact]
     public async Task FullAuthLifecycle()
     {
-        await PureTests.AuthLifecycle(_client);
+        await PureTests.AuthLifecycle(_client, _testOutputHelper);
     }
 
     [Fact]

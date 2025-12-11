@@ -9,25 +9,29 @@ namespace TestsProject;
 
 public static class PureTests
 {
-    public static async Task AuthLifecycle(HttpClient client)
+    public static async Task AuthLifecycle(HttpClient client, ITestOutputHelper? testOutputHelper = null)
     {
+        // Ensure unique usernames by appending a timestamp + random number
+        var uniqueSuffix = $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{new Random().Next(1000, 9999)}";
+        var uniqueUsername = "testuser" + uniqueSuffix;
         // 1. REGISTER
         var registerRequest = new
         {
-            Username = "testuser",
-            Password = "testpassword",
-            PasswordRepeat = "testpassword",
+            Username = uniqueUsername,
+            Password = "passwordini",
+            PasswordRepeat = "passwordini",
             Roles = new [] { new { RoleName = "learner" } }
         };
 
         var registerResponse = await client.PostAsJsonAsync("/Auth/register", registerRequest);
+        testOutputHelper?.WriteLine(await registerResponse.Content.ReadAsStringAsync());
         registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
         // 2. LOGIN
         var loginRequest = new
         {
-            Username = "testuser",
-            Password = "testpassword"
+            Username = uniqueUsername,
+            Password = "passwordini"
         };
 
         var loginResponse = await client.PostAsJsonAsync("/Auth/login", loginRequest);
