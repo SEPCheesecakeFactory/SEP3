@@ -17,6 +17,8 @@ using System.Security.Claims;
 using Xunit;
 using InMemoryRepositories;
 using Xunit.Abstractions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace TestsProject;
 
@@ -29,7 +31,14 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
 
     public FullEndpointCoverage(WebApplicationFactory<Program> factory, ITestOutputHelper testOutputHelper)
     {
-        _factory = factory;
+        // To remove the nasty console bullshit during testing
+        _factory = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureLogging(logging =>
+            {
+                logging.ClearProviders(); 
+            });
+        });
         _client = _factory.CreateClient();
         _testOutputHelper = testOutputHelper;
     }

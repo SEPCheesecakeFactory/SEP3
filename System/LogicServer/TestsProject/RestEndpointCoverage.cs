@@ -14,6 +14,8 @@ using RESTAPI.Services;
 using Xunit;
 using InMemoryRepositories;
 using Xunit.Abstractions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace TestsProject;
 
@@ -81,6 +83,12 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
 
                 // Override Auth Service
                 services.AddSingleton<IAuthService, AuthService>();
+            });
+
+            // To remove the nasty console bullshit during testing
+            builder.ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
             });
         });
         _client = _factory.CreateClient();
