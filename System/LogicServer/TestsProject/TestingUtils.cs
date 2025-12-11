@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Json;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TestsProject;
 
@@ -8,18 +12,12 @@ public static class TestingUtils
 {
     public static async Task<string> LoginAndGetToken(string username, string password, HttpClient client)
     {
-        // using anonymous because 
-        // 1. json doesn't care 
-        // 2. no dependencies 
-        // 3. simple 
-        // 4. it should work this way; if it doesn't work, refactor the code - not the test
         var loginDto = new { Username = username, Password = password };
 
         var response = await client.PostAsJsonAsync("/Auth/login", loginDto);
 
         response.EnsureSuccessStatusCode();
-
-        // Assuming the API returns 
+        
         return await response.Content.ReadAsStringAsync();
     }
 
@@ -56,5 +54,30 @@ public static class TestingUtils
     public static void Login(this HttpClient client, string token)
     {
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    }
+
+    public static string GenerateJwtToken(IEnumerable<string> roles, string JwtTestKey, string JwtIssuer, string JwtAudience)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTestKey));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var claims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sub, "testuser"),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var token = new JwtSecurityToken(
+            issuer: JwtIssuer,
+            audience: JwtAudience,
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(30),
+            signingCredentials: creds);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

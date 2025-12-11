@@ -23,6 +23,11 @@ namespace TestsProject;
 public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
+    private readonly HttpClient _client;
+    private const string JwtTestKey = "super-secret-key-for-testing-only";
+    private const string JwtIssuer = "test-issuer";
+    private const string JwtAudience = "test-audience";
+    private static string GenerateJwtToken(IEnumerable<string> roles) => TestingUtils.GenerateJwtToken(roles, JwtTestKey, JwtIssuer, JwtAudience);
 
     public RestEndpointCoverage(WebApplicationFactory<Program> factory)
     {
@@ -33,9 +38,9 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                 // Override JWT settings for testing
                 config.AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    ["Jwt:Key"] = "super-secret-key-for-testing-only",
-                    ["Jwt:Issuer"] = "test-issuer",
-                    ["Jwt:Audience"] = "test-audience"
+                    ["Jwt:Key"] = JwtTestKey,
+                    ["Jwt:Issuer"] = JwtIssuer,
+                    ["Jwt:Audience"] = JwtAudience
                 });
             });
             builder.ConfigureServices(services =>
@@ -54,87 +59,18 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                 services.AddSingleton<IAuthService, AuthService>();
             });
         });
-    }
-
-    private string GenerateJwtToken(IEnumerable<string> roles)
-    {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super-secret-key-for-testing-only"));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var claims = new List<Claim>
-        {
-            new(JwtRegisteredClaimNames.Sub, "testuser"),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-        foreach (var role in roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
-
-        var token = new JwtSecurityToken(
-            issuer: "test-issuer",
-            audience: "test-audience",
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: creds);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        _client = _factory.CreateClient();
     }
 
     [Fact]
     public async Task TestAuthEndpoint()
     {
-        var client = _factory.CreateClient();
-
-        var loginDto = new { Username = "adminito", Password = "passwordini" };
-        var response = await client.PostAsJsonAsync("/Auth/login", loginDto);
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        await PureTests.AuthLifecycle(_client);
     }
 
     [Fact]
     public async Task TestCourseEndpoints()
     {
-        var client = _factory.CreateClient();
-
-        // Test GET /courses (requires auth)
-        var token = GenerateJwtToken(["learner"]);
-        client.Login(token);
-
-        var response = await client.GetAsync("/courses");
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        // Test POST /drafts (create course)
-        token = GenerateJwtToken(["teacher"]);
-        client.Login(token);
-
-        var createDto = new CreateCourseDto
-        {
-            Language = "ENG",
-            Title = "Test Course",
-            Description = "Test Description",
-            Category = "History",
-            AuthorId = 1
-        };
-        var createResponse = await client.PostAsJsonAsync("/drafts", createDto);
-        createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
-
-        var createdCourse = await createResponse.Content.ReadFromJsonAsync<Course>();
-        createdCourse.Should().NotBeNull();
-        createdCourse!.Title.Should().Be("Test Course");
-
-        // Test GET /courses/my-courses/{userId}
-        var myCoursesResponse = await client.GetAsync("/courses/my-courses/1");
-        myCoursesResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        // Test PUT /courses/{id} (update)
-        createdCourse.Description = "Updated Description";
-        var updateResponse = await client.PutAsJsonAsync($"/courses/{createdCourse.Id}", createdCourse);
-        updateResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        // Test PUT /drafts/{id} (approve draft) - requires admin
-        var adminToken = GenerateJwtToken(["admin"]);
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
-        var approveResponse = await client.PutAsJsonAsync($"/drafts/{createdCourse.Id}", 1); // approvedBy = 1
-        approveResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        await PureTests.CourseLifeCycle(_client, GenerateJwtToken);
     }
 }
