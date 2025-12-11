@@ -1,4 +1,4 @@
-using Entities; // Your generic models
+using Entities;
 using System.Threading.Tasks;
 
 namespace RepositoryContracts
