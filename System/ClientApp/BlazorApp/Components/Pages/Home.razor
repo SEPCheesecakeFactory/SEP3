@@ -15,10 +15,9 @@
 
 <AuthorizeView>
     <Authorized Context="context">
-        <h2 class="fw-bolder text-secondary mb-4">All Courses</h2>
+        <h2 class="fw-bolder text-secondary mb-4 fade-in">All Courses</h2>
 
-        @* --- Action Buttons (Teacher/Admin) --- *@
-        <div class="d-flex justify-content-end gap-2 mb-4">
+        <div class="d-flex justify-content-end gap-2 mb-4 fade-in">
             @if (context.User.IsTeacher())
             {
                 <button class="btn btn-primary" @onclick='() => NavManager.NavigateTo("create-draft")'>
@@ -33,15 +32,15 @@
             }
         </div>
 
-        @* --- Filter Component --- *@
         @if (courses != null && courses.Any())
         {
-            <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
-                UniqueCategories="uniqueCategories" />
-            <div class="mb-5"></div>
+            <div class="fade-in" style="animation-delay: 0.1s;">
+                <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
+                    UniqueCategories="uniqueCategories" />
+                <div class="mb-5"></div>
+            </div>
         }
 
-        @* --- Loading & Error States --- *@
         @if (courses == null || isLoading)
         {
             <div class="d-flex justify-content-center align-items-center" style="height:40vh;">
@@ -50,49 +49,49 @@
         }
         else if (loadError)
         {
-            <div class="alert alert-danger">Failed to load courses.</div>
+            <div class="alert alert-danger fade-in">Failed to load courses.</div>
         }
         else if (!courses.Any())
         {
-            <div class="text-center py-5">
+            <div class="text-center py-5 fade-in">
                 <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
                 <p class="text-muted fs-4">No courses available yet.</p>
             </div>
         }
         else if (!FilteredCourses.Any())
         {
-            <div class="text-center py-5">
+            <div class="text-center py-5 fade-in">
                 <h5 class="text-muted">No courses match your search.</h5>
                 <button class="btn btn-link" @onclick="ResetFilters">Clear Filters</button>
             </div>
         }
         else
         {
-            @* --- Course Grid --- *@
-            @foreach (var group in FilteredCourses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c => c.Category))
-            {
-                <h5 class="fw-bolder text-secondary text-uppercase mt-4 mb-3 ps-1" style="letter-spacing:0.5px">
-                    @group.Key
-                </h5>
+            <div class="fade-in" style="animation-delay: 0.2s;">
+                @foreach (var group in FilteredCourses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c => c.Category))
+                {
+                    <h5 class="fw-bolder text-secondary text-uppercase mt-4 mb-3 ps-1" style="letter-spacing:0.5px">
+                        @group.Key
+                    </h5>
 
-                <div class="row g-3">
-                    @foreach (var course in group)
-                    {
-                        <CourseCard Course="course" OnOpen="OpenCourse" OnEdit="OpenEditModal"
-                            ProgressStep="GetSavedStep(course.Id)" />
-                    }
-                </div>
-            }
+                    <div class="row g-3">
+                        @foreach (var course in group)
+                        {
+                            <CourseCard Course="course" OnOpen="OpenCourse" OnEdit="OpenEditModal"
+                                ProgressStep="GetSavedStep(course.Id)" />
+                        }
+                    </div>
+                }
+            </div>
         }
 
-        @* --- Edit Modal --- *@
         <CourseEditModal Show="isModalOpen" CourseToEdit="editModel" OriginalCourse="originalModel" IsSaving="isSaving"
             WasError="wasSavingError" OnClose="CloseModal" OnSave="SaveChanges" />
 
     </Authorized>
 
     <NotAuthorized>
-        <div class="text-center py-5 my-5 border rounded-3 bg-light">
+        <div class="text-center py-5 my-5 border rounded-3 bg-light fade-in">
             <i class="fas fa-th-list fa-3x text-primary mb-3"></i>
             <h2 class="fw-bold text-dark">Welcome to Learnify!</h2>
             <p class="lead text-muted mb-4">Please log in to view all courses.</p>
@@ -104,6 +103,7 @@
     private List<Course> courses = new();
     private Dictionary<int, int> courseProgressMap = new();
     private int currentUserId = 0;
+    private bool isAdmin = false;
 
     // UI State
     private bool isModalOpen = false;
@@ -125,18 +125,35 @@
     .Where(c => string.IsNullOrEmpty(searchQuery)
     || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
     .Where(c => string.IsNullOrEmpty(selectedCategory)
-    || c.Category == selectedCategory);
+    || c.Category == selectedCategory)
+    .Where(c =>
+    // show if ApprovedBy is strictly positive
+    (c.ApprovedBy != null && c.ApprovedBy > 0) ||
+    // or show if I am the author (My Drafts)
+    (c.AuthorId == currentUserId) ||
+    // or show if I am admin
+    isAdmin
+    );
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
+        {
+            isLoading = false;
+            return;
+        }
+
         var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
 
         if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
         {
             currentUserId = uid;
         }
+
+        isAdmin = user.IsAdmin();
 
         await LoadCoursesAndProgress();
     }
@@ -210,7 +227,10 @@
             Title = course.Title,
             Description = course.Description,
             Category = course.Category,
-            Language = course.Language
+            Language = course.Language,
+            TotalSteps = course.TotalSteps,
+            AuthorId = course.AuthorId,
+            ApprovedBy = course.ApprovedBy
         };
 
         editModel = new Course
@@ -219,7 +239,10 @@
             Title = course.Title,
             Description = course.Description,
             Category = course.Category,
-            Language = course.Language
+            Language = course.Language,
+            TotalSteps = course.TotalSteps,
+            AuthorId = course.AuthorId,
+            ApprovedBy = course.ApprovedBy
         };
 
         wasSavingError = false;
@@ -237,7 +260,7 @@
             wasSavingError = false;
 
             CloseModal();
-            await LoadCoursesAndProgress(); 
+            await LoadCoursesAndProgress();
             await InvokeAsync(StateHasChanged);
         }
         catch

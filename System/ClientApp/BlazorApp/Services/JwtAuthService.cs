@@ -110,6 +110,28 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         OnAuthStateChanged.Invoke(principal);
     }
 
+    public async Task ChangePasswordAsync(string username, string currentPassword, string newPassword)
+    {
+        var request = new 
+        {
+            Username = username,
+            CurrentPassword = currentPassword,
+            NewPassword = newPassword
+        };
+
+        string requestAsJson = JsonSerializer.Serialize(request);
+        StringContent content = new(requestAsJson, Encoding.UTF8, "application/json");
+
+        // Note: We use PutAsync here because the endpoint is [HttpPut]
+        HttpResponseMessage response = await client.PutAsync("auth/password", content);
+        string responseContent = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(responseContent);
+        }
+    }
+
     public async Task<ClaimsPrincipal> GetAuthAsync()
     {
         ClaimsPrincipal principal = await CreateClaimsPrincipal();

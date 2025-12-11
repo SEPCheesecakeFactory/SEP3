@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Collections.Generic;
 using RESTAPI.Controllers;
+using via.sep3.dataserver.grpc; // Needed for UserService
+using Grpc.Net.Client; // Added for GrpcChannel
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,17 +34,50 @@ builder.Services.AddEndpointsApiExplorer();
 var host = "localhost";
 var port = 9090;
 
+// reg grpc client
+builder.Services.AddScoped<UserService.UserServiceClient>(sp =>
+{
+    var channel = GrpcChannel.ForAddress($"http://{host}:{port}");
+    return new UserService.UserServiceClient(channel);
+});
+
+// reg repositories (fixed ambiguities)
 builder.Services.AddScoped<ILeaderboardRepository>(sp => new gRPCLeaderBoardEntryRepository(host, port));
 builder.Services.AddScoped<ICourseProgressRepository>(sp => new gRPCCourseProgressRepository(host, port));
-builder.Services.AddScoped<IRepositoryID<Course, CreateCourseDto, Course, int>>(sp => new gRPCCourseRepository(host, port));
-builder.Services.AddScoped<ICourseRepository>(sp => new gRPCCourseRepository(host, port));
+// Not valid builder.Services.AddScoped<IRepositoryID<Course, CreateCourseDto, Course, int>>(sp => new gRPCCourseRepository(host, port));
+// Not valid builder.Services.AddScoped<ICourseRepository>(sp => new gRPCCourseRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Entities.User, Entities.User, Entities.User, int>>(sp => new gRPCUserRepository(host, port));
+
+builder.Services.AddScoped<ICourseRepository>(sp =>
+{
+    var userClient = sp.GetRequiredService<UserService.UserServiceClient>();
+    return new gRPCCourseRepository(host, port, userClient);
+});
+
+builder.Services.AddScoped<IRepositoryID<Entities.Course, CreateCourseDto, Entities.Course, int>>(sp =>
+{
+    var userClient = sp.GetRequiredService<UserService.UserServiceClient>();
+    return new gRPCCourseRepository(host, port, userClient);
+});
+
+builder.Services.AddScoped<IAuthService, SecureAuthService>();
+
+
 builder.Services.AddScoped<ICourseCategoryRepository>(sp => new gRPCCourseCategoryRepository(host, port));
+builder.Services.AddScoped<ILanguageRepository>(sp => new gRPCLanguageRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
-builder.Services.AddScoped<IRepositoryID<User, User, User, int>>(sp => new gRPCUserRepository(host, port));
+// not valid now builder.Services.AddScoped<IRepositoryID<User, User, User, int>>(sp => new gRPCUserRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Entities.Course, CreateCourseDto, Entities.Course, int>>(sp =>
+{
+    var userClient = sp.GetRequiredService<UserService.UserServiceClient>();
+    return new gRPCCourseRepository(host, port, userClient);
+});
 builder.Services.AddScoped<IAuthService, SecureAuthService>();
-builder.Services.AddScoped<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>(sp =>
+//not valid now builder.Services.AddScoped<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>(sp =>  new gRPCLearningStepRepository(host, port));
+// now 'Entities.LearningStep' to avoid conflict with gRPC 'LearningStep'
+builder.Services.AddScoped<IRepositoryID<Entities.LearningStep, Entities.LearningStep, Entities.LearningStep, (int, int)>>(sp =>
     new gRPCLearningStepRepository(host, port));
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
