@@ -106,14 +106,32 @@ VALUES ('admin'),
 INSERT INTO
     SystemUser (username, password_hash)
 VALUES (
-        'admin',
+        'superuserito',
+        '$argon2i$v=19$m=16,t=2,p=1$am5PMUNzT1FSeTg2UXVaVA$FEnJk9CY+ATMEVtpIP91tQ'
+    ),
+    (
+        'adminito',
+        '$argon2i$v=19$m=16,t=2,p=1$am5PMUNzT1FSeTg2UXVaVA$FEnJk9CY+ATMEVtpIP91tQ'
+    ),
+    (
+        'teacherito',
+        '$argon2i$v=19$m=16,t=2,p=1$am5PMUNzT1FSeTg2UXVaVA$FEnJk9CY+ATMEVtpIP91tQ'
+    ),
+    (
+        'userito',
         '$argon2i$v=19$m=16,t=2,p=1$am5PMUNzT1FSeTg2UXVaVA$FEnJk9CY+ATMEVtpIP91tQ'
     );
 
 INSERT INTO
     SystemUserRole (systemUserId, role)
-VALUES (1, 'admin'),
-    (1, 'teacher');
+VALUES (1, 'learner'),
+    (1, 'admin'),
+    (1, 'teacher'),
+    (2, 'learner'),
+    (2, 'admin'),
+    (3, 'learner'),
+    (3, 'teacher'),
+    (4, 'learner');
 
 -- 3. Courses (Updated to include author_id and approved_by)
 INSERT INTO
