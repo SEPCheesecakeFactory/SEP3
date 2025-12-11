@@ -53,10 +53,10 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                 services.RemoveAll<ICourseProgressRepository>();
                 services.RemoveAll<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>();
 
-                // 2. Create the InMemory instances
-                var courseRepo = new InMemoryCourseRepository();
+                // 2. Create the InMemory instances                
                 var userRepo = new InMemoryRepository<User, int>();
                 var learningStepRepo = new InMemoryRepository<LearningStep, (int, int)>();
+                var courseRepo = new InMemoryCourseRepository(learningStepRepo);
 
                 // Add fake user data
                 userRepo.AddAsync(new User { Id = 1, Username = "adminito", Password = "passwordini", Roles = [new() { RoleName = "admin" }] }).Wait();

@@ -7,11 +7,11 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class InMemoryCourseRepository : ICourseRepository, ICourseProgressRepository
+public class InMemoryCourseRepository(IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)> learningStepRepository) : ICourseRepository, ICourseProgressRepository
 {
     private readonly List<Course> courses = [];
     private readonly Dictionary<(int userId, int courseId), int> progress = [];
-
+    private readonly IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)> _learningStepRepository = learningStepRepository;
     public Task<Course> AddAsync(CreateCourseDto dto)
     {
         var course = new Course
@@ -19,8 +19,11 @@ public class InMemoryCourseRepository : ICourseRepository, ICourseProgressReposi
             Id = courses.Count != 0 ? courses.Max(c => c.Id) + 1 : 1,
             Title = dto.Title ?? "",
             Description = dto.Description ?? "",
+            Language = dto.Language ?? "",
             Category = dto.Category ?? "",
-            Language = dto.Language ?? ""
+            TotalSteps = 0,
+            AuthorId = dto.AuthorId,
+            ApprovedBy = null
         };
         courses.Add(course);
         return Task.FromResult(course);
@@ -47,12 +50,12 @@ public class InMemoryCourseRepository : ICourseRepository, ICourseProgressReposi
     {
         var course = courses.SingleOrDefault(c => c.Id == id)
             ?? throw new NotFoundException($"Course with ID '{id}' not found");
-        return Task.FromResult(course);
+        return Task.FromResult(ProcessedCourse(course));
     }
 
     public IQueryable<Course> GetMany()
     {
-        return courses.AsQueryable();
+        return courses.Select(ProcessedCourse).AsQueryable();
     }
 
     public Task ClearAsync()
@@ -77,5 +80,20 @@ public class InMemoryCourseRepository : ICourseRepository, ICourseProgressReposi
     public IQueryable<Course> GetManyByUserId(int? userId = null)
     {
         return courses.AsQueryable();
+    }
+
+    private Course ProcessedCourse(Course course)
+    {
+        return new Course
+        {
+            Id = course.Id,
+            Title = course.Title,
+            Description = course.Description,
+            Language = course.Language,
+            Category = course.Category,
+            TotalSteps = _learningStepRepository.GetMany().Count(ls => ls.CourseId == course.Id),
+            AuthorId = course.AuthorId,
+            ApprovedBy = course.ApprovedBy
+        };
     }
 }
