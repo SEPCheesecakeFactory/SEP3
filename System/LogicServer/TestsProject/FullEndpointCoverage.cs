@@ -16,6 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Xunit;
 using InMemoryRepositories;
+using Xunit.Abstractions;
 
 namespace TestsProject;
 
@@ -24,11 +25,13 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     private readonly WebApplicationFactory<Program> _factory;
     private readonly HttpClient _client;
     private static Func<IEnumerable<string>, string> TokenProvider(HttpClient _thisClient) => roles => TestingUtils.GetTokenWithRoles(roles, _thisClient).Result;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public FullEndpointCoverage(WebApplicationFactory<Program> factory)
+    public FullEndpointCoverage(WebApplicationFactory<Program> factory, ITestOutputHelper testOutputHelper)
     {
         _factory = factory;
         _client = _factory.CreateClient();
+        _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
@@ -47,6 +50,6 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     [Fact]
     public async Task FullCourseLifeCycle()
     {
-        await PureTests.CourseLifeCycle(_client, TokenProvider(_client));
+        await PureTests.CourseLifeCycle(_client, TokenProvider(_client), _testOutputHelper);
     }
 }

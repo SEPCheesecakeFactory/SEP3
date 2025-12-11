@@ -1,7 +1,9 @@
 using System;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json.Nodes;
 using FluentAssertions;
+using Xunit.Abstractions;
 
 namespace TestsProject;
 
@@ -39,7 +41,7 @@ public static class PureTests
 
         // TODO: test if the token allows access to a protected resource
     }
-    public static async Task CourseLifeCycle(HttpClient client, Func<IEnumerable<string>, string> TokenProvider)
+    public static async Task CourseLifeCycle(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
     {
         // Test GET /courses (requires auth)
         var token = TokenProvider(["learner"]);
@@ -63,23 +65,24 @@ public static class PureTests
         var createResponse = await client.PostAsJsonAsync("/drafts", createDto);
         createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
-        var createdCourse = await createResponse.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        var createdCourse = await createResponse.Content.ReadFromJsonAsync<JsonObject>();
         createdCourse.Should().NotBeNull();
-        createdCourse!["Title"].Should().Be("Test Course");
+        testOutputHelper?.WriteLine(await createResponse.Content.ReadAsStringAsync());
+        createdCourse!["title"]!.GetValue<string>().Should().Be("Test Course");
 
         // Test GET /courses/my-courses/{userId}
         var myCoursesResponse = await client.GetAsync("/courses/my-courses/1");
         myCoursesResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
         // Test PUT /courses/{id} (update)
-        createdCourse["Description"] = "Updated Description";
-        var updateResponse = await client.PutAsJsonAsync($"/courses/{createdCourse["Id"]}", createdCourse);
+        createdCourse["description"] = "Updated Description";
+        var updateResponse = await client.PutAsJsonAsync($"/courses/{createdCourse["id"]}", createdCourse);
         updateResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
         // Test PUT /drafts/{id} (approve draft) - requires admin
         var adminToken = TokenProvider(["admin"]);
         client.Login(adminToken);
-        var approveResponse = await client.PutAsJsonAsync($"/drafts/{createdCourse["Id"]}", 1); // approvedBy = 1
+        var approveResponse = await client.PutAsJsonAsync($"/drafts/{createdCourse["id"]}", 1); // approvedBy = 1
         approveResponse.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }
