@@ -13,6 +13,7 @@ using RESTAPI;
 using RESTAPI.Services;
 using Xunit;
 using InMemoryRepositories;
+using Xunit.Abstractions;
 
 namespace TestsProject;
 
@@ -24,9 +25,11 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     private const string JwtIssuer = "test-issuer";
     private const string JwtAudience = "test-audience";
     private static string GenerateJwtToken(IEnumerable<string> roles) => TestingUtils.GenerateJwtToken(roles, JwtTestKey, JwtIssuer, JwtAudience);
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public RestEndpointCoverage(WebApplicationFactory<Program> factory)
+    public RestEndpointCoverage(WebApplicationFactory<Program> factory, ITestOutputHelper testOutputHelper)
     {
+        _testOutputHelper = testOutputHelper;
         _factory = factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureAppConfiguration((context, config) =>
@@ -93,24 +96,24 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     [Fact]
     public async Task FullAuthLifecycle()
     {
-        await PureTests.AuthLifecycle(_client);
+        await PureTests.AuthLifecycle(_client, _testOutputHelper);
     }
 
     [Fact]
     public async Task FullCourseLifeCycle()
     {
-        await PureTests.CourseLifeCycle(_client, GenerateJwtToken);
+        await PureTests.CourseLifeCycle(_client, GenerateJwtToken, _testOutputHelper);
     }
 
     [Fact]
     public async Task FullLearningStepsLifeCycle()
     {
-        await PureTests.LearningStepsLifeCycle(_client, GenerateJwtToken);
+        await PureTests.LearningStepsLifeCycle(_client, GenerateJwtToken, _testOutputHelper);
     }
 
     [Fact]
     public async Task FullCourseProgressLifeCycle()
     {
-        await PureTests.CourseProgressLifeCycle(_client, GenerateJwtToken);
+        await PureTests.CourseProgressLifeCycle(_client, GenerateJwtToken, _testOutputHelper);
     }
 }
