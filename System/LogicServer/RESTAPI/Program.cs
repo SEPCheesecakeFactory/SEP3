@@ -92,6 +92,9 @@ builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.Authenticati
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "")),
         ClockSkew = TimeSpan.Zero,
+
+        RoleClaimType = "Role",
+        NameClaimType = "Username"
     };
 });
 AuthorizationPolicies.AddPolicies(builder.Services);
