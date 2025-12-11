@@ -52,4 +52,16 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     {
         await PureTests.CourseLifeCycle(_client, TokenProvider(_client), _testOutputHelper);
     }
+
+    [Fact]
+    public async Task FullLearningStepsLifeCycle()
+    {
+        await PureTests.LearningStepsLifeCycle(_client, TokenProvider(_client), _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task FullCourseProgressLifeCycle()
+    {
+        await PureTests.CourseProgressLifeCycle(_client, TokenProvider(_client), _testOutputHelper);
+    }
 }

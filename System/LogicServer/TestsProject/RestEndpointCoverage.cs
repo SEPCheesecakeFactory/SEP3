@@ -48,10 +48,12 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                 services.RemoveAll<IAuthService>();
                 services.RemoveAll<ILeaderboardRepository>();
                 services.RemoveAll<ICourseProgressRepository>();
+                services.RemoveAll<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>();
 
                 // 2. Create the InMemory instances
                 var courseRepo = new InMemoryCourseRepository();
                 var userRepo = new InMemoryRepository<User, int>();
+                var learningStepRepo = new InMemoryRepository<LearningStep, (int, int)>();
 
                 // Add fake user data
                 userRepo.AddAsync(new User { Id = 1, Username = "adminito", Password = "passwordini", Roles = [new() { RoleName = "admin" }] }).Wait();
@@ -59,11 +61,20 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                 userRepo.AddAsync(new User { Id = 3, Username = "superuserito", Password = "passwordini", Roles = [new() { RoleName = "admin" }, new() { RoleName = "teacher" }] }).Wait();
                 userRepo.AddAsync(new User { Id = 4, Username = "userito", Password = "passwordini", Roles = [new() { RoleName = "learner" }] }).Wait();
 
+                // Add fake course data
+                courseRepo.AddAsync(new CreateCourseDto { Title = "Intro to Testing", Language = "ENG" }).Wait(); // ID = 1
+                courseRepo.AddAsync(new CreateCourseDto { Title = "Advanced Testing", Language = "ENG" }).Wait(); // ID = 2
+                learningStepRepo.AddAsync(new LearningStep { CourseId = 1, StepOrder = 1, Type = "Text", Content = "Welcome to Intro to Testing!" }).Wait();
+                learningStepRepo.AddAsync(new LearningStep { CourseId = 1, StepOrder = 2, Type = "QuestionMC", Content = "What is unit testing?|idk|something else" }).Wait();
+                learningStepRepo.AddAsync(new LearningStep { CourseId = 1, StepOrder = 3, Type = "QuestionMC", Content = "What is unit testing?|idk|something else" }).Wait();
+
                 // 3. Add the InMemory instances to the DI container
 
                 services.AddSingleton<ICourseRepository>(courseRepo);
                 services.AddSingleton<IRepositoryID<Course, CreateCourseDto, Course, int>>(courseRepo);
                 services.AddSingleton<IRepositoryID<User, User, User, int>>(userRepo);
+                services.AddSingleton<ICourseProgressRepository>(courseRepo);
+                services.AddSingleton<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>(learningStepRepo);
 
                 // Override Auth Service
                 services.AddSingleton<IAuthService, AuthService>();
@@ -89,5 +100,17 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     public async Task FullCourseLifeCycle()
     {
         await PureTests.CourseLifeCycle(_client, GenerateJwtToken);
+    }
+
+    [Fact]
+    public async Task FullLearningStepsLifeCycle()
+    {
+        await PureTests.LearningStepsLifeCycle(_client, GenerateJwtToken);
+    }
+
+    [Fact]
+    public async Task FullCourseProgressLifeCycle()
+    {
+        await PureTests.CourseProgressLifeCycle(_client, GenerateJwtToken);
     }
 }

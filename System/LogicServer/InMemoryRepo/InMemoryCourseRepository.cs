@@ -7,9 +7,10 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class InMemoryCourseRepository : ICourseRepository
+public class InMemoryCourseRepository : ICourseRepository, ICourseProgressRepository
 {
     private readonly List<Course> courses = [];
+    private readonly Dictionary<(int userId, int courseId), int> progress = [];
 
     public Task<Course> AddAsync(CreateCourseDto dto)
     {
@@ -62,13 +63,14 @@ public class InMemoryCourseRepository : ICourseRepository
 
     public Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
-        // For simplicity, return 1
-        return Task.FromResult(1);
+        var key = (userId, courseId);
+        return Task.FromResult(progress.GetValueOrDefault(key, 0));
     }
 
     public Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
-        // Do nothing
+        var key = (userId, courseId);
+        progress[key] = currentStep;
         return Task.CompletedTask;
     }
 
