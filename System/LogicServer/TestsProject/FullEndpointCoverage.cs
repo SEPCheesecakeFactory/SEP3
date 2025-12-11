@@ -35,7 +35,7 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     }
 
     [Fact]
-    public async Task Can_Reach_Server()
+    public async Task CanReachServer()
     {
         var response = await _client.GetAsync("/status");
         response.StatusCode.Should().Be(HttpStatusCode.OK);

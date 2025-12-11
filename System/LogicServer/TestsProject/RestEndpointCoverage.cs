@@ -63,13 +63,20 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     }
 
     [Fact]
-    public async Task TestAuthEndpoint()
+    public async Task CanReachServer()
+    {
+        var response = await _client.GetAsync("/status");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task FullAuthLifecycle()
     {
         await PureTests.AuthLifecycle(_client);
     }
 
     [Fact]
-    public async Task TestCourseEndpoints()
+    public async Task FullCourseLifeCycle()
     {
         await PureTests.CourseLifeCycle(_client, GenerateJwtToken);
     }
