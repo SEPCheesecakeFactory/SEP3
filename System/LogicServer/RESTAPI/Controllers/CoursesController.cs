@@ -16,7 +16,28 @@ public class CoursesController(ICourseRepository repository) : GenericController
 
     [HttpPost("/drafts")]//so that we dont need to change at least this route in blazor
     [Authorize("MustBeTeacherOrAdmin")]
+
     public async Task<ActionResult<Course>> HttpCreateAsync([FromBody] CreateCourseDto entity) => await CreateAsync(entity);
+
+    [HttpGet("/drafts")]
+    [Authorize("MustBeAdmin")]
+    public ActionResult<IEnumerable<Course>> GetDrafts()
+    {
+        try
+        {
+            // get everything
+            var allCourses = repository.GetMany();
+
+            // filter for unapproved (0 or null)
+            var drafts = allCourses.Where(c => c.ApprovedBy == null || c.ApprovedBy == 0);
+
+            return Ok(drafts);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 
     [HttpGet("my-courses/{userId:int}")]
     public ActionResult<IEnumerable<Course>> HttpGetManyByUser(int userId)
@@ -35,7 +56,7 @@ public class CoursesController(ICourseRepository repository) : GenericController
         try
         {
             Course currentCourse = await _repository.GetSingleAsync(id);
-             Course updatedCourse = new Course
+            Course updatedCourse = new Course
             {
                 Id = currentCourse.Id,
                 Language = currentCourse.Language,

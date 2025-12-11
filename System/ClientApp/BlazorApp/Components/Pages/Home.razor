@@ -104,6 +104,7 @@
     private List<Course> courses = new();
     private Dictionary<int, int> courseProgressMap = new();
     private int currentUserId = 0;
+    private bool isAdmin = false;
 
     // UI State
     private bool isModalOpen = false;
@@ -125,7 +126,15 @@
     .Where(c => string.IsNullOrEmpty(searchQuery)
     || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
     .Where(c => string.IsNullOrEmpty(selectedCategory)
-    || c.Category == selectedCategory);
+    || c.Category == selectedCategory)
+    .Where(c =>
+    // show if ApprovedBy is strictly positive
+    (c.ApprovedBy != null && c.ApprovedBy > 0) ||
+    // or show if I am the author (My Drafts)
+    (c.AuthorId == currentUserId) ||
+    // or show if I am admin
+    isAdmin
+    );
 
     protected override async Task OnInitializedAsync()
     {
@@ -210,7 +219,10 @@
             Title = course.Title,
             Description = course.Description,
             Category = course.Category,
-            Language = course.Language
+            Language = course.Language,
+            TotalSteps = course.TotalSteps,
+            AuthorId = course.AuthorId,
+            ApprovedBy = course.ApprovedBy
         };
 
         editModel = new Course
@@ -219,7 +231,10 @@
             Title = course.Title,
             Description = course.Description,
             Category = course.Category,
-            Language = course.Language
+            Language = course.Language,
+            TotalSteps = course.TotalSteps,
+            AuthorId = course.AuthorId,
+            ApprovedBy = course.ApprovedBy
         };
 
         wasSavingError = false;
@@ -237,7 +252,7 @@
             wasSavingError = false;
 
             CloseModal();
-            await LoadCoursesAndProgress(); 
+            await LoadCoursesAndProgress();
             await InvokeAsync(StateHasChanged);
         }
         catch
