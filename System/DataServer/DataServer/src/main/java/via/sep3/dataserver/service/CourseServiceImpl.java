@@ -7,13 +7,9 @@ import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
 import io.grpc.stub.StreamObserver;
 import via.sep3.dataserver.data.Course;
-import via.sep3.dataserver.data.SystemUser;
 import via.sep3.dataserver.data.Language;
 import via.sep3.dataserver.data.CourseCategory;
 import via.sep3.dataserver.data.LearningStep;
-import via.sep3.dataserver.data.LearningStepType;
-import via.sep3.dataserver.data.LearningStepId;
-import via.sep3.dataserver.data.UserCourseProgress;
 import via.sep3.dataserver.data.*;
 import via.sep3.dataserver.grpc.*;
 
@@ -277,7 +273,7 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
         if (course.getApprovedBy() != null) {
             builder.setApprovedBy(course.getApprovedBy().getId());
         } else {
-            builder.setApprovedBy(0); 
+            builder.setApprovedBy(0);
         }
 
         return builder.build();
@@ -336,6 +332,50 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
                 .setId(category.getId())
                 .setName(category.getName())
                 .setDescription(category.getDescription() != null ? category.getDescription() : "")
+                .build();
+    }
+
+    @Override
+    public void createLanguage(CreateLanguageRequest request, StreamObserver<CreateLanguageResponse> responseObserver) {
+        try {
+            Language language = new Language();
+            language.setCode(request.getCode());
+            language.setName(request.getName());
+
+            language = languageRepository.save(language);
+
+            CreateLanguageResponse response = CreateLanguageResponse.newBuilder()
+                    .setLanguage(convertToGrpcLanguage(language))
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getLanguages(GetLanguagesRequest request, StreamObserver<GetLanguagesResponse> responseObserver) {
+        try {
+            List<Language> languages = languageRepository.findAll();
+            GetLanguagesResponse.Builder responseBuilder = GetLanguagesResponse.newBuilder();
+
+            for (Language lang : languages) {
+                responseBuilder.addLanguages(convertToGrpcLanguage(lang));
+            }
+
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    private via.sep3.dataserver.grpc.Language convertToGrpcLanguage(Language language) {
+        return via.sep3.dataserver.grpc.Language.newBuilder()
+                .setCode(language.getCode())
+                .setName(language.getName())
                 .build();
     }
 }

@@ -32,10 +32,9 @@
             }
         </div>
 
-        @* --- Filter Component --- *@
         @if (courses != null && courses.Any())
         {
-            <div class="fade-in">
+            <div class="fade-in" style="animation-delay: 0.1s;">
                 <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
                     UniqueCategories="uniqueCategories" />
                 <div class="mb-5"></div>
@@ -68,8 +67,7 @@
         }
         else
         {
-            @* --- Course Grid --- *@
-            <div class="fade-in" style="animation-delay: 0.1s;">
+            <div class="fade-in" style="animation-delay: 0.2s;">
                 @foreach (var group in FilteredCourses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c => c.Category))
                 {
                     <h5 class="fw-bolder text-secondary text-uppercase mt-4 mb-3 ps-1" style="letter-spacing:0.5px">
@@ -124,31 +122,38 @@
     private Course originalModel = new();
 
     private IEnumerable<Course> FilteredCourses => courses
-        .Where(c => string.IsNullOrEmpty(searchQuery)
-            || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
-        .Where(c => string.IsNullOrEmpty(selectedCategory)
-            || c.Category == selectedCategory)
-        .Where(c =>
-            // show if ApprovedBy is strictly positive
-            (c.ApprovedBy != null && c.ApprovedBy > 0) ||
-            // or show if I am the author (My Drafts)
-            (c.AuthorId == currentUserId) ||
-            // or show if I am admin
-            isAdmin
-        );
+    .Where(c => string.IsNullOrEmpty(searchQuery)
+    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+    .Where(c => string.IsNullOrEmpty(selectedCategory)
+    || c.Category == selectedCategory)
+    .Where(c =>
+    // show if ApprovedBy is strictly positive
+    (c.ApprovedBy != null && c.ApprovedBy > 0) ||
+    // or show if I am the author (My Drafts)
+    (c.AuthorId == currentUserId) ||
+    // or show if I am admin
+    isAdmin
+    );
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
+        {
+            isLoading = false;
+            return;
+        }
+
         var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
 
         if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
         {
             currentUserId = uid;
         }
-        
-        isAdmin = user.IsAdmin(); 
+
+        isAdmin = user.IsAdmin();
 
         await LoadCoursesAndProgress();
     }

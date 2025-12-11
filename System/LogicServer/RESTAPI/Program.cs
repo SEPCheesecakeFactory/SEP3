@@ -64,6 +64,7 @@ builder.Services.AddScoped<IAuthService, SecureAuthService>();
 
 
 builder.Services.AddScoped<ICourseCategoryRepository>(sp => new gRPCCourseCategoryRepository(host, port));
+builder.Services.AddScoped<ILanguageRepository>(sp => new gRPCLanguageRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();
