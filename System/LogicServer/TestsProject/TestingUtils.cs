@@ -80,4 +80,9 @@ public static class TestingUtils
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public static string GetCurrentRandomSuffix()
+    {
+        return $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{new Random().Next(1000, 9999)}";
+    }
 }

@@ -95,33 +95,39 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     }
 
     [Fact]
-    public async Task CanReachServer()
+    public async Task Dummy_CanReachServer()
     {
         var response = await _client.GetAsync("/status");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
-    public async Task FullAuthLifecycle()
+    public async Task Dummy_FullAuthLifecycle()
     {
         await PureTests.AuthLifecycle(_client, _testOutputHelper);
     }
 
     [Fact]
-    public async Task FullCourseLifeCycle()
+    public async Task Dummy_FullCourseLifeCycle()
     {
         await PureTests.CourseLifeCycle(_client, GenerateJwtToken, _testOutputHelper);
     }
 
     [Fact]
-    public async Task FullLearningStepsLifeCycle()
+    public async Task Dummy_FullLearningStepsLifeCycle()
     {
         await PureTests.LearningStepsLifeCycle(_client, GenerateJwtToken, _testOutputHelper);
     }
 
     [Fact]
-    public async Task FullCourseProgressLifeCycle()
+    public async Task Dummy_FullCourseProgressLifeCycle()
     {
         await PureTests.CourseProgressLifeCycle(_client, GenerateJwtToken, _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task Dummy_ForbiddenCourseProgressAccess()
+    {
+        await PureTests.CourseProgressAuth(_client, GenerateJwtToken, _testOutputHelper);
     }
 }

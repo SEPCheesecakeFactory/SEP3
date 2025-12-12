@@ -12,7 +12,7 @@ public static class PureTests
     public static async Task AuthLifecycle(HttpClient client, ITestOutputHelper? testOutputHelper = null)
     {
         // Ensure unique usernames by appending a timestamp + random number
-        var uniqueSuffix = $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{new Random().Next(1000, 9999)}";
+        var uniqueSuffix = TestingUtils.GetCurrentRandomSuffix();
         var uniqueUsername = "testuser" + uniqueSuffix;
         // 1. REGISTER
         var registerRequest = new
@@ -103,7 +103,7 @@ public static class PureTests
 
         // Find out what is the highest step at course 1 and make stepOrder to be +1
         // TODO: Add the ability to retrieve single
-        
+
         var courseForTesting = 1;
 
         testOutputHelper?.WriteLine("Retrieving all courses to determine current step count for course " + courseForTesting);
@@ -129,7 +129,7 @@ public static class PureTests
 
         // Test POST /learningsteps (create learning step)
         token = TokenProvider(["teacher"]);
-        client.Login(token);        
+        client.Login(token);
 
         var createDto = new
         {
@@ -211,5 +211,53 @@ public static class PureTests
         getResponse3.StatusCode.Should().Be(HttpStatusCode.OK);
         var progress3 = await getResponse3.Content.ReadFromJsonAsync<int>();
         progress3.Should().Be(4);
+    }
+    /// <summary>
+    /// Register as new user
+    /// Try to change progress of user 1 on course 1
+    /// If succeeded, test fails
+    /// </summary>
+    /// <returns></returns>
+    public static async Task CourseProgressAuth(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
+    {
+        // Register new user
+        var uniqueSuffix = TestingUtils.GetCurrentRandomSuffix();
+        var uniqueUsername = "testuser" + uniqueSuffix;
+
+        var registerRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini",
+            PasswordRepeat = "passwordini",
+            Roles = new[] { new { RoleName = "learner" } }
+        };
+
+        var registerResponse = await client.PostAsJsonAsync("/Auth/register", registerRequest);
+        registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Login as the new user
+        var loginRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini"
+        };
+
+        var loginResponse = await client.PostAsJsonAsync("/Auth/login", loginRequest);
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var token = await loginResponse.Content.ReadAsStringAsync();
+        token.Should().NotBeNullOrEmpty();
+
+        client.Login(token);
+
+        // Try to change progress of user 1 on course 1
+        var updateDto = new
+        {
+            UserId = 1,
+            CourseId = 1,
+            CurrentStep = 5
+        };
+        var postResponse = await client.PostAsJsonAsync("/courseprogress", updateDto);
+        postResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 }
