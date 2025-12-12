@@ -2,6 +2,7 @@
 @using BlazorApp.Entities
 @using BlazorApp.Services
 @using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @inject ICourseService CourseService
 @inject NavigationManager NavMgr
 @inject AuthenticationStateProvider AuthProvider
@@ -9,12 +10,12 @@
 <PageTitle>Leaderboard</PageTitle>
 
 <AuthorizeView>
-    <Authorized>
+    <Authorized Context="authContext">
         <div class="container" style="max-width: 700px;">
 
-            <div class="text-center mb-5 mt-4">
-                <h2 class="fw-bolder text-secondary">Leaderboard</h2>
-                <p class="text-muted">See who is learning the most!</p>
+            <div class="mb-4 mt-4 fade-in">
+                <h2 class="fw-bolder text-secondary mb-1">Leaderboard</h2>
+                <p class="text-muted fw-bold">See who is learning the most!</p>
             </div>
 
             @if (isLoading)
@@ -23,21 +24,42 @@
                     <div class="spinner-border text-primary" role="status"></div>
                 </div>
             }
+            else if (loadError)
+            {
+                <div class="alert alert-danger fade-in d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Connection Error:</strong> Could not load leaderboard data. The servers might be down.
+                    </div>
+                    <button class="btn btn-outline-danger btn-sm" @onclick="LoadData">
+                        <i class="fas fa-sync-alt me-1"></i> Retry
+                    </button>
+                </div>
+            }
             else if (entries == null || !entries.Any())
             {
-                <div class="text-center text-muted py-4">
+                <div class="text-center text-muted py-4 fade-in">
                     <h4 class="text-muted mb-0">No active learners yet. Be the first!</h4>
                 </div>
             }
             else
             {
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                // Data Content
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5 fade-in" style="animation-delay: 0.1s;">
                     <div class="list-group list-group-flush">
-                        @foreach (var entry in entries)
+
+                        @{
+                            int topCount = 10;
+                            var userEntry = entries.FirstOrDefault(e => e.Username == currentUsername);
+                            int userRank = userEntry?.Rank ?? 0;
+                            bool showGap = userRank > (topCount + 2);
+                        }
+
+                        @* Top 10 *@
+                        @foreach (var entry in entries.Take(topCount))
                         {
                             <div
-                                class="list-group-item d-flex align-items-center py-3 px-4 border-bottom-0 @GetRowClass(entry.Rank)">
-
+                                class="list-group-item d-flex align-items-center py-3 px-4 border-bottom-0 @(entry.Username == currentUsername ? "bg-primary bg-opacity-10" : (entry.Rank <= 3 ? "bg-light" : "bg-white"))">
                                 <div class="me-4 text-center" style="width: 40px;">
                                     @if (entry.Rank == 1)
                                     {
@@ -45,37 +67,105 @@
                                     }
                                     else if (entry.Rank == 2)
                                     {
+
                                         <i class="fas fa-medal fa-2x text-secondary"></i>
                                     }
                                     else if (entry.Rank == 3)
                                     {
+
                                         <i class="fas fa-medal fa-2x" style="color: #cd7f32;"></i>
                                     }
                                     else
                                     {
+
                                         <span class="fs-4 fw-bold text-muted">@entry.Rank</span>
                                     }
                                 </div>
-
                                 <div class="me-3">
                                     <div class="rounded-circle d-flex justify-content-center align-items-center fw-bold"
                                         style="width: 45px; height: 45px; background-color: #f7f7f7; color: #afafaf; border: 2px solid #eee;">
-                                        @(entry.Username.Length > 0 ? entry.Username.Substring(0, 1).ToUpper() : "?")
+                                        @GetInitials(entry.Username)
                                     </div>
                                 </div>
-
                                 <div class="flex-grow-1">
-                                    <h5 class="mb-0 fw-bold @(entry.Rank <= 3 ? "text-dark" : "text-secondary")">
-                                        @entry.Username
+                                    <h5
+                                        class="mb-0 fw-bold @(entry.Rank <= 3 ? "text-dark" : "text-secondary") @(entry.Username == currentUsername ? "text-primary" : "")">
+                                        @entry.Username @(entry.Username == currentUsername ? "(You)" : "")
                                     </h5>
                                 </div>
-
                                 <div class="text-end">
-                                    <span class="fw-bold" style="color: #58cc02;"> @entry.TotalScore XP
-                                    </span>
+                                    <span class="fw-bold" style="color: #58cc02;">@entry.TotalScore XP</span>
                                 </div>
                             </div>
                         }
+
+                        @if (showGap)
+                        {
+                            <div class="list-group-item text-center py-2 bg-light text-muted border-bottom-0">
+                                <i class="fas fa-ellipsis-v small"></i>
+                            </div>
+
+                            var neighbors = entries.Where(e => e.Rank >= userRank - 2 && e.Rank <= userRank + 2);
+                            foreach (var entry in neighbors)
+                            {
+                                <div
+                                    class="list-group-item d-flex align-items-center py-3 px-4 border-bottom-0 @(entry.Username == currentUsername ? "bg-primary bg-opacity-10" : (entry.Rank <= 3 ? "bg-light" : "bg-white"))">
+                                    <div class="me-4 text-center" style="width: 40px;">
+                                        <span class="fs-4 fw-bold text-muted">@entry.Rank</span>
+                                    </div>
+                                    <div class="me-3">
+                                        <div class="rounded-circle d-flex justify-content-center align-items-center fw-bold"
+                                            style="width: 45px; height: 45px; background-color: #f7f7f7; color: #afafaf; border: 2px solid #eee;">
+                                            @GetInitials(entry.Username)
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5
+                                            class="mb-0 fw-bold @(entry.Rank <= 3 ? "text-dark" : "text-secondary") @(entry.Username == currentUsername ? "text-primary" : "")">
+                                            @entry.Username @(entry.Username == currentUsername ? "(You)" : "")
+                                        </h5>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="fw-bold" style="color: #58cc02;">@entry.TotalScore XP</span>
+                                    </div>
+                                </div>
+                            }
+
+                            if (userRank + 2 < entries.Count)
+                            {
+                                <div class="list-group-item text-center py-2 bg-light text-muted small border-0">
+                                    And @(entries.Count - (userRank + 2)) others below
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            foreach (var entry in entries.Skip(topCount).Take(15))
+                            {
+                                <div
+                                    class="list-group-item d-flex align-items-center py-3 px-4 border-bottom-0 @(entry.Username == currentUsername ? "bg-primary bg-opacity-10" : (entry.Rank <= 3 ? "bg-light" : "bg-white"))">
+                                    <div class="me-4 text-center" style="width: 40px;">
+                                        <span class="fs-4 fw-bold text-muted">@entry.Rank</span>
+                                    </div>
+                                    <div class="me-3">
+                                        <div class="rounded-circle d-flex justify-content-center align-items-center fw-bold"
+                                            style="width: 45px; height: 45px; background-color: #f7f7f7; color: #afafaf; border: 2px solid #eee;">
+                                            @GetInitials(entry.Username)
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5
+                                            class="mb-0 fw-bold @(entry.Rank <= 3 ? "text-dark" : "text-secondary") @(entry.Username == currentUsername ? "text-primary" : "")">
+                                            @entry.Username @(entry.Username == currentUsername ? "(You)" : "")
+                                        </h5>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="fw-bold" style="color: #58cc02;">@entry.TotalScore XP</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+
                     </div>
                 </div>
             }
@@ -83,10 +173,10 @@
     </Authorized>
 
     <NotAuthorized>
-        <div class="text-center py-5 my-5 border rounded-3 bg-light">
+        <div class="text-center py-5 my-5 border rounded-3 bg-light fade-in">
             <i class="fas fa-trophy fa-3x text-primary mb-3"></i>
             <h2 class="fw-bold text-dark">Welcome to Learnify!</h2>
-            <p class="lead text-muted mb-4">Please log in to track your score and compete on the leaderboard.</p>
+            <p class="lead text-muted mb-4">Please log in to track your score.</p>
         </div>
     </NotAuthorized>
 </AuthorizeView>
@@ -94,33 +184,46 @@
 @code {
     private List<LeaderboardEntry>? entries;
     private bool isLoading = true;
+    private bool loadError = false;
+    private string currentUsername = "";
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        if (authState.User.Identity?.IsAuthenticated == true)
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        loadError = false;
+        try
         {
-            try
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity?.IsAuthenticated == true)
             {
-                entries = await CourseService.GetLeaderboardAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading leaderboard: {ex.Message}");
-            }
-            finally
-            {
-                isLoading = false;
+                currentUsername = user.FindFirst("Username")?.Value ?? "";
+
+                var rawEntries = await CourseService.GetLeaderboardAsync();
+                entries = rawEntries.OrderBy(x => x.Rank).ToList();
             }
         }
-        else
+        catch (Exception ex)
+        {
+            // If server is down, catche it
+            Console.WriteLine($"Error: {ex.Message}");
+            loadError = true;
+        }
+        finally
         {
             isLoading = false;
         }
     }
 
-    private string GetRowClass(int rank)
+    private string GetInitials(string name)
     {
-        return rank <= 3 ? "bg-light" : "bg-white";
+        if (string.IsNullOrEmpty(name)) return "?";
+        return name.Substring(0, 1).ToUpper();
     }
 }

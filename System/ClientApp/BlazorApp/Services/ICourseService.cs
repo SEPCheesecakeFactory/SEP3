@@ -13,6 +13,12 @@ public interface ICourseService
     public Task ApproveDraft(int draftId, int adminId);
     public Task DisapproveDraft(int draftId, int adminId);
 
+    Task CreateLanguage(CreateLanguageDto dto);
+    Task<List<Language>> GetLanguages();
+
+
+    
+
     // progress
     Task<int> GetCourseProgressAsync(int userId, int courseId);
     Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep);

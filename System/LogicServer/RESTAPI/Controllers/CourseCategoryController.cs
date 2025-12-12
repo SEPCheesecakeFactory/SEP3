@@ -15,9 +15,9 @@ public class CourseCategoryController(ICourseCategoryRepository repository) : Ge
     [HttpPost("/categories")]
     [Authorize("MustBeAdmin")]
     public async Task<ActionResult<CourseCategory>> CreateCategory([FromBody] CreateCourseCategoryDto entity) => await CreateAsync(entity);
-    
+
     [HttpGet("/categories")]
-    [Authorize("MustBeAdmin")]
+    [Authorize]
     public ActionResult<IEnumerable<CourseCategory>> GetAll() => GetMany();
-    
+
 }

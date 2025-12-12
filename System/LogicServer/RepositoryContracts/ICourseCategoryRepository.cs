@@ -6,6 +6,6 @@ namespace RepositoryContracts
 {
     public interface ICourseCategoryRepository : IRepositoryID<CourseCategory, CreateCourseCategoryDto, CourseCategory, int>
     {
-        
+
     }
 }

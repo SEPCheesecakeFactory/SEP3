@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using RESTAPI.Dtos;
 
 namespace RESTAPI.Controllers;
 
@@ -72,6 +73,21 @@ public class AuthController(IConfiguration config, IAuthService authService, IRe
             return BadRequest(e.Message);
         }
 
+    }
+
+    [HttpPut("password")]
+    public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto request)
+    {
+        try
+        {
+            await authService.ChangePasswordAsync(request.Username, request.CurrentPassword, request.NewPassword);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Password change failed for {Username}", request.Username);
+            return BadRequest(e.Message);
+        }
     }
 
 

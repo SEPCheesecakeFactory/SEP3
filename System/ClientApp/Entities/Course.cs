@@ -20,4 +20,7 @@ public class Course
     public string? Description { get; set; }
     public string? Category { get; set; }
     public int TotalSteps { get; set; }
+    public int? AuthorId { get; set; }
+    public string? AuthorName { get; set; }
+    public int? ApprovedBy { get; set; }
 }

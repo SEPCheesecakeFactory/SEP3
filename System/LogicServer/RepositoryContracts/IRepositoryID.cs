@@ -12,5 +12,5 @@ public interface IRepositoryID<T, TAdd, TUpdate, ID> where T : class
     Task ClearAsync();
 }
 
-public interface IRepositoryID<T, ID> : IRepositoryID<T, T, T, ID> where T : class { } 
-public interface IRepositoryID<T> : IRepositoryID<T, int> where T : class { } 
+public interface IRepositoryID<T, ID> : IRepositoryID<T, T, T, ID> where T : class { }
+public interface IRepositoryID<T> : IRepositoryID<T, int> where T : class { }

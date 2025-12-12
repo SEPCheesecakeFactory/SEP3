@@ -1,15 +1,32 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @inherits Microsoft.AspNetCore.Components.ComponentBase
 
 <AuthorizeView>
     <Authorized Context="authContext">
+        @{
+            var user = authContext.User;
+            var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+
+            int currentUserId = 0;
+            if (idClaim != null)
+            {
+                int.TryParse(idClaim.Value, out currentUserId);
+            }
+
+            bool isAdmin = user.IsAdmin();
+            bool isAuthor = (Course.AuthorId != null && Course.AuthorId == currentUserId);
+
+            bool canEdit = isAdmin || isAuthor;
+        }
+
         <div class="col-md-6 col-lg-4">
-            <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(Course.Category)"
+            <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(Course.Category ?? "General")"
                 style="--course-color: var(--game-gray);">
 
-                @if (authContext.User.IsTeacherOrAdmin() && OnEdit.HasDelegate)
+                @if (canEdit && OnEdit.HasDelegate)
                 {
                     <button class="btn btn-edit-card position-absolute" style="top: 8px; right: 8px; z-index: 10;"
                         @onclick:stopPropagation="true" @onclick="() => OnEdit.InvokeAsync(Course)">
@@ -17,15 +34,22 @@
                     </button>
                 }
 
-                <div class="w-100 @CourseDisplayUtils.GetBgClass(Course.Category)" style="height: 6px;"></div>
+                <div class="w-100 @CourseDisplayUtils.GetBgClass(Course.Category ?? "General")" style="height: 6px;">
+                </div>
 
                 <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1"
                     @onclick="() => OnOpen.InvokeAsync(Course)" style="cursor: pointer;">
 
                     <i
-                        class=" @CourseDisplayUtils.GetIconClass(Course.Category) fa-3x mb-4 @CourseDisplayUtils.GetTextClass(Course.Category)"></i>
+                        class=" @CourseDisplayUtils.GetIconClass(Course.Category ?? "General") fa-3x mb-3 @CourseDisplayUtils.GetTextClass(Course.Category ?? "General")"></i>
 
                     <h5 class="fw-bolder text-dark mb-1">@Course.Title</h5>
+
+                    <div class="mb-2">
+                        <span class="text-muted small" style="font-size: 0.8rem;">
+                            by <span class="fw-bold text-dark">@(Course.AuthorName ?? "Unknown")</span>
+                        </span>
+                    </div>
 
                     <small class="text-muted fw-bold text-uppercase mt-2"
                         style="font-size: 0.75rem; letter-spacing: 1px;">
@@ -54,8 +78,9 @@
                         {
                             <div class="d-flex align-items-center w-100">
                                 <div class="progress flex-grow-1 rounded-pill" style="height: 10px;">
+                                    @* FIX: Cast to (int) to remove decimals/commas for CSS *@
                                     <div class="progress-bar bg-primary rounded-pill" role="progressbar"
-                                        style="width: @pct%"></div>
+                                        style="width: @((int)pct)%"></div>
                                 </div>
                                 <span class="ms-2 small fw-bold text-primary">@Math.Round(pct)%</span>
                             </div>

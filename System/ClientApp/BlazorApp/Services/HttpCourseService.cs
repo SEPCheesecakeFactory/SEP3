@@ -118,4 +118,19 @@ public class HttpCourseService : ICourseService
         var result = await client.GetFromJsonAsync<List<CourseCategory>>("categories");
         return result ?? new List<CourseCategory>();
     }
+
+    public async Task CreateLanguage(CreateLanguageDto dto)
+    {
+        var response = await client.PostAsJsonAsync("languages", dto);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error creating language: {response.ReasonPhrase}");
+        }
+    }
+
+    public async Task<List<Language>> GetLanguages()
+    {
+        var result = await client.GetFromJsonAsync<List<Language>>("languages");
+        return result ?? new List<Language>();
+    }
 }

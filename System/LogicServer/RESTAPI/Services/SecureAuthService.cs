@@ -25,7 +25,7 @@ public class SecureAuthService(IRepositoryID<User, User, User, int> userReposito
             throw new ValidationException("Username already exists!");
 
         var passwordHash = Argon2.Hash(request.Password);
-        
+
         User userNoId = new()
         {
             Username = request.Username,
@@ -39,7 +39,7 @@ public class SecureAuthService(IRepositoryID<User, User, User, int> userReposito
     public async Task<User> ValidateUser(string username, string password)
     {
         User? existingUser = await GetUserByUsernameAsync(username) ?? throw new Exception("User not found");
-        
+
         if (!Argon2.Verify(existingUser.Password, password))
             throw new Exception("Password mismatch");
 
@@ -57,5 +57,16 @@ public class SecureAuthService(IRepositoryID<User, User, User, int> userReposito
             }
         }
         return null;
+    }
+
+    public async Task ChangePasswordAsync(string username, string currentPassword, string newPassword)
+    {
+        var user = await GetUserByUsernameAsync(username) ?? throw new Exception("User not found");
+        if (!Argon2.Verify(user.Password, currentPassword))
+        {
+            throw new Exception("The current password is incorrect.");
+        }
+        user.Password = Argon2.Hash(newPassword);
+        await userRepository.UpdateAsync(user);
     }
 }

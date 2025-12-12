@@ -3,12 +3,12 @@ using via.sep3.dataserver.grpc;
 using Entities;
 using System.Threading.Tasks;
 
-namespace gRPCRepo; 
+namespace gRPCRepo;
 
-public class gRPCCourseProgressRepository(string host, int port) 
-    : gRPCRepository<CourseProgress, CourseProgress, CourseProgress, string>(host, port), 
+public class gRPCCourseProgressRepository(string host, int port)
+    : gRPCRepository<CourseProgress, CourseProgress, CourseProgress, string>(host, port),
       ICourseProgressRepository
-{    
+{
     public async Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
         var request = new CourseProgressRequest
@@ -16,7 +16,7 @@ public class gRPCCourseProgressRepository(string host, int port)
             UserId = userId,
             CourseId = courseId
         };
-        CourseProgressResponse response = await ProgressServiceClient.GetCourseProgressAsync(request); 
+        CourseProgressResponse response = await ProgressServiceClient.GetCourseProgressAsync(request);
         return response.CurrentStep;
     }
 
@@ -30,7 +30,7 @@ public class gRPCCourseProgressRepository(string host, int port)
         };
         await ProgressServiceClient.UpdateCourseProgressAsync(request);
     }
-    
+
     public override Task ClearAsync() => throw new NotImplementedException();
     public override Task DeleteAsync(string id) => throw new NotImplementedException();
     public override IQueryable<CourseProgress> GetMany() => throw new NotImplementedException();
