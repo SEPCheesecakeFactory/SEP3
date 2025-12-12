@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RESTAPI.Controllers
+namespace RESTAPI.Controllers;
+
+[Route("[controller]")]
+[ApiController]
+public class StatusController : ControllerBase
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class StatusController : ControllerBase
+    [HttpGet]
+    public IActionResult GetStatus()
     {
-        [HttpGet]
-        public IActionResult GetStatus()
-        {
-            return Ok(new { status = "OK" });
-        }
+        return Ok(new { status = "OK" });
     }
 }
