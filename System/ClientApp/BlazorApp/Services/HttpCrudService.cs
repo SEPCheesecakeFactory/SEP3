@@ -89,11 +89,12 @@ public class HttpCrudService(HttpClient client)
     // UPDATE
     public async Task<Optional<T>> UpdateAsync<T, R>(string endpoint, R request, int? id = null)
     {
+        string? response = null;
         try
         {
             var finalEndpoint = id.HasValue ? $"{endpoint}/{id.Value}" : endpoint;
             HttpResponseMessage httpResponse = await client.PutAsJsonAsync(finalEndpoint, request);
-            string response = await httpResponse.Content.ReadAsStringAsync();
+            response = await httpResponse.Content.ReadAsStringAsync();
 
             if (!httpResponse.IsSuccessStatusCode)
                 return Optional<T>.Error(response);
@@ -107,7 +108,7 @@ public class HttpCrudService(HttpClient client)
         }
         catch (Exception ex)
         {
-            return Optional<T>.Error("Unexpected error: " + ex.Message);
+            return Optional<T>.Error("Unexpected error: " + ex.Message + " Response: " + response);
         }
     }
 }
