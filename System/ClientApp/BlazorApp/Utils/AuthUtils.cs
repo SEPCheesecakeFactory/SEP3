@@ -9,29 +9,35 @@ namespace BlazorApp.Utils;
 
 public static class AuthUtils
 {
+    // === NOTE/WARNING ===============================================
+    // Code Smell (stringly typed): Role names as constants
+    // Using enum could be better but depends on flexibility needs
+    //    - Eduard
+    // ================================================================
+    
     const string ROLE_TEACHER = "teacher";
     const string ROLE_ADMIN = "admin";
 
     public static IEnumerable<string> ConvertFromClaim(string jsonInput)
     {
         if (string.IsNullOrEmpty(jsonInput))
-            return new List<string>();
+            return [];
 
         try
         {
             // Try to parse as a JSON array (e.g. ["teacher", "admin"])
-            if (jsonInput.Trim().StartsWith("["))
+            if (jsonInput.Trim().StartsWith('['))
             {
                 var result = JsonSerializer.Deserialize<List<string>>(jsonInput);
-                return result ?? new List<string>();
+                return result ?? [];
             }
             // If it's not a JSON array, treat it as a single string
-            return new List<string> { jsonInput };
+            return [jsonInput];
         }
         catch
         {
             // If parsing fails, assume it's a simple string
-            return new List<string> { jsonInput };
+            return [jsonInput];
         }
     }
 
