@@ -66,20 +66,34 @@
     private string errorLabel = "";
     private bool isLoading = false;
     private async Task LoginAsync()
+{
+    errorLabel = "";
+    isLoading = true;
+
+    try
     {
-        errorLabel = "";
-        isLoading = true;
-        try
-        {
-            await authService.LoginAsync(userName, password);
-            navMgr.NavigateTo("/");
-            isLoading = false;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            errorLabel = $"Error: {e.Message}";
-            isLoading = false;
-        }
+        await authService.LoginAsync(userName, password);
+        navMgr.NavigateTo("/");
     }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+
+        if (e is HttpRequestException || 
+            e.Message.Contains("connection", StringComparison.OrdinalIgnoreCase) ||
+            e.Message.Contains("refused", StringComparison.OrdinalIgnoreCase) ||
+            e.Message.Contains("unreachable", StringComparison.OrdinalIgnoreCase))
+        {
+            navMgr.NavigateTo("/no-connection");
+            return;
+        }
+
+        errorLabel = $"Error: {e.Message}";
+    }
+    finally
+    {
+        isLoading = false;
+    }
+}
+
 }
