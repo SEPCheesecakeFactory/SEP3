@@ -14,7 +14,8 @@ using System.Text;
 using System.Collections.Generic;
 using RESTAPI.Controllers;
 using via.sep3.dataserver.grpc; // Needed for UserService
-using Grpc.Net.Client; // Added for GrpcChannel
+using Grpc.Net.Client;
+using BlazorApp.Entities; // Added for GrpcChannel
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,8 +64,8 @@ builder.Services.AddScoped<IRepositoryID<Entities.Course, CreateCourseDto, Entit
 builder.Services.AddScoped<IAuthService, SecureAuthService>();
 
 
-builder.Services.AddScoped<ICourseCategoryRepository>(sp => new gRPCCourseCategoryRepository(host, port));
-builder.Services.AddScoped<ILanguageRepository>(sp => new gRPCLanguageRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Entities.CourseCategory, CreateCourseCategoryDto, Entities.CourseCategory, int>>(sp => new gRPCCourseCategoryRepository(host, port));
+builder.Services.AddScoped<IRepositoryID<Entities.Language, CreateLanguageDto, Entities.Language, string>>(sp => new gRPCLanguageRepository(host, port));
 
 // Register in-memory user repository for testing and seed data
 // builder.Services.AddSingleton<IRepository<Entities.User>, InMemoryRepository<Entities.User>>();

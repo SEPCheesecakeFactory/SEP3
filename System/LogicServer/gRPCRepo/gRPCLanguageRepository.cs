@@ -7,7 +7,7 @@ using BlazorApp.Entities;
 namespace gRPCRepo;
 
 public class gRPCLanguageRepository(string host, int port)
-    : gRPCRepository<Language, CreateLanguageDto, Language, string>(host, port), ILanguageRepository
+    : gRPCRepository<Language, CreateLanguageDto, Language, string>(host, port), IRepositoryID<Language, CreateLanguageDto, Language, string>
 {
     public override async Task<Language> AddAsync(CreateLanguageDto entity)
     {
