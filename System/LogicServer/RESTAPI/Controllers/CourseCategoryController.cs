@@ -9,7 +9,7 @@ namespace RESTAPI.Controllers;
 [Authorize]
 [Route("[controller]")]
 [ApiController]
-public class CourseCategoryController(ICourseCategoryRepository repository) : GenericController<CourseCategory, CreateCourseCategoryDto, CourseCategory, int>(repository)
+public class CourseCategoryController(IRepositoryID<CourseCategory, CreateCourseCategoryDto, CourseCategory, int> repository) : GenericController<CourseCategory, CreateCourseCategoryDto, CourseCategory, int>(repository)
 {
     [HttpPost("/categories")]
     [Authorize("MustBeAdmin")]
