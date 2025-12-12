@@ -162,38 +162,46 @@
     {
         isLoading = true;
         loadError = false;
+        
         try
-        {
-            courses = await CourseService.GetCourses();
+    {
+        var coursesResult = await CourseService.GetCourses();
 
-            if (courses != null)
-            {
-                uniqueCategories = courses
-                .Select(c => c.Category)
-                .Where(c => !string.IsNullOrEmpty(c))
-                .Select(c => c!)
-                .Distinct()
-                .OrderBy(c => c)
-                .ToList();
-            }
-
-            if (currentUserId > 0 && courses != null && courses.Any())
-            {
-                courseProgressMap.Clear();
-                foreach (var course in courses)
-                {
-                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
-
-                    if (courseProgressMap.ContainsKey(course.Id))
-                        courseProgressMap[course.Id] = step;
-                    else
-                        courseProgressMap.Add(course.Id, step);
-                }
-            }
-        }
-        catch
+        if (!coursesResult.IsSuccess)
         {
             loadError = true;
+            courses = new List<Course>();
+            return;
+        }
+
+        courses = coursesResult.Value;
+
+        uniqueCategories = courses
+            .Select(c => c.Category)
+            .Where(c => !string.IsNullOrEmpty(c))
+            .Select(c => c!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+
+        courseProgressMap.Clear();
+
+        if (currentUserId > 0)
+        {
+            foreach (var course in courses)
+            {
+                var stepResult =
+                    await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+
+                courseProgressMap[course.Id] =
+                    stepResult.IsSuccess ? stepResult.Value : 1;
+            }
+        }
+    }
+    catch
+    {
+        loadError = true;
+        courses = new List<Course>();
         }
         finally
         {
