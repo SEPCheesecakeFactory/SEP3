@@ -72,7 +72,6 @@
     private string password = "";
     private string passwordRepeat = "";
     private string errorLabel = "";
-    private bool isTeacher = false;
     private bool isLoading = false;
     private async Task RegisterAsync()
     {
@@ -80,7 +79,7 @@
         errorLabel = "";
         try
         {
-            await authService.RegisterAsync(userName, password, passwordRepeat, isTeacher);
+            await authService.RegisterAsync(userName, password, passwordRepeat);
             navMgr.NavigateTo("/");
             isLoading = false;
         }
