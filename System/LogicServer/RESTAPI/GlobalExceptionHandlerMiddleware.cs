@@ -17,13 +17,19 @@ public class GlobalExceptionHandlerMiddleware(ILogger<GlobalExceptionHandlerMidd
         {
             context.Response.StatusCode = 404;
             await context.Response.WriteAsJsonAsync(nEx.Message);
+            _logger.LogWarning(nEx, "Resource not found.");
+        }
+        catch (UnauthorizedAccessException uaEx)
+        {
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsJsonAsync(uaEx.Message);
+            _logger.LogWarning(uaEx, "Unauthorized access.");
         }
         catch (Exception ex)
         {
-
             context.Response.StatusCode = 500;
             await context.Response.WriteAsJsonAsync(ex.Message);
-
+            _logger.LogError(ex, "An unexpected error occurred.");
         }
     }
 }

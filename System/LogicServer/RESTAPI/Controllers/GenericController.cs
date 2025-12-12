@@ -17,15 +17,8 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
     protected async Task<ActionResult<MainType>> GetSingleAsync(string id)
     {
         ID parsedId = IdParser(id);
-        try
-        {
-            var entity = await _repository.GetSingleAsync(parsedId);
-            return Ok(entity);
-        }
-        catch
-        {
-            return NotFound();
-        }
+        var entity = await _repository.GetSingleAsync(parsedId);
+        return Ok(entity);
     }
 
     protected ActionResult<IEnumerable<MainType>> GetMany()
@@ -42,28 +35,14 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
 
     protected async Task<ActionResult<MainType>> UpdateAsync(UpdateType entity)
     {
-        try
-        {
-            var updated = await _repository.UpdateAsync(entity);
-            return Ok(updated);
-        }
-        catch
-        {
-            return NotFound();
-        }
+        var updated = await _repository.UpdateAsync(entity);
+        return Ok(updated);
     }
 
     protected async Task<IActionResult> DeleteAsync(string id)
     {
         ID parsedId = IdParser(id);
-        try
-        {
-            await _repository.DeleteAsync(parsedId);
-            return NoContent();
-        }
-        catch
-        {
-            return NotFound();
-        }
+        await _repository.DeleteAsync(parsedId);
+        return NoContent();
     }
 }
