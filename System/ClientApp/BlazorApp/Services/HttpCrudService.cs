@@ -7,6 +7,7 @@ namespace BlazorApp.Services;
 public class HttpCrudService(HttpClient client)
 {
     private readonly HttpClient client = client;
+    public HttpClient Client => client;
     private readonly JsonSerializerOptions jsonOptions = new()
     {
         PropertyNameCaseInsensitive = true

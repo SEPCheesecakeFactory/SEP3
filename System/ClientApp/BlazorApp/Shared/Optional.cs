@@ -26,4 +26,14 @@ public class Optional<T>
     public static Optional<T> Empty() => new();
 
     public static implicit operator T?(Optional<T> optional) => optional.Value;
+
+    public override string ToString()
+    {
+        if (IsSuccess)
+            return $"Optional Success: {Value}";
+        else if (IsFailure)
+            return $"Optional Error: {ErrorMessage}";
+        else
+            return "Optional Empty";
+    }
 }

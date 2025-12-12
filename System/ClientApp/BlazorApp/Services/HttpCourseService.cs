@@ -25,7 +25,34 @@ public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
     public async Task<Optional<List<Draft>>> GetDrafts() => await httpCrudService.GetAsync<List<Draft>>("drafts");
 
     // APPROVE DRAFT
-    public async Task<Optional<bool>> ApproveDraft(int draftId, int adminId) => await httpCrudService.CreateAsync<bool, object>($"drafts/approve/{draftId}", adminId);
+    public async Task<Optional<bool>> ApproveDraft(int draftId, int adminId)
+    {
+        try
+        {
+            var response = await httpCrudService.Client.PutAsJsonAsync($"drafts/{draftId}", adminId);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var serverMessage = await response.Content.ReadAsStringAsync();
+
+                var errorMessage = string.IsNullOrWhiteSpace(serverMessage)
+                    ? $"Server error: {response.StatusCode}"
+                    : serverMessage;
+
+                return Optional<bool>.Error(errorMessage);
+            }
+
+            return Optional<bool>.Success(true);
+        }
+        catch (HttpRequestException)
+        {
+            return Optional<bool>.Error("NO_CONNECTION");
+        }
+        catch (Exception ex)
+        {
+            return Optional<bool>.Error("Unexpected error: " + ex.Message);
+        }
+    }
 
     // COURSE PROGRESS
     public async Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId) => await httpCrudService.GetAsync<int>($"CourseProgress/{userId}/{courseId}");
