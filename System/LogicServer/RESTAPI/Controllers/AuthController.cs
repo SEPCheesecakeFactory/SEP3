@@ -34,7 +34,7 @@ public class AuthController(IAuthService authService, IRepositoryID<User, User, 
     {
         try
         {
-            Entities.User newUser = await authService.RegisterUser(request);
+            User newUser = await authService.RegisterUser(request);
             string token = GenerateJwt(newUser);
             return Ok(token);
         }
