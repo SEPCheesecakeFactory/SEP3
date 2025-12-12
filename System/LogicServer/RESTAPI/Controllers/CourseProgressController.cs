@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using RepositoryContracts;
+using RepositoryContracts; 
 using RESTAPI.Dtos;
 using System.Threading.Tasks;
 using System;
@@ -8,10 +8,9 @@ namespace RESTAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CourseProgressController(ICourseRepository repository) : ControllerBase
+public class CourseProgressController(ICourseProgressRepository repository) : ControllerBase
 {
-    // GET Progress
-    // GET /CourseProgress/{userId}/{courseId}
+    // GET Progress 
     [HttpGet("{userId:int}/{courseId:int}")]
     public async Task<ActionResult<int>> GetProgress(int userId, int courseId)
     {
@@ -27,11 +26,9 @@ public class CourseProgressController(ICourseRepository repository) : Controller
         }
     }
 
-    // POST (Update) Progress
-    // POST /CourseProgress
-    // { "userId": 1, "courseId": 2, "currentStep": 5 }
+    // POST Update
     [HttpPost]
-    public async Task<ActionResult> UpdateProgress([FromBody] UpdateProgressDto dto)
+    public async Task<ActionResult> UpdateProgress([FromBody] CourseProgressDto dto) 
     {
         try
         {

@@ -1,0 +1,114 @@
+@using BlazorApp.Entities
+@using BlazorApp.Utils
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+
+<AuthorizeView>
+    <Authorized Context="authContext">
+        @{
+            var user = authContext.User;
+            var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
+
+            int currentUserId = 0;
+            if (idClaim != null)
+            {
+                int.TryParse(idClaim.Value, out currentUserId);
+            }
+
+            bool isAdmin = user.IsAdmin();
+            bool isAuthor = (Course.AuthorId != null && Course.AuthorId == currentUserId);
+
+            bool canEdit = isAdmin || isAuthor;
+        }
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(Course.Category ?? "General")"
+                style="--course-color: var(--game-gray);">
+
+                @if (canEdit && OnEdit.HasDelegate)
+                {
+                    <button class="btn btn-edit-card position-absolute" style="top: 8px; right: 8px; z-index: 10;"
+                        @onclick:stopPropagation="true" @onclick="() => OnEdit.InvokeAsync(Course)">
+                        <i class="fas fa-pen fa-sm"></i>
+                    </button>
+                }
+
+                <div class="w-100 @CourseDisplayUtils.GetBgClass(Course.Category ?? "General")" style="height: 6px;">
+                </div>
+
+                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1"
+                    @onclick="() => OnOpen.InvokeAsync(Course)" style="cursor: pointer;">
+
+                    <i
+                        class=" @CourseDisplayUtils.GetIconClass(Course.Category ?? "General") fa-3x mb-3 @CourseDisplayUtils.GetTextClass(Course.Category ?? "General")"></i>
+
+                    <h5 class="fw-bolder text-dark mb-1">@Course.Title</h5>
+
+                    <div class="mb-2">
+                        <span class="text-muted small" style="font-size: 0.8rem;">
+                            by <span class="fw-bold text-dark">@(Course.AuthorName ?? "Unknown")</span>
+                        </span>
+                    </div>
+
+                    <small class="text-muted fw-bold text-uppercase mt-2"
+                        style="font-size: 0.75rem; letter-spacing: 1px;">
+                        @Course.Description
+                        @if (!string.IsNullOrEmpty(Course.Language))
+                        {
+                            <span class="mx-1">• @Course.Language</span>
+                        }
+                    </small>
+
+                    @{
+                        int saved = ProgressStep;
+                        int total = Course.TotalSteps;
+                        double pct = (total > 0) ? ((double)(saved - 1) / total * 100) : 0;
+                    }
+
+                    <div class="w-100 mt-3">
+                        @if (saved > total && total > 0)
+                        {
+                            <span
+                                class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill">
+                                <i class="fas fa-check me-1"></i> Completed
+                            </span>
+                        }
+                        else if (saved > 1)
+                        {
+                            <div class="d-flex align-items-center w-100">
+                                <div class="progress flex-grow-1 rounded-pill" style="height: 10px;">
+                                    @* FIX: Cast to (int) to remove decimals/commas for CSS *@
+                                    <div class="progress-bar bg-primary rounded-pill" role="progressbar"
+                                        style="width: @((int)pct)%"></div>
+                                </div>
+                                <span class="ms-2 small fw-bold text-primary">@Math.Round(pct)%</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">
+                                Start
+                            </span>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter, EditorRequired]
+    public Course Course { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<Course> OnOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<Course> OnEdit { get; set; }
+
+    [Parameter]
+    public int ProgressStep { get; set; } = 1;
+}

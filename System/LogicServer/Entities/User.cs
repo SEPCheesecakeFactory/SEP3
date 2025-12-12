@@ -7,5 +7,5 @@ public class User : IIdentifiable<int>
     public int Id { get; set; }
     public string Username { set; get; }
     public string Password { set; get; }
-    public List<Role> Roles { set; get; }
+    public List<Role> Roles { set; get; } = [];
 }

@@ -33,5 +33,15 @@ public class HttpUserService : IUserService
         }
     }
 
+    public async Task<User> GetUser(int id)
+    {
+        // This will throw an exception if the server is down
+        var result = await client.GetFromJsonAsync<User>($"users/{id}");
+        if (result == null)
+        {
+            throw new Exception("User not found");
+        }
+        return result;
+    }
 
 }

@@ -1,0 +1,65 @@
+@using BlazorApp.Entities
+
+@if (Show)
+{
+    <div class="modal fade show" style="display:block; background-color:rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Course</h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        <input class="form-control" @bind="CourseToEdit.Title" @bind:event="oninput" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Description</label>
+                        <textarea class="form-control" style="min-height:80px;" @bind="CourseToEdit.Description"
+                            @bind:event="oninput"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Category</label>
+                        <input class="form-control" @bind="CourseToEdit.Category" @bind:event="oninput" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Language</label>
+                        <input class="form-control" @bind="CourseToEdit.Language" @bind:event="oninput" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="Close">Close</button>
+                    <button class="btn btn-primary px-4 @(WasError ? "btn-error" : "")" disabled="@(IsSaving || !IsDirty)"
+                        @onclick="Save">
+                        @if (IsSaving)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                        }
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Show { get; set; }
+    [Parameter] public Course CourseToEdit { get; set; } = new();
+    [Parameter] public bool IsSaving { get; set; }
+    [Parameter] public bool WasError { get; set; }
+    [Parameter] public Course OriginalCourse { get; set; } = new();
+
+    private bool IsDirty => CourseToEdit != null && OriginalCourse != null &&
+    (CourseToEdit.Title != OriginalCourse.Title ||
+    CourseToEdit.Description != OriginalCourse.Description ||
+    CourseToEdit.Category != OriginalCourse.Category ||
+    CourseToEdit.Language != OriginalCourse.Language);
+
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback OnSave { get; set; }
+
+    private Task Close() => OnClose.InvokeAsync();
+    private Task Save() => OnSave.InvokeAsync();
+}

@@ -33,6 +33,9 @@ service CourseService {
 
   rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
   rpc GetCategories(GetCategoriesRequest) returns (GetCategoriesResponse);
+
+  rpc CreateLanguage(CreateLanguageRequest) returns (CreateLanguageResponse);
+  rpc GetLanguages(GetLanguagesRequest) returns (GetLanguagesResponse);
 }
 
 // ----------------------------------------------------------------------------
@@ -156,6 +159,26 @@ message GetCategoriesRequest {}
 
 message GetCategoriesResponse {
   repeated CourseCategory categories = 1;
+}
+
+message Language {
+  string code = 1; 
+  string name = 2; 
+}
+
+message CreateLanguageRequest {
+  string code = 1;
+  string name = 2;
+}
+
+message CreateLanguageResponse {
+  Language language = 1;
+}
+
+message GetLanguagesRequest {}
+
+message GetLanguagesResponse {
+  repeated Language languages = 1;
 }
 
 // ----------------------------------------------------------------------------
