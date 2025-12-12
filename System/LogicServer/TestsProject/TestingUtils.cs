@@ -86,7 +86,7 @@ public static class TestingUtils
         return $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{new Random().Next(1000, 9999)}";
     }
 
-    internal static object GetUserIdFromToken(string token)
+    internal static int GetUserIdFromToken(string token)
     {
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(token);

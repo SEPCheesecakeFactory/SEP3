@@ -79,4 +79,16 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     {
         await PureTests.CourseProgressAuth(_client, TokenProvider(_client), _testOutputHelper);
     }
+
+    [Fact]
+    public async Task Real_CheckCourseCreation()
+    {
+        await PureTests.CheckCourseCreation(_client, TokenProvider(_client), _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task Real_GettingIdWorks()
+    {
+        await PureTests.GettingIdFromTokenWorks(_client, TokenProvider(_client), _testOutputHelper);
+    }
 }

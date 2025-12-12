@@ -56,7 +56,7 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
                 services.RemoveAll<IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)>>();
 
                 // 2. Create the InMemory instances                
-                var userRepo = new InMemoryRepository<User, int>();
+                var userRepo = new InMemoryRepoIntID<User>();
                 var learningStepRepo = new InMemoryRepository<LearningStep, (int, int)>();
                 var courseRepo = new InMemoryCourseRepository(learningStepRepo);
 
@@ -129,5 +129,17 @@ public class RestEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     public async Task Dummy_ForbiddenCourseProgressAccess()
     {
         await PureTests.CourseProgressAuth(_client, GenerateJwtToken, _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task Dummy_CheckCourseCreation()
+    {
+        await PureTests.CheckCourseCreation(_client, GenerateJwtToken, _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task Dummy_GettingIdWorks()
+    {
+        await PureTests.GettingIdFromTokenWorks(_client, GenerateJwtToken, _testOutputHelper);
     }
 }
