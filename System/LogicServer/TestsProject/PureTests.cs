@@ -331,11 +331,12 @@ public static class PureTests
             Language = "ENG",
             Title = "Test Course for Creation Check",
             Description = "Test Description",
-            Category = "Science",
+            Category = "History",
             AuthorId = id
         };
 
         var createResponse = await client.PostAsJsonAsync("/drafts", createDto);
+        testOutputHelper?.WriteLine(await createResponse.Content.ReadAsStringAsync());
         createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
         var createdCourse = await createResponse.Content.ReadFromJsonAsync<JsonObject>();
         createdCourse.Should().NotBeNull();
@@ -343,6 +344,7 @@ public static class PureTests
 
         // Check that no learning steps exist for the course yet
         var getFirstStep = await client.GetAsync($"/learningsteps/{courseId}_1");
+        testOutputHelper?.WriteLine(await getFirstStep.Content.ReadAsStringAsync());
         getFirstStep.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
         // Approve course as admin

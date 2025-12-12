@@ -9,7 +9,7 @@ namespace RESTAPI.Controllers;
 [Authorize]
 [Route("[controller]")]
 [ApiController]
-public class CoursesController(ICourseRepository repository) : GenericController<Course, CreateCourseDto, Course, int>(repository)
+public class CoursesController(ICourseRepository repository, IRepositoryID<LearningStep, LearningStep, LearningStep, (int, int)> learningStepRepository) : GenericController<Course, CreateCourseDto, Course, int>(repository)
 {
     [HttpGet]
     public ActionResult<IEnumerable<Course>> HttpGetMany() => GetMany();
@@ -54,26 +54,33 @@ public class CoursesController(ICourseRepository repository) : GenericController
     [HttpPut("/drafts/{id:int}"), Authorize("MustBeAdmin")]
     public async Task<ActionResult<Course>> ApproveDraft([FromBody] int approvedBy, [FromRoute] int id)
     {
-        try
-        {
-            Course currentCourse = await _repository.GetSingleAsync(id);
-            Course updatedCourse = new()
-            {
-                Id = currentCourse.Id,
-                Language = currentCourse.Language,
-                Title = currentCourse.Title,
-                Description = currentCourse.Description,
-                AuthorId = currentCourse.AuthorId,
-                ApprovedBy = approvedBy,
-                TotalSteps = currentCourse.TotalSteps //added this because i dont know at what point we are changing this value yet
-            };
+        // TODO: creating and adding the first step could be done as a transaction possibly
 
-            currentCourse = await _repository.UpdateAsync(updatedCourse);
-            return Ok(updatedCourse);
-        }
-        catch (Exception e)
+        Course currentCourse = await _repository.GetSingleAsync(id);
+
+        Course updatedCourse = new()
         {
-            return StatusCode(500, e.Message);
-        }
+            Id = currentCourse.Id,
+            Language = currentCourse.Language,
+            Title = currentCourse.Title,
+            Description = currentCourse.Description,
+            AuthorId = currentCourse.AuthorId,
+            ApprovedBy = approvedBy,
+            TotalSteps = currentCourse.TotalSteps //added this because i dont know at what point we are changing this value yet
+        };
+
+        currentCourse = await _repository.UpdateAsync(updatedCourse);
+
+        // Add the first step to this
+
+        var firstLearningStep = await learningStepRepository.AddAsync(new LearningStep
+        {
+            CourseId = currentCourse.Id,
+            StepOrder = 1,
+            Type = "Text",
+            Content = $"Welcome to the course {currentCourse.Title}!"
+        });
+
+        return Ok(currentCourse);
     }
 }

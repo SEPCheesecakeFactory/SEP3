@@ -1,5 +1,6 @@
 using System;
 using RepositoryContracts;
+using Grpc.Core;
 
 namespace RESTAPI;
 
@@ -18,6 +19,12 @@ public class GlobalExceptionHandlerMiddleware(ILogger<GlobalExceptionHandlerMidd
             context.Response.StatusCode = 404;
             await context.Response.WriteAsJsonAsync(nEx.Message);
             _logger.LogWarning(nEx, "Resource not found.");
+        }
+        catch (RpcException rpcEx) when (rpcEx.StatusCode == StatusCode.NotFound)
+        {
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsJsonAsync("Resource not found");
+            _logger.LogWarning(rpcEx, "gRPC resource not found.");
         }
         catch (UnauthorizedAccessException uaEx)
         {
