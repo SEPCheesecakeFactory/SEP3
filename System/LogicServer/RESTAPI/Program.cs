@@ -10,7 +10,7 @@ using System.Text;
 using Grpc.Net.Client;
 using via.sep3.dataserver.grpc; // needed for gRPC user client
 // == DOMAIN STUFF ==
-using BlazorApp.Entities; // DTOs (CreateCourseDto, CreateLanguageDto, etc.) (???????????????!!!!!!!)
+using BlazorApp.Entities; // DTOs (CreateCourseDto, CreateLanguageDto, etc.) - note: it is just called Blazor.* but it is NOT part of the Blazor project
 using Entities;
 
 // ==================================
