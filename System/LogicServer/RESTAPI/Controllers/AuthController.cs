@@ -12,9 +12,9 @@ namespace RESTAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IAuthService authService) : ControllerBase
+// 1. Inject IConfiguration here
+public class AuthController(IAuthService authService, IConfiguration configuration) : ControllerBase
 {
-
     [HttpPost("login")]
     public async Task<ActionResult> Login([FromBody] LoginRequest request)
     {
@@ -29,6 +29,7 @@ public class AuthController(IAuthService authService) : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
     [HttpPost("register")]
     public async Task<ActionResult> Register([FromBody] RegisterRequest request)
     {
@@ -58,11 +59,15 @@ public class AuthController(IAuthService authService) : ControllerBase
         }
     }
 
-    private static string GenerateJwt(User user)
+    private string GenerateJwt(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var keyString = "This Is My Random Secret Key Which Is At Least Sixteen Characters";
-        Console.WriteLine($"JWT Key: '{keyString}'");
+
+        // 3. Read values from appsettings
+        var keyString = configuration["Jwt:Key"] ?? throw new InvalidOperationException("Secret Key missing");
+        var issuer = configuration["Jwt:Issuer"];
+        var audience = configuration["Jwt:Audience"];
+
         var key = Encoding.UTF8.GetBytes(keyString);
 
         List<Claim> claims = GenerateClaims(user);
@@ -70,10 +75,11 @@ public class AuthController(IAuthService authService) : ControllerBase
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddHours(1),
+            // Parse duration or default to 60
+            Expires = DateTime.UtcNow.AddMinutes(double.Parse(configuration["Jwt:ExpireMinutes"] ?? "60")),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Issuer = "JWTAuthenticationServer",
-            Audience = "JWTServiceBlazorClient"
+            Issuer = issuer,
+            Audience = audience
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -90,7 +96,6 @@ public class AuthController(IAuthService authService) : ControllerBase
             new(ClaimTypes.Name, user.Username),
             new("Username", user.Username),
             new("Id",user.Id.ToString()),
-            // new Claim("Email", user.Email),
             new("id", user.Id.ToString())
         };
 
