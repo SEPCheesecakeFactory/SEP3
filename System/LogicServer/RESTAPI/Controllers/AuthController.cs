@@ -12,7 +12,7 @@ namespace RESTAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IAuthService authService, IRepositoryID<User, User, User, int> userRepository) : ControllerBase
+public class AuthController(IAuthService authService) : ControllerBase
 {
 
     [HttpPost("login")]
