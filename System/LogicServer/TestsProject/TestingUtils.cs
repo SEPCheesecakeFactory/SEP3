@@ -61,10 +61,17 @@ public static class TestingUtils
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTestKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+        int userId = 4; // default learner
+        if (roles.Contains("admin") && roles.Contains("teacher")) userId = 3;
+        else if (roles.Contains("admin")) userId = 1;
+        else if (roles.Contains("teacher")) userId = 2;
+        else if (roles.Contains("learner")) userId = 4;
+
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, "testuser"),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new("Id", userId.ToString())
         };
         foreach (var role in roles)
         {
