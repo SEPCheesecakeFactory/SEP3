@@ -196,29 +196,27 @@
     {
         isLoading = true;
         loadError = false;
-        try
+
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
         {
-            var authState = await AuthProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
+            currentUsername = user.FindFirst("Username")?.Value ?? "";
 
-            if (user.Identity?.IsAuthenticated == true)
+            var optionalEntries = await CourseService.GetLeaderboardAsync();
+            if (optionalEntries.IsSuccess)
             {
-                currentUsername = user.FindFirst("Username")?.Value ?? "";
-
-                var rawEntries = await CourseService.GetLeaderboardAsync();
+                var rawEntries = optionalEntries.Value!;
                 entries = rawEntries.OrderBy(x => x.Rank).ToList();
             }
+            else
+            {
+                Console.WriteLine($"Error: {optionalEntries.ErrorMessage}");
+                loadError = true;
+            }
         }
-        catch (Exception ex)
-        {
-            // If server is down, catche it
-            Console.WriteLine($"Error: {ex.Message}");
-            loadError = true;
-        }
-        finally
-        {
-            isLoading = false;
-        }
+        isLoading = false;
     }
 
     private string GetInitials(string name)

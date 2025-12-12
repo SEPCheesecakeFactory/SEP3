@@ -24,4 +24,6 @@ public class Optional<T>
     public static Optional<T> Success(T value) => new(value);
     public static Optional<T> Error(string message) => new(false, true, default, message);
     public static Optional<T> Empty() => new();
+
+    public static implicit operator T?(Optional<T> optional) => optional.Value;
 }
