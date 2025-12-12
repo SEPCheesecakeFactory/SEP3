@@ -26,9 +26,13 @@ public class HttpCrudService(HttpClient client)
             var value = JsonSerializer.Deserialize<T>(response, jsonOptions);
             return Optional<T>.Success(value!);
         }
+        catch (HttpRequestException)
+        {
+            return Optional<T>.Error("NO_CONNECTION");
+        }
         catch (Exception ex)
         {
-            return Optional<T>.Error("Create failed: " + ex.Message);
+            return Optional<T>.Error("Unexpected error: " + ex.Message);
         }
     }
 
@@ -47,9 +51,13 @@ public class HttpCrudService(HttpClient client)
             var value = JsonSerializer.Deserialize<T>(response, jsonOptions);
             return Optional<T>.Success(value!);
         }
+        catch (HttpRequestException)
+        {
+            return Optional<T>.Error("NO_CONNECTION");
+        }
         catch (Exception ex)
         {
-            return Optional<T>.Error("Get failed: " + ex.Message);
+            return Optional<T>.Error("Unexpected error: " + ex.Message);
         }
     }
 
@@ -67,9 +75,13 @@ public class HttpCrudService(HttpClient client)
 
             return Optional<bool>.Success(true);
         }
+        catch (HttpRequestException)
+        {
+            return Optional<bool>.Error("NO_CONNECTION");
+        }
         catch (Exception ex)
         {
-            return Optional<bool>.Error("Delete failed: " + ex.Message);
+            return Optional<bool>.Error("Unexpected error: " + ex.Message);
         }
     }
 
@@ -88,9 +100,13 @@ public class HttpCrudService(HttpClient client)
             var value = JsonSerializer.Deserialize<T>(response, jsonOptions);
             return Optional<T>.Success(value!);
         }
+        catch (HttpRequestException)
+        {
+            return Optional<T>.Error("NO_CONNECTION");
+        }
         catch (Exception ex)
         {
-            return Optional<T>.Error("Update failed: " + ex.Message);
+            return Optional<T>.Error("Unexpected error: " + ex.Message);
         }
     }
 }
