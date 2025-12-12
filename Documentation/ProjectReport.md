@@ -62,10 +62,12 @@ Figure X - "Manage draft use case" from Use case descriptions (Appendices, X)
 ### Threat model
 ### Domain model
 
+
 ## Design
 
 ### System design
 ### Architectural overview
+
 ### Communication protocol design
 
 *Interface Definition (IDL): Show snippets of your .proto files (if using gRPC).
