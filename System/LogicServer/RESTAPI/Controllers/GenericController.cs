@@ -11,7 +11,6 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
 
     protected IActionResult GetStatus()
     {
-        _repository.GetMany(); // Dummy call to avoid unused field warning
         return Ok(new { status = $"Service is running" });
     }
 
@@ -41,9 +40,8 @@ public class GenericController<MainType, AddType, UpdateType, ID>(IRepositoryID<
         return Created("", createdEntity);
     }
 
-    protected async Task<ActionResult<MainType>> UpdateAsync(string id, UpdateType entity)
+    protected async Task<ActionResult<MainType>> UpdateAsync(UpdateType entity)
     {
-        ID parsedId = IdParser(id);
         try
         {
             var updated = await _repository.UpdateAsync(entity);

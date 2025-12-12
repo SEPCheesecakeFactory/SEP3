@@ -47,9 +47,9 @@ public class CoursesController(ICourseRepository repository) : GenericController
         return Ok(entities);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut, HttpPut("{id}")]
     [Authorize("MustBeTeacherOrAdmin")]
-    public async Task<ActionResult<Course>> HttpUpdateAsync(string id, [FromBody] Course entity) => await UpdateAsync(id, entity);
+    public async Task<ActionResult<Course>> HttpUpdateAsync([FromBody] Course entity) => await UpdateAsync(entity);
 
     [HttpPut("/drafts/{id:int}"), Authorize("MustBeAdmin")]
     public async Task<ActionResult<Course>> ApproveDraft([FromBody] int approvedBy, [FromRoute] int id)
