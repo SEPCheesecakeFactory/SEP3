@@ -5,7 +5,7 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using System.Security.Claims
-@using BlazorApp.Components 
+@using BlazorApp.Components
 
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
@@ -22,18 +22,19 @@
 
         @if (ActiveCourse != null)
         {
-            <div class="card bg-primary text-white shadow-sm mb-5 border-0 rounded-3 fade-in" style="animation-delay: 0.1s;">
+            <div class="card bg-primary text-white shadow-sm mb-5 border-0 rounded-3 fade-in"
+                style="animation-delay: 0.1s;">
                 <div class="card-body p-4 d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="text-white-50 text-uppercase fw-bold mb-2">Continue Learning</h6>
                         <h3 class="fw-bold mb-1">@ActiveCourse.Title</h3>
                         <p class="mb-0 text-white-50">
-                            You are on Step <span class="text-white fw-bold">@GetSavedStep(ActiveCourse.Id)</span> 
+                            You are on Step <span class="text-white fw-bold">@GetSavedStep(ActiveCourse.Id)</span>
                             of @ActiveCourse.TotalSteps
                         </p>
                     </div>
-                    <button class="btn btn-light text-primary fw-bold px-4 rounded-pill shadow-sm" 
-                            @onclick="() => OpenCourse(ActiveCourse)">
+                    <button class="btn btn-light text-primary fw-bold px-4 rounded-pill shadow-sm"
+                        @onclick="() => OpenCourse(ActiveCourse)">
                         Resume <i class="fas fa-play ms-2"></i>
                     </button>
                 </div>
@@ -43,13 +44,12 @@
         @if (courses != null && courses.Any())
         {
             <div class="fade-in" style="animation-delay: 0.2s;">
-                <CourseFilter @bind-SearchQuery="searchQuery"
-                              @bind-SelectedCategory="selectedCategory"
-                              UniqueCategories="uniqueCategories" />
+                <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
+                    UniqueCategories="uniqueCategories" />
             </div>
         }
 
-        @if (courses == null || isLoading)
+        @if (isLoading)
         {
             <div class="d-flex justify-content-center align-items-center" style="height:30vh;">
                 <div class="spinner-border text-primary" role="status"></div>
@@ -58,6 +58,12 @@
         else if (loadError)
         {
             <div class="alert alert-danger fade-in">Failed to load courses. Please try again.</div>
+        }
+        else if (courses == null)
+        {
+            <div class="alert alert-warning">
+                No data available.
+            </div>
         }
         else if (!courses.Any())
         {
@@ -69,9 +75,9 @@
                 </button>
             </div>
         }
-        else if (!FilteredCourses.Any()) 
+        else if (!FilteredCourses.Any())
         {
-             <div class="text-center py-5 fade-in">
+            <div class="text-center py-5 fade-in">
                 <h5 class="text-muted">No courses match your search.</h5>
                 <button class="btn btn-link" @onclick="ResetFilters">Clear Filters</button>
             </div>
@@ -88,9 +94,7 @@
                     <div class="row g-3">
                         @foreach (var course in group)
                         {
-                            <CourseCard Course="course" 
-                                        OnOpen="OpenCourse" 
-                                        ProgressStep="GetSavedStep(course.Id)" />
+                            <CourseCard Course="course" OnOpen="OpenCourse" ProgressStep="GetSavedStep(course.Id)" />
                         }
                     </div>
                 }
@@ -120,60 +124,75 @@
     private List<string> uniqueCategories = new();
 
     private Course? ActiveCourse => courses?
-        .FirstOrDefault(c => GetSavedStep(c.Id) > 1 && GetSavedStep(c.Id) <= c.TotalSteps);
+    .FirstOrDefault(c => GetSavedStep(c.Id) > 1 && GetSavedStep(c.Id) <= c.TotalSteps);
 
     private IEnumerable<Course> FilteredCourses => (courses ?? new List<Course>())
-        .Where(c => string.IsNullOrEmpty(searchQuery) 
-                    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
-        .Where(c => string.IsNullOrEmpty(selectedCategory) 
-                    || c.Category == selectedCategory);
+    .Where(c => string.IsNullOrEmpty(searchQuery)
+    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+    .Where(c => string.IsNullOrEmpty(selectedCategory)
+    || c.Category == selectedCategory);
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
+        {
+            isLoading = false;
+            return;
+        }
+
         var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
 
-        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+        if (idClaim == null || !int.TryParse(idClaim.Value, out currentUserId))
         {
-            currentUserId = uid;
+            isLoading = false;
+            loadError = true;
+            return;
         }
 
         try
-        {
-            courses = await CourseService.GetCourses(currentUserId);
+    {
+        var coursesResult = await CourseService.GetCourses(currentUserId);
 
-            if (courses != null)
-            {
-                uniqueCategories = courses
-                    .Select(c => c.Category)
-                    .Where(c => !string.IsNullOrEmpty(c))
-                    .Select(c => c!) 
-                    .Distinct()
-                    .OrderBy(c => c)
-                    .ToList();
-
-                if (currentUserId > 0)
-                {
-                    var tasks = courses.Select(async c => 
-                    {
-                        var step = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
-                        return new { c.Id, Step = step };
-                    });
-
-                    var results = await Task.WhenAll(tasks);
-
-                    foreach (var res in results)
-                    {
-                        if (!courseProgressMap.ContainsKey(res.Id))
-                            courseProgressMap.Add(res.Id, res.Step);
-                    }
-                }
-            }
-        }
-        catch
+        if (!coursesResult.IsSuccess)
         {
             loadError = true;
+            courses = new List<Course>();
+            return;
+        }
+
+        courses = coursesResult.Value;
+
+        uniqueCategories = courses
+            .Select(c => c.Category)
+            .Where(c => !string.IsNullOrEmpty(c))
+            .Select(c => c!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+
+        var tasks = courses.Select(async c =>
+        {
+            var stepResult = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
+
+            return new
+            {
+                c.Id,
+                Step = stepResult.IsSuccess ? stepResult.Value : 1
+            };
+        });
+
+        var results = await Task.WhenAll(tasks);
+
+        foreach (var res in results)
+            courseProgressMap[res.Id] = res.Step;
+    }
+    catch
+    {
+        loadError = true;
+        courses = new List<Course>();
         }
         finally
         {
