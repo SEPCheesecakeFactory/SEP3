@@ -31,6 +31,7 @@ public class TestController : ControllerBase
     public ActionResult GetWithManualCheck()
     {
         Claim? claim = User.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Role));
+        
         if (claim == null)
         {
             return StatusCode(403, "You have no role");

@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using RepositoryContracts; 
+using RepositoryContracts;
 using RESTAPI.Dtos;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace RESTAPI.Controllers;
 
@@ -11,39 +12,26 @@ namespace RESTAPI.Controllers;
 [Route("[controller]")]
 public class CourseProgressController(ICourseProgressRepository repository) : ControllerBase
 {
-    // TODO: Only allow users to access their own progress unless they are admins
-
     // GET Progress 
     [HttpGet("{userId:int}/{courseId:int}")]
     [Authorize]
     public async Task<ActionResult<int>> GetProgress(int userId, int courseId)
     {
-        try
-        {
-            int step = await repository.GetCourseProgressAsync(userId, courseId);
-            return Ok(step);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
+        int step = await repository.GetCourseProgressAsync(userId, courseId);
+        return Ok(step);
     }
 
     // POST Update
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult> UpdateProgress([FromBody] CourseProgressDto dto) 
+    public async Task<ActionResult> UpdateProgress([FromBody] CourseProgressDto dto)
     {
-        try
+        var idClaim = User.Claims.FirstOrDefault(c => c.Type == "id");
+        if (idClaim == null || !int.TryParse(idClaim.Value, out int authenticatedUserId) || authenticatedUserId != dto.UserId)
         {
-            await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
-            return Ok();
+            return Forbid();
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
+        await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
+        return Ok();
     }
 }

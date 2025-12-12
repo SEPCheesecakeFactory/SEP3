@@ -174,43 +174,91 @@ public static class PureTests
         deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);*/
         // TODO: Handle clean-up later
     }
+    /// <summary>
+    /// Tries to go through full course progress lifecycle:
+    /// Make a new user with no progress anywhere
+    /// Get progress for course 1 (should be 1)
+    /// Update progress for course 1 to step 3
+    /// Get progress for course 1 (should be 3)
+    /// Update progress for course 1 to step 5
+    /// Get progress for course 1 (should be 5)
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="TokenProvider"></param>
+    /// <param name="testOutputHelper"></param>
+    /// <returns></returns>
     public static async Task CourseProgressLifeCycle(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
     {
-        // TODO: should only be able to post own progress unless admin/teacher
-        var token = TokenProvider(["learner"]);
+        // Register new user
+        var uniqueSuffix = TestingUtils.GetCurrentRandomSuffix();
+        var uniqueUsername = "testuser" + uniqueSuffix;
+
+        var registerRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini",
+            PasswordRepeat = "passwordini",
+            Roles = new[] { new { RoleName = "learner" } }
+        };
+
+        var registerResponse = await client.PostAsJsonAsync("/Auth/register", registerRequest);
+        registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Login as the new user
+        var loginRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini"
+        };
+
+        var loginResponse = await client.PostAsJsonAsync("/Auth/login", loginRequest);
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var token = await loginResponse.Content.ReadAsStringAsync();
+        token.Should().NotBeNullOrEmpty();
+
         client.Login(token);
 
-        // Test POST /courseprogress (update progress)
-        var updateDto = new
+        // Get user ID from token
+        var userId = TestingUtils.GetUserIdFromToken(token);
+
+        // Get progress for course 1 (should be 0)
+        var getResponse1 = await client.GetAsync($"/courseprogress/{userId}/1");
+        getResponse1.StatusCode.Should().Be(HttpStatusCode.OK);
+        var progress1 = int.Parse(await getResponse1.Content.ReadAsStringAsync());
+        progress1.Should().Be(1);
+
+        // Update progress for course 1 to step 3
+        var updateDto1 = new
         {
-            UserId = 1,
+            UserId = userId,
             CourseId = 1,
-            CurrentStep = 2
+            CurrentStep = 3
         };
-        var postResponse = await client.PostAsJsonAsync("/courseprogress", updateDto);
-        postResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        var postResponse1 = await client.PostAsJsonAsync("/courseprogress", updateDto1);
+        postResponse1.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        // Test GET /courseprogress/{userId}/{courseId}
-        var getResponse2 = await client.GetAsync("/courseprogress/1/1");
+        // Get progress for course 1 (should be 3)
+        var getResponse2 = await client.GetAsync($"/courseprogress/{userId}/1");
         getResponse2.StatusCode.Should().Be(HttpStatusCode.OK);
-        var progress2 = await getResponse2.Content.ReadFromJsonAsync<int>();
-        progress2.Should().Be(2);
+        var progress2 = int.Parse(await getResponse2.Content.ReadAsStringAsync());
+        progress2.Should().Be(3);
 
-        // Test POST /courseprogress (update progress)
+        // Update progress for course 1 to step 5
         var updateDto2 = new
         {
-            UserId = 1,
+            UserId = userId,
             CourseId = 1,
-            CurrentStep = 4
+            CurrentStep = 5
         };
         var postResponse2 = await client.PostAsJsonAsync("/courseprogress", updateDto2);
         postResponse2.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        // Verify update
-        var getResponse3 = await client.GetAsync("/courseprogress/1/1");
+        // Get progress for course 1 (should be 5)
+        var getResponse3 = await client.GetAsync($"/courseprogress/{userId}/1");
         getResponse3.StatusCode.Should().Be(HttpStatusCode.OK);
-        var progress3 = await getResponse3.Content.ReadFromJsonAsync<int>();
-        progress3.Should().Be(4);
+        var progress3 = int.Parse(await getResponse3.Content.ReadAsStringAsync());
+        progress3.Should().Be(5);
     }
     /// <summary>
     /// Register as new user
@@ -258,6 +306,7 @@ public static class PureTests
             CurrentStep = 5
         };
         var postResponse = await client.PostAsJsonAsync("/courseprogress", updateDto);
+        testOutputHelper?.WriteLine(await postResponse.Content.ReadAsStringAsync());
         postResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 }

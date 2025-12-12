@@ -85,4 +85,17 @@ public static class TestingUtils
     {
         return $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{new Random().Next(1000, 9999)}";
     }
+
+    internal static object GetUserIdFromToken(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        var idClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "Id");
+        if (idClaim != null && int.TryParse(idClaim.Value, out int userId))
+        {
+            return userId;
+        }
+        throw new Exception("ID claim not found in token.");
+    }
 }
