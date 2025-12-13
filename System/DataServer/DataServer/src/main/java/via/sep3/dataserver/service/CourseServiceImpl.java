@@ -2,16 +2,50 @@ package via.sep3.dataserver.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
+
 import io.grpc.stub.StreamObserver;
 import via.sep3.dataserver.data.Course;
-import via.sep3.dataserver.data.Language;
 import via.sep3.dataserver.data.CourseCategory;
+import via.sep3.dataserver.data.CourseCategoryRepository;
+import via.sep3.dataserver.data.CourseRepository;
+import via.sep3.dataserver.data.Language;
+import via.sep3.dataserver.data.LanguageRepository;
 import via.sep3.dataserver.data.LearningStep;
-import via.sep3.dataserver.data.*;
-import via.sep3.dataserver.grpc.*;
+import via.sep3.dataserver.data.LearningStepId;
+import via.sep3.dataserver.data.LearningStepRepository;
+import via.sep3.dataserver.data.LearningStepType;
+import via.sep3.dataserver.data.LearningStepTypeRepository;
+import via.sep3.dataserver.data.SystemUser;
+import via.sep3.dataserver.data.SystemUserRepository;
+import via.sep3.dataserver.data.UserCourseProgress;
+import via.sep3.dataserver.data.UserCourseProgressRepository;
+import via.sep3.dataserver.grpc.AddCourseRequest;
+import via.sep3.dataserver.grpc.AddCourseResponse;
+import via.sep3.dataserver.grpc.AddLearningStepRequest;
+import via.sep3.dataserver.grpc.AddLearningStepResponse;
+import via.sep3.dataserver.grpc.CourseServiceGrpc;
+import via.sep3.dataserver.grpc.CreateCategoryRequest;
+import via.sep3.dataserver.grpc.CreateCategoryResponse;
+import via.sep3.dataserver.grpc.CreateLanguageRequest;
+import via.sep3.dataserver.grpc.CreateLanguageResponse;
+import via.sep3.dataserver.grpc.DeleteCourseRequest;
+import via.sep3.dataserver.grpc.Empty;
+import via.sep3.dataserver.grpc.GetCategoriesRequest;
+import via.sep3.dataserver.grpc.GetCategoriesResponse;
+import via.sep3.dataserver.grpc.GetCoursesRequest;
+import via.sep3.dataserver.grpc.GetCoursesResponse;
+import via.sep3.dataserver.grpc.GetLanguagesRequest;
+import via.sep3.dataserver.grpc.GetLanguagesResponse;
+import via.sep3.dataserver.grpc.GetLearningStepRequest;
+import via.sep3.dataserver.grpc.GetLearningStepResponse;
+import via.sep3.dataserver.grpc.UpdateCourseRequest;
+import via.sep3.dataserver.grpc.UpdateCourseResponse;
+import via.sep3.dataserver.grpc.UpdateLearningStepRequest;
+import via.sep3.dataserver.grpc.UpdateLearningStepResponse;
 
 @GrpcService
 @Service
@@ -378,4 +412,36 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
                 .setName(language.getName())
                 .build();
     }
+
+    @Override
+public void deleteCourse(
+        DeleteCourseRequest request,
+        StreamObserver<Empty> responseObserver) {
+
+    try {
+        Course course = courseRepository.findById(request.getId()).orElse(null);
+
+        if (course == null) {
+            responseObserver.onError(
+                io.grpc.Status.NOT_FOUND
+                    .withDescription("Course not found")
+                    .asRuntimeException()
+            );
+            return;
+        }
+
+        courseRepository.delete(course);
+
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+
+    } catch (Exception e) {
+        responseObserver.onError(
+            io.grpc.Status.INTERNAL
+                .withDescription(e.getMessage())
+                .asRuntimeException()
+        );
+    }
+}
+
 }
