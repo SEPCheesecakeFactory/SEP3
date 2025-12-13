@@ -44,33 +44,51 @@ public class FullEndpointCoverage : IClassFixture<WebApplicationFactory<Program>
     }
 
     [Fact]
-    public async Task CanReachServer()
+    public async Task Real_CanReachServer()
     {
         var response = await _client.GetAsync("/status");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
-    public async Task FullAuthLifecycle()
+    public async Task Real_FullAuthLifecycle()
     {
         await PureTests.AuthLifecycle(_client, _testOutputHelper);
     }
 
     [Fact]
-    public async Task FullCourseLifeCycle()
+    public async Task Real_FullCourseLifeCycle()
     {
         await PureTests.CourseLifeCycle(_client, TokenProvider(_client), _testOutputHelper);
     }
 
     [Fact]
-    public async Task FullLearningStepsLifeCycle()
+    public async Task Real_FullLearningStepsLifeCycle()
     {
         await PureTests.LearningStepsLifeCycle(_client, TokenProvider(_client), _testOutputHelper);
     }
 
     [Fact]
-    public async Task FullCourseProgressLifeCycle()
+    public async Task Real_FullCourseProgressLifeCycle()
     {
         await PureTests.CourseProgressLifeCycle(_client, TokenProvider(_client), _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task Real_ForbiddenCourseProgressAccess()
+    {
+        await PureTests.CourseProgressAuth(_client, TokenProvider(_client), _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task Real_CheckCourseCreation()
+    {
+        await PureTests.CheckCourseCreation(_client, TokenProvider(_client), _testOutputHelper);
+    }
+
+    [Fact]
+    public async Task Real_GettingIdWorks()
+    {
+        await PureTests.GettingIdFromTokenWorks(_client, TokenProvider(_client), _testOutputHelper);
     }
 }

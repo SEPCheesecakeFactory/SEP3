@@ -11,15 +11,7 @@ public class LeaderboardController(ILeaderboardRepository repository) : Controll
     [HttpGet]
     public async Task<ActionResult<List<LeaderboardEntry>>> GetLeaderboard()
     {
-        try
-        {
-            var result = await repository.GetTopPlayersAsync();
-            return Ok(result);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
+        var result = await repository.GetTopPlayersAsync();
+        return Ok(result);
     }
 }

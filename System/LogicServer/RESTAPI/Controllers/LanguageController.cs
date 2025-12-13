@@ -9,35 +9,13 @@ namespace RESTAPI.Controllers;
 [Authorize]
 [Route("[controller]")]
 [ApiController]
-public class LanguagesController(ILanguageRepository repository) : ControllerBase
+public class LanguagesController(IRepositoryID<Language, CreateLanguageDto, Language, string> languageRepository) : GenericController<Language, CreateLanguageDto, Language, string>(languageRepository)
 {
     [HttpPost("/languages")] 
     [Authorize("MustBeAdmin")]
-    public async Task<ActionResult<Language>> Create([FromBody] CreateLanguageDto dto)
-    {
-        try 
-        {
-            var created = await repository.AddAsync(dto);
-            return Created($"/languages/{created.Code}", created);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
+    public async Task<ActionResult<Language>> Create([FromBody] CreateLanguageDto dto) => await CreateAsync(dto);
 
     [HttpGet("/languages")] 
     [Authorize]
-    public ActionResult<IEnumerable<Language>> GetAll()
-    {
-        try 
-        {
-            var languages = repository.GetMany().ToList(); 
-            return Ok(languages);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
+    public ActionResult<IEnumerable<Language>> GetAll() => GetMany();
 }

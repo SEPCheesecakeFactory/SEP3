@@ -61,10 +61,17 @@ public static class TestingUtils
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTestKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+        int userId = 4; // default learner
+        if (roles.Contains("admin") && roles.Contains("teacher")) userId = 3;
+        else if (roles.Contains("admin")) userId = 1;
+        else if (roles.Contains("teacher")) userId = 2;
+        else if (roles.Contains("learner")) userId = 4;
+
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, "testuser"),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new("Id", userId.ToString())
         };
         foreach (var role in roles)
         {
@@ -79,5 +86,23 @@ public static class TestingUtils
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public static string GetCurrentRandomSuffix()
+    {
+        return $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{new Random().Next(1000, 9999)}";
+    }
+
+    internal static int GetUserIdFromToken(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        var idClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "Id");
+        if (idClaim != null && int.TryParse(idClaim.Value, out int userId))
+        {
+            return userId;
+        }
+        throw new Exception("ID claim not found in token.");
     }
 }

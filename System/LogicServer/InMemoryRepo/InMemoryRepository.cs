@@ -9,9 +9,9 @@ namespace InMemoryRepositories;
 
 public class InMemoryRepository<T, ID> : IRepositoryID<T, ID> where T : class, IIdentifiable<ID>
 {
-    private readonly List<T> Ts = [];
+    protected readonly List<T> Ts = [];
 
-    public Task<T> AddAsync(T T)
+    public virtual Task<T> AddAsync(T T)
     {
         // For composite keys, ID is set externally
         Ts.Add(T);

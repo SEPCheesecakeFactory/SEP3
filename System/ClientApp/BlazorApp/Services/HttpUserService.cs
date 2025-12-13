@@ -6,42 +6,16 @@ using System.Net.Http.Json;
 namespace BlazorApp.Services;
 
 using BlazorApp.Entities;
+using BlazorApp.Shared;
 
-public class HttpUserService : IUserService
+public class HttpUserService(HttpCrudService service) : IUserService
 {
-    private readonly HttpClient client;
-    public HttpUserService(HttpClient client)
-    {
-        this.client = client;
-    }
-    public async Task<List<User>> GetUsers()
-    {
-        var result = await client.GetFromJsonAsync<List<User>>("users");
-        return new List<User>(result ?? new List<User>());
-    }
+    public async Task<Optional<List<User>>> GetUsers()
+        => await service.GetAsync<List<User>>("users") ?? Optional<List<User>>.Empty();
 
-    public async Task UpdateUser(int id, User User)
-    {
-        var json = JsonSerializer.Serialize(User);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+    public async Task UpdateUser(int id, User user)
+        => await service.UpdateAsync<User, User>($"users/{id}", user);
 
-        var response = await client.PutAsync($"users/{id}", content);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception(await response.Content.ReadAsStringAsync());
-        }
-    }
-
-    public async Task<User> GetUser(int id)
-    {
-        // This will throw an exception if the server is down
-        var result = await client.GetFromJsonAsync<User>($"users/{id}");
-        if (result == null)
-        {
-            throw new Exception("User not found");
-        }
-        return result;
-    }
-
+    public async Task<Optional<User>> GetUser(int id)
+        => await service.GetAsync<User>($"users/{id}");
 }

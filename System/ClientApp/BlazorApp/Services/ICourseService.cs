@@ -20,7 +20,7 @@ public interface ICourseService
     Task<Optional<List<Draft>>> GetDrafts();
 
     // APPROVE DRAFT
-    Task<Optional<bool>> ApproveDraft(int draftId, int adminId);
+    Task<Optional<Draft>> ApproveDraft(int draftId, int adminId);
 
     // PROGRESS
     Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId);

@@ -78,7 +78,7 @@ public class gRPCCourseRepository : gRPCRepository<Course, CreateCourseDto, Cour
         var resp = CourseServiceClient.GetCourses(new GetCoursesRequest());
         var c = resp.Courses.FirstOrDefault(c => c.Id == id);
 
-        if (c == null) throw new KeyNotFoundException($"Course {id} not found");
+        if (c == null) throw new NotFoundException($"Course {id} not found");
 
         string authorName = "Unknown";
         if (c.AuthorId > 0)
