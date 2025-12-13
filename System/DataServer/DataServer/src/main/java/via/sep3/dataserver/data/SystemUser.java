@@ -1,13 +1,22 @@
 package via.sep3.dataserver.data;
 
-import jakarta.persistence.*; // Imports everything needed
 import java.util.ArrayList;
 import java.util.List;
 
+// Imports everything needed
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "systemuser")
-public class SystemUser
-{
+public class SystemUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -19,36 +28,30 @@ public class SystemUser
   @Column(name = "password_hash")
   private String password_hash;
 
-  @OneToMany(mappedBy = "systemUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "systemUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<SystemUserRole> systemUserRoles = new ArrayList<>();
 
-  public Integer getId()
-  {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Integer id)
-  {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-  public String getUsername()
-  {
+  public String getUsername() {
     return username;
   }
 
-  public void setUsername(String username)
-  {
+  public void setUsername(String username) {
     this.username = username;
   }
 
-  public String getPassword()
-  {
+  public String getPassword() {
     return password_hash;
   }
 
-  public void setPassword(String password_hash)
-  {
+  public void setPassword(String password_hash) {
     this.password_hash = password_hash;
   }
 

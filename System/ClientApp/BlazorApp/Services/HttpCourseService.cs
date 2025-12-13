@@ -76,6 +76,16 @@ public class HttpCourseService : ICourseService
 
         await client.PostAsJsonAsync("CourseProgress", dto);
     }
+
+    public async Task DeleteCourseProgressAsync(int courseId, int userId)
+    {
+
+        var uri = $"CourseProgress/{courseId}/{userId}";
+
+        HttpResponseMessage response = await client.DeleteAsync(uri);
+        response.EnsureSuccessStatusCode();
+    }
+
     public async Task UpdateCourse(int id, Course course)
     {
         var json = JsonSerializer.Serialize(course);

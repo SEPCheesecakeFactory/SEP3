@@ -44,4 +44,19 @@ public class CourseProgressController(ICourseRepository repository) : Controller
             return StatusCode(500, e.Message);
         }
     }
+    // GET /CourseProgress/{userId}/{courseId}
+    [HttpDelete("{courseId:int}/{userId:int}")]
+    public async Task<ActionResult> DeleteProgress(int courseId, int userId)
+    {
+        try
+        {        
+        await repository.DeleteAsync(courseId, userId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+        return NoContent();
+    }
 }

@@ -24,6 +24,7 @@ service CourseService {
   rpc GetCourses(GetCoursesRequest) returns (GetCoursesResponse);
   rpc AddCourse(AddCourseRequest) returns (AddCourseResponse);
   rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
+  rpc DeleteCourse (DeleteCourseRequest) returns (Empty);
 
   rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
   rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
@@ -119,6 +120,11 @@ message UpdateCourseRequest {
 
 message UpdateCourseResponse {
   Course course = 1;
+}
+
+message DeleteCourseRequest {
+  int32 course_id = 1;
+  int32 user_id = 2;
 }
 
 // ----------------------------------------------------------------------------

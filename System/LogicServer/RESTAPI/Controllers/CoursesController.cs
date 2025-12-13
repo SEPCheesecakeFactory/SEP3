@@ -52,5 +52,4 @@ public class CoursesController(ICourseRepository repository) : GenericController
             return StatusCode(500, e.Message);
         }
     }
-    
 }

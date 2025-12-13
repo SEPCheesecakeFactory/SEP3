@@ -94,10 +94,22 @@ public class gRPCCourseRepository(string host, int port) : gRPCRepository<Course
         };
     }
 
-
-    public override Task DeleteAsync(int id)
+    public override Task DeleteAsync(int id)//Delete course entirely
     {
         throw new NotImplementedException();
+    }
+
+    public async Task DeleteAsync(int courseId, int userId) //Delete progress of the user in a course (unenroll)
+    {
+        try
+        {
+        await CourseServiceClient.DeleteCourseAsync(new DeleteCourseRequest { CourseId = courseId, UserId = userId });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public override async Task<Entities.Course> GetSingleAsync(int id)

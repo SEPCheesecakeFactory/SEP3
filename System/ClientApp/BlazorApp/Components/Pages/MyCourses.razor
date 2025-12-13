@@ -43,8 +43,21 @@
                     @foreach (var course in group)
                     {
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(course.Category)"
-                                style="--course-color: var(--game-gray);" @onclick="() => OpenCourse(course)">
+                            @* Added 'position-relative' here so the button stays inside the card *@
+                            <div class="card card-course h-100 text-center bg-white position-relative @CourseDisplayUtils.GetBorderClass(course.Category)"
+                                style="--course-color: var(--game-gray); cursor: pointer;" 
+                                @onclick="() => OpenCourse(course)">
+
+                                @* --- DELETE BUTTON START --- *@
+                                @* stopPropagation prevents the card click (OpenCourse) from firing *@
+                                <button class="btn btn-sm btn-light text-danger position-absolute top-0 end-0 m-2 shadow-sm"
+                                        style="z-index: 10; width: 30px; height: 30px; padding: 0; border-radius: 50%;"
+                                        title="Unenroll from course"
+                                        @onclick="() => UnenrollCourse(course.Id)"
+                                        @onclick:stopPropagation="true">
+                                    <i class="fas fa-trash-alt fa-xs"></i>
+                                </button>
+                                @* --- DELETE BUTTON END --- *@
 
                                 <div class="w-100 @CourseDisplayUtils.GetBgClass(course.Category)" style="height: 10px;"></div>
 
@@ -90,7 +103,7 @@
                             </div>
                         </div>
                     }
-                </div>
+                </div>            
             }
         }
     </Authorized>
@@ -156,5 +169,22 @@
         int saved = GetSavedStep(course.Id);
         int stepToOpen = (saved > course.TotalSteps) ? 1 : saved;
         NavManager.NavigateTo($"/courses/{course.Id}/steps/{stepToOpen}");
+    }
+    private async Task UnenrollCourse(int courseId)
+    {
+        if (currentUserId == 0)
+            return;
+
+        try
+        {
+            await CourseService.DeleteCourseProgressAsync(courseId, currentUserId);
+            // Reload course list
+            courses = await CourseService.GetCourses(currentUserId);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+            loadError = true;
+        }
     }
 }
