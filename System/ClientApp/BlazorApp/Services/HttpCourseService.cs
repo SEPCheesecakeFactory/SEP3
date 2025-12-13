@@ -146,37 +146,37 @@ public class HttpCourseService : ICourseService
         }
     }
     // DISAPPROVE DRAFT
-public async Task<Optional<bool>> DisapproveDraft(int draftId, int adminId)
-{
-    try
+    public async Task<Optional<bool>> DisapproveDraft(int draftId, int adminId)
     {
-        var response = await client.PutAsJsonAsync(
-            $"drafts/disapprove/{draftId}",
-            adminId
-        );
-
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            var serverMessage = await response.Content.ReadAsStringAsync();
+            var response = await client.PutAsJsonAsync(
+                $"drafts/disapprove/{draftId}",
+                adminId
+            );
 
-            var errorMessage = string.IsNullOrWhiteSpace(serverMessage)
-                ? $"Server error: {response.StatusCode}"
-                : serverMessage;
+            if (!response.IsSuccessStatusCode)
+            {
+                var serverMessage = await response.Content.ReadAsStringAsync();
 
-            return Optional<bool>.Error(errorMessage);
+                var errorMessage = string.IsNullOrWhiteSpace(serverMessage)
+                    ? $"Server error: {response.StatusCode}"
+                    : serverMessage;
+
+                return Optional<bool>.Error(errorMessage);
+            }
+
+            return Optional<bool>.Success(true);
         }
-
-        return Optional<bool>.Success(true);
+        catch (HttpRequestException)
+        {
+            return Optional<bool>.Error("NO_CONNECTION");
+        }
+        catch (Exception ex)
+        {
+            return Optional<bool>.Error("Unexpected error: " + ex.Message);
+        }
     }
-    catch (HttpRequestException)
-    {
-        return Optional<bool>.Error("NO_CONNECTION");
-    }
-    catch (Exception ex)
-    {
-        return Optional<bool>.Error("Unexpected error: " + ex.Message);
-    }
-}
 
 
 
@@ -305,4 +305,33 @@ public async Task<Optional<bool>> DisapproveDraft(int draftId, int adminId)
         var result = await client.GetFromJsonAsync<List<Language>>("languages");
         return result ?? new List<Language>();
     }
+
+    public async Task<Optional<bool>> DeleteDraft(int draftId)
+    {
+        try
+        {
+            var response = await client.DeleteAsync($"drafts/{draftId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var serverMessage = await response.Content.ReadAsStringAsync();
+                return Optional<bool>.Error(
+                    string.IsNullOrWhiteSpace(serverMessage)
+                        ? $"Server error: {response.StatusCode}"
+                        : serverMessage
+                );
+            }
+
+            return Optional<bool>.Success(true);
+        }
+        catch (HttpRequestException)
+        {
+            return Optional<bool>.Error("NO_CONNECTION");
+        }
+        catch (Exception ex)
+        {
+            return Optional<bool>.Error("Unexpected error: " + ex.Message);
+        }
+    }
+
 }

@@ -76,34 +76,29 @@ public class CoursesController(ICourseRepository repository) : GenericController
         }
     }
 
-    [HttpPut("/drafts/disapprove/{id:int}")]
+    [HttpDelete("/drafts/{id:int}")]
     [Authorize("MustBeAdmin")]
-    public async Task<ActionResult<Course>> DisapproveDraft([FromBody] int disapprovedBy, [FromRoute] int id)
+    public async Task<IActionResult> DeleteDraft([FromRoute] int id)
     {
         try
         {
-            Course currentCourse = await _repository.GetSingleAsync(id);
-             Course updatedCourse = new Course
-            {
-                Id = currentCourse.Id,
-                Language = currentCourse.Language,
-                Title = currentCourse.Title,
-                 Description = currentCourse.Description,
-                 AuthorId = currentCourse.AuthorId,
+            var course = await _repository.GetSingleAsync(id);
+            if (course == null)
+                return NotFound("Draft not found.");
 
-            
-                 ApprovedBy = -disapprovedBy, 
+            await _repository.DeleteAsync(id);
 
-                    TotalSteps = currentCourse.TotalSteps
-            };
-
-            currentCourse = await _repository.UpdateAsync(updatedCourse);
-            return Ok(updatedCourse);
+            return Ok();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-             return StatusCode(500, e.Message);
+            return StatusCode(500, "Server error: " + ex.Message);
         }
     }
+
+
+
+
+
 
 }

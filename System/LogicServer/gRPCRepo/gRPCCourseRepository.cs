@@ -161,7 +161,14 @@ public class gRPCCourseRepository : gRPCRepository<Course, CreateCourseDto, Cour
         };
     }
 
-    public override Task DeleteAsync(int id) => throw new NotImplementedException();
+    public override async Task DeleteAsync(int id)
+    {
+        await CourseServiceClient.DeleteCourseAsync(
+            new DeleteCourseRequest { Id = id }
+        );
+    }
+
+
     public override Task ClearAsync() => throw new NotImplementedException();
     public Task<Course> AddAsync(Course entity) => throw new NotImplementedException();
 }

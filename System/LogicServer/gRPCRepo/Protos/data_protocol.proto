@@ -27,6 +27,8 @@ service CourseService {
   rpc AddCourse(AddCourseRequest) returns (AddCourseResponse);
   rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
 
+  rpc DeleteCourse(DeleteCourseRequest) returns (Empty);
+
   rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
   rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
   rpc UpdateLearningStep(UpdateLearningStepRequest) returns (UpdateLearningStepResponse);
@@ -179,6 +181,10 @@ message GetLanguagesRequest {}
 
 message GetLanguagesResponse {
   repeated Language languages = 1;
+}
+
+message DeleteCourseRequest {
+  int32 id = 1;
 }
 
 // ----------------------------------------------------------------------------
