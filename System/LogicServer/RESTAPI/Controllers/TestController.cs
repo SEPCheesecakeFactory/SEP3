@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RESTAPI.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 [Authorize]
 public class TestController : ControllerBase
 {
-
     [HttpGet("authorized")]
     public ActionResult GetAsAuthorized()
     {
@@ -31,6 +31,7 @@ public class TestController : ControllerBase
     public ActionResult GetWithManualCheck()
     {
         Claim? claim = User.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Role));
+        
         if (claim == null)
         {
             return StatusCode(403, "You have no role");
@@ -43,6 +44,4 @@ public class TestController : ControllerBase
 
         return Ok("You are a teacher, you may proceed");
     }
-
-
 }

@@ -9,6 +9,12 @@ public class gRPCCourseProgressRepository(string host, int port)
     : gRPCRepository<CourseProgress, CourseProgress, CourseProgress, string>(host, port),
       ICourseProgressRepository
 {
+    // ==== NOTE ===============================================================================================
+    // Primitive obsession in OOP. Returning int instead of CourseProgress entity is a bad smell.
+    // Refactor would be nice but low impact high effort
+    //    - Eduard
+    // =========================================================================================================
+
     public async Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
         var request = new CourseProgressRequest
@@ -20,7 +26,7 @@ public class gRPCCourseProgressRepository(string host, int port)
         return response.CurrentStep;
     }
 
-    public async Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
+    public async Task<int> UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
         var request = new CourseProgressUpdate
         {
@@ -28,7 +34,8 @@ public class gRPCCourseProgressRepository(string host, int port)
             CourseId = courseId,
             CurrentStep = currentStep
         };
-        await ProgressServiceClient.UpdateCourseProgressAsync(request);
+        await ProgressServiceClient.UpdateCourseProgressAsync(request); // TODO: Take response and use that
+        return currentStep;
     }
 
     public override Task ClearAsync() => throw new NotImplementedException();

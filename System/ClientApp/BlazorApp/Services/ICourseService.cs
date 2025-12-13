@@ -7,20 +7,20 @@ namespace BlazorApp.Services;
 public interface ICourseService
 {
     // UPDATE COURSE
-    Task<Optional<bool>> UpdateCourse(int id, Course course);
+    Task<Optional<Course>> UpdateCourse(int id, Course course);
 
     // GET COURSES
     Task<Optional<List<Course>>> GetCourses();
     Task<Optional<List<Course>>> GetCourses(int? userId = null);
 
     // CREATE DRAFT
-    Task<Optional<bool>> CreateDraft(CreateDraftDto dto);
+    Task<Optional<Draft>> CreateDraft(CreateDraftDto dto);
 
     // GET DRAFTS
     Task<Optional<List<Draft>>> GetDrafts();
 
     // APPROVE DRAFT
-    Task<Optional<bool>> ApproveDraft(int draftId, int adminId);
+    Task<Optional<Draft>> ApproveDraft(int draftId, int adminId);
 
     // DISAPPROVE DRAFT
     Task<Optional<bool>> DisapproveDraft(int draftId, int adminId);
@@ -28,14 +28,14 @@ public interface ICourseService
 
     // PROGRESS
     Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId);
-    Task<Optional<bool>> UpdateCourseProgressAsync(int userId, int courseId, int currentStep);
+    Task<Optional<int>> UpdateCourseProgressAsync(int userId, int courseId, int currentStep);
 
     // LEADERBOARD
     Task<Optional<List<LeaderboardEntry>>> GetLeaderboardAsync();
-    Task CreateCategory(CreateCourseCategoryDto createCourseCategoryDto);
+    Task<Optional<CourseCategory>> CreateCategory(CreateCourseCategoryDto createCourseCategoryDto);
     Task<List<CourseCategory>> GetCategories();
 
     // LANGUAGES
-    Task CreateLanguage(CreateLanguageDto dto);
+    Task<Optional<Language>> CreateLanguage(CreateLanguageDto dto);
     Task<List<Language>> GetLanguages();
 }

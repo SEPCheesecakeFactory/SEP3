@@ -67,14 +67,14 @@ public class InMemoryCourseRepository(IRepositoryID<LearningStep, LearningStep, 
     public Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
         var key = (userId, courseId);
-        return Task.FromResult(progress.GetValueOrDefault(key, 0));
+        return Task.FromResult(progress.GetValueOrDefault(key, 1));
     }
 
-    public Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
+    public Task<int> UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
         var key = (userId, courseId);
         progress[key] = currentStep;
-        return Task.CompletedTask;
+        return Task.FromResult(currentStep);
     }
 
     public IQueryable<Course> GetManyByUserId(int? userId = null)

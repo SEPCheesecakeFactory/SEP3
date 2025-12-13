@@ -12,7 +12,7 @@ public static class PureTests
     public static async Task AuthLifecycle(HttpClient client, ITestOutputHelper? testOutputHelper = null)
     {
         // Ensure unique usernames by appending a timestamp + random number
-        var uniqueSuffix = $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{new Random().Next(1000, 9999)}";
+        var uniqueSuffix = TestingUtils.GetCurrentRandomSuffix();
         var uniqueUsername = "testuser" + uniqueSuffix;
         // 1. REGISTER
         var registerRequest = new
@@ -103,7 +103,7 @@ public static class PureTests
 
         // Find out what is the highest step at course 1 and make stepOrder to be +1
         // TODO: Add the ability to retrieve single
-        
+
         var courseForTesting = 1;
 
         testOutputHelper?.WriteLine("Retrieving all courses to determine current step count for course " + courseForTesting);
@@ -129,7 +129,7 @@ public static class PureTests
 
         // Test POST /learningsteps (create learning step)
         token = TokenProvider(["teacher"]);
-        client.Login(token);        
+        client.Login(token);
 
         var createDto = new
         {
@@ -174,42 +174,245 @@ public static class PureTests
         deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);*/
         // TODO: Handle clean-up later
     }
+    /// <summary>
+    /// Tries to go through full course progress lifecycle:
+    /// Make a new user with no progress anywhere
+    /// Get progress for course 1 (should be 1)
+    /// Update progress for course 1 to step 3
+    /// Get progress for course 1 (should be 3)
+    /// Update progress for course 1 to step 5
+    /// Get progress for course 1 (should be 5)
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="TokenProvider"></param>
+    /// <param name="testOutputHelper"></param>
+    /// <returns></returns>
     public static async Task CourseProgressLifeCycle(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
     {
-        // TODO: should only be able to post own progress unless admin/teacher
-        var token = TokenProvider(["learner"]);
+        // Register new user
+        var uniqueSuffix = TestingUtils.GetCurrentRandomSuffix();
+        var uniqueUsername = "testuser" + uniqueSuffix;
+
+        var registerRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini",
+            PasswordRepeat = "passwordini",
+            Roles = new[] { new { RoleName = "learner" } }
+        };
+
+        var registerResponse = await client.PostAsJsonAsync("/Auth/register", registerRequest);
+        registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Login as the new user
+        var loginRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini"
+        };
+
+        var loginResponse = await client.PostAsJsonAsync("/Auth/login", loginRequest);
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var token = await loginResponse.Content.ReadAsStringAsync();
+        token.Should().NotBeNullOrEmpty();
+
         client.Login(token);
 
-        // Test POST /courseprogress (update progress)
-        var updateDto = new
+        // Get user ID from token
+        var userId = TestingUtils.GetUserIdFromToken(token);
+
+        // Get progress for course 1 (should be 0)
+        var getResponse1 = await client.GetAsync($"/courseprogress/{userId}/1");
+        getResponse1.StatusCode.Should().Be(HttpStatusCode.OK);
+        var progress1 = int.Parse(await getResponse1.Content.ReadAsStringAsync());
+        progress1.Should().Be(1);
+
+        // Update progress for course 1 to step 3
+        var updateDto1 = new
         {
-            UserId = 1,
+            UserId = userId,
             CourseId = 1,
-            CurrentStep = 2
+            CurrentStep = 3
         };
-        var postResponse = await client.PostAsJsonAsync("/courseprogress", updateDto);
-        postResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        var postResponse1 = await client.PostAsJsonAsync("/courseprogress", updateDto1);
+        postResponse1.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        // Test GET /courseprogress/{userId}/{courseId}
-        var getResponse2 = await client.GetAsync("/courseprogress/1/1");
+        // Get progress for course 1 (should be 3)
+        var getResponse2 = await client.GetAsync($"/courseprogress/{userId}/1");
         getResponse2.StatusCode.Should().Be(HttpStatusCode.OK);
-        var progress2 = await getResponse2.Content.ReadFromJsonAsync<int>();
-        progress2.Should().Be(2);
+        var progress2 = int.Parse(await getResponse2.Content.ReadAsStringAsync());
+        progress2.Should().Be(3);
 
-        // Test POST /courseprogress (update progress)
+        // Update progress for course 1 to step 5
         var updateDto2 = new
         {
-            UserId = 1,
+            UserId = userId,
             CourseId = 1,
-            CurrentStep = 4
+            CurrentStep = 5
         };
         var postResponse2 = await client.PostAsJsonAsync("/courseprogress", updateDto2);
         postResponse2.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        // Verify update
-        var getResponse3 = await client.GetAsync("/courseprogress/1/1");
+        // Get progress for course 1 (should be 5)
+        var getResponse3 = await client.GetAsync($"/courseprogress/{userId}/1");
         getResponse3.StatusCode.Should().Be(HttpStatusCode.OK);
-        var progress3 = await getResponse3.Content.ReadFromJsonAsync<int>();
-        progress3.Should().Be(4);
+        var progress3 = int.Parse(await getResponse3.Content.ReadAsStringAsync());
+        progress3.Should().Be(5);
+    }
+    /// <summary>
+    /// Register as new user
+    /// Try to change progress of user 1 on course 1
+    /// If succeeded, test fails
+    /// </summary>
+    /// <returns></returns>
+    public static async Task CourseProgressAuth(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
+    {
+        // Register new user
+        var uniqueSuffix = TestingUtils.GetCurrentRandomSuffix();
+        var uniqueUsername = "testuser" + uniqueSuffix;
+
+        var registerRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini",
+            PasswordRepeat = "passwordini",
+            Roles = new[] { new { RoleName = "learner" } }
+        };
+
+        var registerResponse = await client.PostAsJsonAsync("/Auth/register", registerRequest);
+        registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Login as the new user
+        var loginRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini"
+        };
+
+        var loginResponse = await client.PostAsJsonAsync("/Auth/login", loginRequest);
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var token = await loginResponse.Content.ReadAsStringAsync();
+        token.Should().NotBeNullOrEmpty();
+
+        client.Login(token);
+
+        // Try to change progress of user 1 on course 1
+        var updateDto = new
+        {
+            UserId = 1,
+            CourseId = 1,
+            CurrentStep = 5
+        };
+        var postResponse = await client.PostAsJsonAsync("/courseprogress", updateDto);
+        testOutputHelper?.WriteLine(await postResponse.Content.ReadAsStringAsync());
+        postResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+    
+    /// <summary>
+    /// Creating a course requires for one learning step to be present after creation. 
+    /// This test checks that creating a course works as expected.
+    /// The Learning Step should only appear after approval of the course by the admin.
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="TokenProvider"></param>
+    /// <param name="testOutputHelper"></param>
+    /// <returns></returns>
+    public static async Task CheckCourseCreation(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
+    {
+        // Create course as teacher
+        var token = TokenProvider(["teacher"]);
+        client.Login(token);
+        var id = TestingUtils.GetUserIdFromToken(token);
+
+        var createDto = new
+        {
+            Language = "ENG",
+            Title = "Test Course for Creation Check",
+            Description = "Test Description",
+            Category = "History",
+            AuthorId = id
+        };
+
+        var createResponse = await client.PostAsJsonAsync("/drafts", createDto);
+        testOutputHelper?.WriteLine(await createResponse.Content.ReadAsStringAsync());
+        createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var createdCourse = await createResponse.Content.ReadFromJsonAsync<JsonObject>();
+        createdCourse.Should().NotBeNull();
+        var courseId = createdCourse!["id"]!.GetValue<int>();
+
+        // Check that no learning steps exist for the course yet
+        var getFirstStep = await client.GetAsync($"/learningsteps/{courseId}_1");
+        testOutputHelper?.WriteLine(await getFirstStep.Content.ReadAsStringAsync());
+        getFirstStep.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        // Approve course as admin
+        var adminToken = TokenProvider(["admin"]);
+        id = TestingUtils.GetUserIdFromToken(adminToken);
+        client.Login(adminToken);
+        var approveResponse = await client.PutAsJsonAsync($"/drafts/{courseId}", id); // approvedBy = current user id
+        approveResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Check that the first learning step now exists
+        var getStepsResponseAfter = await client.GetAsync($"/learningsteps/{courseId}_1");
+        getStepsResponseAfter.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    /// <summary>
+    /// Should not allow creating a draft under someone else's user ID
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="TokenProvider"></param>
+    /// <param name="testOutputHelper"></param>
+    /// <returns></returns>
+    public static async Task CreateDraftAsSomeoneElse(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Should not allow approving a draft under someone else's user ID
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="TokenProvider"></param>
+    /// <param name="testOutputHelper"></param>
+    /// <returns></returns>
+    public static async Task ApproveDraftAsSomeoneElse(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Logs in and tries to get a user ID from the token
+    /// </summary>
+    public static async Task GettingIdFromTokenWorks(HttpClient client, Func<IEnumerable<string>, string> TokenProvider, ITestOutputHelper? testOutputHelper = null)
+    {
+        // Register new user
+        var uniqueSuffix = TestingUtils.GetCurrentRandomSuffix();
+        var uniqueUsername = "testuser" + uniqueSuffix;
+        var registerRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini",
+            PasswordRepeat = "passwordini",
+            Roles = new[] { new { RoleName = "learner" } }
+        };
+        var registerResponse = await client.PostAsJsonAsync("/Auth/register", registerRequest);
+        registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Login as the new user
+        var loginRequest = new
+        {
+            Username = uniqueUsername,
+            Password = "passwordini"
+        };
+        var loginResponse = await client.PostAsJsonAsync("/Auth/login", loginRequest);
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        var token = await loginResponse.Content.ReadAsStringAsync();
+        token.Should().NotBeNullOrEmpty();
+        var userId = TestingUtils.GetUserIdFromToken(token);
+        testOutputHelper?.WriteLine($"Extracted user ID from token: {userId}");
+        Assert.True(userId > 0, "User ID extracted from token should be greater than 0");
     }
 }

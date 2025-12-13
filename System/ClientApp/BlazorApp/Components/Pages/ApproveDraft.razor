@@ -148,11 +148,12 @@
 
             var authState = await AuthProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            var idClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+            var adminId = user.GetID();
+            Console.WriteLine($"Approving draft {draftId} by admin {adminId}");
 
-            if (idClaim != null && int.TryParse(idClaim.Value, out int adminId))
+            if (adminId != null)
             {
-                var approveResult = await CourseService.ApproveDraft(draftId, adminId);
+                var approveResult = await CourseService.ApproveDraft(draftId, adminId.Value);
 
                 if (approveResult.HasError)
                 {
