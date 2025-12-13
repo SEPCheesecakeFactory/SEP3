@@ -14,8 +14,10 @@ import via.sep3.dataserver.data.SystemUserRoleRepository;
 import via.sep3.dataserver.data.RoleRepository;
 import via.sep3.dataserver.grpc.AddUserRequest;
 import via.sep3.dataserver.grpc.AddUserResponse;
+import via.sep3.dataserver.grpc.GetUserRequest;
 import via.sep3.dataserver.grpc.GetUsersRequest;
 import via.sep3.dataserver.grpc.GetUsersResponse;
+import via.sep3.dataserver.grpc.UpdateUserRequest;
 import via.sep3.dataserver.grpc.UserServiceGrpc;
 
 @GrpcService
@@ -43,6 +45,19 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
                     .build();
 
             responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(e);
+        }
+    }
+
+    @Override
+    public void getUser(GetUserRequest request, StreamObserver<via.sep3.dataserver.grpc.User> responseObserver) {
+        try {
+            SystemUser user = userRepository.findById(request.getId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            responseObserver.onNext(convertToGrpcUser(user));
             responseObserver.onCompleted();
         } catch (Exception e) {
             responseObserver.onError(e);
@@ -83,6 +98,46 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
                     .build();
 
             responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(e);
+        }
+    }
+
+    @Override
+    public void updateUser(UpdateUserRequest request, StreamObserver<via.sep3.dataserver.grpc.User> responseObserver) {
+        try {
+            int id = request.getId();
+            SystemUser user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+            if (!request.getUsername().isEmpty()) {
+                user.setUsername(request.getUsername());
+            }
+            if (!request.getPassword().isEmpty()) {
+                user.setPassword(request.getPassword());
+            }
+
+            // Clear existing roles - orphanRemoval=true in SystemUser will delete them from DB
+            user.getSystemUserRoles().clear();
+
+            for (String roleName : request.getRolesList()) {
+                Role roleEntity = roleRepository.findById(roleName)
+                        .orElseGet(() -> {
+                            Role r = new Role();
+                            r.setRole(roleName);
+                            return roleRepository.save(r);
+                        });
+
+                SystemUserRole junction = new SystemUserRole();
+                junction.setSystemUser(user);
+                junction.setRole(roleEntity);
+                // No need to save junction explicitly, CascadeType.ALL will handle it
+                user.getSystemUserRoles().add(junction);
+            }
+            
+            userRepository.save(user);
+
+            responseObserver.onNext(convertToGrpcUser(user));
             responseObserver.onCompleted();
         } catch (Exception e) {
             responseObserver.onError(e);

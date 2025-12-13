@@ -3,46 +3,36 @@ using RepositoryContracts;
 using RESTAPI.Dtos;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace RESTAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CourseProgressController(ICourseRepository repository) : ControllerBase
+public class CourseProgressController(ICourseProgressRepository repository) : ControllerBase
 {
-    // GET Progress
-    // GET /CourseProgress/{userId}/{courseId}
+    // GET Progress 
     [HttpGet("{userId:int}/{courseId:int}")]
+    [Authorize]
     public async Task<ActionResult<int>> GetProgress(int userId, int courseId)
     {
-        try
-        {
-            int step = await repository.GetCourseProgressAsync(userId, courseId);
-            return Ok(step);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
+        int step = await repository.GetCourseProgressAsync(userId, courseId);
+        return Ok(step);
     }
 
-    // POST (Update) Progress
-    // POST /CourseProgress
-    // { "userId": 1, "courseId": 2, "currentStep": 5 }
+    // POST Update
     [HttpPost]
-    public async Task<ActionResult> UpdateProgress([FromBody] UpdateProgressDto dto)
+    [Authorize]
+    public async Task<ActionResult> UpdateProgress([FromBody] CourseProgressDto dto)
     {
-        try
+        var idClaim = User.Claims.FirstOrDefault(c => c.Type == "id");
+        if (idClaim == null || !int.TryParse(idClaim.Value, out int authenticatedUserId) || authenticatedUserId != dto.UserId)
         {
-            await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
-            return Ok();
+            return Forbid();
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
+        var current = await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
+        return Ok(current);
     }
     // GET /CourseProgress/{userId}/{courseId}
     [HttpDelete("{courseId:int}/{userId:int}")]

@@ -10,7 +10,7 @@ namespace BlazorApp.Services;
 public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthService
 {
     // this private variable for simple caching
-    public string Jwt { get; private set; } = "";
+    public string? Jwt { get; private set; } = null;
 
     public Action<ClaimsPrincipal> OnAuthStateChanged { get; set; } = null!;
 
@@ -59,7 +59,7 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
 
         IEnumerable<Claim> claims = ParseClaimsFromJwt(Jwt);
 
-        ClaimsIdentity identity = new(claims, "jwt");
+        ClaimsIdentity identity = new(claims, "jwt", "Username", "Role");
 
         ClaimsPrincipal principal = new(identity);
         return principal;
@@ -74,23 +74,16 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         OnAuthStateChanged.Invoke(principal);
     }
 
-    public async Task RegisterAsync(string userName, string password, string passwordRepeat, bool isTeacher)
+    public async Task RegisterAsync(string userName, string password, string passwordRepeat)
     {
-        var roles = new List<BlazorApp.Entities.Role>();
-        roles.Add(new BlazorApp.Entities.Role { RoleName = "learner" });
-        
-        if (isTeacher)
-        {
-            roles.Add(new BlazorApp.Entities.Role { RoleName = "teacher" });
-        }
-
         RegisterRequest registerRequest = new RegisterRequest
         {
             Username = userName,
             Password = password,
             PasswordRepeat = passwordRepeat,
-            Roles = roles
+            Roles = [ new BlazorApp.Entities.Role { RoleName = "learner" } ]
         };
+
         string requestAsJson = JsonSerializer.Serialize(registerRequest);
         StringContent content = new(requestAsJson, Encoding.UTF8, "application/json");
         HttpResponseMessage response = await client.PostAsync("auth/register", content);
@@ -100,6 +93,7 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         {
             throw new Exception(responseContent);
         }
+        
         string token = responseContent;
         Jwt = token;
 
@@ -108,6 +102,28 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
         ClaimsPrincipal principal = await CreateClaimsPrincipal();
 
         OnAuthStateChanged.Invoke(principal);
+    }
+
+    public async Task ChangePasswordAsync(string username, string currentPassword, string newPassword)
+    {
+        var request = new
+        {
+            Username = username,
+            CurrentPassword = currentPassword,
+            NewPassword = newPassword
+        };
+
+        string requestAsJson = JsonSerializer.Serialize(request);
+        StringContent content = new(requestAsJson, Encoding.UTF8, "application/json");
+
+        // Note: We use PutAsync here because the endpoint is [HttpPut]
+        HttpResponseMessage response = await client.PutAsync("auth/password", content);
+        string responseContent = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(responseContent);
+        }
     }
 
     public async Task<ClaimsPrincipal> GetAuthAsync()
@@ -120,8 +136,26 @@ public class JwtAuthService(HttpClient client, IJSRuntime jsRuntime) : IAuthServ
     {
         string payload = jwt.Split('.')[1];
         byte[] jsonBytes = ParseBase64WithoutPadding(payload);
-        Dictionary<string, object>? keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes) ?? [];
-        return keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString()!));
+        Dictionary<string, object>? keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
+
+        var claims = new List<Claim>();
+        if (keyValuePairs == null) return claims;
+
+        foreach (var kvp in keyValuePairs)
+        {
+            if (kvp.Value is JsonElement element && element.ValueKind == JsonValueKind.Array)
+            {
+                foreach (var item in element.EnumerateArray())
+                {
+                    claims.Add(new Claim(kvp.Key, item.ToString()));
+                }
+            }
+            else
+            {
+                claims.Add(new Claim(kvp.Key, kvp.Value.ToString()!));
+            }
+        }
+        return claims;
     }
 
     private static byte[] ParseBase64WithoutPadding(string base64)

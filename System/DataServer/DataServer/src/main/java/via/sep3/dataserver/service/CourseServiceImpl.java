@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.grpc.stub.StreamObserver;
 import via.sep3.dataserver.data.Course;
+import via.sep3.dataserver.data.Language;
 import via.sep3.dataserver.data.CourseCategory;
 import via.sep3.dataserver.data.CourseCategoryRepository;
 import via.sep3.dataserver.data.CourseRepository;
@@ -39,6 +40,8 @@ import via.sep3.dataserver.grpc.UpdateCourseRequest;
 import via.sep3.dataserver.grpc.UpdateCourseResponse;
 import via.sep3.dataserver.grpc.UpdateLearningStepRequest;
 import via.sep3.dataserver.grpc.UpdateLearningStepResponse;
+import via.sep3.dataserver.data.*;
+import via.sep3.dataserver.grpc.*;
 
 @GrpcService
 @Service
@@ -59,6 +62,8 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
 
     @Autowired
     private SystemUserRepository userRepository;
+    @Autowired
+    private CourseCategoryRepository categoryRepository;
 
     @Override
     public void getCourses(GetCoursesRequest request, StreamObserver<GetCoursesResponse> responseObserver) {
@@ -327,6 +332,7 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
             builder.setApprovedBy(course.getApprovedBy().getId());
         } else {
             builder.setApprovedBy(0);
+            builder.setApprovedBy(0);
         }
 
         return builder.build();
@@ -338,6 +344,97 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
                 .setContent(step.getContent())
                 .setStepOrder(step.getId().getStepOrder())
                 .setType(step.getStepType().getName())
+                .build();
+    }
+
+    @Override
+    public void createCategory(CreateCategoryRequest request,
+            StreamObserver<CreateCategoryResponse> responseObserver) {
+        try {
+            CourseCategory category = new CourseCategory();
+            category.setName(request.getName());
+            category.setDescription(request.getDescription());
+
+            category = courseCategoryRepository.save(category);
+
+            CreateCategoryResponse response = CreateCategoryResponse.newBuilder()
+                    .setCategory(convertToGrpcCategory(category))
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getCategories(GetCategoriesRequest request,
+            StreamObserver<GetCategoriesResponse> responseObserver) {
+        try {
+            List<CourseCategory> categories = courseCategoryRepository.findAll();
+            GetCategoriesResponse.Builder responseBuilder = GetCategoriesResponse.newBuilder();
+
+            for (CourseCategory category : categories) {
+                responseBuilder.addCategories(convertToGrpcCategory(category));
+            }
+
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    private via.sep3.dataserver.grpc.CourseCategory convertToGrpcCategory(CourseCategory category) {
+        return via.sep3.dataserver.grpc.CourseCategory.newBuilder()
+                .setId(category.getId())
+                .setName(category.getName())
+                .setDescription(category.getDescription() != null ? category.getDescription() : "")
+                .build();
+    }
+
+    @Override
+    public void createLanguage(CreateLanguageRequest request, StreamObserver<CreateLanguageResponse> responseObserver) {
+        try {
+            Language language = new Language();
+            language.setCode(request.getCode());
+            language.setName(request.getName());
+
+            language = languageRepository.save(language);
+
+            CreateLanguageResponse response = CreateLanguageResponse.newBuilder()
+                    .setLanguage(convertToGrpcLanguage(language))
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getLanguages(GetLanguagesRequest request, StreamObserver<GetLanguagesResponse> responseObserver) {
+        try {
+            List<Language> languages = languageRepository.findAll();
+            GetLanguagesResponse.Builder responseBuilder = GetLanguagesResponse.newBuilder();
+
+            for (Language lang : languages) {
+                responseBuilder.addLanguages(convertToGrpcLanguage(lang));
+            }
+
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    private via.sep3.dataserver.grpc.Language convertToGrpcLanguage(Language language) {
+        return via.sep3.dataserver.grpc.Language.newBuilder()
+                .setCode(language.getCode())
+                .setName(language.getName())
                 .build();
     }
 }
