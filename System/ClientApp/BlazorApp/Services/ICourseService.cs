@@ -23,8 +23,7 @@ public interface ICourseService
     Task<Optional<Draft>> ApproveDraft(int draftId, int adminId);
 
     // DISAPPROVE DRAFT
-    Task<Optional<bool>> DisapproveDraft(int draftId, int adminId);
-    Task<Optional<bool>> DeleteDraft(int draftId);
+    Task<Optional<bool>> DisapproveDraft(int draftId);
 
     // PROGRESS
     Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId);

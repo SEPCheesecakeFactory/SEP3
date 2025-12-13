@@ -199,40 +199,41 @@
         }
     }
 
-    private async Task Disapprove(int draftId)
+ private async Task Disapprove(int draftId)
+{
+    try
     {
-        try
+        errorMessage = null;
+
+        var disapproveResult = await CourseService.DisapproveDraft(draftId);
+
+        if (disapproveResult.HasError)
         {
-            errorMessage = null;
-
-            var deleteResult = await CourseService.DeleteDraft(draftId);
-
-            if (deleteResult.HasError)
-            {
-                errorMessage = deleteResult.ErrorMessage == "NO_CONNECTION"
+            errorMessage = disapproveResult.ErrorMessage == "NO_CONNECTION"
                 ? "Cannot connect to the server. Please try again later."
-                : deleteResult.ErrorMessage;
-                return;
-            }
+                : disapproveResult.ErrorMessage;
+            return;
+        }
 
-            // Refresh drafts from server
-            var refreshResult = await CourseService.GetDrafts();
-            if (refreshResult.HasError)
-            {
-                errorMessage = refreshResult.ErrorMessage;
-                return;
-            }
 
-            drafts = (refreshResult.Value ?? new List<Draft>())
+        var refreshResult = await CourseService.GetDrafts();
+        if (refreshResult.HasError)
+        {
+            errorMessage = refreshResult.ErrorMessage;
+            return;
+        }
+
+        drafts = (refreshResult.Value ?? new List<Draft>())
             .Where(d => d.ApprovedBy == null || d.ApprovedBy == 0)
             .ToList();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error deleting draft: {ex.Message}");
-            errorMessage = "Unexpected error while deleting the draft.";
-        }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error disapproving draft: {ex.Message}");
+        errorMessage = "Unexpected error while disapproving the draft.";
+    }
+}
+
 
 
 
