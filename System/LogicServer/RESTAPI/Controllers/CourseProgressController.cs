@@ -31,7 +31,7 @@ public class CourseProgressController(ICourseProgressRepository repository) : Co
         {
             return Forbid();
         }
-        await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
-        return Ok();
+        var current = await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
+        return Ok(current);
     }
 }
