@@ -45,6 +45,10 @@ public class InMemoryCourseRepository(IRepositoryID<LearningStep, LearningStep, 
         courses.Remove(course);
         return Task.CompletedTask;
     }
+    public Task DeleteAsync(int courseId, int userId)
+    {
+        throw new NotImplementedException();
+    }
 
     public Task<Course> GetSingleAsync(int id)
     {
