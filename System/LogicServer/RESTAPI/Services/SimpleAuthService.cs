@@ -48,7 +48,7 @@ public class AuthService(IRepositoryID<User, User, User, int> userRepository, IL
         }
         // more user info validation here
 
-        
+
         Entities.User userNoId = new Entities.User
         {
             Username = request.Username,
@@ -76,5 +76,9 @@ public class AuthService(IRepositoryID<User, User, User, int> userRepository, IL
         throw new Exception("User not found");
     }
 
+    public Task ChangePasswordAsync(string username, string currentPassword, string newPassword)
+    {
+        throw new NotImplementedException("This is legacy code. SecureAuthService is used instead.");
+    }
 
 }

@@ -1,0 +1,59 @@
+using RepositoryContracts;
+using via.sep3.dataserver.grpc;
+using Entities;
+using System.Threading.Tasks;
+
+namespace gRPCRepo;
+
+public class gRPCCourseProgressRepository(string host, int port)
+    : gRPCRepository<CourseProgress, CourseProgress, CourseProgress, string>(host, port),
+      ICourseProgressRepository
+{
+    // ==== NOTE ===============================================================================================
+    // Primitive obsession in OOP. Returning int instead of CourseProgress entity is a bad smell.
+    // Refactor would be nice but low impact high effort
+    //    - Eduard
+    // =========================================================================================================
+
+    public async Task<int> GetCourseProgressAsync(int userId, int courseId)
+    {
+        var request = new CourseProgressRequest
+        {
+            UserId = userId,
+            CourseId = courseId
+        };
+        CourseProgressResponse response = await ProgressServiceClient.GetCourseProgressAsync(request);
+        return response.CurrentStep;
+    }
+
+    public async Task<int> UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
+    {
+        var request = new CourseProgressUpdate
+        {
+            UserId = userId,
+            CourseId = courseId,
+            CurrentStep = currentStep
+        };
+        await ProgressServiceClient.UpdateCourseProgressAsync(request); // TODO: Take response and use that
+        return currentStep;
+    }
+        public async Task DeleteAsync(int courseId, int userId) //Delete progress of the user in a course (unenroll)
+    {
+        try
+        {
+        await CourseServiceClient.DeleteCourseAsync(new DeleteCourseRequest { CourseId = courseId, UserId = userId });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public override Task ClearAsync() => throw new NotImplementedException();
+    public override Task DeleteAsync(string id) => throw new NotImplementedException();
+    public override IQueryable<CourseProgress> GetMany() => throw new NotImplementedException();
+    public override Task<CourseProgress> GetSingleAsync(string id) => throw new NotImplementedException();
+    public override Task<CourseProgress> AddAsync(CourseProgress entity) => throw new NotImplementedException();
+    public override Task<CourseProgress> UpdateAsync(CourseProgress entity) => throw new NotImplementedException();
+}

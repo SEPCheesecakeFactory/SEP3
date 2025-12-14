@@ -26,6 +26,7 @@ service CourseService {
   rpc GetCourses(GetCoursesRequest) returns (GetCoursesResponse);
   rpc AddCourse(AddCourseRequest) returns (AddCourseResponse);
   rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
+  rpc DeleteCourse (DeleteCourseRequest) returns (Empty);
 
   rpc GetLearningStep(GetLearningStepRequest) returns (GetLearningStepResponse);
   rpc AddLearningStep(AddLearningStepRequest) returns (AddLearningStepResponse);
@@ -33,6 +34,9 @@ service CourseService {
 
   rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
   rpc GetCategories(GetCategoriesRequest) returns (GetCategoriesResponse);
+
+  rpc CreateLanguage(CreateLanguageRequest) returns (CreateLanguageResponse);
+  rpc GetLanguages(GetLanguagesRequest) returns (GetLanguagesResponse);
 }
 
 // ----------------------------------------------------------------------------
@@ -156,6 +160,31 @@ message GetCategoriesRequest {}
 
 message GetCategoriesResponse {
   repeated CourseCategory categories = 1;
+}
+
+message Language {
+  string code = 1; 
+  string name = 2; 
+}
+
+message CreateLanguageRequest {
+  string code = 1;
+  string name = 2;
+}
+
+message CreateLanguageResponse {
+  Language language = 1;
+}
+
+message GetLanguagesRequest {}
+
+message GetLanguagesResponse {
+  repeated Language languages = 1;
+}
+
+message DeleteCourseRequest {
+  int32 course_id = 1;
+  int32 user_id = 2;
 }
 
 // ----------------------------------------------------------------------------

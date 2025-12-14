@@ -20,8 +20,8 @@ public class GenericDefaultController<MainType, AddType, UpdateType, ID>(IReposi
     [HttpPost]
     public async Task<ActionResult<MainType>> HttpCreateAsync([FromBody] AddType entity) => await CreateAsync(entity);
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<MainType>> HttpUpdateAsync(string id, [FromBody] UpdateType entity) => await UpdateAsync(id, entity);
+    [HttpPut, HttpPut("{id}")]
+    public async Task<ActionResult<MainType>> HttpUpdateAsync([FromBody] UpdateType entity) => await UpdateAsync(entity);
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> HttpDeleteAsync(string id) => await DeleteAsync(id);

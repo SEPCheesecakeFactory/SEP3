@@ -5,6 +5,7 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using System.Security.Claims
+
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
 @inject NavigationManager NavManager
@@ -14,131 +15,184 @@
 
 <AuthorizeView>
     <Authorized>
-        <h2 class="fw-bolder text-secondary mb-5">My Courses</h2>
+        <div class="d-flex justify-content-between align-items-end mb-4 fade-in">
+            <h2 class="fw-bolder text-secondary mb-0">My Courses</h2>
+        </div>
 
-        @if (courses == null || isLoading)
+        @if (ActiveCourse != null)
         {
-            <div class="d-flex justify-content-center align-items-center" style="height:40vh;">
-                <LoadingSpinner />
+            <div class="card bg-primary text-white shadow-sm mb-5 border-0 rounded-3 fade-in"
+                style="animation-delay: 0.1s;">
+                <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase fw-bold mb-2">Continue Learning</h6>
+                        <h3 class="fw-bold mb-1">@ActiveCourse.Title</h3>
+                        <p class="mb-0 text-white-50">
+                            You are on Step <span class="text-white fw-bold">@GetSavedStep(ActiveCourse.Id)</span>
+                            of @ActiveCourse.TotalSteps
+                        </p>
+                    </div>
+                    <button class="btn btn-light text-primary fw-bold px-4 rounded-pill shadow-sm"
+                        @onclick="() => OpenCourse(ActiveCourse)">
+                        Resume <i class="fas fa-play ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        }
+
+        @if (courses != null && courses.Any())
+        {
+            <div class="fade-in" style="animation-delay: 0.2s;">
+                <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
+                    UniqueCategories="uniqueCategories" />
+            </div>
+        }
+
+        @if (isLoading)
+        {
+            <div class="d-flex justify-content-center align-items-center" style="height:30vh;">
+                <div class="spinner-border text-primary" role="status"></div>
             </div>
         }
         else if (loadError)
         {
-            <div class="alert alert-danger">Failed to load courses.</div>
+            <div class="alert alert-danger fade-in">Failed to load courses. Please try again.</div>
+        }
+        else if (courses == null)
+        {
+            <div class="alert alert-warning">
+                No data available.
+            </div>
         }
         else if (!courses.Any())
         {
-            <div class="alert alert-info">You are not enrolled in any courses yet. Browse all courses to get started!</div>
-            <button class="btn btn-primary" @onclick='() => NavManager.NavigateTo("all-courses")'>Browse Courses</button>
+            <div class="text-center py-5 fade-in">
+                <div class="mb-3"><i class="fas fa-book-open fa-3x text-muted opacity-50"></i></div>
+                <h4 class="text-muted">You aren't enrolled in any courses yet.</h4>
+                <button class="btn btn-primary mt-3" @onclick='() => NavManager.NavigateTo("all-courses")'>
+                    Browse Catalog
+                </button>
+            </div>
+        }
+        else if (!FilteredCourses.Any())
+        {
+            <div class="text-center py-5 fade-in">
+                <h5 class="text-muted">No courses match your search.</h5>
+                <button class="btn btn-link" @onclick="ResetFilters">Clear Filters</button>
+            </div>
         }
         else
         {
-            @foreach (var group in courses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c => c.Category))
-            {
-                <h5 class="fw-bolder text-secondary text-uppercase mt-5 mb-3 ps-1" style="letter-spacing:0.5px">
-                    @group.Key
-                </h5>
+            <div class="fade-in" style="animation-delay: 0.3s;">
+                @foreach (var group in FilteredCourses.OrderBy(c => c.Category).GroupBy(c => c.Category))
+                {
+                    <h5 class="fw-bold text-secondary text-uppercase mt-4 mb-3 ps-1 small" style="letter-spacing:1px">
+                        @group.Key
+                    </h5>
 
-                <div class="row g-3">
-                    @foreach (var course in group)
-                    {
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(course.Category)"
-                                style="--course-color: var(--game-gray);" @onclick="() => OpenCourse(course)">
-
-                                <div class="w-100 @CourseDisplayUtils.GetBgClass(course.Category)" style="height: 10px;"></div>
-
-                                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                                    <i class="@CourseDisplayUtils.GetIconClass(course.Category) fa-3x mb-4 @CourseDisplayUtils.GetTextClass(course.Category)"></i>
-
-                                    <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
-
-                                    <small class="text-muted fw-bold text-uppercase mt-2"
-                                        style="font-size: 0.75rem; letter-spacing: 1px;">
-                                        @course.Description
-                                        @if (!string.IsNullOrEmpty(course.Language))
-                                        {
-                                            <span class="mx-1">• @course.Language</span>
-                                        }
-                                    </small>
-                                    @{
-                                        int saved = GetSavedStep(course.Id);
-                                        int total = course.TotalSteps;
-                                        double completedSteps = Math.Max(0, saved - 1);
-                                        double pct = (total > 0) ? (completedSteps / total * 100) : 0;
-                                    }
-
-                                    @if (saved > total && total > 0)
-                                    {
-                                        <div class="mt-3 badge bg-success text-white border border-success">
-                                            COMPLETED <i class="fas fa-check ms-1"></i>
-                                        </div>
-                                    }
-                                    else if (saved > 1)
-                                    {
-                                        <div class="mt-3 badge bg-info text-dark bg-opacity-10 border border-info">
-                                            RESUME: @Math.Round(pct)%
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="mt-3 badge bg-light text-secondary border">
-                                            START
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            }
+                    <div class="row g-3">
+                        @foreach (var course in group)
+                        {
+                            <MyCourseCard Course="course" OnOpen="OpenCourse" OnUnenroll="UnenrollCourse"
+                                ProgressStep="GetSavedStep(course.Id)" />
+                        }
+                    </div>
+                }
+            </div>
         }
     </Authorized>
 
     <NotAuthorized>
-        <p>You must be logged in to view your courses.</p>
+        <div class="text-center py-5 my-5 border rounded-3 bg-light fade-in">
+            <i class="fas fa-book-open fa-3x text-primary mb-3"></i>
+            <h2 class="fw-bold text-dark">Welcome to Learnify!</h2>
+            <p class="lead text-muted mb-4">Please log in to view your courses.</p>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 
 @code {
-    private List<Course>? courses;
+    private List<Course> courses;
     private Dictionary<int, int> courseProgressMap = new();
     private int currentUserId = 0;
     private bool loadError = false;
     private bool isLoading = true;
 
+    // State variables bound to CourseFilter
+    private string searchQuery = "";
+    private string selectedCategory = "";
+    private List<string> uniqueCategories = new();
+
+    private Course? ActiveCourse => courses?
+    .FirstOrDefault(c => GetSavedStep(c.Id) > 1 && GetSavedStep(c.Id) <= c.TotalSteps);
+
+    private IEnumerable<Course> FilteredCourses => (courses ?? new List<Course>())
+    .Where(c => string.IsNullOrEmpty(searchQuery)
+    || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+    .Where(c => string.IsNullOrEmpty(selectedCategory)
+    || c.Category == selectedCategory);
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
+        {
+            isLoading = false;
+            return;
+        }
+
         var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
 
-        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+        if (idClaim == null || !int.TryParse(idClaim.Value, out currentUserId))
         {
-            currentUserId = uid;
+            isLoading = false;
+            loadError = true;
+            return;
         }
 
         try
         {
-            // Get courses for this user
-            courses = await CourseService.GetCourses(currentUserId);
+            var coursesResult = await CourseService.GetCourses(currentUserId);
 
-            // Fetch progress for each course when logged in
-            if (currentUserId > 0 && courses.Any())
+            if (!coursesResult.IsSuccess)
             {
-                foreach (var course in courses)
-                {
-                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
-                    if (courseProgressMap.ContainsKey(course.Id))
-                        courseProgressMap[course.Id] = step;
-                    else
-                        courseProgressMap.Add(course.Id, step);
-                }
+                loadError = true;
+                courses = new List<Course>();
+                return;
             }
+
+            courses = coursesResult.Value;
+
+            uniqueCategories = courses
+            .Select(c => c.Category)
+            .Where(c => !string.IsNullOrEmpty(c))
+            .Select(c => c!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+
+            var tasks = courses.Select(async c =>
+            {
+                var stepResult = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
+
+                return new
+                {
+                    c.Id,
+                    Step = stepResult.IsSuccess ? stepResult.Value : 1
+                };
+            });
+
+            var results = await Task.WhenAll(tasks);
+
+            foreach (var res in results)
+                courseProgressMap[res.Id] = res.Step;
         }
         catch
         {
             loadError = true;
+            courses = new List<Course>();
         }
         finally
         {
@@ -156,5 +210,28 @@
         int saved = GetSavedStep(course.Id);
         int stepToOpen = (saved > course.TotalSteps) ? 1 : saved;
         NavManager.NavigateTo($"/courses/{course.Id}/steps/{stepToOpen}");
+    }
+
+    private void ResetFilters()
+    {
+        searchQuery = "";
+        selectedCategory = "";
+    }
+    private async Task UnenrollCourse(int courseId)
+    {
+        if (currentUserId == 0)
+            return;
+
+        try
+        {
+            await CourseService.DeleteCourseProgressAsync(courseId, currentUserId);
+            // Reload course list
+            courses = await CourseService.GetCourses(currentUserId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            loadError = true;
+        }
     }
 }

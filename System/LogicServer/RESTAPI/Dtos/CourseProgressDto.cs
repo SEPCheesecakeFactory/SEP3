@@ -1,6 +1,6 @@
 namespace RESTAPI.Dtos;
 
-public class UpdateProgressDto
+public class CourseProgressDto
 {
     public int UserId { get; set; }
     public int CourseId { get; set; }

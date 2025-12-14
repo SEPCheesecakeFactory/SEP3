@@ -5,6 +5,8 @@
 @rendermode InteractiveServer
 <PageTitle>Courses</PageTitle>
 @inject ICourseService CourseService
+@inject NavigationManager NavManager
+
 <AuthorizeView>
 
     <NotAuthorized>
@@ -27,7 +29,7 @@
 @code {
 
     private List<Course> courses = new List<Course>();
-
+    
     protected override async Task OnInitializedAsync()
     {
         await DisplayCourses();
@@ -35,6 +37,15 @@
 
     private async Task DisplayCourses()
     {
-        courses = await CourseService.GetCourses();
+        
+        var result = await CourseService.GetCourses();
+        
+        if (result.HasError)
+        {   var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+            return;
+        }
+
+        courses = result.Value ?? new List<Course>();
     }
 }
