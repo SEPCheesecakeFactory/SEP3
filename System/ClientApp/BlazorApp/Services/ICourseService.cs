@@ -25,6 +25,8 @@ public interface ICourseService
     // PROGRESS
     Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId);
     Task<Optional<int>> UpdateCourseProgressAsync(int userId, int courseId, int currentStep);
+    Task DeleteCourseProgressAsync(int courseId, int userId);
+
 
     // LEADERBOARD
     Task<Optional<List<LeaderboardEntry>>> GetLeaderboardAsync();

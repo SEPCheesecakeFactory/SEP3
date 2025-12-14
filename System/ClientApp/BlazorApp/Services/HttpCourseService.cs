@@ -36,6 +36,8 @@ public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
         return await httpCrudService.CreateAsync<int, object>("CourseProgress", dto);
     }
 
+    public async Task DeleteCourseProgressAsync(int courseId, int userId) => await httpCrudService.DeleteAsync($"CourseProgress/{courseId}/{userId}");
+
     // UPDATE COURSE
     public async Task<Optional<Course>> UpdateCourse(int id, Course course) => await httpCrudService.UpdateAsync<Course, Course>($"courses/{id}", course);
 
