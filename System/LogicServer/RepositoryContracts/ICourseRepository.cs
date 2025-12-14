@@ -6,6 +6,5 @@ namespace RepositoryContracts
     public interface ICourseRepository : IRepositoryID<Course, CreateCourseDto, Course, int>
     {
         IQueryable<Course> GetManyByUserId(int? userId = null);
-        Task DeleteAsync(int courseId, int userId);
     }
 }

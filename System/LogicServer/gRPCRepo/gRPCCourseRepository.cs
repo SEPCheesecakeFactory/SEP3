@@ -164,8 +164,6 @@ public class gRPCCourseRepository : gRPCRepository<Course, CreateCourseDto, Cour
     public override Task DeleteAsync(int id) => throw new NotImplementedException();
     public override Task ClearAsync() => throw new NotImplementedException();
     public Task<Course> AddAsync(Course entity) => throw new NotImplementedException();
-}
-
     public async Task DeleteAsync(int courseId, int userId) //Delete progress of the user in a course (unenroll)
     {
         try
@@ -178,12 +176,6 @@ public class gRPCCourseRepository : gRPCRepository<Course, CreateCourseDto, Cour
             throw;
         }
     }
-
-    public override Task ClearAsync()
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<int> GetCourseProgressAsync(int userId, int courseId)
     {
         try

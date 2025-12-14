@@ -34,7 +34,7 @@ public class CourseProgressController(ICourseProgressRepository repository) : Co
         var current = await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
         return Ok(current);
     }
-    // GET /CourseProgress/{userId}/{courseId}
+
     [HttpDelete("{courseId:int}/{userId:int}")]
     public async Task<ActionResult> DeleteProgress(int courseId, int userId)
     {

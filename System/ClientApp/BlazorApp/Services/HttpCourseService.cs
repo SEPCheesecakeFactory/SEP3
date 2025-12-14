@@ -36,6 +36,8 @@ public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
         return await httpCrudService.CreateAsync<int, object>("CourseProgress", dto);
     }
 
+    public async Task DeleteCourseProgressAsync(int courseId, int userId) => await httpCrudService.DeleteAsync($"CourseProgress/{courseId}/{userId}");
+
     // UPDATE COURSE
     public async Task<Optional<Course>> UpdateCourse(int id, Course course) => await httpCrudService.UpdateAsync<Course, Course>($"courses/{id}", course);
 
@@ -49,13 +51,4 @@ public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
     // LANGUAGES
     public async Task<Optional<Language>> CreateLanguage(CreateLanguageDto dto) => await httpCrudService.CreateAsync<Language, CreateLanguageDto>("languages", dto);
     public async Task<List<Language>> GetLanguages() => (await httpCrudService.GetAsync<List<Language>>("languages")).Value ?? [];
-
-    public async Task DeleteCourseProgressAsync(int courseId, int userId)
-    {
-
-        var uri = $"CourseProgress/{courseId}/{userId}";
-
-        HttpResponseMessage response = await client.DeleteAsync(uri);
-        response.EnsureSuccessStatusCode();
-    }
 }

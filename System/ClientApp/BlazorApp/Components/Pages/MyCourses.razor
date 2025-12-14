@@ -5,7 +5,6 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using System.Security.Claims
-@using BlazorApp.Components
 
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
@@ -94,77 +93,12 @@
                     <div class="row g-3">
                         @foreach (var course in group)
                         {
-                            <CourseCard Course="course" OnOpen="OpenCourse" ProgressStep="GetSavedStep(course.Id)" />
+                            <MyCourseCard Course="course" OnOpen="OpenCourse" OnUnenroll="UnenrollCourse"
+                                ProgressStep="GetSavedStep(course.Id)" />
                         }
                     </div>
                 }
             </div>
-                <div class="row g-3">
-                    @foreach (var course in group)
-                    {
-                        <div class="col-md-6 col-lg-4">
-                            @* Added 'position-relative' here so the button stays inside the card *@
-                            <div class="card card-course h-100 text-center bg-white position-relative @CourseDisplayUtils.GetBorderClass(course.Category)"
-                                style="--course-color: var(--game-gray); cursor: pointer;" 
-                                @onclick="() => OpenCourse(course)">
-
-                                @* --- DELETE BUTTON START --- *@
-                                @* stopPropagation prevents the card click (OpenCourse) from firing *@
-                                <button class="btn btn-sm btn-light text-danger position-absolute top-0 end-0 m-2 shadow-sm"
-                                        style="z-index: 10; width: 30px; height: 30px; padding: 0; border-radius: 50%;"
-                                        title="Unenroll from course"
-                                        @onclick="() => UnenrollCourse(course.Id)"
-                                        @onclick:stopPropagation="true">
-                                    <i class="fas fa-trash-alt fa-xs"></i>
-                                </button>
-                                @* --- DELETE BUTTON END --- *@
-
-                                <div class="w-100 @CourseDisplayUtils.GetBgClass(course.Category)" style="height: 10px;"></div>
-
-                                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                                    <i class="@CourseDisplayUtils.GetIconClass(course.Category) fa-3x mb-4 @CourseDisplayUtils.GetTextClass(course.Category)"></i>
-
-                                    <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
-
-                                    <small class="text-muted fw-bold text-uppercase mt-2"
-                                        style="font-size: 0.75rem; letter-spacing: 1px;">
-                                        @course.Description
-                                        @if (!string.IsNullOrEmpty(course.Language))
-                                        {
-                                            <span class="mx-1">• @course.Language</span>
-                                        }
-                                    </small>
-                                    @{
-                                        int saved = GetSavedStep(course.Id);
-                                        int total = course.TotalSteps;
-                                        double completedSteps = Math.Max(0, saved - 1);
-                                        double pct = (total > 0) ? (completedSteps / total * 100) : 0;
-                                    }
-
-                                    @if (saved > total && total > 0)
-                                    {
-                                        <div class="mt-3 badge bg-success text-white border border-success">
-                                            COMPLETED <i class="fas fa-check ms-1"></i>
-                                        </div>
-                                    }
-                                    else if (saved > 1)
-                                    {
-                                        <div class="mt-3 badge bg-info text-dark bg-opacity-10 border border-info">
-                                            RESUME: @Math.Round(pct)%
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="mt-3 badge bg-light text-secondary border">
-                                            START
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>            
-            }
         }
     </Authorized>
 
@@ -219,19 +153,19 @@
         }
 
         try
-    {
-        var coursesResult = await CourseService.GetCourses(currentUserId);
-
-        if (!coursesResult.IsSuccess)
         {
-            loadError = true;
-            courses = new List<Course>();
-            return;
-        }
+            var coursesResult = await CourseService.GetCourses(currentUserId);
 
-        courses = coursesResult.Value;
+            if (!coursesResult.IsSuccess)
+            {
+                loadError = true;
+                courses = new List<Course>();
+                return;
+            }
 
-        uniqueCategories = courses
+            courses = coursesResult.Value;
+
+            uniqueCategories = courses
             .Select(c => c.Category)
             .Where(c => !string.IsNullOrEmpty(c))
             .Select(c => c!)
@@ -239,26 +173,26 @@
             .OrderBy(c => c)
             .ToList();
 
-        var tasks = courses.Select(async c =>
-        {
-            var stepResult = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
-
-            return new
+            var tasks = courses.Select(async c =>
             {
-                c.Id,
-                Step = stepResult.IsSuccess ? stepResult.Value : 1
-            };
-        });
+                var stepResult = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
 
-        var results = await Task.WhenAll(tasks);
+                return new
+                {
+                    c.Id,
+                    Step = stepResult.IsSuccess ? stepResult.Value : 1
+                };
+            });
 
-        foreach (var res in results)
-            courseProgressMap[res.Id] = res.Step;
-    }
-    catch
-    {
-        loadError = true;
-        courses = new List<Course>();
+            var results = await Task.WhenAll(tasks);
+
+            foreach (var res in results)
+                courseProgressMap[res.Id] = res.Step;
+        }
+        catch
+        {
+            loadError = true;
+            courses = new List<Course>();
         }
         finally
         {
@@ -294,7 +228,7 @@
             // Reload course list
             courses = await CourseService.GetCourses(currentUserId);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e);
             loadError = true;
