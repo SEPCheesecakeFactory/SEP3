@@ -1,7 +1,5 @@
 # Abstract  
-* [Insert your text here. The entire chapter should be in italics] *  
-
-_For more information, see “Guidelines – Project Report”._  
+This work focuses on the need for scalable and adaptable digital educational solutions by developing the Learnify system, a distributed software solution with the objective of ensuring seamless content delivery and user assessment. The primary goal is to make a durable multi-server solution that leverages the power of multiple programming languages for enhanced availability, data integrity, and optimized user response. This system was built with a polyglot microservices architecture, using programming languages such as Java and C# to ensure a strict interoperability implementation. Some of the key technical design choices are the use of gRPC for high-speed intra-service communication and HTTP for external client services, ensuring both speed and accessibility. Data storage is achieved using a PostgreSQL database, ensuring that security is taken into account using JWT authentication to overcome the potential dangers of distributed systems. This application development occurred using an iterative approach, centering around User Stories developed both using specialized analysis and interviews with the stakeholders. A functional prototype that can manage multiple user sessions concurrently in a distributed manner was developed. This prototype was verified to meet essential non-functional requirements, confirming the successful interoperability of components across Java and C#. Security compliance was established through the validation of salted password hashing algorithms using Argon2, ensuring robust data protection alongside reliable persistence in the PostgreSQL database. Moreover, the interface was validated for conformance with recognized accessibility guidelines to support complete usability by those with color vision defects. Finally, the project achieved a fully deployable distributed system, validating that the architecture provides a secure, stable, and operational foundation for scalability in the future of education. 
 
 ---
 
@@ -13,8 +11,6 @@ The aim of this project is on the ability to create a system which would be able
 With the pursuit of knowledge having been a cornerstone of human development for thousands of years, the incorporation of digital technologies into education is in perpetual evolution (Siemens, 2005). A widely accepted model for learning with digital technologies has not been identified, mainly because exponential increases in computing power and volumes of online information constantly redefine how users approach knowledge acquisition, processing, and retention (Haleem et al., 2022).
 
 The approach of this project is to develop a distributed system implemented using at least 2 different programming languages, utilizing a database for data persistence, and adapting a hybrid communication strategy that includes technologies such as gRPC and HTTP.
-
-_For more information, see “Guidelines – Project Report”._  
 
 ---
 
@@ -47,6 +43,7 @@ This stage of analysis also involved the use of structured modeling. The Use Cas
 2. User passwords must be stored securely, using a strong, salted hashing algorithm before persistence
 3. The system must use a robust database for all persistent data storage.
 4. The system has to be deployable
+5. The system has to be color blind people friendly
 
 The requirements were taken from not only the initial vision of the system but also from interviews with real persons that could actually experience the system in the development stages and give relevant feedback to the team. The functional requirements were structured as "user stories" so that the team could maintain clear user perspective development, ensuring that every feature was directly tied to who is making what interaction with the system and how does the user is going to benefit from performing the action - why would he do it. This provided consistent framework for later analysis phases. 
 
@@ -122,21 +119,18 @@ Requirement: You must describe ethical considerations and how negative impacts a
 
 Content: Discuss data privacy (GDPR), user consent, or the societal impact of the app.
 
-_For more information, see “Guidelines – Project Report”._  
 
 ---
 
 # Discussion  
-[Insert your text here]  
 
-_For more information, see “Guidelines – Project Report”._  
+
 
 ---
 
 # Conclusion and Recommendations  
-[Insert your text here]  
 
-_For more information, see “Guidelines – Project Report”._  
+
 
 ---
 
@@ -145,5 +139,3 @@ _For more information, see “Guidelines – Project Report”._
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
 - https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
 - https://www.sciencedirect.com/science/article/pii/S2666412722000137
-
-_For more information, see “Guidelines – Project Report”._  
