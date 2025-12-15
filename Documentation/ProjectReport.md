@@ -30,13 +30,27 @@ This stage of analysis also involved the use of structured modeling. The Use Cas
 
 ### Requirements
 #### Functional requirements
-1. As a Learner, I want to be able to see my progress in a course so that I can track my learning journey.
-2. As a Teacher I want to be able to create a course description, so that I can share my knowledge
-3. As an Administrator, I want to be able to manage drafts, so that I can review, approve, or disapprove new drafts, ensuring that only approved drafts are made available for teachers to fill with course data.
-4. As a Teacher I want to be able to create Learning Steps for the courses, so that the course has relevant steps which makes tracking progress easier
-5. As a Learner, I want to be able to continue my progress in a course so that I can learn more.
-6. As a Learner, I want to be able to see the courses from which I can learn so that I can decide which to start/continue in
-7. As a Learner, I want to be able to test my knowledge with interactive elements, so that I don’t get bored
+1. As a User, I want to register for an account so that I can access the platform.
+2. As a User, I want to log in so that I can access the platform from my account
+3. As a User, I want to view "My Courses" dashboard, so that I can see all the courses I am currently enrolled in.
+4. As a User, I want to resume my active course from where I left off, so that I can continue learning from where i left.
+5. As a User, I want to browse the "All Courses" catalog, so that I can discover new subjects to learn.
+6. As a User, I want to filter courses by category or search query, so that I can find specific content quickly.
+7. As a User, I want to unenroll from a course, so that I can remove content I am no longer interested in from my dashboard.
+8. As a User, I want to view the Leaderboard, so that I can compare my progress with other learners.
+9. As a User, I want to view my Profile, so that I can see my personal account details.
+10. As a User, I want to complete Multiple Choice Questions in a learning step, so that I can test my knowledge.
+11. As a User, I want to complete Fill-in-the-Blank exercises, so that I can practice recalling information.
+12. As a Teacher, I want to create a new course draft, so that I can start building a new curriculum.
+13. As a Teacher, I want to edit learning steps directly from the learning page, so that I can correct mistakes or improve content.
+14. As an Admin, I want to view the Admin Panel, so that I can access administrative tools and settings.
+15. As a Teacher, I want to edit course information, so that I can correct mistakes.
+16. As an Admin, I want to view a list of waiting drafts, so that I can see which courses need approval.
+17. As an Admin, I want to approve course drafts, so that they become available for students to enroll in.
+18. As an Admin, I want to create new course categories, so that new types of courses can be introduced.
+19. As an Admin, I want to add new languages, so that Teachers can create courses in other available languages.
+20. As an Admin, I want to manage users’ roles, so that I decide who is a teacher and admin.
+21. As an Admin, I want to disapprove course drafts, so that they become unavailable for students to enroll in. 
 
 #### Non-functional requirements
 1. The system must utilize at least two different programming languages
@@ -50,10 +64,7 @@ The requirements were taken from not only the initial vision of the system but a
 ### Use case diagram
 ### Use cases and their related requirements
 ### Use case description
-
-Figure X briefly shows one of the use cases - manage draft
-![alt text](image-1.png)
-Figure X - "Manage draft use case" from Use case descriptions (Appendices, X) 
+ 
 
 ### Activity diagram
 ### Threat model
