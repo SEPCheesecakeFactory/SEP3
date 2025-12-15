@@ -50,8 +50,7 @@
                 <div class="card shadow-sm mb-4 fade-in" style="animation-delay: 0.1s;">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
                         @onclick="() => isCategoriesExpanded = !isCategoriesExpanded" style="cursor: pointer;">
-                        <h5 class="mb-0">Course Categories</h5>
-                        <i class="bi @(isCategoriesExpanded ? "bi-chevron-up" : "bi-chevron-down")"></i>
+                        <h5 class="mb-0">@(isCategoriesExpanded ? "▼ " : "▶ ")Course Categories</h5>
                     </div>
                     @if (isCategoriesExpanded)
                     {
@@ -107,8 +106,7 @@
                 <div class="card shadow-sm mb-4 fade-in" style="animation-delay: 0.15s;">
                     <div class="card-header bg-success text-white d-flex justify-content-between align-items-center"
                         @onclick="() => isLanguagesExpanded = !isLanguagesExpanded" style="cursor: pointer;">
-                        <h5 class="mb-0">Languages</h5>
-                        <i class="bi @(isLanguagesExpanded ? "bi-chevron-up" : "bi-chevron-down")"></i>
+                        <h5 class="mb-0">@(isLanguagesExpanded ? "▼ " : "▶ ")Languages</h5>
                     </div>
                     @if (isLanguagesExpanded)
                     {
@@ -164,8 +162,7 @@
                 <div class="card shadow-sm fade-in" style="animation-delay: 0.2s;">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
                         @onclick="() => isUsersExpanded = !isUsersExpanded" style="cursor: pointer;">
-                        <h5 class="mb-0">Registered Users</h5>
-                        <i class="bi @(isUsersExpanded ? "bi-chevron-up" : "bi-chevron-down")"></i>
+                        <h5 class="mb-0">@(isUsersExpanded ? "▼ " : "▶ ")Registered Users</h5>
                     </div>
                     @if (isUsersExpanded)
                     {
