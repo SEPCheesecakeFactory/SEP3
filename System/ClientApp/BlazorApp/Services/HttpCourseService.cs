@@ -19,7 +19,7 @@ public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
     }
 
     // CREATE DRAFT
-    public async Task<Optional<bool>> CreateDraft(CreateDraftDto dto) => await httpCrudService.CreateAsync<bool, CreateDraftDto>("drafts", dto);
+    public async Task<Optional<Draft>> CreateDraft(CreateDraftDto dto) => await httpCrudService.CreateAsync<Draft, CreateDraftDto>("drafts", dto);
 
     // GET DRAFTS
     public async Task<Optional<List<Draft>>> GetDrafts() => await httpCrudService.GetAsync<List<Draft>>("drafts");
@@ -29,24 +29,26 @@ public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
 
     // COURSE PROGRESS
     public async Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId) => await httpCrudService.GetAsync<int>($"CourseProgress/{userId}/{courseId}");
-    public async Task<Optional<bool>> UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
+    public async Task<Optional<int>> UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
         var dto = new { UserId = userId, CourseId = courseId, CurrentStep = currentStep };
 
-        return await httpCrudService.CreateAsync<bool, object>("CourseProgress", dto);
+        return await httpCrudService.CreateAsync<int, object>("CourseProgress", dto);
     }
 
+    public async Task DeleteCourseProgressAsync(int courseId, int userId) => await httpCrudService.DeleteAsync($"CourseProgress/{courseId}/{userId}");
+
     // UPDATE COURSE
-    public async Task<Optional<bool>> UpdateCourse(int id, Course course) => await httpCrudService.UpdateAsync<bool, Course>($"courses/{id}", course);
+    public async Task<Optional<Course>> UpdateCourse(int id, Course course) => await httpCrudService.UpdateAsync<Course, Course>($"courses/{id}", course);
 
     // LEADERBOARD
     public async Task<Optional<List<LeaderboardEntry>>> GetLeaderboardAsync() => await httpCrudService.GetAsync<List<LeaderboardEntry>>("leaderboard");
 
     // CATEGORIES
-    public async Task CreateCategory(CreateCourseCategoryDto dto) => await httpCrudService.CreateAsync<CourseCategory, CreateCourseCategoryDto>("categories", dto);
+    public async Task<Optional<CourseCategory>> CreateCategory(CreateCourseCategoryDto dto) => await httpCrudService.CreateAsync<CourseCategory, CreateCourseCategoryDto>("categories", dto);
     public async Task<List<CourseCategory>> GetCategories() => (await httpCrudService.GetAsync<List<CourseCategory>>("categories")).Value ?? [];
 
     // LANGUAGES
-    public async Task CreateLanguage(CreateLanguageDto dto) => await httpCrudService.CreateAsync<Language, CreateLanguageDto>("languages", dto);
+    public async Task<Optional<Language>> CreateLanguage(CreateLanguageDto dto) => await httpCrudService.CreateAsync<Language, CreateLanguageDto>("languages", dto);
     public async Task<List<Language>> GetLanguages() => (await httpCrudService.GetAsync<List<Language>>("languages")).Value ?? [];
 }

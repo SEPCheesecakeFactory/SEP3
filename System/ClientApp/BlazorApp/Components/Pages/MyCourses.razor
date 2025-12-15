@@ -5,7 +5,6 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using System.Security.Claims
-@using BlazorApp.Components
 
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
@@ -94,7 +93,8 @@
                     <div class="row g-3">
                         @foreach (var course in group)
                         {
-                            <CourseCard Course="course" OnOpen="OpenCourse" ProgressStep="GetSavedStep(course.Id)" />
+                            <MyCourseCard Course="course" OnOpen="OpenCourse" OnUnenroll="UnenrollCourse"
+                                ProgressStep="GetSavedStep(course.Id)" />
                         }
                     </div>
                 }
@@ -153,19 +153,19 @@
         }
 
         try
-    {
-        var coursesResult = await CourseService.GetCourses(currentUserId);
-
-        if (!coursesResult.IsSuccess)
         {
-            loadError = true;
-            courses = new List<Course>();
-            return;
-        }
+            var coursesResult = await CourseService.GetCourses(currentUserId);
 
-        courses = coursesResult.Value;
+            if (!coursesResult.IsSuccess)
+            {
+                loadError = true;
+                courses = new List<Course>();
+                return;
+            }
 
-        uniqueCategories = courses
+            courses = coursesResult.Value;
+
+            uniqueCategories = courses
             .Select(c => c.Category)
             .Where(c => !string.IsNullOrEmpty(c))
             .Select(c => c!)
@@ -173,26 +173,26 @@
             .OrderBy(c => c)
             .ToList();
 
-        var tasks = courses.Select(async c =>
-        {
-            var stepResult = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
-
-            return new
+            var tasks = courses.Select(async c =>
             {
-                c.Id,
-                Step = stepResult.IsSuccess ? stepResult.Value : 1
-            };
-        });
+                var stepResult = await CourseService.GetCourseProgressAsync(currentUserId, c.Id);
 
-        var results = await Task.WhenAll(tasks);
+                return new
+                {
+                    c.Id,
+                    Step = stepResult.IsSuccess ? stepResult.Value : 1
+                };
+            });
 
-        foreach (var res in results)
-            courseProgressMap[res.Id] = res.Step;
-    }
-    catch
-    {
-        loadError = true;
-        courses = new List<Course>();
+            var results = await Task.WhenAll(tasks);
+
+            foreach (var res in results)
+                courseProgressMap[res.Id] = res.Step;
+        }
+        catch
+        {
+            loadError = true;
+            courses = new List<Course>();
         }
         finally
         {
@@ -216,5 +216,22 @@
     {
         searchQuery = "";
         selectedCategory = "";
+    }
+    private async Task UnenrollCourse(int courseId)
+    {
+        if (currentUserId == 0)
+            return;
+
+        try
+        {
+            await CourseService.DeleteCourseProgressAsync(courseId, currentUserId);
+            // Reload course list
+            courses = await CourseService.GetCourses(currentUserId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            loadError = true;
+        }
     }
 }

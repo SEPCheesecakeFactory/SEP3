@@ -31,7 +31,22 @@ public class CourseProgressController(ICourseProgressRepository repository) : Co
         {
             return Forbid();
         }
-        await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
-        return Ok();
+        var current = await repository.UpdateCourseProgressAsync(dto.UserId, dto.CourseId, dto.CurrentStep);
+        return Ok(current);
+    }
+
+    [HttpDelete("{courseId:int}/{userId:int}")]
+    public async Task<ActionResult> DeleteProgress(int courseId, int userId)
+    {
+        try
+        {        
+        await repository.DeleteAsync(courseId, userId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+        return NoContent();
     }
 }

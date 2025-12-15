@@ -45,6 +45,10 @@ public class InMemoryCourseRepository(IRepositoryID<LearningStep, LearningStep, 
         courses.Remove(course);
         return Task.CompletedTask;
     }
+    public Task DeleteAsync(int courseId, int userId)
+    {
+        throw new NotImplementedException();
+    }
 
     public Task<Course> GetSingleAsync(int id)
     {
@@ -70,11 +74,11 @@ public class InMemoryCourseRepository(IRepositoryID<LearningStep, LearningStep, 
         return Task.FromResult(progress.GetValueOrDefault(key, 1));
     }
 
-    public Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
+    public Task<int> UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
         var key = (userId, courseId);
         progress[key] = currentStep;
-        return Task.CompletedTask;
+        return Task.FromResult(currentStep);
     }
 
     public IQueryable<Course> GetManyByUserId(int? userId = null)
