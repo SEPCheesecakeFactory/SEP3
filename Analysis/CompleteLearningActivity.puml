@@ -1,0 +1,20 @@
+@startuml
+start
+:System displays learning activity (Question/Exercise);
+repeat
+:User inputs answer;
+:User submits answer;
+:System evaluates answer;
+
+if (Is answer correct?) then (yes)
+    :System displays success message;
+    :System marks step as completed;
+    stop
+else (no)
+    :System displays error message;
+    :System provides corrective feedback;
+endif
+repeat while
+
+
+@enduml

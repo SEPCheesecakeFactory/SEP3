@@ -71,18 +71,22 @@ The use case diagram visible on the Figure X below shows all use cases and their
 
 The table on the Figure below shows the connections between use cases and the requirements they cover.
 
-![Use Cases with their related requirements](image-2.png)
+![Use Cases with their related requirements](Usecaseswiththeirrelatedrequirements.png)
 
 
 
 ### Use case description
 
-Complete Learning Activity Use Case Diagram shown on the figure presents that use case description were made with precision by focusing on different scenarios and alternate sequences while also sometimes covering more than one requirement.
+Complete Learning Activity Use Case Description shown on the figure presents that use case description were made with precision by focusing on different scenarios and alternate sequences while also sometimes covering more than one requirement.
 
-![Complete Learning Activity Use Case Diagram](image-5.png)
+![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
 
 
 ### Activity diagram
+
+The activity diagram below shows the workflow of the given "Complete Learning Activity" use case. The diagram highlights the sequence of operations performed by the user and the system, which begin with the display of a question or an exercise. Validation logic is highlighted in this activity diagram where the system analyzes the response of the user. Based on this, if a wrong solution is provided, a "feedback loop" is initiated where a message prompts the user to try again. As a result, a learning activity will be marked accomplished only when a correct answer is given, which demonstrates a mastery learning technique.
+
+![Complete Learning Activity Activity Diagram](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
 ### Threat model
 ### Domain model
 

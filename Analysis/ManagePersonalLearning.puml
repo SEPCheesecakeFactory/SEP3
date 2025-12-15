@@ -1,0 +1,16 @@
+@startuml
+start
+:User accesses list of enrolled courses;
+:System presents enrollments and progress status;
+
+if (User Action?) then (Resume Course)
+  :User chooses to continue a specific course;
+  :System restores learning session at last saved point;
+else (Unenroll)
+  :User selects option to unenroll from a specific course;
+  :System removes the course with its progress from the User's list;
+  :System updates the enrollment view;
+endif
+
+stop
+@enduml
