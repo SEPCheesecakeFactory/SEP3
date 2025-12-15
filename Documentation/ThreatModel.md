@@ -80,23 +80,16 @@ The means and entry points used by attackers.
     * *Release of Information:* Exposing sensitive data to unauthorized parties.
     * *Injection Attacks:* Inserting malicious code into input fields (e.g., SQL Injection, XSS).
 
-### 5.3 Attack Tree (Optional)
-
-The hierarchical paths of attacks, starting with the goal (Root) and branching into methods (Leaves)
-
-* **Root Goal:** [e.g., Compromise User Bank Account]
-    * **Branch 1:** [Compromise Credentials] -> [Phishing] OR [Brute Force]
-    * **Branch 2:** [Injection of Commands] -> [SQL Injection]
-
 ---
 
 ## 6. Vulnerability Analysis (TPM)
 
 Potential failures based on their source:
 
-* **Threat Model:** [Are there threats we ignored? e.g., assuming internal network is safe.]
-* **Policy:** [Does the policy allow unsafe actions? e.g., allowing weak passwords.]
-* **Mechanism:** [Can the security mechanism be bypassed? e.g., software bug in the login code.]
+* **Threat Model:** Are there threats we ignored, underestimated, misunderstood or intentionally left out? e.g., insider threats, advanced persistent threats.
+* **Assumption:** Are there invalid assumptions about the system? e.g., assuming all users are trustworthy, that network is secure, or that software is bug-free.
+* **Policy:** Does the policy allow unsafe actions? e.g., allowing weak passwords, not enforcing safe communication or data storage practices.
+* **Mechanism:** Can the security mechanism be bypassed? e.g., software bug in the login code, misconfigured firewall, or unpatched vulnerabilities.
 
 ---
 
@@ -104,6 +97,35 @@ Potential failures based on their source:
 
 | Threat ID | Threat Description | Likelihood | Impact | Risk Level | Mitigation Strategy |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| T-01 | SQL Injection on Login | High | High | **Critical** | Implement Input Validation and Parameterized Queries. |
-| T-02 | Admin Password Phishing | Medium | High | **High** | Implement MFA for all admin accounts. |
-| T-03 | DDoS Attack | Low | Medium | **Medium** | Configure Firewall rate limiting. |
+| T-01 | SQL Injection into an input field | High | High | **Critical** | Implement Input Validation and Parameterized Queries. |
+| T-02 | Admin Password Phishing | Low | High | **Medium** | Implement MFA for all admin accounts. |
+| T-03 | DDoS Attack | Low | Medium | **Medium** | Configure Firewall. Tools like Fail2ban or Cloudflare. |
+| T-04 | Insider Threat - Data Leakage by Employee | Low | High | **Medium** | Monitor user activities, rotate credentials, and enforce secure storage policies. |
+| T-05 | Man-in-the-Middle Attack on Data Transmission | Medium | High | **High** | Use TLS/SSL for all communications. Enforce HSTS. |
+| T-06 | Cross-Site Scripting (XSS) | Medium | Medium | **Medium** | Implement Content Security Policy (CSP) and sanitize user inputs. |
+| T-07 | Weak Passwords | High | Medium | **High** | Enforce strong password policies and implement password strength meters. Using proper password storage and verification algorithms. |
+| T-08 | Unpatched Software Vulnerabilities | High | High | **Critical** | Regularly update and patch all software components. Use automated vulnerability scanning tools. Use auto-update tools for unattended patching. (0-day protection tools and similar) |
+| T-09 | Physical Theft or access to devices | Low | High | **Medium** | Encrypt sensitive data on devices. Educate employees on physical security. |
+
+The risk level is determined by the following table:
+| Likelihood \ Impact | Low | Medium | High |
+| :--- | :--- | :--- | :--- |
+| **Low** | Minimal | Low | Medium |
+| **Medium** | Low | Medium | High |
+| **High** | Medium | High | Critical |
+
+## 8. Conclusion
+
+This threat model provides an overview of the potential security threats to Learnify, assesed through various frameworks and methodologies. By identifying these threats and implementing the recommended mitigation strategies, Learnify should be able to enhance its security posture and protect its users' data and privacy effectively. Regular reviews and updates to this threat model are essential to adapt to the evolving threat landscape.
+
+## 9. References
+
+
+
+## 10. Glossary
+
+* CIA Triad: Confidentiality, Integrity, Availability
+* EIOO: External/Internal, Online/Offline
+* STRIDE: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege
+* TPM: Threat Model, Assumption, Policy, Mechanism
+* MFA: Multi-Factor Authentication

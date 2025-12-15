@@ -24,14 +24,14 @@ This chapter starts by elaborating Analysis phase, which incorporates the functi
 In the beginning of the technical documentation Analysis processes of the the distributed system - "Learnify" - are described. This stage applies the higher-level goals of the project to the real challenges that come with the multi-language distributed system.
 
 For defining the scope of the proposed system with clarity, the initial idea was thoroughly refined using requirements. This involved the identification and definition of the functional requirements of the system as well as non-functional ones, including latency, scalability, and security, which are the most important requirements of the distributed learning system.
-In addition, several interviews with protentional clients were done in order to gather new data which helped creating and updating the requirements and then use cases.
+In addition, several interviews with potential clients were done in order to gather new data which helped creating and updating the requirements and then use cases.
 This stage of analysis also involved the use of structured modeling. The Use Case and Activity Diagrams were used for the representation of user interaction and system behavior, and the Domain Model defined the conceptual framework for the design of data persistence and service integration.
 
 
 ### Requirements
 #### Functional requirements
 1. As a User, I want to register for an account so that I can access the platform.
-2. As a User, I want to log in so that I can access the platform from my account
+2. As a User, I want to log in so that I can access the platform from my account.
 3. As a User, I want to view "My Courses" dashboard, so that I can see all the courses I am currently enrolled in.
 4. As a User, I want to resume my active course from where I left off, so that I can continue learning from where i left.
 5. As a User, I want to browse the "All Courses" catalog, so that I can discover new subjects to learn.
@@ -62,10 +62,25 @@ This stage of analysis also involved the use of structured modeling. The Use Cas
 The requirements were taken from not only the initial vision of the system but also from interviews with real persons that could actually experience the system in the development stages and give relevant feedback to the team. The functional requirements were structured as "user stories" so that the team could maintain clear user perspective development, ensuring that every feature was directly tied to who is making what interaction with the system and how does the user is going to benefit from performing the action - why would he do it. This provided consistent framework for later analysis phases. 
 
 ### Use case diagram
-![UseCaseDiagram](image-1.png)
+
+![UseCaseDiagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
+
+The use case diagram visible on the Figure X below shows all use cases and their actors, which were made out of functional requirements. The goal of the project was to include security within the system by using authorization and authentication. Consequently, because of that all use cases require an authenticated user. In addition, two internal actors, Teacher and Administrator, were designed to inherit from Learner, while also having extra use cases which are not accessible for Learners.
+
 ### Use cases and their related requirements
+
+The table on the Figure below shows the connections between use cases and the requirements they cover.
+
+![Use Cases with their related requirements](image-2.png)
+
+
+
 ### Use case description
- 
+
+Complete Learning Activity Use Case Diagram shown on the figure presents that use case description were made with precision by focusing on different scenarios and alternate sequences while also sometimes covering more than one requirement.
+
+![Complete Learning Activity Use Case Diagram](image-5.png)
+
 
 ### Activity diagram
 ### Threat model
@@ -76,7 +91,6 @@ The requirements were taken from not only the initial vision of the system but a
 
 ### System design
 ### Architectural overview
-
 ### Communication protocol design
 
 *Interface Definition (IDL): Show snippets of your .proto files (if using gRPC).
@@ -112,7 +126,27 @@ Justification: Explain why each language was chosen for its specific task. (e.g.
 Show how the two services "talk" to each other. Provide a code snippet showing the gRPC client/server handshake or the HTTP request handling.
 
 ## Testing
-### Approach to testing
+### Testing Approach
+
+Testing in this project was structured around the V-Model, where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
+
+The first step of the V-Model was requirement analysis, which directly maps to acceptance testing.
+
+At this stage, testing focused on answering a simple but critical question:
+
+How can we tell that the system fulfills the user's requirements?
+
+Rather then writing code-level tests, the team defined high-level acceptance criteria for each use case. These criteria described:
+
+- What user expects to achieve
+- Under which conditions the system should allow or deny actions
+- What outcome confirms that the requirement is fulfilled
+
+These acceptance-oriented test ideas were later used to validate the system both manually and through automated test. In this way, test cases were already embedded in the analysis phase, even before implementation began.
+
+
+
+
 ### Tools and frameworks
 ### What was tested
 ### Method-level test case documentation
