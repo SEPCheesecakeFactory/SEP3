@@ -83,4 +83,30 @@ public class CoursesController(ICourseRepository repository, IRepositoryID<Learn
 
         return Ok(currentCourse);
     }
+
+    [HttpDelete("/drafts/{id:int}")]
+    [Authorize("MustBeAdmin")]
+    public async Task<IActionResult> DeleteDraft([FromRoute] int id)
+    {
+        try
+        {
+            var course = await _repository.GetSingleAsync(id);
+            if (course == null)
+                return NotFound("Draft not found.");
+
+            await _repository.DeleteAsync(id);
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Server error: " + ex.Message);
+        }
+    }
+
+
+
+
+
+
 }
