@@ -167,16 +167,6 @@ All users must report suspected incidents within 24 hours.
 
 ---
 
-## Glossary
-
-* **MFA:** Multi-Factor Authentication
-* **RBAC:** Role-Based Access Control
-* **IDS/IPS:** Intrusion Detection/Prevention System
-* **DRP:** Disaster Recovery Plan
-* **HTTPS:** Hypertext Transfer Protocol Secure
-
----
-
 ## Policy Review and Approval
 
 This policy will be reviewed **quarterly** or upon significant system changes.
@@ -184,3 +174,13 @@ This policy will be reviewed **quarterly** or upon significant system changes.
 **Last Reviewed:** 2025-12-15
 **Approved By:** Eduard Fekete
 **Next Review Date:** 2026-03-15
+
+---
+
+## Glossary
+
+* **MFA:** Multi-Factor Authentication
+* **RBAC:** Role-Based Access Control
+* **IDS/IPS:** Intrusion Detection/Prevention System
+* **DRP:** Disaster Recovery Plan
+* **HTTPS:** Hypertext Transfer Protocol Secure
