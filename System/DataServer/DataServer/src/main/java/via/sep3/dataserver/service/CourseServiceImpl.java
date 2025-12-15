@@ -446,8 +446,8 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
     }
 
     @Override
-public void deleteCourse(
-        DeleteCourseRequest request,
+public void deleteDraft(
+        DeleteDraftRequest request,
         StreamObserver<Empty> responseObserver) {
 
     try {

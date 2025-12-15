@@ -163,8 +163,8 @@ public class gRPCCourseRepository : gRPCRepository<Course, CreateCourseDto, Cour
 
     public override async Task DeleteAsync(int id)
     {
-        await CourseServiceClient.DeleteCourseAsync(
-            new DeleteCourseRequest { Id = id }
+        await CourseServiceClient.DeleteDraftAsync(
+            new DeleteDraftRequest { Id = id }
         );
     }
 
