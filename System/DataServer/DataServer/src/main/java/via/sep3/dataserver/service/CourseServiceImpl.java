@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.grpc.stub.StreamObserver;
 import via.sep3.dataserver.data.Course;
@@ -46,6 +47,8 @@ import via.sep3.dataserver.grpc.UpdateCourseRequest;
 import via.sep3.dataserver.grpc.UpdateCourseResponse;
 import via.sep3.dataserver.grpc.UpdateLearningStepRequest;
 import via.sep3.dataserver.grpc.UpdateLearningStepResponse;
+import via.sep3.dataserver.data.*;
+import via.sep3.dataserver.grpc.*;
 
 @GrpcService
 @Service
@@ -196,6 +199,34 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
     }
 
     @Override
+    @Transactional
+    public void deleteCourse(DeleteCourseRequest request, StreamObserver<Empty> responseObserver) {
+        try {
+            var courseId = request.getCourseId();
+            var userId = request.getUserId();
+
+            if (!courseRepository.existsById(courseId)) {
+                responseObserver
+                        .onError(io.grpc.Status.NOT_FOUND.withDescription("Course not found").asRuntimeException());
+                return;
+            }
+
+            if (!userRepository.existsById(userId)) {
+                responseObserver.onError(
+                        io.grpc.Status.NOT_FOUND.withDescription("User not found").asRuntimeException());
+                return;
+            }
+
+            progressRepository.deleteUserCourseProgress(courseId, userId);
+
+            responseObserver.onNext(Empty.newBuilder().build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        }
+    }
+
+    @Override
     public void getLearningStep(GetLearningStepRequest request,
             StreamObserver<GetLearningStepResponse> responseObserver) {
         try {
@@ -307,6 +338,7 @@ public class CourseServiceImpl extends CourseServiceGrpc.CourseServiceImplBase {
         if (course.getApprovedBy() != null) {
             builder.setApprovedBy(course.getApprovedBy().getId());
         } else {
+            builder.setApprovedBy(0);
             builder.setApprovedBy(0);
         }
 

@@ -37,6 +37,18 @@ public class gRPCCourseProgressRepository(string host, int port)
         await ProgressServiceClient.UpdateCourseProgressAsync(request); // TODO: Take response and use that
         return currentStep;
     }
+        public async Task DeleteAsync(int courseId, int userId) //Delete progress of the user in a course (unenroll)
+    {
+        try
+        {
+        await CourseServiceClient.DeleteCourseAsync(new DeleteCourseRequest { CourseId = courseId, UserId = userId });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
     public override Task ClearAsync() => throw new NotImplementedException();
     public override Task DeleteAsync(string id) => throw new NotImplementedException();

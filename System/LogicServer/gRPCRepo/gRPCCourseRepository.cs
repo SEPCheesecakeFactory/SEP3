@@ -171,4 +171,61 @@ public class gRPCCourseRepository : gRPCRepository<Course, CreateCourseDto, Cour
 
     public override Task ClearAsync() => throw new NotImplementedException();
     public Task<Course> AddAsync(Course entity) => throw new NotImplementedException();
+    public async Task DeleteAsync(int courseId, int userId) //Delete progress of the user in a course (unenroll)
+    {
+        try
+        {
+        await CourseServiceClient.DeleteCourseAsync(new DeleteCourseRequest { CourseId = courseId, UserId = userId });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    public async Task<int> GetCourseProgressAsync(int userId, int courseId)
+    {
+        try
+        {
+            // Create Request
+            var request = new CourseProgressRequest
+            {
+                UserId = userId,
+                CourseId = courseId
+            };
+
+            // Call Java
+            CourseProgressResponse response = await ProgressServiceClient.GetCourseProgressAsync(request);
+
+            // Return Step
+            return response.CurrentStep;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
+    {
+        try
+        {
+            // Create Request
+            var request = new CourseProgressUpdate
+            {
+                UserId = userId,
+                CourseId = courseId,
+                CurrentStep = currentStep
+            };
+
+            // Call Java (Wait for Empty response)
+            await ProgressServiceClient.UpdateCourseProgressAsync(request);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
