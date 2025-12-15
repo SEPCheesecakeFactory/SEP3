@@ -62,6 +62,7 @@ This stage of analysis also involved the use of structured modeling. The Use Cas
 The requirements were taken from not only the initial vision of the system but also from interviews with real persons that could actually experience the system in the development stages and give relevant feedback to the team. The functional requirements were structured as "user stories" so that the team could maintain clear user perspective development, ensuring that every feature was directly tied to who is making what interaction with the system and how does the user is going to benefit from performing the action - why would he do it. This provided consistent framework for later analysis phases. 
 
 ### Use case diagram
+![UseCaseDiagram](image-1.png)
 ### Use cases and their related requirements
 ### Use case description
  
