@@ -185,48 +185,9 @@ Content: Discuss data privacy (GDPR), user consent, or the societal impact of th
 ---
 
 # References  
-- project description sep3  
+ 
+- Haleem, A., Javaid, M., Qadri, M. A., & Suman, R. (2022). Understanding the role of digital technologies in education: A review. Sustainable Operations and Computers, 3(1), 275–285. https://doi.org/10.1016/j.susoc.2022.05.004
+- Project Description.
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
-- https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
-- https://www.sciencedirect.com/science/article/pii/S2666412722000137
-
---- 
-
-# Test 123
-
-
-```plantuml {max-width=80% max-height=70% caption="V-Model"}
-@startuml
-skinparam componentStyle rectangle
-
-package "Verification (Left Side)" {
-    [Requirements Analysis] as RA
-    [System Design] as SD
-    [Architecture Design] as AD
-    [Module Design] as MD
-}
-
-package "Validation (Right Side)" {
-    [Acceptance Testing] as AT
-    [System Testing] as ST
-    [Integration Testing] as IT
-    [Unit Testing] as UT
-}
-
-component "Implementation" as Code
-
-RA -[hidden]-> SD
-SD -[hidden]-> AD
-AD -[hidden]-> MD
-MD --> Code
-Code --> UT
-UT -[hidden]-> IT
-IT -[hidden]-> ST
-ST -[hidden]-> AT
-
-RA <..> AT : Validation
-SD <..> ST : Validation
-AD <..> IT : Validation
-MD <..> UT : Validation
-@enduml
-```
+- Samonas, S., & Coss, D. (2014). The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security. In Journal of Information System Security (Vol. 10, Issue 3). https://www.proso.com/dl/Samonas.pdf
+- Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
