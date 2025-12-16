@@ -67,9 +67,11 @@ The requirements were taken from not only the initial vision of the system but a
 
 ### Use case diagram
 
+The use case diagram visible on the Figure X below shows all use cases and their actors, which were made out of functional requirements. The goal of the project was to include security within the system by using authorization and authentication. Consequently, because of that all use cases require an authenticated user. In addition, two internal actors, Teacher and Administrator, were designed to inherit from Learner, while also having extra use cases which are not accessible for Learners.
+
 ![UseCaseDiagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
 
-The use case diagram visible on the Figure X below shows all use cases and their actors, which were made out of functional requirements. The goal of the project was to include security within the system by using authorization and authentication. Consequently, because of that all use cases require an authenticated user. In addition, two internal actors, Teacher and Administrator, were designed to inherit from Learner, while also having extra use cases which are not accessible for Learners.
+
 
 ### Use cases and their related requirements
 
@@ -113,6 +115,12 @@ Similarly to other parts of the analysis phase, stakeholder interactions shaped 
 
 ### System design
 ### Architectural overview
+
+The architectural overview shown on the picture below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
+Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
+
+![Architectural Overview](ArchitecturalOverview.png)
+
 ### Communication protocol design
 
 *Interface Definition (IDL): Show snippets of your .proto files (if using gRPC).
