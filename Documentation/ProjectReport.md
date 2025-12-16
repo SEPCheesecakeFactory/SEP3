@@ -142,28 +142,36 @@ Although the three-tier overview seems to appear a bit basic, each tier plays th
 
 ### Communication protocol design
 
-In the figure bellow it is shown how the servers communicate to each other in a sequence diagram.
+The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
 
 ![Application Layer Sequence Diagram](Application-LayerSD.png)
 
-*Interface Definition (IDL): Show snippets of your .proto files (if using gRPC).
+#### Interface Definition (gRPC & Protobuf)
 
-The following figure cointains a snippet of our gRPC messagges requests and responses definitions.
+Internal communication between the Logic Server and the Data Server is managed via gRPC. The data structures and service contracts are defined using Protocol Buffers (Protobuf), ensuring strict typing.
 
-![Proto file messagges definition](ImageProtoFile_1.png)
+Figure X demonstrates the definition of the message structures (Requests and Responses) used within the system.
 
-In this snippet we can see the definition of the user service and the definition of the methods, what parameters they take and what responses they return.
+![Protobuf message definitions](ImageProtoFile_1.png)
 
-![Proto file services definition](ImageProtoFile_2.png)
+Figure X illustrates the service definition, detailing the available RPC methods, their required parameters, and return types.return.
+
+![gRPC Service definition](ImageProtoFile_2.png)
 
 
-API Specification: Briefly describe the HTTP endpoints (e.g., RESTful routes).
+#### API Specification
 
-The logic server uses a Restful API, using standard HTTP actions, streamlining the process of making new controllers and intuitively connecting the client with the logic server. An example of an endpoint used by the system is http://localhost:9090/auth/login in which by sending a post request we can successfully log in the system.
+The Logic Server exposes a RESTful API to external clients using standard HTTP/1.1 protocols. This design streamlines client integration by using standard HTTP verbs (GET, POST, PUT, DELETE) and status codes.
 
-Protocol Choice: Explain why gRPC was used for internal communication vs. HTTP for external (or however you structured it).*
+For example, authentication is handled via the /auth/login endpoint. By sending a POST request to http://localhost:9090/auth/login with the correct credentials, a client can successfully authenticate and connect to the system.
 
-As seen in the figure above, the external server, used for the logic side uses HTTP. This is because even thought it is slower and heavier than gRPC, its requests and messagges human readable, smoothing user experience. The communication with the internal server is made through gRPC since it does not require to be human readable, it is rapid and light. 
+#### Protocol Justification
+
+A hybrid protocol approach was chosen to balance user experience with system performance:
+
+· External Communication (HTTP/JSON): We utilized HTTP with JSON for client-server interaction because of its universality and readability. JSON is natively supported by web browsers and mobile clients, making the system easy to debug and integrate. While the text-based format introduces some overhead, the trade-off favors the ease of development and broad compatibility required at the client layer.
+
+· Internal Communication (gRPC/Protobuf): For communication between the Logic and Data servers, gRPC was selected over REST. Unlike the text-based JSON, gRPC uses Protocol Buffers to serialize data into a binary format. This results in significantly smaller payload sizes and faster serialization/deserialization times. Furthermore, gRPC operates over HTTP/2, allowing for multiplexing and lower latency, which is critical for high-throughput internal traffic.
 
 ### Database design
 
