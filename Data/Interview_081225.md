@@ -9,11 +9,11 @@ Culture/Origin: Bulgaria
 
 ## How would you log in?
 
-Bigger register, clarify why user when registering
+We need a bigger register button, the user didn't know how to make a profile.
 
 ## How would you go to learn something about Software Engineering?
 
-
+The user clicked in the course related to Software Engineering after taking a quick look at the screen.
 
 ## How would you finish a course, not leaving it?
 
@@ -25,8 +25,8 @@ Background, sounds, animations, motivation.
 
 ## Overall experience
 
-
+The user liked the experience but missed animations or motivation messagges.
 
 # Additional Notes
 
-Too dry, the backgound feels like in a hospital, no motivaiton, feels like an exam and not in a game / learning platform. Looking for something like Duolingo, animations to keep going, sounds, motivation messagges. Even for adults its great. If not, her dopamine addiction is gonna kick in and switch to Instagram/ social media.
+Too dry, the backgound feels like in a hospital, no motivaiton, feels like an exam and not in a game / learning platform. Looking for something like Duolingo, animations to keep going, sounds, motivation messagges. Even for adults its great.
