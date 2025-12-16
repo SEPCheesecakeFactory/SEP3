@@ -113,6 +113,8 @@ Similarly to other parts of the analysis phase, stakeholder interactions shaped 
 
 ## Design
 
+
+
 ### System design
 ### Architectural overview
 
@@ -129,6 +131,25 @@ API Specification: Briefly describe the HTTP endpoints (e.g., RESTful routes).
 
 Protocol Choice: Explain why gRPC was used for internal communication vs. HTTP for external (or however you structured it).*
 ### Database design
+
+#### Enhanced Entity Relationship Diagram
+
+The design in this project started with the entity relationship diagram (ER),which, due to the fact that there is no aggregation, composition or inheritance, can be also called enhanced relationship diagram (EER) (The diagram shown below). The most important aspects regarding this specific diagram are as following. The "main" Entity - Course is created by one SystemUser and approved by one, but the same SystemUser can both create and approve multiple Courses. This represents an example of one to multiple relation. Another type of relation in this EER diagram is many to many relation which appears between SystemUser and Role Entity.
+
+![Enhanced Entity Relationship Diagram](..\out\Implementation\EER\EER.png)
+
+#### Relational Schema
+
+Next step after designing enhanced entity relationship diagram was to create Relational Schema by defining strong and weak entities. Here on the picture below, the result of this process is shown. It is important to note that primary, partial primary and foreign keys were established here.
+
+![Relational Schema](..\out\Implementation\RelationalSchema\RelationalSchema.png)
+
+#### Global Relational Diagram
+
+The last step of designing the database was to create Global Relational Diagram (GR). The biggest difference between GR and EER can be seen on the diagram below. Since all many to many relations had to be transformed, there is one extra Entity also visible in the Relational Schema - SystemUserRole which appears now between SystemUser and Role entity.
+
+![Global Relational Diagram](..\out\Implementation\GR\GR.png)
+
 ### Class diagram design
 ### Communication Protocol Design:
 ### Data Persistence Design (maybe we should add some design related to this?):

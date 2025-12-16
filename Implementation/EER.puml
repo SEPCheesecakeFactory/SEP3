@@ -10,55 +10,68 @@ skinparam ArrowFontSize 9
 title Enhanced Entity-Relationship Diagram
 
 together {
-    class User
+    class SystemUser
     class Role
 }
 
-class User
+class SystemUser
 {
     id
+    username
+    password_hash
 }
 
-together {
-    class Course
-    class CourseDraft
-    class LearningStep
-    class CourseCategory
-    class LearningStepType
-    class LearningStepContent
+class Role
+{
+    role
 }
+
 class Course {
     id
-    language
     title
     description
+    total_steps
 }
+
+class Language {
+    code
+    name
+}
+
 class LearningStep {
-    id
+    step_order
     content
 }
+
 class LearningStepType{
     id
     name
 }
-class CourseDraft
-{
-    language
-    title
-    description
-}
+
 class CourseCategory
 {
+    id
     name
     description
 }
 
+class UserCourseProgress {
+    current_step
+}
 
-LearningStep "*" -- "1" Course : Belongs to
-LearningStepType "1" -- "*" LearningStep : Is of type
-Course "*" -- "1" CourseCategory : has 
-CourseDraft "1" -- "1" Course : versionOf
+' Relationships
 
-User "*" -- "*" Role : has
+SystemUser "*" -- "*" Role : has
+
+Course "*" -- "1" CourseCategory : belongs to
+Course "*" -- "1" Language : is in
+Course "*" -- "1" SystemUser : created by
+Course "*" -- "1" SystemUser : approved by
+
+LearningStep "*" -- "1" Course : belongs to
+LearningStep "*" -- "1" LearningStepType : is of type
+
+SystemUser "1" -- "*" UserCourseProgress : has progress
+Course "1" -- "*" UserCourseProgress : tracked in
 
 @enduml
