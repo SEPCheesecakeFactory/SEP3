@@ -1,7 +1,7 @@
 # Abstract  
 This work focuses on the need for scalable and adaptable digital educational solutions by developing the Learnify system, a distributed software solution with the objective of ensuring seamless content delivery and user assessment. The primary goal is to make a durable multi-server solution that leverages the power of multiple programming languages for enhanced availability, data integrity, and optimized user response. This system was built with a polyglot microservices architecture, using programming languages such as Java and C# to ensure a strict interoperability implementation. Some of the key technical design choices are the use of gRPC for high-speed intra-service communication and HTTP for external client services, ensuring both speed and accessibility. Data storage is achieved using a PostgreSQL database, ensuring that security is taken into account using JWT authentication to overcome the potential dangers of distributed systems. This application development occurred using an iterative approach, centering around User Stories developed both using specialized analysis and interviews with the stakeholders. A functional prototype that can manage multiple user sessions concurrently in a distributed manner was developed. This prototype was verified to meet essential non-functional requirements, confirming the successful interoperability of components across Java and C#. Security compliance was established through the validation of salted password hashing algorithms using Argon2, ensuring robust data protection alongside reliable persistence in the PostgreSQL database. Moreover, the interface was validated for conformance with recognized accessibility guidelines to support complete usability by those with color vision defects. Finally, the project achieved a fully deployable distributed system, validating that the architecture provides a secure, stable, and operational foundation for scalability in the future of education. 
 
----
+\newpage
 
 # Introduction  
 Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge.(REFERENCE) The idea of mandatory education keeps its origin between late 1900s and early 2000s(REFERENCE), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
@@ -12,9 +12,10 @@ With the pursuit of knowledge having been a cornerstone of human development for
 
 The approach of this project is to develop a distributed system implemented using at least 2 different programming languages, utilizing a database for data persistence, and adapting a hybrid communication strategy that includes technologies such as gRPC and HTTP.
 
----
+\newpage
 
-# Main Section  
+# Main Section 
+
 In the main section development experience of the "Learnify" e-learning platform is being documented. It describes the importance of essential phases that took place in the development process from the vision to a working software system. This chapter is organized around the core stages: Analysis, Design, Implementation, and Testing, ensuring that each were necessary while building the system.
 
 This chapter starts by elaborating Analysis phase, which incorporates the functional and non-functional requirements, use case diagrams, use case descriptions activity diagrams, threat model as well as the domain model of the system. The design section then focused on forming each parts of the system's architectures and database design, including the communication methods such as gRPC and HTTP. The Implementation stage converted the blueprints into components in two programming languages - C# and Java - that exhibit the integrated logic of the system. Finally, Testing were performed to ensure the system behaves according to the requirements and also meets the general objectives of the project.
@@ -29,7 +30,9 @@ This stage of analysis also involved the use of structured modeling. The Use Cas
 
 
 ### Requirements
+
 #### Functional requirements
+
 1. As a User, I want to register for an account so that I can access the platform.
 2. As a User, I want to log in so that I can access the platform from my account.
 3. As a User, I want to view "My Courses" dashboard, so that I can see all the courses I am currently enrolled in.
@@ -53,6 +56,7 @@ This stage of analysis also involved the use of structured modeling. The Use Cas
 21. As an Admin, I want to disapprove course drafts, so that they become unavailable for students to enroll in. 
 
 #### Non-functional requirements
+
 1. The system must utilize at least two different programming languages
 2. User passwords must be stored securely, using a strong, salted hashing algorithm before persistence
 3. The system must use a robust database for all persistent data storage.
@@ -87,8 +91,22 @@ Complete Learning Activity Use Case Description shown on the figure presents tha
 The activity diagram below shows the workflow of the given "Complete Learning Activity" use case. The diagram highlights the sequence of operations performed by the user and the system, which begin with the display of a question or an exercise. Validation logic is highlighted in this activity diagram where the system analyzes the response of the user. Based on this, if a wrong solution is provided, a "feedback loop" is initiated where a message prompts the user to try again. As a result, a learning activity will be marked accomplished only when a correct answer is given, which demonstrates a mastery learning technique.
 
 ![Complete Learning Activity Activity Diagram](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
-### Threat model
+
 ### Domain model
+
+### Security Requirements
+
+The security requirements for the system were developed as a part of the threat modelling process. The security objectives were as follows:
+
+* **Confidentiality:** Protect user passwords and personal data from unauthorized disclosure.
+* **Integrity:** Ensuring that data can not be altered or tampered with by unauthorized parties.
+* **Availability:** Ensure the system remains accessible during high traffic or denial-of-service attempts.
+* **Accountability:** Actions must be uniquely traceable to a specific entity.
+* **Authenticity:** Verify that data inputs and users are genuine.
+
+These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix A: Threat Model).
+
+Similarly to other parts of the analysis phase, stakeholder interactions shaped the system's security requirements. 
 
 
 ## Design
@@ -241,3 +259,9 @@ The project achieved success through its development of a distributed learning s
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
 - Samonas, S., & Coss, D. (2014). The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security. In Journal of Information System Security (Vol. 10, Issue 3). https://www.proso.com/dl/Samonas.pdf
 - Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
+
+# Appendices
+
+## Appendix A: Threat Model
+
+Can be found as ThreatModel.pdf
