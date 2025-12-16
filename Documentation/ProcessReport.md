@@ -6,7 +6,7 @@ The project of a Learning Platform was initiated with the goal of creating an ac
 
 # Group Work  
 
-Many of our group processes stemmed as a continuation from out previous project experience. Some of the core values that drove our collaboration included open communication, mutual respect, fairness and democratic decision-making. 
+Many of our group processes stemmed as a continuation from our previous project experience. Some of the core values that drove our collaboration included open communication, mutual respect, fairness and democratic decision-making. 
 
 We based the group contract (TODO: REFERENCE) for the project on our previous contract with slight changes, for example to the point system. However, we did not have to make any major changes as our previous contract had already established a strong foundation for teamwork. 
 This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. In the true agile and democratic spirit, we ensured to have mechanisms in place to be able to revisit the contract and modify it appropriately as the project evolved.
@@ -33,7 +33,7 @@ Another challenge was approaching the problem in a data-driven manner. Consideri
 
 The way of working in the project was a radical shift from our previous experiences. We adopted various aspects of Agile methodologies that fit our desired workflow. This included sprints, regular meetings, pair programming, Kanban but also our own adaptations to these practices.
 
-Our main workflow was initially communicated and written down in the (TODO: REFERENCE). This document served to outline our processes and roles but also aligned us on semantics and definitions of key concepts. Even though this document served as our aim and theoretical perfection we could aim for, perfect adherence was not always possible and advantageous. 
+Our main workflow was initially communicated and written down in the (Appendix A: Project Guidelines). This document served to outline our processes and roles but also aligned us on semantics and definitions of key concepts. Even though this document served as our aim and theoretical perfection we could aim for, perfect adherence was not always possible and advantageous. 
 
 One of crucial aspects of our work was embracing asynchronicity, which might contradict with our vision of pair programming but was seen collectively as the means to achieving better productivity and work-life balance. Asynchronicity was also implemented on a level of subgroups - fx. different feature groups would collaborate within the group in real time while asynchronously reviewing and agreeing with the rest of the team on other issues. 
 
@@ -143,7 +143,13 @@ Another aspect of the supervision was filling the technical gaps in our knowledg
 
 # Conclusion  
 
+The project showed how flexible structured team collaboration works through our transition from Scrum to Kanban pull-system workflow. The experience we gained helped us develop a list of best practices and common mistakes which will guide our future group projects. 
 
+The team needs open communication and respect as fundamental values together with a Product Owner who manages the vision to achieve successful teamwork. We should keep using standup meetings to exchange information while supervisors need to provide essential feedback and help with technical issues and code submissions must happen regularly to avoid creating bottlenecks. 
+
+It would be a good idea to avoid three main mistakes which include making decisions based on assumptions when data exists, enforcing processes that block work and splitting into groups that do not collaborate well with each other. The team should focus on achieving fundamental goals before attempting to tackle complex problems. 
+
+The team needs to keep their group contract active while using Kanban pull-based workflow management and feature decisions must be based on data. The team should seek outside feedback to confirm their project's direction.
 
 ---
 
@@ -151,3 +157,6 @@ Another aspect of the supervision was filling the technical gaps in our knowledg
 
 Kanban University. (2022). The official guide to the Kanban method (Version 2). Mauvius Group Inc. https://kanban.university/wp-content/uploads/2023/04/The-Official-Kanban-Guide_A4.pdf
 
+## Appendix A: Project Guidelines
+
+Can be found as ProjectGuidelines.pdf
