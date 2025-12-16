@@ -96,6 +96,24 @@ The activity diagram below shows the workflow of the given "Complete Learning Ac
 
 ### Domain model
 
+The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders. 
+
+![Domain Model](..\out\Analysis\DomainModel\DomainModel.svg)
+
+The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other. 
+
+The inheritance from the User entity reflects the fact that all system users have some common basic attributes, rights and behaviours that can be generalized. 
+
+The philosophy behind the attribute selection and abstraction into separate entities was to provide full flexibility for future development of the system, and ensuring that no restrictions are imposed for no reason. For example, Learning Steps are abstracted into three different entities to fully support any kind of idea of a learning step as seen both in the domain and from stakeholder interactions. 
+
+At the same time, the domain model was kept in its simplest form possible in terms of more abstract entity concepts. As can be seen on the domain model, the core aspects of the system are:
+
+- Users
+- Courses
+- Learning Steps
+
+And it could be further argued that Learning Steps only exist as a part of Courses, therefore the Domain Model is centered around the idea of Users learning from Courses, which did not change from the initial vision of the system. 
+
 ### Security Requirements
 
 The security requirements for the system were developed as a part of the threat modelling process. The security objectives were as follows:
@@ -108,8 +126,7 @@ The security requirements for the system were developed as a part of the threat 
 
 These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix A: Threat Model).
 
-Similarly to other parts of the analysis phase, stakeholder interactions shaped the system's security requirements. 
-
+Similarly to other parts of the analysis phase, stakeholder interactions shaped the system's security requirements. In particular, even testing the prototype (before having the core system functional) showed concerns about the authority of Administrators and Teachers, and needs for accountability for actions.
 
 ## Design
 
