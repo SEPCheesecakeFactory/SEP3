@@ -151,11 +151,31 @@ Protocol Choice: Explain why gRPC was used for internal communication vs. HTTP f
 
 #### Enhanced Entity Relationship Diagram
 
-The design in this project started with the entity relationship diagram (ER),which, due to the fact that there is no aggregation, composition or inheritance, can be also called enhanced relationship diagram (EER) (The diagram shown below). The most important aspects regarding this specific diagram are as following. The "main" Entity - Course is created by one SystemUser and approved by one, but the same SystemUser can both create and approve multiple Courses. This represents an example of one to multiple relation. Another type of relation in this EER diagram is many to many relation which appears between SystemUser and Role Entity.
+As means of bridging the gap from the problem domain in general and the Learnify system in specific, an EER diagram was created as can be seen on the figure below:
 
 ![Enhanced Entity Relationship Diagram](..\out\Implementation\EER\EER.png)
 
+The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled. 
+
+~~~plantuml
+@startuml
+class SystemUser {
+    id
+}
+class Role {
+    role
+}
+SystemUser "*" -right- "*" Role : has
+@enduml
+~~~
+
+The figure above focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+
 #### Relational Schema
+
+Contrary to the conceptual modelling, the logical modelling required adherence to the rules and specificities of the relational model. 
+
+The mapping of the EER diagram resulted in a relational schema and the to it related global relations diagram. 
 
 Next step after designing enhanced entity relationship diagram was to create Relational Schema by defining strong and weak entities. Here on the picture below, the result of this process is shown. It is important to note that primary, partial primary and foreign keys were established here.
 
