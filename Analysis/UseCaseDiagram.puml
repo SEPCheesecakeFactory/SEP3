@@ -13,17 +13,31 @@ package Internal {
 t --|> s
 a --|> s
 
-usecase "See Course Progress" as UC1
-usecase "Create Course Description" as UC2
-usecase "Approve Created Courses" as UC3
-usecase "Create Learning Steps" as UC4
-
-usecase "Authenticate User" as auth
+usecase "Register User" as UC1
+usecase "User Login" as UC2
+usecase "Manage Personal Learning" as UC3
+usecase "Browse and Search Catalog" as UC4
+usecase "Complete Learning Activity" as UC5
+usecase "View User Profile" as UC6
+usecase "View Leaderboard" as UC7
+usecase "Create Course Draft" as UC8
+usecase "Edit Course Content" as UC9
+usecase "Manage System Metadata" as UC10
+usecase "Review Course Drafts" as UC11
+usecase "Manage User Roles" as UC12
 
 s -- UC1
-t -- UC2
-a -- UC3
-t -- UC4
+s -- UC2
+s -- UC3
+s -- UC4
+s -- UC5
+s -- UC6
+s -- UC7
+t -- UC8
+t -- UC9
+a -- UC10
+a-- UC11
+a -- UC12
 
 ' Description of the diagram
 footer all use cases include user authentication

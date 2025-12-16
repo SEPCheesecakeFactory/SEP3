@@ -1,0 +1,14 @@
+@startuml
+start
+:Administrator navigates to User Management section;
+:Administrator searches for a specific user;
+
+if (Action?) then (Select new role)
+  :Administrator selects a new role for the user;
+else (Deselect role)
+  :Administrator deselects an existing role of the user;
+endif
+
+:System updates the user's permissions;
+stop
+@enduml
