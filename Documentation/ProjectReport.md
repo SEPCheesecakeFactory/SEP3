@@ -183,7 +183,7 @@ As means of bridging the gap from the problem domain in general and the Learnify
 
 The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled. 
 
-~~~plantuml
+```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship"}
 @startuml
 class SystemUser {
     id
@@ -193,25 +193,49 @@ class Role {
 }
 SystemUser "*" -right- "*" Role : has
 @enduml
-~~~
+```
 
 The figure above focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
 
 #### Relational Schema
 
 Contrary to the conceptual modelling, the logical modelling required adherence to the rules and specificities of the relational model. 
+Because of the designed use of standard relational database (PostgreSQL), the mapping of the EER needed to determine all the necessary resolutions of relationships, strong and weak entities, and the establishment of integrity keys.
 
 The mapping of the EER diagram resulted in a relational schema and the to it related global relations diagram. 
 
-Next step after designing enhanced entity relationship diagram was to create Relational Schema by defining strong and weak entities. Here on the picture below, the result of this process is shown. It is important to note that primary, partial primary and foreign keys were established here.
+The mapping resulted in the relation schema as shown on the figure below:
 
 ![Relational Schema](..\out\Implementation\RelationalSchema\RelationalSchema.png)
 
-#### Global Relational Diagram
+As can be seen, the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
 
-The last step of designing the database was to create Global Relational Diagram (GR). The biggest difference between GR and EER can be seen on the diagram below. Since all many to many relations had to be transformed, there is one extra Entity also visible in the Relational Schema - SystemUserRole which appears now between SystemUser and Role entity. Finally, all integrity keys are added to this diagram. 
+```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship Resolution"}
+@startuml
+class SystemUser {
+    id
+}
+class Role {
+    role
+}
+class SystemUserRole {
+    systemUserId
+    roleId
+}
+SystemUser "1" -right- "*" SystemUserRole
+Role "1" -left- "*" SystemUserRole
+@enduml
+```
+
+#### Global Relations Diagram (GR/GRD)
+
+Relational schema and Global Relations Diagram are technically identical. In the project Learnify, the GRD was the main source of truth for later implementation of the database structure and discussing the data persistence design.
+
+The final GR diagram is shown on the figure below:
 
 ![Global Relational Diagram](..\out\Implementation\GR\GR.png)
+
+It can be seen that the GRD reflects the same concepts as the relational schema, however, in this case the positioning of the elements provides a more natural step going from the EER and the domain model; although, the positioning did not fully preserve the conceptual relationships as seen in the EER diagram.
 
 ### Class diagram design
 ### Communication Protocol Design:
@@ -223,7 +247,28 @@ Consistency Model: Since it is distributed, mention how you handle data integrit
 
 ## Implementation
 
-Focus on the "Polyglot" aspect (using 2+ languages) and the "Activities" involved.
+The implementation of the system followed the designed architecture and communication protocols with a focus on setting up the core of the architecture first as one continuous vertical slice. 
+
+At first, a database schema was created in PostgreSQL, a Springboot project was created for the Data Server, and two .NET solutions were created for the Logic Server and the Client Application. 
+
+This stage did not include any actual logic but rather provided a skeleton of the system. One of the decisions taken at this stage was to maintain separate solutions for the Logic Server and Client Application. Despite the initial idea of implementing a shared solution, it was decided that the feature of C# anonymous types would suffice for most of the purposes of data transfer objects (DTOs) and that the added complexity of a shared solution would not be justified.
+
+The implementation of the skeleton was followed by a the implementation of a vertical slice which focused on fetching all courses from the database.
+
+The individual components of the vertical slice can be seen below:
+
+```plantuml
+@startuml
+class Course 
+{
+    id
+    title
+    description
+}
+@enduml
+```
+
+At a later stage, the original database setup was split into pure DDL script and a dummy data initial setup crucial for testing stages mentioned later in this document.
 
 ### Methods and tools
 
