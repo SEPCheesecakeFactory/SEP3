@@ -1,0 +1,43 @@
+@startuml CommunicationProtocolDesign
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+scale 1
+
+actor "Client" as C1
+participant "LogicServer" as S1
+participant "DataServer" as S2
+database "Database" as DB
+
+' Tier 1: Client to Logic
+' Protocol: HTTP
+' JSON
+C1 -> S1: **HTTP / REST**\nJSON (Text)
+activate S1
+
+    ' Tier 2: Logic to Data
+    ' Protocol: gRPC (HTTP/2)
+    ' Protobuf (Binary)
+        
+    S1 -> S2: **gRPC Request**\nProtobuf (Binary)
+    activate S2
+
+        ' Tier 3: Data to DB
+        ' Library: JPA
+        ' Protocol: JDBC / TCP
+        note right of S2: **JPA Layer**\nTranslates Entity to SQL
+
+        S2 -> DB: **JDBC (TCP)**\nSQL Query
+        activate DB
+        
+        DB --> S2: **ResultSet**\nRaw Data Rows
+        deactivate DB
+
+        note right of S2: **JPA Layer**\nMaps Rows to Java Objects
+
+    ' CLARIFICATION: The response is ALSO binary
+    S2 --> S1: **gRPC Response**\nProtobuf (Binary)
+    deactivate S2
+
+S1 --> C1: **HTTP 200 OK**\nJSON (Text)
+deactivate S1
+
+@enduml

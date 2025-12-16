@@ -142,11 +142,29 @@ Although the three-tier overview seems to appear a bit basic, each tier plays th
 
 ### Communication protocol design
 
+In the figure bellow it is shown how the servers communicate to each other in a sequence diagram.
+
+![Application Layer Sequence Diagram](Application-LayerSD.png)
+
 *Interface Definition (IDL): Show snippets of your .proto files (if using gRPC).
+
+The following figure cointains a snippet of our gRPC messagges requests and responses definitions.
+
+![Proto file messagges definition](ImageProtoFile_1.png)
+
+In this snippet we can see the definition of the user service and the definition of the methods, what parameters they take and what responses they return.
+
+![Proto file services definition](ImageProtoFile_2.png)
+
 
 API Specification: Briefly describe the HTTP endpoints (e.g., RESTful routes).
 
+The logic server uses a Restful API, using standard HTTP actions, streamlining the process of making new controllers and intuitively connecting the client with the logic server. An example of an endpoint used by the system is http://localhost:9090/auth/login in which by sending a post request we can successfully log in the system.
+
 Protocol Choice: Explain why gRPC was used for internal communication vs. HTTP for external (or however you structured it).*
+
+As seen in the figure above, the external server, used for the logic side uses HTTP. This is because even thought it is slower and heavier than gRPC, its requests and messagges human readable, smoothing user experience. The communication with the internal server is made through gRPC since it does not require to be human readable, it is rapid and light. 
+
 ### Database design
 
 #### Enhanced Entity Relationship Diagram
