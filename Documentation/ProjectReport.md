@@ -146,14 +146,51 @@ Rather then writing code-level tests, the team defined high-level acceptance cri
 - Under which conditions the system should allow or deny actions
 - What outcome confirms that the requirement is fulfilled
 
-These acceptance-oriented test ideas were later used to validate the system both manually and through automated test. In this way, test cases were already embedded in the analysis phase, even before implementation began.
+These acceptance-oriented test ideas were later used to validate the system both manually and through automated test. In this way, test cases were already embedded in the analysis phase.
 
+In practice, different types of tests naturally aligned with different parts of the V-Model:
 
+- High-level test cases and use-case validation corresponded to the upper part of the V (requirements and acceptance testing).
+- Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
+
+Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
 
 
 ### Tools and frameworks
+
+A combination of automated and manual testing tools was used throughout the project:
+
+- xUnit / JUnit – Used for writing automated unit and integration tests.
+- Mockito / Mocking frameworks – Used to isolate logic and mock external dependencies.
+- HTTP client–based tests – Used for endpoint-level testing.
+- .http files – Used early in development for manual REST endpoint testing.
+- BloomRPC – Used for manually testing gRPC endpoints.
+- In-memory repositories – Used to test logic without external dependencies.
+- IDE tooling (Visual Studio / IntelliJ) – Used for writing, executing, and debugging tests.
+
 ### What was tested
+
+Testing focused primarily on core logic and system-critical behavior, rather than attempting full coverage of all UI components.
+
+The following aspects of the system were tested:
+
+- Business logic in the logic server
+- REST and gRPC endpoints
+- Authentication and authorization behavior
+- Role-based access control
+- Course and draft management workflows
+- Integration between services
+
+The team aimed for high endpoint coverage, testing endpoints under different scenarios such as:
+
+- Different user roles and credentials
+- Authorized vs. unauthorized access
+- Expected success paths
+
+However, testing of faulty or malformed input data was less comprehensive. While access control and permissions were thoroughly tested, negative scenarios involving invalid data were sometimes under-tested. This limitation is acknowledged as an area for improvement.
+
 ### Method-level test case documentation
+
 ### Benefits and bug detection
 
 ## Result
