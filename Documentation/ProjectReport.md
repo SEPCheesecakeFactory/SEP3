@@ -146,14 +146,51 @@ Rather then writing code-level tests, the team defined high-level acceptance cri
 - Under which conditions the system should allow or deny actions
 - What outcome confirms that the requirement is fulfilled
 
-These acceptance-oriented test ideas were later used to validate the system both manually and through automated test. In this way, test cases were already embedded in the analysis phase, even before implementation began.
+These acceptance-oriented test ideas were later used to validate the system both manually and through automated test. In this way, test cases were already embedded in the analysis phase.
 
+In practice, different types of tests naturally aligned with different parts of the V-Model:
 
+- High-level test cases and use-case validation corresponded to the upper part of the V (requirements and acceptance testing).
+- Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
+
+Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
 
 
 ### Tools and frameworks
+
+A combination of automated and manual testing tools was used throughout the project:
+
+- xUnit / JUnit – Used for writing automated unit and integration tests.
+- Mockito / Mocking frameworks – Used to isolate logic and mock external dependencies.
+- HTTP client–based tests – Used for endpoint-level testing.
+- .http files – Used early in development for manual REST endpoint testing.
+- BloomRPC – Used for manually testing gRPC endpoints.
+- In-memory repositories – Used to test logic without external dependencies.
+- IDE tooling (Visual Studio / IntelliJ) – Used for writing, executing, and debugging tests.
+
 ### What was tested
+
+Testing focused primarily on core logic and system-critical behavior, rather than attempting full coverage of all UI components.
+
+The following aspects of the system were tested:
+
+- Business logic in the logic server
+- REST and gRPC endpoints
+- Authentication and authorization behavior
+- Role-based access control
+- Course and draft management workflows
+- Integration between services
+
+The team aimed for high endpoint coverage, testing endpoints under different scenarios such as:
+
+- Different user roles and credentials
+- Authorized vs. unauthorized access
+- Expected success paths
+
+However, testing of faulty or malformed input data was less comprehensive. While access control and permissions were thoroughly tested, negative scenarios involving invalid data were sometimes under-tested. This limitation is acknowledged as an area for improvement.
+
 ### Method-level test case documentation
+
 ### Benefits and bug detection
 
 ## Result
@@ -194,48 +231,9 @@ Concerning user experience, there is still a lot of room for improving the inclu
 ---
 
 # References  
-- project description sep3  
+ 
+- Haleem, A., Javaid, M., Qadri, M. A., & Suman, R. (2022). Understanding the role of digital technologies in education: A review. Sustainable Operations and Computers, 3(1), 275–285. https://doi.org/10.1016/j.susoc.2022.05.004
+- Project Description.
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
-- https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
-- https://www.sciencedirect.com/science/article/pii/S2666412722000137
-
---- 
-
-# Test 123
-
-
-```plantuml {max-width=80% max-height=70% caption="V-Model"}
-@startuml
-skinparam componentStyle rectangle
-
-package "Verification (Left Side)" {
-    [Requirements Analysis] as RA
-    [System Design] as SD
-    [Architecture Design] as AD
-    [Module Design] as MD
-}
-
-package "Validation (Right Side)" {
-    [Acceptance Testing] as AT
-    [System Testing] as ST
-    [Integration Testing] as IT
-    [Unit Testing] as UT
-}
-
-component "Implementation" as Code
-
-RA -[hidden]-> SD
-SD -[hidden]-> AD
-AD -[hidden]-> MD
-MD --> Code
-Code --> UT
-UT -[hidden]-> IT
-IT -[hidden]-> ST
-ST -[hidden]-> AT
-
-RA <..> AT : Validation
-SD <..> ST : Validation
-AD <..> IT : Validation
-MD <..> UT : Validation
-@enduml
-```
+- Samonas, S., & Coss, D. (2014). The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security. In Journal of Information System Security (Vol. 10, Issue 3). https://www.proso.com/dl/Samonas.pdf
+- Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
