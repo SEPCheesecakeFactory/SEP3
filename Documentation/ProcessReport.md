@@ -6,7 +6,7 @@ The project of a Learning Platform was initiated with the goal of creating an ac
 
 # Group Work  
 
-Many of our group processes stemmed as a continuation from out previous project experience. Some of the core values that drove our collaboration included open communication, mutual respect, fairness and democratic decision-making. 
+Many of our group processes stemmed as a continuation from our previous project experience. Some of the core values that drove our collaboration included open communication, mutual respect, fairness and democratic decision-making. 
 
 We based the group contract (TODO: REFERENCE) for the project on our previous contract with slight changes, for example to the point system. However, we did not have to make any major changes as our previous contract had already established a strong foundation for teamwork. 
 This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. In the true agile and democratic spirit, we ensured to have mechanisms in place to be able to revisit the contract and modify it appropriately as the project evolved.
@@ -33,7 +33,7 @@ Another challenge was approaching the problem in a data-driven manner. Consideri
 
 The way of working in the project was a radical shift from our previous experiences. We adopted various aspects of Agile methodologies that fit our desired workflow. This included sprints, regular meetings, pair programming, Kanban but also our own adaptations to these practices.
 
-Our main workflow was initially communicated and written down in the (TODO: REFERENCE). This document served to outline our processes and roles but also aligned us on semantics and definitions of key concepts. Even though this document served as our aim and theoretical perfection we could aim for, perfect adherence was not always possible and advantageous. 
+Our main workflow was initially communicated and written down in the (Appendix A: Project Guidelines). This document served to outline our processes and roles but also aligned us on semantics and definitions of key concepts. Even though this document served as our aim and theoretical perfection we could aim for, perfect adherence was not always possible and advantageous. 
 
 One of crucial aspects of our work was embracing asynchronicity, which might contradict with our vision of pair programming but was seen collectively as the means to achieving better productivity and work-life balance. Asynchronicity was also implemented on a level of subgroups - fx. different feature groups would collaborate within the group in real time while asynchronously reviewing and agreeing with the rest of the team on other issues. 
 
@@ -96,7 +96,36 @@ Having experienced the fluency of the pull system, I now realise that self-organ
 
 ## Eduard Fekete  
 
-(TODO: Write a reflection for yourself)
+This semester brought the best and the worst of experiences. To start on the positive side, I believe that the way of our working was an extremely powerful blend of industry standards that was created after our team debates. I dreamt of something like this for a long time, every time listening to Uncle Bob, Kent Beck, Martin Fowler and other great guys, I just thought about how exactly it could work for me, how could I arrive at some satisfactory way of functioning that would be easy to get people into, that would not make VIA complain, and that would actually make sense.
+
+And here it was, the nice chaos of XP with the structure of Kanban and benefits of Scrum. Although, not to idealize - many people absolutely avoided pair programming. Once when I suggested "let's do it together, can you share screen?", the answer was "Nah, it's super easy, I'll just do it and you check it afterwards". And yes, that defeats the purpose, this wasn't 100%. And it wasn't super easy. 
+
+It also really got me when someone would "review their own changes", and in an attempt to redeem "refactored the code" and funnily enough, all this without even running or contributing to the tests. 
+
+However, claiming that the process failed because of a lack of adherence and expertise puts us back to the waterfall times, where an argument of type "You should have thought about it in the Analysis phase" would be the way to justify why waterfall works rather than addressing its flaws. 
+
+And so the question arises - *what was it that failed and what was it that worked*?
+
+In order to look why things worked, let's look at what worked. We were able to efficiently and quickly deliver features, with not much bureaucracy and sweet sweet agility. Disputes of what and how to do were replaced with getting data, shared code ownership, and a bunch of refactoring. 
+
+What didn't work? I believe that our bus factor was at most 2, if not 1. We absolutely lacked a shared understanding of crucial aspects despite tons of accessible documentation. And there it was - "tons" of documentation maybe failed us. 
+
+The group contract is another chapter of the story itself. Karaoke never happened and was not even a proper punishment to begin with. I never liked the idea of involving supervisors or any such external party in a position of authority in the SEP conflicts because it just felt like cheating to get conflicts resolved by someone else. Now I would not go into a project without signing something saying that if someone decides to not show up absolutely for anything, and if they lie about their work, they will have real consequences besides "singing karaoke". I cannot believe my *naïvety* of thinking that easing the rules from last semester would just work like magic, I think that freedom is something more complicated than just removing rules.
+
+And this connects to the bus factor again - this system worked better than the previous Scrum + UP one, but was it because we were more productive or because suddenly without any fairness/equality concerns of sprint planning, there was full power for a couple of people to do the work while the rest could ease? Did the lack of code ownership mean a lack of responsibility over the system? Is it in any way fair if someone has more responsibility over the system *purely* because they put more effort? And actually, did I bite myself on this because I predicted a lot of this in my head and thought that having no constraint of taking on the work would somehow only improve my efficiency without having a negative impact on the rest of the people?
+
+To bridge the gap between speculative illusions of reality and the more refined reflection of it, let's form some facts:
+
+- the group contract was broken often, consequences were not enforced
+- the methods were more of an inspiration rather than a strict framework
+- promises were broken, assigned work was not done
+- transparency and honesty were often lacking (e.g. AI usage)
+
+And with a weak proof or rather subjective anecdotal evidence, if these facts hold true, then I claim that none of the previous/other processes would have worked. I believe that a team that does not have a good sense of responsibility, honesty, and transparency can not achieve good results with any normal process; with normal including nothing that would break the law, ethics, ideally common sense as well. 
+
+Nevertheless, I would not be able to claim that I am data-driven without proper objective measurements. Therefore, I propose that if the process of judgment is fair, then the grade should reflect the quality of my work on semester project, not my subjective talks in this report. And without such judgment, I could merely conclude and reflect that my contribution was not perfect but never expected to be perfect, though of high quality, consistent, and conducted in a professional and ethical manner. 
+
+And to reflect further, I would like to say that I haven't felt such pride in a long time as when seeing some of the team members just crushing the whole SEP aspect of the project. Conducting an hour-long interview on a call because we needed data, studying how kanban works, speaking up on big issues, and even going to "prison" just to lock on a task because that's what we agreed to do are in my opinion the moments that will shape this team into something more than regular Software Engineers. I hope that people who find themselves in this understand the transformation that happened during the semester in the same way I see it.
 
 ---
 
@@ -114,7 +143,13 @@ Another aspect of the supervision was filling the technical gaps in our knowledg
 
 # Conclusion  
 
+The project showed how flexible structured team collaboration works through our transition from Scrum to Kanban pull-system workflow. The experience we gained helped us develop a list of best practices and common mistakes which will guide our future group projects. 
 
+The team needs open communication and respect as fundamental values together with a Product Owner who manages the vision to achieve successful teamwork. We should keep using standup meetings to exchange information while supervisors need to provide essential feedback and help with technical issues and code submissions must happen regularly to avoid creating bottlenecks. 
+
+It would be a good idea to avoid three main mistakes which include making decisions based on assumptions when data exists, enforcing processes that block work and splitting into groups that do not collaborate well with each other. The team should focus on achieving fundamental goals before attempting to tackle complex problems. 
+
+The team needs to keep their group contract active while using Kanban pull-based workflow management and feature decisions must be based on data. The team should seek outside feedback to confirm their project's direction.
 
 ---
 
@@ -122,3 +157,6 @@ Another aspect of the supervision was filling the technical gaps in our knowledg
 
 Kanban University. (2022). The official guide to the Kanban method (Version 2). Mauvius Group Inc. https://kanban.university/wp-content/uploads/2023/04/The-Official-Kanban-Guide_A4.pdf
 
+## Appendix A: Project Guidelines
+
+Can be found as ProjectGuidelines.pdf

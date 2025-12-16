@@ -1,0 +1,38 @@
+@startuml RelationalSchema
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam rectangle {
+    BackgroundColor White
+    BorderColor Black
+    RoundCorner 10
+}
+
+rectangle "<size:24><b>Strong Entities</b></size>" as StrongHeader
+rectangle "<size:24><b>Weak Entities</b></size>" as WeakHeader
+
+rectangle "SystemUser\n(id, username, password_hash)\n**PK**: id" as SystemUser
+rectangle "Role\n(role)\n**PK**: role" as Role
+rectangle "Language\n(code, name)\n**PK**: code" as Language
+rectangle "CourseCategory\n(id, name, description)\n**PK**: id" as CourseCategory
+rectangle "LearningStepType\n(id, name)\n**PK**: id" as LearningStepType
+rectangle "Course\n(id, title, description, total_steps, language_code, category_id, author_id, approved_by_id)\n**PK**: id\n**FK**: language_code ref Language(code)\n**FK**: category_id ref CourseCategory(id)\n**FK**: author_id ref SystemUser(id)\n**FK**: approved_by_id ref SystemUser(id)" as Course
+
+rectangle "LearningStep\n(course_id, step_order, content, type_id)\n**PPK**: course_id, step_order\n**FK**: course_id ref Course(id)\n**FK**: type_id ref LearningStepType(id)" as LearningStep
+rectangle "SystemUserRole\n(system_user_id, role)\n**PPK**: system_user_id, role\n**FK**: system_user_id ref SystemUser(id)\n**FK**: role ref Role(role)" as SystemUserRole
+rectangle "UserCourseProgress\n(user_id, course_id, current_step)\n**PPK**: user_id, course_id\n**FK**: user_id ref SystemUser(id)\n**FK**: course_id ref Course(id)" as UserCourseProgress
+
+StrongHeader -[hidden]down- SystemUser
+SystemUser -[hidden]right- Role
+Role -[hidden]right- Language
+Language -[hidden]right- CourseCategory
+LearningStepType -[hidden]right- Course
+SystemUser -[hidden]down- LearningStepType
+
+LearningStepType -[hidden]down- WeakHeader
+
+WeakHeader -[hidden]down- LearningStep
+LearningStep -[hidden]right- SystemUserRole
+SystemUserRole -[hidden]right- UserCourseProgress
+
+@enduml

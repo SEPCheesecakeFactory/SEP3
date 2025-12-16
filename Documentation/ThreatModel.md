@@ -6,14 +6,11 @@
     {\Huge Threat Model - Learnify}\\[3em]
     {\Large Semester Project - Group 3}\\[1em]
     {\Large 3rd Semester}\\[4em]
-    {\large \today}\\[1em]
+    {\large Date: \today}\\[0.3em]
+    {\large Version: 1.5}\\[1em]
 \end{center}
 \vfill
 \clearpage
-
-**Date:** 2025-12-15
-
-**Version:** 1.4
 
 # System Description
 
@@ -28,6 +25,8 @@ The security goals for this system based on the CIA triad.
 * **Availability:** Ensure the system remains accessible during high traffic or denial-of-service attempts.
 * **Accountability:** Actions must be uniquely traceable to a specific entity.
 * **Authenticity:** Verify that data inputs and users are genuine.
+
+Accountability and Authenticity can also be considered subsets of Integrity. (Samonas & Coss, 2014)
 
 # Adversary Model
 
@@ -126,3 +125,8 @@ This threat model provides an overview of the potential security threats to Lear
 * STRIDE: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege
 * TPM: Threat Model, Assumption, Policy, Mechanism
 * MFA: Multi-Factor Authentication
+
+# References
+
+- Biba, K. J. Integrity Considerations for Secure Computer Systems. Bedford, Massachusetts, The MITRE Corporation, Apr. 1977, apps.dtic.mil/sti/tr/pdf/ADA039324.pdf. Accessed 14 Dec. 2025.
+- Samonas, Spyridon, and David Coss. “The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security.” 2014.
