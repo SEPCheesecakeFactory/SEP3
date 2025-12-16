@@ -146,7 +146,7 @@ Next step after designing enhanced entity relationship diagram was to create Rel
 
 #### Global Relational Diagram
 
-The last step of designing the database was to create Global Relational Diagram (GR). The biggest difference between GR and EER can be seen on the diagram below. Since all many to many relations had to be transformed, there is one extra Entity also visible in the Relational Schema - SystemUserRole which appears now between SystemUser and Role entity.
+The last step of designing the database was to create Global Relational Diagram (GR). The biggest difference between GR and EER can be seen on the diagram below. Since all many to many relations had to be transformed, there is one extra Entity also visible in the Relational Schema - SystemUserRole which appears now between SystemUser and Role entity. Finally, all integrity keys are added to this diagram. 
 
 ![Global Relational Diagram](..\out\Implementation\GR\GR.png)
 
