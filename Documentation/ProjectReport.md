@@ -6,7 +6,7 @@ This work focuses on the need for scalable and adaptable digital educational sol
 
 # Introduction
 
-Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge.(REFERENCE) The idea of mandatory education keeps its origin between late 1900s and early 2000s(REFERENCE), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
+Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (UNESCO, 2000). The idea of mandatory education keeps its origin between late 1900s and early 2000s(Habermas, 1984), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
 
 The aim of this project is on the ability to create a system which would be able to provide learning opportunities with main focus on simplifying the accessibility and exploring the idea of learning processes and its speed and efficiency. The goal is to also ensure security, knowledge correctness and deployment of the system.
 
@@ -34,8 +34,8 @@ The most abstract and crucial aspect of the analysis was defining the system act
 
 The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
 
-- both teachers and admins were expected to be skilled users of the platform (Appendix B.1) and were supposed to be educated on it (Appendix B.2)
-- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix B.2)
+- both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, TODO: Sasha update this)
+- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, TODO: Sasha update this)
 
 ### Actor Descriptions
 
@@ -78,6 +78,8 @@ The functional requirements are structured as user stories to better capture the
 | USA4  | As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree. |
 | USA5  | As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.       |
 
+*Table 1: Functional Requirements (Appendix 2.1 Requirements)*
+
 The user stories are sorted based on the actors to which they correspond, not according to the chronological order in which they were added/discovered. The chronological order is also not perfectly reflected on the IDs, as these were not always static for the same user story (when managing them, they would be adjusted)
 
 #### Non-functional requirements
@@ -108,6 +110,9 @@ The uses cases developed are shown in a table below:
 | UC11 | Review Course Drafts       |
 | UC12 | Manage User Roles          |
 
+*Table 2: Use Cases (Appendix 2.2 Use Cases)*
+
+
 The table below shows how the use cases are related to the user stories
 
 | User Story | Use Cases Addressing It |
@@ -131,11 +136,14 @@ The table below shows how the use cases are related to the user stories
 | USA4       | UC12                    |
 | USA5       | UC11                    |
 
+*Table 3: Use Cases and their related requirements (Appendix 2.2 Use Cases)*
+
+
 ### Use case diagram (UCD)
 
 To depict how the use cases were related to the system actors, a use case diagram was created as shown below:
 
-![Use Case Diagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
+![Use Case Diagram (Appendix 2.2 Use Cases)](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
 
 As can be seen, the UCD also introduced the internal boundary for teachers and admins - specifying that these actors are not simply learners with privileges but there is a boundary to be crossed when becoming a teacher or an admin. The UCD also specifies the system boundary, which in the case of Learnify covers all the use cases developed.
 
@@ -143,7 +151,7 @@ As can be seen, the UCD also introduced the internal boundary for teachers and a
 
 In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Activity use case:
 
-![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
+![Complete Learning Activity Use Case Description (Appendix 2.2 Use Cases)](CompleteLearningActivityUseCaseDescription.png)
 
 As seen above, the use case descriptions provided a structured way of understanding how the system should behave and gave a strong basis for the test cases. 
 
@@ -174,6 +182,7 @@ All the use case descriptions were made in the same format with:
 | TC_UC_11 | Review Course Drafts | Verify that administrators can approve or disapprove drafts | Administrator is logged in and drafts exist | 1. Admin opens pending drafts list.<br>2. System displays drafts.<br>3. Admin reviews draft.<br>4a. Admin approves draft.<br>5a. System publishes course.<br>— OR —<br>4b. Admin disapproves draft.<br>5b. System keeps course unavailable. | Approved drafts become visible to learners; disapproved drafts remain hidden. |
 | TC_UC_12 | Manage User Roles | Verify that administrators can assign or remove user roles | Administrator is logged in | 1. Admin opens user management.<br>2. Admin selects user.<br>3a. Admin assigns new role.<br>4a. Admin saves changes.<br>5a. System updates permissions.<br>— OR —<br>3b. Admin removes existing role.<br>4b. System updates permissions. | User roles and permissions are updated correctly. |
 
+*Table 4: Use Cases and their related requirements (Appendix 2.2 Use Cases)*
 
 ### Activity diagram
 
@@ -529,19 +538,35 @@ The project achieved success through its development of a distributed learning s
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
 - Samonas, S., & Coss, D. (2014). The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security. In Journal of Information System Security (Vol. 10, Issue 3). https://www.proso.com/dl/Samonas.pdf
 - Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
+- Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
+- UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
 
 # Appendices
 
-## Appendix A: Threat Model
+## Appendix 2.1 Requirements
+
+Can be found as TODO:eduard.pdf
+
+## Appendix 2.2 Use Cases
+
+### Use Case Diagram
+
+Can be found as TODO:eduard.pdf
+
+### Complete Learning Activity Use Case Description
+
+Can be found as TODO:eduard.pdf
+
+## Appendix 7.1 Threat Model
 
 Can be found as ThreatModel.pdf
 
-## Appendix B: Stakeholder Interviews
+## Appendix 10.1: Stakeholder Interviews
 
-### Appendix B.1: Interview David
+### Interview David
 
-Can be found as Interview_261125_1.md (TODO: pdf or md? recording?)
+Can be found as Interview_261125_1.pdf
 
-### Appendix B.2: Interview Andrej
+### Interview Andrej TODO: Sasha update this
 
-Can be found as Interview_101225_1. (TODO: png? video recording?)
+Can be found as Interview_XXX.pdf
