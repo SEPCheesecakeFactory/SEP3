@@ -51,4 +51,10 @@ public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
     // LANGUAGES
     public async Task<Optional<Language>> CreateLanguage(CreateLanguageDto dto) => await httpCrudService.CreateAsync<Language, CreateLanguageDto>("languages", dto);
     public async Task<List<Language>> GetLanguages() => (await httpCrudService.GetAsync<List<Language>>("languages")).Value ?? [];
+
+    public async Task<Optional<bool>> DisapproveDraft(int draftId)
+    {
+        return await httpCrudService.DeleteAsync("drafts", draftId);
+    }
+
 }
