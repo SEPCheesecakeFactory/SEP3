@@ -76,7 +76,17 @@ Working with the team usually involved calling, sketching ideas, and drawing UML
 
 ## Guillermo Sánchez Martínez  
 
-(TODO: Write a reflection for yourself)
+During this semester, we wanted to try a different agile framework since we do not know which one our future company will use, and we want to find the most relevant one for us. This time, we decided to combine Kanban with the role of Product Owner. This allowed us to switch more easily from one task to another without needing to wait for a Scrum Master to assign a task. At the same time, keeping the role of Product Owner helped maintain a unified vision of our system.
+
+At the beginning of the project, I thought this agile method was the best for me, but now that we have finished, I would not say so. Because of not having any tasks assigned, I felt less attached to the project, in some cases, that meant taking longer to finish a task because it did not feel like mine. I am still getting to know myself, and this project has for sure helped with that. If I could reshape our agile framework, I would have included a rule that a task must be claimed by a specific person so I could feel more attached to it and, therefore, work more efficiently.
+
+To continue discovering myself and how I perform in different methodologies, I am open to exploring other agile frameworks in order to find the one that suits me best during the next semester. Since once I join a company I will have to adapt to the framework they use, this exploration is vital.
+
+In this project, there has been a clear difference between members who worked actively and members who worked passively. Some of us were taking tasks one after another, sacrificing personal time for the good of the project, while others spent less time and prioritized personal tasks. I personally think that this group is great, but after collaborating for two projects in a row, we might need a change. We already know how each of us reacts to different challenges, and given that there was no task ownership, we knew that if we didn't finish a task, someone else could just take over our work. Maybe expanding the group to 12 members next semester is the change we need.
+
+Regarding next semester's project, I am excited to work with such a big team and approach the project as a job rather than just an assignment. Since it might be the last big project I do before landing an internship, it will be the last opportunity to know myself better before entering the real job market.
+
+In conclusion, the Kanban framework has been useful to work with, but I would make some modifications to it in order to perform better in the future. I am happy with the final system we built, and I feel like this has been the first real project I have ever done.
 
 ## Piotr Junosz  
 
