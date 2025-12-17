@@ -26,9 +26,9 @@ The fundamental domain knowledge was at first derived from the analyzed problem 
 
 The most abstract and crucial aspect of the analysis was defining the system actors. The actors were defined to be:
 
-- Learners - access courses, complete learning steps, track progress
-- Teachers - create course drafts, create learning steps, edit course content
-- Admins - manage course approvals, categories, and platform settings
+- Learners
+- Teachers
+- Admins
 
 The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
 
@@ -89,17 +89,7 @@ The requirements were taken from not only the initial vision of the system but a
 
 The use case diagram visible on the Figure X below shows all use cases and their actors, which were made out of functional requirements. The goal of the project was to include security within the system by using authorization and authentication. Consequently, because of that all use cases require an authenticated user. In addition, two internal actors, Teacher and Administrator, were designed to inherit from Learner, while also having extra use cases which are not accessible for Learners.
 
-![UseCaseDiagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
-
-
-
-### Use cases and their related requirements
-
-The table on the Figure below shows the connections between use cases and the requirements they cover.
-
-![Use Cases with their related requirements](Usecaseswiththeirrelatedrequirements.png)
-
-
+![Use Case Diagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
 
 ### Use case description
 
@@ -107,6 +97,11 @@ Complete Learning Activity Use Case Description shown on the figure presents tha
 
 ![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
 
+### Use cases and their related requirements
+
+The table on the Figure below shows the connections between use cases and the requirements they cover.
+
+![Use Cases with their related requirements](Usecaseswiththeirrelatedrequirements.png)
 
 ### Activity diagram
 
