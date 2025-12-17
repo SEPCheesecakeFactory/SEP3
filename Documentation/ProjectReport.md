@@ -65,12 +65,12 @@ Admins are trusted Learners, who have the right to manage the platform. They sho
 10. As a Learner, I want to test my knowledge within the course, so that I know I understood the topic and I am not bored.
 11. As a Teacher, I want to submit a course draft, so that I can find out if my course idea is relevant for the platform.
 12. As a Teacher, I want to edit course content, so that I can correct or improve previous work. 
-14. As a Teacher, I want to edit course information, so that I can correct mistakes.
-15. As an Admin, I want to see all drafts, so that I know what drafts are waiting for approval.
-16. As an Admin, I want to approve course drafts, so that the teacher knows they can work on such course.
-17. As an Admin, I want to add course categories and languages, so that the platform can easily adapt to new content.
-18. As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree.
-19. As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.
+13. As a Teacher, I want to edit course information, so that I can correct mistakes.
+14. As an Admin, I want to see all drafts, so that I know what drafts are waiting for approval.
+15. As an Admin, I want to approve course drafts, so that the teacher knows they can work on such course.
+16. As an Admin, I want to add course categories and languages, so that the platform can easily adapt to new content.
+17. As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree.
+18. As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.
 
 #### Non-functional requirements
 
