@@ -1,0 +1,396 @@
+@startsalt
+title Login Page
+{+
+  <size:18><b>Login</b></size>
+  .
+  User name
+  "                    "
+  .
+  Password
+  "                    "
+  .
+  [   Log in   ]
+  .
+  [ Don't have an account? Register ]
+}
+@endsalt
+
+@startsalt
+title Main Layout with Navigation
+{+
+  {/
+    <b>Learnify</b>
+    .
+    [<size:14><&book> My Courses]
+    [<size:14><&list> All Courses]
+    [<size:14><&target> Leaderboard]
+    [<size:14><&person> Profile]
+    .
+    .
+    .
+    [ LOG OUT ]
+  } |
+  {
+    <b>Page Content Area</b>
+    .
+    .
+    .
+    .
+    .
+    .
+  }
+}
+@endsalt
+
+@startsalt
+title All Courses Page
+{+
+  {/
+    <b>Learnify</b>
+    [ ] My Courses
+    [X] All Courses
+    [ ] Leaderboard
+    [ ] Profile
+    .
+    [ LOG OUT ]
+  } |
+  {
+    <size:16><b>All Courses</b></size>
+    .
+    { [ Create Draft ] | [ Waiting Drafts ] }
+    .
+    { Search | "Search courses..." | Category | ^All Categories^ }
+    .
+    {
+      {+
+        <b>Introduction to C#</b>
+        Learn the basics of C#...
+        Category: Programming
+        Language: English
+      } |
+      {+
+        <b>Advanced Mathematics</b>
+        Calculus and Algebra...
+        Category: Math
+        Language: English
+      }
+    }
+    {
+      {+
+        <b>History of Art</b>
+        Renaissance to Modern...
+        Category: Art
+        Language: Danish
+      } |
+      {+
+        <b>Physics 101</b>
+        Mechanics and Energy...
+        Category: Science
+        Language: English
+      }
+    }
+  }
+}
+@endsalt
+
+@startsalt
+title Learning Step Page
+{+
+  {/
+    <b>Learnify</b>
+    [ ] My Courses
+    [ ] All Courses
+    [ ] Leaderboard
+    [ ] Profile
+    .
+    [ LOG OUT ]
+  } |
+  {
+    { [X] | "================= (Progress Bar) =================" }
+    .
+    <size:16><b>Step 1</b></size> [ EDIT STEP ]
+    .
+    {
+       "                                      "
+       "           [ Video / Content ]        "
+       "                                      "
+    }
+    .
+    { [ < Previous ] | [ Next > ] }
+  }
+}
+@endsalt
+
+@startsalt
+title Create Draft Page
+{+
+  { [X] <size:16><b>Create New Course Draft</b></size> }
+  .
+  {
+    Title
+    "e.g. Advanced C#      "
+    .
+    Language
+    ^Select Language...^
+    .
+    Category
+    ^Select Category...^
+    .
+    Description
+    "                      "
+    "                      "
+    .
+    [ Create Draft ]
+  }
+}
+@endsalt
+
+@startsalt
+title Admin Panel
+{+
+  {/
+    <b>Learnify</b>
+    [ ] My Courses
+    [ ] All Courses
+    [ ] Leaderboard
+    [ ] Profile
+    [X] Admin Panel
+    .
+    [ LOG OUT ]
+  } |
+  {
+    <size:18><b>Admin Panel</b></size>
+    Manage your application settings and data here.
+    .
+    {
+      <b>Course Categories</b>
+      [ Add Category ]
+      .
+      {
+        Programming [ Delete ]
+        Math        [ Delete ]
+        Art         [ Delete ]
+      }
+    }
+    .
+    {
+      <b>Languages</b>
+      [ Add Language ]
+      .
+      {
+        English (en) [ Delete ]
+        Danish (da)  [ Delete ]
+      }
+    }
+    .
+    {
+      <b>Registered Users</b>
+      {
+        Filter by Username | "                    "
+        Filter by ID       | "                    "
+      }
+      .
+      {
+        ID: 1 | <b>Alice</b>
+        .
+        [ Add Teacher ] | [ Add Admin ]
+      }
+      {
+        ID: 2 | <b>Bob</b>
+        .
+        [ Remove Teacher ] | [ Add Admin ]
+      }
+    }
+  }
+}
+@endsalt
+
+@startsalt
+title Approve Drafts Page
+{+
+  {/
+    <b>Learnify</b>
+    [ ] My Courses
+    [X] All Courses
+    [ ] Leaderboard
+    [ ] Profile
+    .
+    [ LOG OUT ]
+  } |
+  {
+    { [X] | <size:16><b>Waiting Drafts</b></size> }
+    .
+    {
+      {+
+        <b>Advanced C#</b>
+        Category: Programming
+        Language: English
+        .
+        [ Approve ] | [ Reject ]
+      }
+      .
+      {+
+        <b>Quantum Physics</b>
+        Category: Science
+        Language: English
+        .
+        [ Approve ] | [ Reject ]
+      }
+    }
+  }
+}
+@endsalt
+
+@startsalt
+title Leaderboard Page
+{+
+  {/
+    <b>Learnify</b>
+    [ ] My Courses
+    [ ] All Courses
+    [X] Leaderboard
+    [ ] Profile
+    .
+    [ LOG OUT ]
+  } |
+  {
+    <size:16><b>Leaderboard</b></size>
+    See who is learning the most!
+    .
+    {
+      <b>#1</b> | <b>Alice</b> | 1500 XP
+      <b>#2</b> | <b>Bob</b>   | 1200 XP
+      <b>#3</b> | <b>Charlie</b>| 900 XP
+      ...
+    }
+  }
+}
+@endsalt
+
+@startsalt
+title Edit Learning Step Page
+{+
+  {/
+    <b>Learnify</b>
+    [ ] My Courses
+    [ ] All Courses
+    [ ] Leaderboard
+    [ ] Profile
+    .
+    [ LOG OUT ]
+  } |
+  {
+    { [X] | "================= (Progress Bar) =================" }
+    .
+    <size:16><b>Edit Learning Step 1</b></size>
+    .
+    {
+      Title
+      "Introduction to Variables"
+      .
+      Content (Markdown)
+      "In this lesson we will learn..."
+      "                             "
+      "                             "
+      .
+      Video URL (Optional)
+      "https://youtube.com/..."
+    }
+    .
+    { [ < Previous ] | [ Save Changes ] | [ Next > ] }
+  }
+}
+@endsalt
+
+@startsalt
+title My Courses Page
+{+
+  {/
+    <b>Learnify</b>
+    [X] My Courses
+    [ ] All Courses
+    [ ] Leaderboard
+    [ ] Profile
+    .
+    [ LOG OUT ]
+  } |
+  {
+    <size:16><b>My Courses</b></size>
+    .
+    {
+      <b>Continue Learning</b>
+      <size:14><b>Introduction to C#</b></size>
+      You are on Step 3 of 10
+      [ Resume > ]
+    }
+    .
+    { Search | "Search my courses..." | Category | ^All Categories^ }
+    .
+    {
+      {+
+        <b>Introduction to C#</b>
+        Category: Programming
+        Language: English
+      } |
+      {+
+        <b>History of Art</b>
+        Category: Art
+        Language: Danish
+      }
+    }
+  }
+}
+@endsalt
+
+@startsalt
+title Profile Page
+{+
+  {/
+    <b>Learnify</b>
+    [ ] My Courses
+    [ ] All Courses
+    [ ] Leaderboard
+    [X] Profile
+    .
+    [ LOG OUT ]
+  } |
+  {
+    <size:16><b>My Profile</b></size>
+    .
+    {
+      <b>User Info</b>
+      Username: <b>Alice</b>
+      Role: <b>Student</b>
+    }
+    .
+    {
+      <b>Statistics</b>
+      Total XP: <b>1500</b>
+      Courses Completed: <b>2</b>
+    }
+    .
+    {
+      <b>Settings</b>
+      [ Change Password ]
+      [ Delete Account ]
+    }
+  }
+}
+@endsalt
+
+@startsalt
+title Register Page
+{+
+  <size:18><b>Register</b></size>
+  .
+  User name
+  "                    "
+  .
+  Password | Repeat Password
+  "        " | "              "
+  .
+  [   Register   ]
+  .
+  [ Already have an account? Login ]
+}
+@endsalt
