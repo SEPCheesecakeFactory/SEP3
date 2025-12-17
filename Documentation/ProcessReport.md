@@ -8,11 +8,11 @@ The project of a Learning Platform was initiated with the goal of creating an ac
 
 Many of our group processes stemmed as a continuation from our previous project experience, because our current group consisted of the same five members. For this reason, we continued with improving our collaboration based on E-estimate personal profiles completed in the previous semester. Knowing the fact that our profiles consisted mostly of dominant red and blue working style and our last experiences we found a way of working really efficiently by creating clear todo lists and working mostly in smaller sub-groups. The high number of "Red" profiles unfortunately meant also that we were prone to conflict.
 
-![Personal Profiles](PersonalProfiles.png)*(Appendix A: Personal Profiles)*
+![Personal Profiles (Appendix 6.1 Personal Profiles)](PersonalProfiles.png)
 
 Our team was culturally diverse, because members were from: Slovakia, Poland, Moldova, Spain and Turkey. The Southern European members of our team exhibited flexible relationship-based communication which proved to be a good balance for the structured task-oriented methods used by Central and Eastern European members. In addition, our earlier experiences together enabled us to handle cultural differences better because we understood each team member's work habits which helped us predict problems and address personal challenges before they could harm the team's performance. For example, knowing who preferred straightforward communication versus who tended to procrastinate with the set tasks allowed us to motivate each other effectively while maintaining a healthy working balance.
 
-We based the group contract (TODO: REFERENCE) for the project on our previous contract with slight changes, for example to the point system. This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. While social loafing still occurred in the group, the team tried to handle it in a different way compared to having super strict contract with a lot of penalties in it. Unfortunately, this approach did not work well, so that many serious talks took place within the team, including warnings about the necessity of supervisor interventions if performance of the member did not improve.
+We based the group contract (Appendix 1.1 Group Contract) for the project on our previous contract with slight changes, for example to the point system. This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. While social loafing still occurred in the group, the team tried to handle it in a different way compared to having super strict contract with a lot of penalties in it. Unfortunately, this approach did not work well, so that many serious talks took place within the team, including warnings about the necessity of supervisor interventions if performance of the member did not improve.
 
 ### Professional Collaboration
 To document our ability to independently take part in professional collaboration, we adopted industry-standard practices such as using git. We used branching with Pull Requests to review code, ensuring no single person could break the main build. More details about use of version control can be found in the UseOfVersionControl (Appendix A: UseOfVersionControl.pdf). We communicated asynchronously via Discord/Teams to respect deep work time.
@@ -103,7 +103,17 @@ Having experienced the fluency of the pull system, I now realise that self-organ
 
 ## Alexandru Savin  
 
-(TODO: Write a reflection for yourself)
+My thinking about feasible SEP3 ideas and their implementation started long before the actual project. I and my group members shared a common idea that we should develop a product in sync with the current SDGs, and although it had to be scoped and narrowed down, it is good to know it's core idea remains to promote free education possibilities and share human knowledge. During the project I brightened my understanding and got new competencies in Java, C#, and architectural patterns.
+
+I'm think overall it was a correct and fair decision, that we chose kanban board as our main framework. Our app is of small scale and it was comfortable to keep track of where the current development progress was. We transferred the role of Project Owner of Scrum into our project and it played out well for the project, however for group members to feel more responsibility I can imagine we should have implemented the term based switch of the POs as we did in our previous semester. 
+
+Unfortunately, I did not make timesteps of our kanban board in order to analyze a cumulative flow infographic. Based on additions over time from our github inside statistics, we see, we've experienced some blockages and our workflow went not as steady as expected, nevertheless the easy pull of tasks mechanism allowed group members to overcome those obstacles. Each of our group members shared ownership of the project and could contribute anytime to adding or completing the tasks from the board. 
+
+Github version control and working on different branches felt much more useful compared to last semester. We developed a rule and sticked to it most of the time, claiming that each branch once ready, had to be peer tested locally, reviewed and only then merged into main, which also makes common sense.
+
+I highly value the real feedback I received, because it did in fact once happen that, while one of my implementation methods pull request was being analyzed by the reviewer from security risks perspective, it proved to be a threat, which was shortly mitigated shortly after and before completing the feature and deleting the branch.
+
+The time spend on this project gives me another chance to dive in and retrospect my workflow over the past weeks, my knowledge, my abilities to contribute to a project as an independent individual, evaluating and completing tasks on one side of the hand and as a student, a team member, on the other hand, where to be a good student is to be predictable, someone who can either be keep up with the tasks he choose to solve and be transparent about the difficulties he encounters and just be a group member other peers could rely on. All in all, I'm looking forward to the next semester project and eager to learn and practice methods to help me work and acquire knowledge more efficient.  
 
 ## Halil Ibrahim Aygun  
 
@@ -180,6 +190,15 @@ The team needs to keep their group contract active while using Kanban pull-based
 
 Kanban University. (2022). The official guide to the Kanban method (Version 2). Mauvius Group Inc. https://kanban.university/wp-content/uploads/2023/04/The-Official-Kanban-Guide_A4.pdf
 
-## Appendix A: Project Guidelines
+# Appendices
+## Appendix 1.1 GroupContract
+### Group Contract
+Can be found as GroupContract.pdf
 
+## Appendix 7.3: Other documents
+### Project Guidelines
 Can be found as ProjectGuidelines.pdf
+
+## Appendix 6.1 Personal Profiles
+### Personal Profiles
+Can be found as PersonalProfiles.png

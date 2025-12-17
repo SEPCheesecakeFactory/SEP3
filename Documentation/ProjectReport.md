@@ -6,7 +6,7 @@ This work focuses on the need for scalable and adaptable digital educational sol
 
 # Introduction
 
-Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge.(REFERENCE) The idea of mandatory education keeps its origin between late 1900s and early 2000s(REFERENCE), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
+Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (UNESCO, 2000). The idea of mandatory education keeps its origin between late 1900s and early 2000s(Habermas, 1984), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
 
 The aim of this project is on the ability to create a system which would be able to provide learning opportunities with main focus on simplifying the accessibility and exploring the idea of learning processes and its speed and efficiency. The goal is to also ensure security, knowledge correctness and deployment of the system.
 
@@ -34,8 +34,8 @@ The most abstract and crucial aspect of the analysis was defining the system act
 
 The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
 
-- both teachers and admins were expected to be skilled users of the platform (Appendix B.1) and were supposed to be educated on it (Appendix B.2)
-- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix B.2)
+- both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, TODO: Sasha update this)
+- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, TODO: Sasha update this)
 
 ### Actor Descriptions
 
@@ -78,6 +78,8 @@ The functional requirements are structured as user stories to better capture the
 | USA4  | As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree. |
 | USA5  | As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.       |
 
+*Table 1: Functional Requirements (Appendix 2.1 Requirements)*
+
 The user stories are sorted based on the actors to which they correspond, not according to the chronological order in which they were added/discovered. The chronological order is also not perfectly reflected on the IDs, as these were not always static for the same user story (when managing them, they would be adjusted)
 
 #### Non-functional requirements
@@ -108,6 +110,9 @@ The uses cases developed are shown in a table below:
 | UC11 | Review Course Drafts       |
 | UC12 | Manage User Roles          |
 
+*Table 2: Use Cases (Appendix 2.2 Use Cases)*
+
+
 The table below shows how the use cases are related to the user stories
 
 | User Story | Use Cases Addressing It |
@@ -131,11 +136,14 @@ The table below shows how the use cases are related to the user stories
 | USA4       | UC12                    |
 | USA5       | UC11                    |
 
+*Table 3: Use Cases and their related requirements (Appendix 2.2 Use Cases)*
+
+
 ### Use case diagram (UCD)
 
 To depict how the use cases were related to the system actors, a use case diagram was created as shown below:
 
-![Use Case Diagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
+![Use Case Diagram (Appendix 2.2 Use Cases)](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
 
 As can be seen, the UCD also introduced the internal boundary for teachers and admins - specifying that these actors are not simply learners with privileges but there is a boundary to be crossed when becoming a teacher or an admin. The UCD also specifies the system boundary, which in the case of Learnify covers all the use cases developed.
 
@@ -143,7 +151,7 @@ As can be seen, the UCD also introduced the internal boundary for teachers and a
 
 In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Activity use case:
 
-![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
+![Complete Learning Activity Use Case Description (Appendix 2.2 Use Cases)](CompleteLearningActivityUseCaseDescription.png)
 
 As seen above, the use case descriptions provided a structured way of understanding how the system should behave and gave a strong basis for the test cases. 
 
@@ -182,17 +190,19 @@ All the use case descriptions were made in the same format with:
 | TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. |
 | TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. |
 
+*Table 4: Test Cases (Appendix 2.4 Tests)*
+
 ### Activity diagram
 
 The activity diagram below shows the workflow of the given "Complete Learning Activity" use case. The diagram highlights the sequence of operations performed by the user and the system, which begin with the display of a question or an exercise. Validation logic is highlighted in this activity diagram where the system analyzes the response of the user. Based on this, if a wrong solution is provided, a "feedback loop" is initiated where a message prompts the user to try again. As a result, a learning activity will be marked accomplished only when a correct answer is given, which demonstrates a mastery learning technique.
 
-![Complete Learning Activity Activity Diagram](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
+![Complete Learning Activity Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
 
 ### Domain model
 
 The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders.
 
-![Domain Model](..\out\Analysis\DomainModel\DomainModel.svg)
+![Domain Model (Appendix 2.3 Diagrams)](..\out\Analysis\DomainModel\DomainModel.svg)
 
 The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other.
 
@@ -218,7 +228,7 @@ The security requirements for the system were developed as a part of the threat 
 - **Accountability:** Actions must be uniquely traceable to a specific entity.
 - **Authenticity:** Verify that data inputs and users are genuine.
 
-These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix A: Threat Model).
+These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix 7.1 Threat Model).
 
 Similarly to other parts of the analysis phase, stakeholder interactions shaped the system's security requirements. In particular, even testing the prototype (before having the core system functional) showed concerns about the authority of Administrators and Teachers, and needs for accountability for actions.
 
@@ -228,7 +238,7 @@ Similarly to other parts of the analysis phase, stakeholder interactions shaped 
 
 #### Wireframes
 *Figure X: All Courses Page Wireframe*
-![All Courses Page Wireframe](..\out\Analysis\Wireframes\Wireframes-2.png)
+![All Courses Page Wireframe (Appendix 9.1 Wireframes)](..\out\Analysis\Wireframes\Wireframes-2.png)
 
 
 The creation of the fronted included the designing wireframes of the web pages. One of the them is visible on the diagram above - All Courses Page Wireframe (Appendix A: Wireframes-2.png). This wireframe design shows a user-centered approach which enables simple course catalog browsing which is accessible for all users. The system provides users with two extra features which consist of a search function and category-based filtering options at the top of the interface. The content organization uses card-based design which shows key details including title, description, category and language of the course to assist users with their enrollment decisions. The interface includes also features which are showed only to users with specific roles (Teacher, Admin). It can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
@@ -238,13 +248,13 @@ The creation of the fronted included the designing wireframes of the web pages. 
 The architectural overview shown on the picture below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
 Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
-![Architectural Overview](ArchitecturalOverview.png)
+![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png)
 
 ### Communication protocol design
 
 The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
 
-![Application Layer Sequence Diagram](Application-LayerSD.png)
+![Application Layer Sequence Diagram (Appendix 2.3 Diagrams)](Application-LayerSD.png)
 
 #### Interface Definition (gRPC & Protobuf)
 
@@ -278,7 +288,7 @@ A hybrid protocol approach was chosen to balance user experience with system per
 
 As means of bridging the gap from the problem domain in general and the Learnify system in specific, an EER diagram was created as can be seen on the figure below:
 
-![Enhanced Entity Relationship Diagram](..\out\Implementation\EER\EER.png)
+![Enhanced Entity Relationship Diagram (Appendix 2.3 Diagrams)](..\out\Implementation\EER\EER.png)
 
 The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled.
 
@@ -294,7 +304,7 @@ SystemUser "*" -right- "*" Role : has
 @enduml
 ```
 
-The figure above focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+The figure above is a part of domain model (Appendix 2.3 Diagrams) focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
 
 #### Relational Schema
 
@@ -305,9 +315,9 @@ The mapping of the EER diagram resulted in a relational schema and the to it rel
 
 The mapping resulted in the relation schema as shown on the figure below:
 
-![Relational Schema](..\out\Implementation\RelationalSchema\RelationalSchema.png)
+![Relational Schema (Appendix 4.1 Relation Schema)](..\out\Implementation\RelationalSchema\RelationalSchema.png)
 
-As can be seen, the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
+As can be seen below on the part of Global Relational Diagram (Appendix 2.3 Diagrams), the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
 
 ```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship Resolution"}
 @startuml
@@ -332,7 +342,7 @@ Relational schema and Global Relations Diagram are technically identical. In the
 
 The final GR diagram is shown on the figure below:
 
-![Global Relational Diagram](..\out\Implementation\GR\GR.png)
+![Global Relational Diagram (Appendix 2.3 Diagrams)](..\out\Implementation\GR\GR.png)
 
 It can be seen that the GRD reflects the same concepts as the relational schema, however, in this case the positioning of the elements provides a more natural step going from the EER and the domain model; although, the positioning did not fully preserve the conceptual relationships as seen in the EER diagram.
 
@@ -356,13 +366,14 @@ This stage did not include any actual logic but rather provided a skeleton of th
 
 The implementation of the skeleton was followed by a the implementation of a vertical slice which focused on fetching all courses from the database.
 
-The individual components of the vertical slice can be seen below:
+The individual components of the vertical slice can be seen below on the part of Domain Model (Appendix 2.3 Diagrams):
 
 ```plantuml
 @startuml
 class Course
 {
     id
+    language
     title
     description
 }
@@ -483,6 +494,8 @@ This approach ensured that the internal behavior of key methods was thoroughly v
 | TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. | not performed |
 | TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. | not performed |
 
+*Table 5: Test Cases Results (Appendix 2.4 Tests)*
+
 
 ### Benefits and bug detection
 
@@ -544,19 +557,58 @@ The project achieved success through its development of a distributed learning s
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
 - Samonas, S., & Coss, D. (2014). The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security. In Journal of Information System Security (Vol. 10, Issue 3). https://www.proso.com/dl/Samonas.pdf
 - Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
+- Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
+- UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
 
 # Appendices
 
-## Appendix A: Threat Model
+## Appendix 2.1 Requirements
+### Requirements
+Can be found as TODO:eduard.pdf
 
+## Appendix 2.2 Use Cases
+### Use Case Diagram
+Can be found as TODO:eduard.pdf
+### Complete Learning Activity Use Case Description
+Can be found as TODO:eduard.pdf
+
+## Appendix 2.3 Diagrams
+### Complete Learning Activity Activity Diagram
+Can be found as CompleteLearningAcitivity.png
+### Domain Model
+Can be found as DomainModel.png
+### Enhanced Entity Relationship Diagram
+Can be found as EER.png
+### Global Relational Diagram
+Can be found as GR.png
+### Application Layer Sequence Diagram
+Can be found as Application-LayerSD.png
+
+## Appendix 2.4 Tests
+### Test Cases
+Can be found as TestCases.pdf???? TODO:add this to the appendix
+### Test Cases Result
+Can be found as ...... TODO:add this to the appendix
+
+## Appendix 4.1 Relation Schema
+### Relational Schema
+Can be found as RelationalSchema.png
+
+## Appendix 7.1 Threat Model
+### Threat model
 Can be found as ThreatModel.pdf
 
-## Appendix B: Stakeholder Interviews
+## Appendix 9.1 Wireframes
+### All Courses Page Wireframe
+Can be found as Wireframes-2.png
 
-### Appendix B.1: Interview David
+## Appendix 10.1: Stakeholder Interviews
+### Interview David
+Can be found as Interview_261125_1.pdf
+### Interview Andrej TODO: Sasha update this
+Can be found as Interview_XXX.pdf
 
-Can be found as Interview_261125_1.md (TODO: pdf or md? recording?)
+## Appendix 11.1 Architecture
+### Architectural Overview 
+Can be found as ArchitecturalOverview.png
 
-### Appendix B.2: Interview Andrej
-
-Can be found as Interview_101225_1. (TODO: png? video recording?)
