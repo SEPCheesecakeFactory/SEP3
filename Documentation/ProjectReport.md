@@ -190,17 +190,19 @@ All the use case descriptions were made in the same format with:
 | TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. |
 | TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. |
 
+*Table 4: Test Cases (Appendix 2.4 Tests)*
+
 ### Activity diagram
 
 The activity diagram below shows the workflow of the given "Complete Learning Activity" use case. The diagram highlights the sequence of operations performed by the user and the system, which begin with the display of a question or an exercise. Validation logic is highlighted in this activity diagram where the system analyzes the response of the user. Based on this, if a wrong solution is provided, a "feedback loop" is initiated where a message prompts the user to try again. As a result, a learning activity will be marked accomplished only when a correct answer is given, which demonstrates a mastery learning technique.
 
-![Complete Learning Activity Activity Diagram](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
+![Complete Learning Activity Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
 
 ### Domain model
 
 The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders.
 
-![Domain Model](..\out\Analysis\DomainModel\DomainModel.svg)
+![Domain Model (Appendix 2.3 Diagrams)](..\out\Analysis\DomainModel\DomainModel.svg)
 
 The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other.
 
@@ -226,7 +228,7 @@ The security requirements for the system were developed as a part of the threat 
 - **Accountability:** Actions must be uniquely traceable to a specific entity.
 - **Authenticity:** Verify that data inputs and users are genuine.
 
-These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix A: Threat Model).
+These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix 7.1 Threat Model).
 
 Similarly to other parts of the analysis phase, stakeholder interactions shaped the system's security requirements. In particular, even testing the prototype (before having the core system functional) showed concerns about the authority of Administrators and Teachers, and needs for accountability for actions.
 
@@ -236,7 +238,7 @@ Similarly to other parts of the analysis phase, stakeholder interactions shaped 
 
 #### Wireframes
 *Figure X: All Courses Page Wireframe*
-![All Courses Page Wireframe](..\out\Analysis\Wireframes\Wireframes-2.png)
+![All Courses Page Wireframe (Appendix 9.1 Wireframes)](..\out\Analysis\Wireframes\Wireframes-2.png)
 
 
 The creation of the fronted included the designing wireframes of the web pages. One of the them is visible on the diagram above - All Courses Page Wireframe (Appendix A: Wireframes-2.png). This wireframe design shows a user-centered approach which enables simple course catalog browsing which is accessible for all users. The system provides users with two extra features which consist of a search function and category-based filtering options at the top of the interface. The content organization uses card-based design which shows key details including title, description, category and language of the course to assist users with their enrollment decisions. The interface includes also features which are showed only to users with specific roles (Teacher, Admin). It can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
@@ -246,13 +248,13 @@ The creation of the fronted included the designing wireframes of the web pages. 
 The architectural overview shown on the picture below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
 Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
-![Architectural Overview](ArchitecturalOverview.png)
+![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png)
 
 ### Communication protocol design
 
 The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
 
-![Application Layer Sequence Diagram](Application-LayerSD.png)
+![Application Layer Sequence Diagram (Appendix 2.3 Diagrams)](Application-LayerSD.png)
 
 #### Interface Definition (gRPC & Protobuf)
 
@@ -286,7 +288,7 @@ A hybrid protocol approach was chosen to balance user experience with system per
 
 As means of bridging the gap from the problem domain in general and the Learnify system in specific, an EER diagram was created as can be seen on the figure below:
 
-![Enhanced Entity Relationship Diagram](..\out\Implementation\EER\EER.png)
+![Enhanced Entity Relationship Diagram (Appendix 2.3 Diagrams)](..\out\Implementation\EER\EER.png)
 
 The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled.
 
@@ -313,7 +315,7 @@ The mapping of the EER diagram resulted in a relational schema and the to it rel
 
 The mapping resulted in the relation schema as shown on the figure below:
 
-![Relational Schema](..\out\Implementation\RelationalSchema\RelationalSchema.png)
+![Relational Schema (Appendix 4.1 Relation Schema)](..\out\Implementation\RelationalSchema\RelationalSchema.png)
 
 As can be seen, the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
 
@@ -340,7 +342,7 @@ Relational schema and Global Relations Diagram are technically identical. In the
 
 The final GR diagram is shown on the figure below:
 
-![Global Relational Diagram](..\out\Implementation\GR\GR.png)
+![Global Relational Diagram (Appendix 2.3 Diagrams)](..\out\Implementation\GR\GR.png)
 
 It can be seen that the GRD reflects the same concepts as the relational schema, however, in this case the positioning of the elements provides a more natural step going from the EER and the domain model; although, the positioning did not fully preserve the conceptual relationships as seen in the EER diagram.
 
@@ -491,6 +493,8 @@ This approach ensured that the internal behavior of key methods was thoroughly v
 | TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. | not performed |
 | TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. | not performed |
 
+*Table 5: Test Cases Results (Appendix 2.4 Tests)*
+
 
 ### Benefits and bug detection
 
@@ -558,29 +562,52 @@ The project achieved success through its development of a distributed learning s
 # Appendices
 
 ## Appendix 2.1 Requirements
-
+### Requirements
 Can be found as TODO:eduard.pdf
 
 ## Appendix 2.2 Use Cases
-
 ### Use Case Diagram
-
 Can be found as TODO:eduard.pdf
-
 ### Complete Learning Activity Use Case Description
-
 Can be found as TODO:eduard.pdf
+
+## Appendix 2.3 Diagrams
+### Complete Learning Activity Activity Diagram
+Can be found as CompleteLearningAcitivity.png
+### Domain Model
+Can be found as DomainModel.png
+### Enhanced Entity Relationship Diagram
+Can be found as EER.png
+### Global Relational Diagram
+Can be found as GR.png
+### Application Layer Sequence Diagram
+Can be found as Application-LayerSD.png
+
+## Appendix 2.4 Tests
+### Test Cases
+Can be found as TestCases.pdf???? TODO:add this to the appendix
+### Test Cases Result
+Can be found as ...... TODO:add this to the appendix
+
+## Appendix 4.1 Relation Schema
+### Relational Schema
+Can be found as RelationalSchema.png
 
 ## Appendix 7.1 Threat Model
-
+### Threat model
 Can be found as ThreatModel.pdf
 
+## Appendix 9.1 Wireframes
+### All Courses Page Wireframe
+Can be found as Wireframes-2.png
+
 ## Appendix 10.1: Stakeholder Interviews
-
 ### Interview David
-
 Can be found as Interview_261125_1.pdf
-
 ### Interview Andrej TODO: Sasha update this
-
 Can be found as Interview_XXX.pdf
+
+## Appendix 11.1 Architecture
+### Architectural Overview 
+Can be found as ArchitecturalOverview.png
+
