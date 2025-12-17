@@ -53,35 +53,31 @@ Admins are trusted Learners, who have the right to manage the platform. They sho
 
 #### Functional requirements
 
-1. As a User, I want to register for an account so that I can access the platform.
-2. As a User, I want to log in so that I can access the platform from my account.
-3. As a User, I want to view "My Courses" dashboard, so that I can see all the courses I am currently enrolled in.
-4. As a User, I want to resume my active course from where I left off, so that I can continue learning from where i left.
-5. As a User, I want to browse the "All Courses" catalog, so that I can discover new subjects to learn.
-6. As a User, I want to filter courses by category or search query, so that I can find specific content quickly.
-7. As a User, I want to unenroll from a course, so that I can remove content I am no longer interested in from my dashboard.
-8. As a User, I want to view the Leaderboard, so that I can compare my progress with other learners.
-9. As a User, I want to view my Profile, so that I can see my personal account details.
-10. As a User, I want to complete Multiple Choice Questions in a learning step, so that I can test my knowledge.
-11. As a User, I want to complete Fill-in-the-Blank exercises, so that I can practice recalling information.
-12. As a Teacher, I want to create a new course draft, so that I can start building a new curriculum.
-13. As a Teacher, I want to edit learning steps directly from the learning page, so that I can correct mistakes or improve content.
-14. As an Admin, I want to view the Admin Panel, so that I can access administrative tools and settings.
-15. As a Teacher, I want to edit course information, so that I can correct mistakes.
-16. As an Admin, I want to view a list of waiting drafts, so that I can see which courses need approval.
-17. As an Admin, I want to approve course drafts, so that they become available for students to enroll in.
-18. As an Admin, I want to create new course categories, so that new types of courses can be introduced.
-19. As an Admin, I want to add new languages, so that Teachers can create courses in other available languages.
-20. As an Admin, I want to manage users’ roles, so that I decide who is a teacher and admin.
-21. As an Admin, I want to disapprove course drafts, so that they become unavailable for students to enroll in. 
+1. As a Learner, I want to register for an account so that I can access the platform.
+2. As a Learner, I want to log in so that I can access the platform from my account.
+3. As a Learner, I want to see in which courses I am enrolled in, so that I can continue where I left off.
+4. As a Learner, I want to continue learning where I left off, so that I don't have to start over every time.
+5. As a Learner, I want to see all available courses, so that I can explore and choose what I want to learn.
+6. As a Learner, I want to filter courses, so that I can find specific content quickly.
+7. As a Learner, I want to unenroll from a course, so that I can stop learning a course I no longer want to finish.
+8. As a Learner, I want to view the Leaderboard, so that I can compare my progress with other learners.
+9. As a Learner, I want to view my Profile, so that I can see my personal account details.
+10. As a Learner, I want to test my knowledge within the course, so that I know I understood the topic and I am not bored.
+11. As a Teacher, I want to submit a course draft, so that I can find out if my course idea is relevant for the platform.
+12. As a Teacher, I want to edit course content, so that I can correct or improve previous work. 
+14. As a Teacher, I want to edit course information, so that I can correct mistakes.
+15. As an Admin, I want to see all drafts, so that I know what drafts are waiting for approval.
+16. As an Admin, I want to approve course drafts, so that the teacher knows they can work on such course.
+17. As an Admin, I want to add course categories and languages, so that the platform can easily adapt to new content.
+18. As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree.
+19. As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.
 
 #### Non-functional requirements
 
-1. The system must utilize at least two different programming languages
-2. User passwords must be stored securely, using a strong, salted hashing algorithm before persistence
-3. The system must use a robust database for all persistent data storage.
-4. The system has to be deployable
-5. The system has to be color blind people friendly
+1. The system must be polyglot
+2. User passwords must be securely stored at rest
+4. The system must be deployable
+5. The system must be color-blind friendly
 
 The requirements were taken from not only the initial vision of the system but also from interviews with real persons that could actually experience the system in the development stages and give relevant feedback to the team. The functional requirements were structured as "user stories" so that the team could maintain clear user perspective development, ensuring that every feature was directly tied to who is making what interaction with the system and how does the user is going to benefit from performing the action - why would he do it. This provided consistent framework for later analysis phases. 
 
