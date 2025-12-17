@@ -10,40 +10,185 @@ title "LogicServer Class Diagram"
 package Entities
 {
     interface IIdentifiable<ID>
-    class Course
-    class Draft
-    class LearningStep
-    class Role
-    class User    
+    
+    class User {
+        +int Id
+        +string Username
+        +List<Role> Roles
+    }
+    class Role {
+        +string RoleName
+    }
+    class Course {
+        +int Id
+        +string Title
+        +int AuthorId
+    }
+    class CourseCategory
+    class CourseProgress
+    class Language
+    class LeaderBoardEntry
+    class LearningStep {
+        + (int, int) Id
+        + int CourseId
+        + int StepOrder
+        + string Content
+    }
+
+    class LoginRequest
+    class RegisterRequest
 
     package DTOs
     {
-        class CreateDraftDTO
-        class LoginRequest
-        class RegisterRequest
+        class CreateCourseCategoryDto
+        class CreateCourseDto
+        class CreateLanguageDto
+        class CreateLearningStepDto
         class UserDto
+        class ChangePasswordDto
+        class CourseProgressDto
     }
+    
+    User *-- Role : contains >
 }
 
 package RepositoryContracts
 {
-    interface IRepository<T, TAdd, TUpdate, ID>
+    interface IRepositoryID<T, TAdd, TUpdate, ID> {
+        + GetSingleAsync(ID)
+        + GetMany()
+        + AddAsync(TAdd)
+        + UpdateAsync(TUpdate)
+        + DeleteAsync(ID)
+    }
+    
+    interface ICourseProgressRepository
+    interface ICourseRepository
+    interface ILeaderboardRepository
+    class NotFoundException
 }
 
 package gRPCRepo
 {
     class gRPCRepository<T, TAdd, TUpdate, ID>
+    
+    class gRPCCourseCategoryRepository
+    class gRPCCourseProgressRepository
+    class gRPCCourseRepository
+    class gRPCLanguageRepository
+    class gRPCLeaderBoardEntryRepository
+    class gRPCLearningStepRepository
+    class gRPCUserRepository
 }
 
-package Controllers
+package RESTAPI
 {
-    class GenericController<T, TAdd, TUpdate, ID>
-    class GenericDefaultController<T, TAdd, TUpdate, ID>
-    note right of GenericDefaultController : "Has all endpoints open by default"
+    package Auth
+    {
+        class AuthorizationPolicies
+    }
+    
+    package Services
+    {
+        interface IAuthService {
+            + ValidateUser()
+            + RegisterUser()
+            + ChangePasswordAsync()
+        }
+        class SecureAuthService
+    }
+
+    package Controllers
+    {
+        ' Base Generic Controllers
+        class GenericController<T, TAdd, TUpdate, ID>
+        class "GenericDefaultController<T, TAdd, TUpdate, ID>" as GenericDefaultControllerFull
+        class "GenericDefaultController<MainType, ID>" as GenericDefaultControllerSimp
+        
+        ' Implementation Controllers
+        class AuthController
+        class CoursesController
+        class CourseCategoryController
+        class CourseProgressController
+        class LanguagesController
+        class LeaderboardController
+        class LearningStepsController
+        class UsersController
+        
+        ' Utility/Test Controllers
+        class StatusController {
+            + GetStatus()
+        }
+        class TestController {
+            + GetAsAuthorized()
+            + GetAsAnon()
+            + GetAsVia()
+        }
+    }
 }
 
-Course -up-|> IIdentifiable : int
-LearningStep -up-|> IIdentifiable : int
-Draft -up-|> IIdentifiable : int
-User -up-|> IIdentifiable : int
-gRPCRepository -up-|> IRepository
+' --- Relationships ---
+
+' Interface Implementation
+User ..|> IIdentifiable
+Course ..|> IIdentifiable
+CourseCategory ..|> IIdentifiable
+CourseProgress ..|> IIdentifiable
+Language ..|> IIdentifiable
+LearningStep ..|> IIdentifiable : <(int,int)>
+
+' Repository Hierarchy
+ICourseRepository --|> IRepositoryID
+ICourseProgressRepository --|> IRepositoryID
+ILeaderboardRepository --|> IRepositoryID
+
+gRPCRepository ..|> IRepositoryID
+gRPCCourseRepository --|> gRPCRepository
+gRPCCourseRepository ..|> ICourseRepository
+
+gRPCCourseCategoryRepository --|> gRPCRepository
+gRPCCourseProgressRepository --|> gRPCRepository
+gRPCCourseProgressRepository ..|> ICourseProgressRepository
+
+gRPCLanguageRepository --|> gRPCRepository
+gRPCLeaderBoardEntryRepository --|> gRPCRepository
+gRPCLeaderBoardEntryRepository ..|> ILeaderboardRepository
+
+gRPCLearningStepRepository --|> gRPCRepository
+gRPCUserRepository --|> gRPCRepository
+
+' Services
+SecureAuthService ..|> IAuthService
+SecureAuthService --> IRepositoryID : "uses User Repo"
+
+' Controllers Hierarchy
+GenericDefaultControllerFull --|> GenericController
+GenericDefaultControllerSimp --|> GenericDefaultControllerFull : "TAdd/TUpd = MainType"
+
+UsersController --|> GenericDefaultControllerSimp : <User, int>
+CoursesController --|> GenericController : <Course...>
+CourseCategoryController --|> GenericController : <Category...>
+LanguagesController --|> GenericController : <Language...>
+LearningStepsController --|> GenericController : <Step...>
+
+' Controller Associations (Injected Services/Repos)
+GenericController --> IRepositoryID : _repository
+AuthController --> IAuthService : _authService
+CoursesController --> ICourseRepository
+CourseProgressController --> ICourseProgressRepository
+LeaderboardController --> ILeaderboardRepository
+
+' Controller Dependencies (Uses DTOs/Entities as parameters)
+AuthController ..> LoginRequest : uses
+AuthController ..> RegisterRequest : uses
+AuthController ..> ChangePasswordDto : uses
+
+CoursesController ..> CreateCourseDto : uses
+CoursesController ..> Course : returns
+
+CourseCategoryController ..> CreateCourseCategoryDto : uses
+LanguagesController ..> CreateLanguageDto : uses
+CourseProgressController ..> CourseProgressDto : uses
+LearningStepsController ..> CreateLearningStepDto : uses
+
+@enduml

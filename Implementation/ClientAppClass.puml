@@ -1,0 +1,143 @@
+@startuml ClientAppClass
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+scale 1
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+title "Client App Class Diagram"
+
+package BlazorApp
+{
+    package Entities
+    {
+        class User {
+            + int Id
+            + string Username
+            + List<Role> Roles
+        }
+        class Course {
+            + int Id
+            + string Title
+            + int TotalSteps
+        }
+        class LearningStep {
+            + int CourseId
+            + int StepOrder
+            + string Type
+            + string Content
+        }
+        class Draft
+        class LoginRequest
+        class RegisterRequest
+        class LeaderboardEntry
+        class CourseCategory
+        class Language
+        
+        class CreateDraftDto
+        class CreateCourseCategoryDto
+        class CreateLanguageDto
+    }
+
+    package Services
+    {
+        class HttpCrudService {
+            - HttpClient client
+            + CreateAsync<T, R>()
+            + GetAsync<T>()
+            + UpdateAsync<T, R>()
+            + DeleteAsync()
+        }
+
+        interface IAuthService {
+            + LoginAsync()
+            + LogoutAsync()
+            + RegisterAsync()
+            + GetAuthAsync()
+        }
+        class JwtAuthService {
+            - string Jwt
+            + LoginAsync()
+            + RegisterAsync()
+        }
+
+        interface ICourseService {
+            + GetCourses()
+            + CreateDraft()
+            + GetCourseProgressAsync()
+        }
+        class HttpCourseService
+
+        interface IUserService {
+            + GetUsers()
+            + UpdateUser()
+        }
+        class HttpUserService
+
+        interface ILearningStepService {
+            + GetLearningStepAsync()
+            + CreateLearningStepAsync()
+        }
+        class HttpLearningStepService
+    }
+
+    package Auth
+    {
+        class CustomAuthProvider {
+            + GetAuthenticationStateAsync()
+        }
+    }
+
+    package Components.Pages
+    {
+        class Courses <<Razor Component>> {
+            - List<Course> courses
+            + OnInitializedAsync()
+        }
+        class Login <<Razor Component>> {
+            - string userName
+            - string password
+            + LoginAsync()
+        }
+        class LearningStepPage <<Razor Component>> {
+            + int CourseId
+            + int StepOrder
+            - LearningStep currentStep
+            + OnParametersSetAsync()
+        }
+    }
+}
+
+' --- Relationships ---
+
+' Service Implementations
+JwtAuthService ..|> IAuthService
+HttpCourseService ..|> ICourseService
+HttpUserService ..|> IUserService
+HttpLearningStepService ..|> ILearningStepService
+
+' Service Associations (Composition/Injection)
+HttpCourseService --> HttpCrudService : uses
+HttpUserService --> HttpCrudService : uses
+HttpLearningStepService --> HttpCrudService : uses
+
+' Auth Associations
+CustomAuthProvider --> IAuthService : monitors state
+
+' Component Associations (Injection)
+Courses --> ICourseService : injects
+Login --> IAuthService : injects
+LearningStepPage --> ILearningStepService : injects
+LearningStepPage --> ICourseService : injects
+LearningStepPage --> CustomAuthProvider : cascades auth state
+
+' Dependency (Usage of Entities/DTOs)
+JwtAuthService ..> LoginRequest : creates
+JwtAuthService ..> RegisterRequest : creates
+
+Courses ..> Course : displays list of
+LearningStepPage ..> LearningStep : displays single
+HttpCourseService ..> Course : returns
+HttpCourseService ..> Draft : returns
+HttpCourseService ..> LeaderboardEntry : returns
+
+@enduml
