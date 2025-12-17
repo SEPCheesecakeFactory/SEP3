@@ -304,7 +304,7 @@ SystemUser "*" -right- "*" Role : has
 @enduml
 ```
 
-The figure above focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+The figure above is a part of domain model (Appendix 2.3 Diagrams) focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
 
 #### Relational Schema
 
@@ -317,7 +317,7 @@ The mapping resulted in the relation schema as shown on the figure below:
 
 ![Relational Schema (Appendix 4.1 Relation Schema)](..\out\Implementation\RelationalSchema\RelationalSchema.png)
 
-As can be seen, the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
+As can be seen below on the part of Global Relational Diagram (Appendix 2.3 Diagrams), the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
 
 ```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship Resolution"}
 @startuml
@@ -373,6 +373,7 @@ The individual components of the vertical slice can be seen below:
 class Course
 {
     id
+    language
     title
     description
 }
