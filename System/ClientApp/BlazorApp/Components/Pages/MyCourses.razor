@@ -138,6 +138,7 @@
     || (c.Title ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
     .Where(c => string.IsNullOrEmpty(selectedCategory)
     || c.Category == selectedCategory);
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthProvider.GetAuthenticationStateAsync();

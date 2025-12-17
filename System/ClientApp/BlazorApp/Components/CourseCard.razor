@@ -1,156 +1,116 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @inject NavigationManager NavManager
-@inject AuthenticationStateProvider AuthProvider
 
-@if (Show)
-{
-    <div class="modal fade show" tabindex="-1" style="display:block; background-color:rgba(0,0,0,0.5);">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content p-4 border-0 fade-in"
-                 style="border-radius: 16px; border: 2px solid var(--gray-shadow); box-shadow: 0 6px 0 rgba(0,0,0,0.1);">
+<AuthorizeView>
+    <Authorized Context="authContext">
+        @{
+    var user = authContext.User;
+    int currentUserId = user.GetID() ?? 0;
 
-                <!-- HEADER -->
-                <div class="modal-header border-bottom-0 pb-0">
-                    <h4 class="modal-title fw-bolder text-secondary">Edit Course Info</h4>
-                    <button type="button" class="btn-close" @onclick="Close"></button>
-                </div>
+    bool isAdmin = user.IsAdmin();
+    bool isTeacher = user.IsTeacher(); 
+    bool isAuthor = Course.AuthorId == currentUserId;
+    bool isDraft = Course.ApprovedBy == null || Course.ApprovedBy == 0;
 
-                <!-- BODY -->
-                <div class="modal-body pt-4">
-                    <!-- Title -->
-                    <div class="mb-4">
-                        <label class="form-label fw-bold small text-muted text-uppercase">Title</label>
-                        <input type="text" class="form-control game-input" @bind="CourseToEdit.Title"
-                               placeholder="e.g. Advanced History" disabled="@(!canEditMetadata)" />
+    
+    bool canManageSteps = !isDraft && (isAuthor || (isAdmin && isTeacher));
+    bool canEditMetadata = isAdmin || (isAuthor && !isDraft);
+}
+
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-course h-100 text-center bg-white position-relative @CourseDisplayUtils.GetBorderClass(Course.Category ?? "General")">
+
+                @if (isDraft)
+                {
+                    <div class="position-absolute top-0 start-0 m-2" style="z-index: 10;">
+                        <span class="badge bg-warning text-dark border border-warning shadow-sm"
+                              style="font-size: 0.75rem; letter-spacing: 0.5px;" title="This course is pending approval">
+                            <i class="fas fa-pencil-ruler me-1"></i> DRAFT
+                        </span>
                     </div>
+                }
 
-                    <!-- Category & Language -->
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold small text-muted text-uppercase">Category</label>
-                            <select class="form-select game-input" @bind="CourseToEdit.Category" disabled="@(!canEditMetadata)">
-                                @foreach (var cat in AvailableCategories)
-                                {
-                                    <option value="@cat.Name">@cat.Name</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold small text-muted text-uppercase">Language</label>
-                            <select class="form-select game-input" @bind="CourseToEdit.Language" disabled="@(!canEditMetadata)">
-                                @foreach (var lang in AvailableLanguages)
-                                {
-                                    <option value="@lang.Code">@lang.Name</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
+                <div class="position-absolute top-0 end-0 m-2 d-flex gap-1" style="z-index: 11;">
 
-                    <!-- Description -->
-                    <div class="mb-4">
-                        <label class="form-label fw-bold small text-muted text-uppercase">Description</label>
-                        <textarea class="form-control game-input" style="min-height: 100px; resize: none;"
-                                  @bind="CourseToEdit.Description" placeholder="Enter course description..."
-                                  disabled="@(!canEditMetadata)"></textarea>
-                    </div>
-
-                    <!-- STEPS QUICK JUMP -->
-                    <div class="mt-4 p-3 rounded-4 @(isPending ? "bg-light opacity-75" : "bg-white")"
-                         style="border: 2px dashed var(--gray);">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <div class="d-flex align-items-center">
-                                    <h6 class="fw-bold mb-1 text-dark">Course Content</h6>
-                                    @if (isPending)
-                                    {
-                                        <span class="badge bg-yellow-100 text-yellow-600 ms-2 mb-1" style="font-size: 0.65rem;">
-                                            <i class="fas fa-clock me-1"></i> PENDING REVIEW
-                                        </span>
-                                    }
-                                </div>
-                                <p class="text-muted small mb-0">
-                                    @(isPending ? "Steps are locked while waiting for approval." : "Edit individual steps and lessons.")
-                                </p>
-                            </div>
-
-                            @if (!canManageSteps)
-                            {
-                                <button class="btn btn-sm fw-bold px-3 border-2" disabled
-                                        style="background: #eee; border: 2px solid var(--gray); color: var(--secondary); cursor: not-allowed;">
-                                    <i class="fas fa-lock me-2"></i> Locked
-                                </button>
-                            }
-                            else
-                            {
-                                <button class="btn btn-sm fw-bold px-3 shadow-sm-hover" type="button"
-                                        style="background: white; border: 2px solid var(--primary); color: var(--primary); transition: all 0.2s ease;"
-                                        @onclick="GoToStepEditor">
-                                    <i class="fas fa-layer-group me-2"></i> Manage Steps
-                                </button>
-                            }
-                        </div>
-                    </div>
-
-                    @if (WasError)
+                    @if (canManageSteps && OnManageSteps.HasDelegate)
                     {
-                        <div class="alert alert-danger mt-3 mb-0 fw-bold border-2" style="border-radius: 12px;">
-                            <i class="fas fa-exclamation-circle me-2"></i> Failed to save changes.
-                        </div>
+                        <button class="btn btn-light text-primary action-btn border shadow-sm" title="Manage Lessons"
+                                @onclick:stopPropagation="true" @onclick="() => OnManageSteps.InvokeAsync(Course.Id)">
+                            <i class="fas fa-list-ol fa-sm"></i>
+                        </button>
+                    }
+
+                    @if (canEditMetadata && OnEdit.HasDelegate)
+                    {
+                        <button class="btn btn-edit-card action-btn shadow-sm" title="Edit Course Details"
+                                @onclick:stopPropagation="true" @onclick="() => OnEdit.InvokeAsync(Course)">
+                            <i class="fas fa-pen fa-sm"></i>
+                        </button>
+                    }
+
+                    @if (OnUnenroll.HasDelegate)
+                    {
+                        <button class="btn btn-sm btn-light text-danger shadow-sm action-btn" title="Unenroll"
+                                @onclick="() => OnUnenroll.InvokeAsync(Course.Id)" @onclick:stopPropagation="true">
+                            <i class="fas fa-trash-alt fa-xs"></i>
+                        </button>
                     }
                 </div>
 
-                <!-- FOOTER -->
-                <div class="modal-footer border-top-0 pt-2">
-                    <button type="button" class="btn btn-outline-secondary fw-bold" @onclick="Close">Cancel</button>
-                    <button type="button" class="btn btn-primary px-4 fw-bold" disabled="@(IsSaving || !IsDirty || !canEditMetadata)"
-                            @onclick="Save">
-                        @if (IsSaving)
+                <div class="w-100 @CourseDisplayUtils.GetBgClass(Course.Category ?? "General")" style="height: 6px;"></div>
+
+                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1 cursor-pointer"
+                    @onclick="() => OnOpen.InvokeAsync(Course)">
+
+                    <i class="@CourseDisplayUtils.GetIconClass(Course.Category ?? "General") fa-3x mb-3 @CourseDisplayUtils.GetTextClass(Course.Category ?? "General")"></i>
+
+                    <h5 class="fw-bolder text-dark mb-1">@Course.Title</h5>
+
+                    <div class="mb-2">
+                        <span class="text-muted small">by <span class="fw-bold text-dark">@(Course.AuthorName ?? "Unknown")</span></span>
+                    </div>
+
+                    <small class="text-muted fw-bold text-uppercase mt-2" style="font-size: 0.75rem; letter-spacing: 1px;">
+                        @Course.Description
+                    </small>
+
+                    <div class="w-100 mt-3">
+                        @if (ProgressStep > Course.TotalSteps && Course.TotalSteps > 0)
                         {
-                            <span class="spinner-border spinner-border-sm me-2"></span>
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill">
+                                <i class="fas fa-check me-1"></i> Completed
+                            </span>
                         }
-                        Save Changes
-                    </button>
+                        else if (ProgressStep > 1 && Course.TotalSteps > 0)
+                        {
+                            double pct = ((double)(ProgressStep - 1) / Course.TotalSteps * 100);
+                            <div class="d-flex align-items-center w-100">
+                                <div class="progress flex-grow-1 rounded-pill" style="height: 10px;">
+                                    <div class="progress-bar bg-primary rounded-pill" style="width: @((int)pct)%"></div>
+                                </div>
+                                <span class="ms-2 small fw-bold text-primary">@Math.Round(pct)%</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">Start</span>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-}
+    </Authorized>
+</AuthorizeView>
 
 @code {
-    [Parameter] public bool Show { get; set; }
-    [Parameter] public Course CourseToEdit { get; set; } = new();
-    [Parameter] public Course OriginalCourse { get; set; } = new();
-    [Parameter] public bool IsSaving { get; set; }
-    [Parameter] public bool WasError { get; set; }
-    [Parameter] public List<CourseCategory> AvailableCategories { get; set; } = new();
-    [Parameter] public List<Language> AvailableLanguages { get; set; } = new();
-    [Parameter] public EventCallback OnClose { get; set; }
-    [Parameter] public EventCallback OnSave { get; set; }
-    private const int FirstStep = 1; 
-    private bool canManageSteps = false;
-    private bool canEditMetadata = false;
-    private bool isPending = false;
-
-    private bool IsDirty =>
-        CourseToEdit.Title != OriginalCourse.Title ||
-        CourseToEdit.Description != OriginalCourse.Description ||
-        CourseToEdit.Category != OriginalCourse.Category ||
-        CourseToEdit.Language != OriginalCourse.Language;
-
-    protected override async Task OnParametersSetAsync()
-    {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        isPending = CoursePermissions.IsPendingDraft(CourseToEdit);
-        canEditMetadata = CoursePermissions.CanEditMetadata(CourseToEdit, user);
-        canManageSteps = CoursePermissions.CanManageSteps(CourseToEdit, user);
-    }
-
-    private Task Close() => OnClose.InvokeAsync();
-    private Task Save() => OnSave.InvokeAsync();
-    private void GoToStepEditor() =>
-        NavManager.NavigateTo($"/courses/{CourseToEdit.Id}/steps/{FirstStep}/edit");
+    [Parameter, EditorRequired] public Course Course { get; set; } = default!;
+    [Parameter] public int ProgressStep { get; set; } = 1;
+    [Parameter] public EventCallback<Course> OnOpen { get; set; }
+    [Parameter] public EventCallback<Course> OnEdit { get; set; }
+    [Parameter] public EventCallback<int> OnUnenroll { get; set; }
+    [Parameter] public EventCallback<int> OnManageSteps { get; set; }
 }

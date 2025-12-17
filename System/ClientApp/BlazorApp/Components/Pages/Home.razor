@@ -142,7 +142,8 @@
     private string searchQuery = "";
     private string selectedCategory = "";
     private List<string> uniqueCategories = new();
-    private string viewMode = "public";
+    private string viewMode = "public"; // "public" or "workspace"
+
     private Course editModel = new();
     private Course originalModel = new();
 
@@ -155,15 +156,16 @@
             // Filter by View Mode
             if (viewMode == "workspace")
             {
-                // Workspace shows evertything I authored (drafts + published)
+                // Workspace shows everything I authored (Drafts + Published)
                 query = query.Where(c => c.AuthorId == currentUserId);
             }
             else
             {
-                // Public Library shows only Approved courses (unless you are an admin, you see everything)
+                // Public Library shows only Approved courses unless you are an admin, you see everything
                 query = query.Where(c => (c.ApprovedBy != null && c.ApprovedBy > 0) || isAdmin);
             }
 
+            // Search and cat filters
             return query
             .Where(c => string.IsNullOrEmpty(searchQuery) || (c.Title ?? "").Contains(searchQuery,
             StringComparison.OrdinalIgnoreCase))
@@ -246,6 +248,7 @@
     private void OpenEditModal(Course course)
     {
         originalModel = course.DeepCopy();
+        editModel = course.DeepCopy();
         wasSavingError = false;
         isModalOpen = true;
     }

@@ -1,62 +1,62 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager NavManager
 
 @if (Show)
 {
-    <div class="modal fade show" tabindex="-1" style="display:block; background-color:rgba(0,0,0,0.5);">
+    <div class="modal fade show" tabindex="-1" style="display:block; background-color:rgba(0,0,0,0.5); z-index: 1050;">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content p-4 border-0 fade-in"
                 style="border-radius: 16px; border: 2px solid var(--gray-shadow); box-shadow: 0 6px 0 rgba(0,0,0,0.1);">
 
-                <!-- HEADER -->
                 <div class="modal-header border-bottom-0 pb-0">
                     <h4 class="modal-title fw-bolder text-secondary">Edit Course Info</h4>
                     <button type="button" class="btn-close" @onclick="Close"></button>
                 </div>
 
-                <!-- BODY -->
                 <div class="modal-body pt-4">
-                    <!-- Title -->
                     <div class="mb-4">
                         <label class="form-label fw-bold small text-muted text-uppercase">Title</label>
                         <input type="text" class="form-control game-input" @bind="CourseToEdit.Title"
-                            placeholder="e.g. Advanced History" disabled="@(!canEditMetadata)" />
+                            placeholder="e.g. Advanced History" />
                     </div>
 
-                    <!-- Category & Language -->
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
                             <label class="form-label fw-bold small text-muted text-uppercase">Category</label>
-                            <select class="form-select game-input" @bind="CourseToEdit.Category"
-                                disabled="@(!canEditMetadata)">
-                                @foreach (var cat in AvailableCategories)
+                            <select class="form-select game-input" @bind="CourseToEdit.Category">
+                                <option value="">Select Category...</option>
+                                @if (AvailableCategories != null)
                                 {
-                                    <option value="@cat.Name">@cat.Name</option>
+                                    @foreach (var cat in AvailableCategories)
+                                    {
+                                        <option value="@cat.Name">@cat.Name</option>
+                                    }
                                 }
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold small text-muted text-uppercase">Language</label>
-                            <select class="form-select game-input" @bind="CourseToEdit.Language"
-                                disabled="@(!canEditMetadata)">
-                                @foreach (var lang in AvailableLanguages)
+                            <select class="form-select game-input" @bind="CourseToEdit.Language">
+                                <option value="">Select Language...</option>
+                                @if (AvailableLanguages != null)
                                 {
-                                    <option value="@lang.Code">@lang.Name</option>
+                                    @foreach (var lang in AvailableLanguages)
+                                    {
+                                        <option value="@lang.Code">@lang.Name</option>
+                                    }
                                 }
                             </select>
                         </div>
                     </div>
 
-                    <!-- Description -->
                     <div class="mb-4">
                         <label class="form-label fw-bold small text-muted text-uppercase">Description</label>
                         <textarea class="form-control game-input" style="min-height: 100px; resize: none;"
-                            @bind="CourseToEdit.Description" placeholder="Enter course description..."
-                            disabled="@(!canEditMetadata)"></textarea>
+                            @bind="CourseToEdit.Description" placeholder="Enter course description..."></textarea>
                     </div>
 
-                    <!-- STEPS QUICK JUMP -->
                     <div class="mt-4 p-3 rounded-4 @(isPending ? "bg-light opacity-75" : "bg-white")"
                         style="border: 2px dashed var(--gray);">
                         <div class="d-flex justify-content-between align-items-center">
@@ -71,11 +71,11 @@
                                     }
                                 </div>
                                 <p class="text-muted small mb-0">
-                                    @(isPending ? "Steps are locked while waiting for approval." : "Edit individual steps               and lessons.")
+                                    @(isPending ? "Steps are locked while waiting for approval." : "Edit individual steps                      and lessons.")
                                 </p>
                             </div>
 
-                            @if (!canManageSteps)
+                            @if (isPending)
                             {
                                 <button class="btn btn-sm fw-bold px-3 border-2" disabled
                                     style="background: #eee; border: 2px solid var(--gray); color: var(--secondary); cursor: not-allowed;">
@@ -101,11 +101,10 @@
                     }
                 </div>
 
-                <!-- FOOTER -->
                 <div class="modal-footer border-top-0 pt-2">
                     <button type="button" class="btn btn-outline-secondary fw-bold" @onclick="Close">Cancel</button>
                     <button type="button" class="btn btn-primary px-4 fw-bold"
-                        disabled="@(IsSaving || !IsDirty || !canEditMetadata)" @onclick="Save">
+                        disabled="@(IsSaving || !IsDirty || isPending)" @onclick="Save">
                         @if (IsSaving)
                         {
                             <span class="spinner-border spinner-border-sm me-2"></span>
@@ -124,18 +123,14 @@
     [Parameter] public Course OriginalCourse { get; set; } = new();
     [Parameter] public bool IsSaving { get; set; }
     [Parameter] public bool WasError { get; set; }
-    [Parameter] public List<CourseCategory> AvailableCategories { get; set; } = new();
-    [Parameter] public List<Language> AvailableLanguages { get; set; } = new();
+    [Parameter] public List<CourseCategory>? AvailableCategories { get; set; }
+    [Parameter] public List<Language>? AvailableLanguages { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
     [Parameter] public EventCallback OnSave { get; set; }
 
     [Inject] public AuthenticationStateProvider AuthProvider { get; set; } = default!;
-    [Inject] public NavigationManager NavManager { get; set; } = default!;
 
-    private const int FirstStep = 1;
-    private bool canManageSteps = false;
-    private bool canEditMetadata = false;
-    private bool isPending = false;
+    private bool isPending => CourseToEdit.ApprovedBy == null || CourseToEdit.ApprovedBy == 0;
 
     private bool IsDirty =>
     CourseToEdit.Title != OriginalCourse.Title ||
@@ -143,18 +138,14 @@
     CourseToEdit.Category != OriginalCourse.Category ||
     CourseToEdit.Language != OriginalCourse.Language;
 
-    protected override async Task OnParametersSetAsync()
-    {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        isPending = CoursePermissions.IsPendingDraft(CourseToEdit);
-        canEditMetadata = CoursePermissions.CanEditMetadata(CourseToEdit, user);
-        canManageSteps = CoursePermissions.CanManageSteps(CourseToEdit, user);
-    }
-
     private Task Close() => OnClose.InvokeAsync();
     private Task Save() => OnSave.InvokeAsync();
-    private void GoToStepEditor() =>
-    NavManager.NavigateTo($"/courses/{CourseToEdit.Id}/steps/{FirstStep}/edit");
+
+    private void GoToStepEditor()
+    {
+        if (CourseToEdit.Id > 0)
+        {
+            NavManager.NavigateTo($"/courses/{CourseToEdit.Id}/steps/1/edit");
+        }
+    }
 }
