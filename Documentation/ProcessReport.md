@@ -103,7 +103,17 @@ Having experienced the fluency of the pull system, I now realise that self-organ
 
 ## Alexandru Savin  
 
-(TODO: Write a reflection for yourself)
+My thinking about feasible SEP3 ideas and their implementation started long before the actual project. I and my group members shared a common idea that we should develop a product in sync with the current SDGs, and although it had to be scoped and narrowed down, it is good to know it's core idea remains to promote free education possibilities and share human knowledge. During the project I brightened my understanding and got new competencies in Java, C#, and architectural patterns.
+
+I'm think overall it was a correct and fair decision, that we chose kanban board as our main framework. Our app is of small scale and it was comfortable to keep track of where the current development progress was. We transferred the role of Project Owner of Scrum into our project and it played out well for the project, however for group members to feel more responsibility I can imagine we should have implemented the term based switch of the POs as we did in our previous semester. 
+
+Unfortunately, I did not make timesteps of our kanban board in order to analyze a cumulative flow infographic. Based on additions over time from our github inside statistics, we see, we've experienced some blockages and our workflow went not as steady as expected, nevertheless the easy pull of tasks mechanism allowed group members to overcome those obstacles. Each of our group members shared ownership of the project and could contribute anytime to adding or completing the tasks from the board. 
+
+Github version control and working on different branches felt much more useful compared to last semester. We developed a rule and sticked to it most of the time, claiming that each branch once ready, had to be peer tested locally, reviewed and only then merged into main, which also makes common sense.
+
+I highly value the real feedback I received, because it did in fact once happen that, while one of my implementation methods pull request was being analyzed by the reviewer from security risks perspective, it proved to be a threat, which was shortly mitigated shortly after and before completing the feature and deleting the branch.
+
+The time spend on this project gives me another chance to dive in and retrospect my workflow over the past weeks, my knowledge, my abilities to contribute to a project as an independent individual, evaluating and completing tasks on one side of the hand and as a student, a team member, on the other hand, where to be a good student is to be predictable, someone who can either be keep up with the tasks he choose to solve and be transparent about the difficulties he encounters and just be a group member other peers could rely on. All in all, I'm looking forward to the next semester project and eager to learn and practice methods to help me work and acquire knowledge more efficient.  
 
 ## Halil Ibrahim Aygun  
 
