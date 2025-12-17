@@ -8,11 +8,11 @@ The project of a Learning Platform was initiated with the goal of creating an ac
 
 Many of our group processes stemmed as a continuation from our previous project experience, because our current group consisted of the same five members. For this reason, we continued with improving our collaboration based on E-estimate personal profiles completed in the previous semester. Knowing the fact that our profiles consisted mostly of dominant red and blue working style and our last experiences we found a way of working really efficiently by creating clear todo lists and working mostly in smaller sub-groups. The high number of "Red" profiles unfortunately meant also that we were prone to conflict.
 
-![Personal Profiles](PersonalProfiles.png)*(Appendix A: Personal Profiles)*
+![Personal Profiles (Appendix 6.1 Personal Profiles)](PersonalProfiles.png)
 
 Our team was culturally diverse, because members were from: Slovakia, Poland, Moldova, Spain and Turkey. The Southern European members of our team exhibited flexible relationship-based communication which proved to be a good balance for the structured task-oriented methods used by Central and Eastern European members. In addition, our earlier experiences together enabled us to handle cultural differences better because we understood each team member's work habits which helped us predict problems and address personal challenges before they could harm the team's performance. For example, knowing who preferred straightforward communication versus who tended to procrastinate with the set tasks allowed us to motivate each other effectively while maintaining a healthy working balance.
 
-We based the group contract (TODO: REFERENCE) for the project on our previous contract with slight changes, for example to the point system. This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. While social loafing still occurred in the group, the team tried to handle it in a different way compared to having super strict contract with a lot of penalties in it. Unfortunately, this approach did not work well, so that many serious talks took place within the team, including warnings about the necessity of supervisor interventions if performance of the member did not improve.
+We based the group contract (Appendix 1.1 Group Contract) for the project on our previous contract with slight changes, for example to the point system. This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. While social loafing still occurred in the group, the team tried to handle it in a different way compared to having super strict contract with a lot of penalties in it. Unfortunately, this approach did not work well, so that many serious talks took place within the team, including warnings about the necessity of supervisor interventions if performance of the member did not improve.
 
 ### Professional Collaboration
 To document our ability to independently take part in professional collaboration, we adopted industry-standard practices such as using git. We used branching with Pull Requests to review code, ensuring no single person could break the main build. More details about use of version control can be found in the UseOfVersionControl (Appendix A: UseOfVersionControl.pdf). We communicated asynchronously via Discord/Teams to respect deep work time.
@@ -180,6 +180,15 @@ The team needs to keep their group contract active while using Kanban pull-based
 
 Kanban University. (2022). The official guide to the Kanban method (Version 2). Mauvius Group Inc. https://kanban.university/wp-content/uploads/2023/04/The-Official-Kanban-Guide_A4.pdf
 
-## Appendix A: Project Guidelines
+# Appendices
+## Appendix 1.1 GroupContract
+### Group Contract
+Can be found as GroupContract.pdf
 
+## Appendix 7.3: Other documents
+### Project Guidelines
 Can be found as ProjectGuidelines.pdf
+
+## Appendix 6.1 Personal Profiles
+### Personal Profiles
+Can be found as PersonalProfiles.png
