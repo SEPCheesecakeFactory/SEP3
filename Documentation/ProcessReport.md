@@ -151,7 +151,7 @@ Each of our supervisor meetings had a clear agenda - acquiring external feedback
 
 Another aspect of the supervision was filling the technical gaps in our knowledge and project requirements. The supervisors always helped with long-term planning which could not have been done by the team alone due to the limited knowledge towards the beginning of the project. 
 
-(TODO: COMPLETE LATER, maybe something about frequency of meetings, communication outside meetings, etc.)
+The frequency of meetings was resulted mainly from the mandatory supervisor meetings and our own needs. Therefore, every time we were not sure about our decisions related to the project we communicated with one of the supervisor about the need to have a meeting with them. We communicated mainly through ItsLearning and e-mail.
 
 ---
 
