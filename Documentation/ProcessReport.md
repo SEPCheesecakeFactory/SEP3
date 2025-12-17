@@ -6,7 +6,11 @@ The project of a Learning Platform was initiated with the goal of creating an ac
 
 # Group Work  
 
-Many of our group processes stemmed as a continuation from our previous project experience. Some of the core values that drove our collaboration included open communication, mutual respect, fairness and democratic decision-making. 
+Many of our group processes stemmed as a continuation from our previous project experience, because our current group consisted of the same five members. For this reason, we continued with improving our collaboration based on E-estimate personal profiles completed in the previous semester. Knowing the fact that our profiles consisted mostly of dominant red and blue working style and our last experiences we found a way of working really efficiently by creating clear todo lists and working mostly in smaller sub-groups. Some of the core values that drove our collaboration included open communication, mutual respect, fairness and democratic decision-making. In addition, our earlier experiences together enabled us to handle cultural differences better because we understood each team member's work habits which helped us predict problems and address personal challenges before they could harm the team's performance.
+
+
+![Personal Profiles](PersonalProfiles.png)*(Appendix A: Personal Profiles)*
+
 
 We based the group contract (TODO: REFERENCE) for the project on our previous contract with slight changes, for example to the point system. However, we did not have to make any major changes as our previous contract had already established a strong foundation for teamwork. 
 This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. In the true agile and democratic spirit, we ensured to have mechanisms in place to be able to revisit the contract and modify it appropriately as the project evolved.
