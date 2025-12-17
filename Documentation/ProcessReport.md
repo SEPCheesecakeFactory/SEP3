@@ -106,7 +106,15 @@ Having experienced the fluency of the pull system, I now realise that self-organ
 
 ## Halil Ibrahim Aygun  
 
-(TODO: Write a reflection for yourself)
+During this project, I was involved in almost every stage of the system, working across different layers and at different points in time. I often handled features that needed to work end-to-end, meaning I had to understand and connect the database layer, backend logic, and client-side behavior. This gave me a much broader view of the system than focusing on a single isolated component, but it also came with challenges that required constant coordination with the rest of the team.
+
+Our workflow was based on shared responsibility rather than strict code ownership. Multiple people could work on the same branch, and progress was discussed daily during meetings where we talked about what we had done, what we planned to do next, and how we could improve our approach. Having a shared Kanban board helped keep tasks visible and flexible, but it also meant that changes made by one person could quickly affect others. Because of this, I had to deal with merge conflicts several times, especially when my branch was waiting for review while other features were merged into main.
+
+Handling these conflicts taught me how impactful even small changes can be in a shared codebase. I became much more aware that my decisions did not only affect my own work, but could slow down or complicate the work of others. This experience highlighted the importance of communication and timing, especially in a project where many features evolve in parallel.
+
+At the beginning, working with a distributed system that combined multiple technologies and programming languages felt chaotic. However, by applying the principles and structure we learned during the semester, I gradually understood how the different parts fit together. This helped me move from seeing the system as many separate components to understanding it as one connected whole.
+
+Through this project, I feel more confident working in larger teams and navigating complex systems with multiple branches and contributors. I learned how to collaborate in an environment where changes happen continuously and where coordination is just as important as writing code. If I were to work on a similar project again, I would focus even more on early communication about changes, discussing potential impacts beforehand, and supporting teammates more actively. Helping others and receiving help often led to learning new things myself, making collaboration a clear win-win.
 
 ## Eduard Fekete  
 
