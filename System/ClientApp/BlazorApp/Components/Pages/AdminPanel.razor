@@ -41,10 +41,10 @@
             }
             else
             {
-                    <AdminSection Title="Course Categories" Icon="fa-folder" IconColorClass="text-primary"
+                <AdminSection Title="Course Categories" Icon="fa-folder" IconColorClass="text-primary"
                     @bind-IsExpanded="isCategoriesExpanded">
 
-                        <div class="p-4 border-2 border-dashed rounded-4 mb-4" style="border-color: var(--gray);">
+                    <div class="p-4 border-2 border-dashed rounded-4 mb-4" style="border-color: var(--gray);">
                         <h6 class="fw-bold text-secondary text-uppercase mb-3 small" style="letter-spacing: 0.5px;">
                             <i class="fas fa-plus-circle me-1"></i> Create New Category
                         </h6>
@@ -64,11 +64,11 @@
                         </div>
                     </div>
 
-                        <div class="row g-3">
+                    <div class="row g-3">
                         @foreach (var category in categories)
                         {
                             <div class="col-md-4">
-                                <div class="p-3 border rounded-3 h-100 bg-white shadow-sm-hover">
+                                <div class="p-3 border rounded-3 h-100 bg-white">
                                     <h6 class="fw-bold text-dark mb-1">@category.Name</h6>
                                     <p class="text-muted small mb-0 text-truncate">@category.Descritpion</p>
                                 </div>
@@ -77,10 +77,10 @@
                     </div>
                 </AdminSection>
 
-                    <AdminSection Title="Languages" Icon="fa-globe" IconColorClass="text-success"
+                <AdminSection Title="Languages" Icon="fa-globe" IconColorClass="text-success"
                     @bind-IsExpanded="isLanguagesExpanded">
 
-                        <div class="p-4 border-2 border-dashed rounded-4 mb-4" style="border-color: var(--gray);">
+                    <div class="p-4 border-2 border-dashed rounded-4 mb-4" style="border-color: var(--gray);">
                         <h6 class="fw-bold text-secondary text-uppercase mb-3 small" style="letter-spacing: 0.5px;">
                             <i class="fas fa-plus-circle me-1"></i> Add New Language
                         </h6>
@@ -100,11 +100,11 @@
                         </div>
                     </div>
 
-                        <div class="row g-3">
+                    <div class="row g-3">
                         @foreach (var lang in languages)
                         {
                             <div class="col-6 col-md-3">
-                                <div class="p-3 border rounded-3 h-100 text-center bg-white shadow-sm-hover">
+                                <div class="p-3 border rounded-3 h-100 bg-white">
                                     <h6 class="fw-bold text-dark mb-1">@lang.Name</h6>
                                     <span class="badge bg-light text-secondary border fw-bold">@lang.Code</span>
                                 </div>
@@ -113,10 +113,10 @@
                     </div>
                 </AdminSection>
 
-                    <AdminSection Title="Registered Users" Icon="fa-users" IconColorClass="text-warning"
+                <AdminSection Title="Registered Users" Icon="fa-users" IconColorClass="text-warning"
                     @bind-IsExpanded="isUsersExpanded">
 
-                        <div class="row g-3 mb-4">
+                    <div class="row g-3 mb-4">
                         <div class="col-md-6">
                             <input type="text" class="form-control game-input" placeholder="Filter by Username..."
                                 @bind="usernameFilter" @bind:event="oninput" />
@@ -127,7 +127,7 @@
                         </div>
                     </div>
 
-                        <div class="d-flex flex-column gap-3">
+                    <div class="d-flex flex-column gap-3">
                         @foreach (var user in FilteredUsers)
                         {
                             <div class="p-3 border rounded-3 bg-white shadow-sm-hover" style="cursor:pointer;"
@@ -144,8 +144,7 @@
 
                                         @if (user.IsTeacher())
                                         {
-                                            <span
-                                                class="badge bg-purple-100 text-purple-600 border-purple-200 ms-1">TEACHER</span>
+                                            <span class="badge bg-purple-100 text-purple-600 border-purple-200 ms-1">TEACHER</span>
                                         }
                                     </div>
                                     <i
@@ -200,7 +199,7 @@
 </div>
 
 @code {
-    private bool isCategoriesExpanded = true;
+    private bool isCategoriesExpanded = false;
     private bool isUsersExpanded = false;
     private bool isLanguagesExpanded = false;
 

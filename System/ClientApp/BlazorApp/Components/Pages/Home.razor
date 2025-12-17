@@ -44,15 +44,19 @@
             @if (context.User.IsTeacherOrAdmin())
             {
                 <div class="d-flex justify-content-center mb-5 fade-in">
-                    <div class="bg-light p-1 rounded-pill border d-inline-flex shadow-sm"
+                    <div class="bg-light p-1 rounded-pill d-inline-flex shadow-sm align-items-center"
                         style="border: 2px solid var(--gray) !important;">
+                        
                         <button
-                            class="btn btn-sm rounded-pill px-4 @(viewMode == "public" ? "btn-primary shadow-none" : "text-muted border-0")"
+                            class="btn btn-sm rounded-pill px-4 py-2 fw-bold @(viewMode == "public" ? "btn-primary shadow-sm" : "text-muted bg-transparent")"
+                            style="transition: all 0.2s ease; margin-bottom: 0 !important; border: 0 !important;"
                             @onclick='() => viewMode = "public"'>
                             <i class="fas fa-globe me-2"></i> Public Library
                         </button>
+                        
                         <button
-                            class="btn btn-sm rounded-pill px-4 @(viewMode == "workspace" ? "btn-primary shadow-none" : "text-muted border-0")"
+                            class="btn btn-sm rounded-pill px-4 py-2 fw-bold @(viewMode == "workspace" ? "btn-primary shadow-sm" : "text-muted bg-transparent")"
+                            style="transition: all 0.2s ease; margin-bottom: 0 !important; border: 0 !important;"
                             @onclick='() => viewMode = "workspace"'>
                             <i class="fas fa-pencil-ruler me-2"></i> My Workspace
                         </button>
