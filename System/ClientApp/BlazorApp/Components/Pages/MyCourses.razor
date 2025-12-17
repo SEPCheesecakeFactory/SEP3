@@ -26,25 +26,25 @@
             {
                 <div class="fade-in mb-5" style="animation-delay: 0.1s;">
                     <div class="card border-0 rounded-4 position-relative overflow-hidden text-white" style="background-color: var(--primary); 
-                                                            border: 2px solid #0a58ca; /* Dark Blue Border */
-                                                            box-shadow: 0 8px 0 #0a58ca; /* Hard Shadow */
-                                                            transform: translateY(-2px);">
-
+                                border: 2px solid #0a58ca; 
+                                box-shadow: 0 6px 0 #0a58ca; 
+                                transform: translateY(-2px);">
                         <div
-                            class="card-body p-4 p-md-5 d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
+                            class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
 
                             <div class="text-center text-md-start">
-                                <h6 class="text-white-50 text-uppercase fw-bold mb-2" style="letter-spacing: 1px;">
+                                <h6 class="text-white-50 text-uppercase fw-bold mb-1"
+                                    style="font-size: 0.8rem; letter-spacing: 1px;">
                                     Continue Learning
                                 </h6>
-                                <h2 class="fw-bolder mb-1 display-6">@ActiveCourse.Title</h2>
-                                <p class="mb-0 text-white fw-bold opacity-75">
-                                    You are on Step @GetSavedStep(ActiveCourse.Id) of @ActiveCourse.TotalSteps
+                                <h3 class="fw-bolder mb-1">@ActiveCourse.Title</h3>
+                                <p class="mb-0 text-white fw-bold opacity-75 small">
+                                    Step @GetSavedStep(ActiveCourse.Id) of @ActiveCourse.TotalSteps
                                 </p>
                             </div>
 
-                            <button class="btn btn-light text-primary fw-bold px-5 py-3 rounded-pill shadow-sm-hover"
-                                style="font-size: 1.1rem; border: 2px solid white; white-space: nowrap;"
+                            <button class="btn btn-light text-primary fw-bold px-4 py-2 rounded-pill shadow-sm-hover"
+                                style="font-size: 1rem; border: 2px solid white; white-space: nowrap;"
                                 @onclick="() => OpenCourse(ActiveCourse)">
                                 Resume <i class="fas fa-play ms-2"></i>
                             </button>
