@@ -219,6 +219,13 @@ Similarly to other parts of the analysis phase, stakeholder interactions shaped 
 
 ### System design
 
+#### Wireframes
+*Figure X: All Courses Page Wireframe*
+![All Courses Page Wireframe](..\out\Analysis\Wireframes\Wireframes-2.png)
+
+
+The creation of the fronted included the designing wireframes of the web pages. One of the them is visible on the diagram above - All Courses Page Wireframe (Appendix A: Wireframes-2.png). This wireframe design shows a user-centered approach which enables simple course catalog browsing which is accessible for all users. The system provides users with two extra features which consist of a search function and category-based filtering options at the top of the interface. The content organization uses card-based design which shows key details including title, description, category and language of the course to assist users with their enrollment decisions. The interface includes also features which are showed only to users with specific roles (Teacher, Admin). It can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
+
 ### Architectural overview
 
 The architectural overview shown on the picture below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
