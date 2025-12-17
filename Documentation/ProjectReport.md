@@ -1,9 +1,11 @@
-# Abstract  
-This work focuses on the need for scalable and adaptable digital educational solutions by developing the Learnify system, a distributed software solution with the objective of ensuring seamless content delivery and user assessment. The primary goal is to make a durable multi-server solution that leverages the power of multiple programming languages for enhanced availability, data integrity, and optimized user response. This system was built with a polyglot microservices architecture, using programming languages such as Java and C# to ensure a strict interoperability implementation. Some of the key technical design choices are the use of gRPC for high-speed intra-service communication and HTTP for external client services, ensuring both speed and accessibility. Data storage is achieved using a PostgreSQL database, ensuring that security is taken into account using JWT authentication to overcome the potential dangers of distributed systems. This application development occurred using an iterative approach, centering around User Stories developed both using specialized analysis and interviews with the stakeholders. A functional prototype that can manage multiple user sessions concurrently in a distributed manner was developed. This prototype was verified to meet essential non-functional requirements, confirming the successful interoperability of components across Java and C#. Security compliance was established through the validation of salted password hashing algorithms using Argon2, ensuring robust data protection alongside reliable persistence in the PostgreSQL database. Moreover, the interface was validated for conformance with recognized accessibility guidelines to support complete usability by those with color vision defects. Finally, the project achieved a fully deployable distributed system, validating that the architecture provides a secure, stable, and operational foundation for scalability in the future of education. 
+# Abstract
+
+This work focuses on the need for scalable and adaptable digital educational solutions by developing the Learnify system, a distributed software solution with the objective of ensuring seamless content delivery and user assessment. The primary goal is to make a durable multi-server solution that leverages the power of multiple programming languages for enhanced availability, data integrity, and optimized user response. This system was built with a polyglot microservices architecture, using programming languages such as Java and C# to ensure a strict interoperability implementation. Some of the key technical design choices are the use of gRPC for high-speed intra-service communication and HTTP for external client services, ensuring both speed and accessibility. Data storage is achieved using a PostgreSQL database, ensuring that security is taken into account using JWT authentication to overcome the potential dangers of distributed systems. This application development occurred using an iterative approach, centering around User Stories developed both using specialized analysis and interviews with the stakeholders. A functional prototype that can manage multiple user sessions concurrently in a distributed manner was developed. This prototype was verified to meet essential non-functional requirements, confirming the successful interoperability of components across Java and C#. Security compliance was established through the validation of salted password hashing algorithms using Argon2, ensuring robust data protection alongside reliable persistence in the PostgreSQL database. Moreover, the interface was validated for conformance with recognized accessibility guidelines to support complete usability by those with color vision defects. Finally, the project achieved a fully deployable distributed system, validating that the architecture provides a secure, stable, and operational foundation for scalability in the future of education.
 
 \newpage
 
-# Introduction  
+# Introduction
+
 Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge.(REFERENCE) The idea of mandatory education keeps its origin between late 1900s and early 2000s(REFERENCE), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
 
 The aim of this project is on the ability to create a system which would be able to provide learning opportunities with main focus on simplifying the accessibility and exploring the idea of learning processes and its speed and efficiency. The goal is to also ensure security, knowledge correctness and deployment of the system.
@@ -14,9 +16,9 @@ The approach of this project is to develop a distributed system implemented usin
 
 \newpage
 
-# Main Section 
+# Main Section
 
-The main section of this document is organized in the direction from the high-level analysis of the problem towards the specific implementation, testing and other relevant aspects of the solution created. This direction does not represent the chronological order of the project development and thus some aspects of the problem might not have a solution designed, implemented, tested, or deployed yet. 
+The main section of this document is organized in the direction from the high-level analysis of the problem towards the specific implementation, testing and other relevant aspects of the solution created. This direction does not represent the chronological order of the project development and thus some aspects of the problem might not have a solution designed, implemented, tested, or deployed yet.
 
 This overview represents merely a snapshot of the project development across each phase, and thus does not present a full solution or even analysis of the problem domain.
 
@@ -43,61 +45,134 @@ Learners strive for knowledge acquisition. They want to be motivated to learn an
 
 #### Teacher
 
-Teachers are trusted Learners, who also want to share their knowledge with others. They want to be able to manage courses easily and have a structured way of doing it. 
+Teachers are trusted Learners, who also want to share their knowledge with others. They want to be able to manage courses easily and have a structured way of doing it.
 
 #### Administrator (Admin)
 
-Admins are trusted Learners, who have the right to manage the platform. They should be able to manage all learners, and platform settings. 
+Admins are trusted Learners, who have the right to manage the platform. They should be able to manage all learners, and platform settings.
 
 ### Requirements
 
 #### Functional requirements
 
-1. As a Learner, I want to register for an account so that I can access the platform.
-2. As a Learner, I want to log in so that I can access the platform from my account.
-3. As a Learner, I want to see in which courses I am enrolled in, so that I can continue where I left off.
-4. As a Learner, I want to continue learning where I left off, so that I don't have to start over every time.
-5. As a Learner, I want to see all available courses, so that I can explore and choose what I want to learn.
-6. As a Learner, I want to filter courses, so that I can find specific content quickly.
-7. As a Learner, I want to unenroll from a course, so that I can stop learning a course I no longer want to finish.
-8. As a Learner, I want to view the Leaderboard, so that I can compare my progress with other learners.
-9. As a Learner, I want to view my Profile, so that I can see my personal account details.
-10. As a Learner, I want to test my knowledge within the course, so that I know I understood the topic and I am not bored.
-11. As a Teacher, I want to submit a course draft, so that I can find out if my course idea is relevant for the platform.
-12. As a Teacher, I want to edit course content, so that I can correct or improve previous work. 
-13. As a Teacher, I want to edit course information, so that I can correct mistakes.
-14. As an Admin, I want to see all drafts, so that I know what drafts are waiting for approval.
-15. As an Admin, I want to approve course drafts, so that the teacher knows they can work on such course.
-16. As an Admin, I want to add course categories and languages, so that the platform can easily adapt to new content.
-17. As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree.
-18. As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.
+The functional requirements are structured as user stories to better capture the perspective of the actor and to clarify permissions and intentions behind each requirement. This way the user stories served as the fundamental source of truth and a guide light for understanding the problem and being able to design a solution that would address the problem preserving the idea behind the intention of the actor.
+
+|  ID   | User Story                                                                                                                |
+| :---: | :------------------------------------------------------------------------------------------------------------------------ |
+| USL1  | As a Learner, I want to register for an account so that I can access the platform.                                        |
+| USL2  | As a Learner, I want to log in so that I can access the platform from my account.                                         |
+| USL3  | As a Learner, I want to see in which courses I am enrolled in, so that I can continue where I left off.                   |
+| USL4  | As a Learner, I want to continue learning where I left off, so that I don't have to start over every time.                |
+| USL5  | As a Learner, I want to see all available courses, so that I can explore and choose what I want to learn.                 |
+| USL6  | As a Learner, I want to filter courses, so that I can find specific content quickly.                                      |
+| USL7  | As a Learner, I want to unenroll from a course, so that I can stop learning a course I no longer want to finish.          |
+| USL8  | As a Learner, I want to view the Leaderboard, so that I can compare my progress with other learners.                      |
+| USL9  | As a Learner, I want to view my Profile, so that I can see my personal account details.                                   |
+| USL10 | As a Learner, I want to test my knowledge within the course, so that I know I understood the topic and I am not bored.    |
+| UST1  | As a Teacher, I want to submit a course draft, so that I can find out if my course idea is relevant for the platform.     |
+| UST2  | As a Teacher, I want to manage course content, so that I can correct or improve previous work.                            |
+| UST3  | As a Teacher, I want to edit course information, so that I can correct mistakes.                                          |
+| USA1  | As an Admin, I want to see all drafts, so that I know what drafts are waiting for approval.                               |
+| USA2  | As an Admin, I want to approve course drafts, so that the teacher knows they can work on such course.                     |
+| USA3  | As an Admin, I want to add course categories and languages, so that the platform can easily adapt to new content.         |
+| USA4  | As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree. |
+| USA5  | As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.       |
+
+The user stories are sorted based on the actors to which they correspond, not according to the chronological order in which they were added/discovered. The chronological order is also not perfectly reflected on the IDs, as these were not always static for the same user story (when managing them, they would be adjusted)
 
 #### Non-functional requirements
 
 1. The system must be polyglot
 2. User passwords must be securely stored at rest
-4. The system must be deployable
-5. The system must be color-blind friendly
-
-The requirements were taken from not only the initial vision of the system but also from interviews with real persons that could actually experience the system in the development stages and give relevant feedback to the team. The functional requirements were structured as "user stories" so that the team could maintain clear user perspective development, ensuring that every feature was directly tied to who is making what interaction with the system and how does the user is going to benefit from performing the action - why would he do it. This provided consistent framework for later analysis phases. 
-
-### Use case diagram
-
-The use case diagram visible on the Figure X below shows all use cases and their actors, which were made out of functional requirements. The goal of the project was to include security within the system by using authorization and authentication. Consequently, because of that all use cases require an authenticated user. In addition, two internal actors, Teacher and Administrator, were designed to inherit from Learner, while also having extra use cases which are not accessible for Learners.
-
-![Use Case Diagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
-
-### Use case description
-
-Complete Learning Activity Use Case Description shown on the figure presents that use case description were made with precision by focusing on different scenarios and alternate sequences while also sometimes covering more than one requirement.
-
-![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
+3. The system must be deployable
+4. The system must be color-blind friendly
 
 ### Use cases and their related requirements
 
-The table on the Figure below shows the connections between use cases and the requirements they cover.
+In order to address the user stories, use cases of the system were developed, which further clarified the requirements and provided a basis for understanding the system behaviour (giving basis for dynamic rather than static analysis).
 
-![Use Cases with their related requirements](Usecaseswiththeirrelatedrequirements.png)
+The uses cases developed are shown in a table below:
+
+| ID   | Use Case                   |
+| :--- | :------------------------- |
+| UC1  | Register                   |
+| UC2  | Log in                     |
+| UC3  | Manage Personal Learning   |
+| UC4  | Browse and Search Catalog  |
+| UC5  | Complete Learning Activity |
+| UC6  | View User Profile          |
+| UC7  | View Leaderboard           |
+| UC8  | Create Course Draft        |
+| UC9  | Edit Course Content        |
+| UC10 | Manage System Metadata     |
+| UC11 | Review Course Drafts       |
+| UC12 | Manage User Roles          |
+
+The table below shows how the use cases are related to the user stories
+
+| User Story | Use Cases Addressing It |
+| :--------- | :---------------------- |
+| USL1       | UC1                     |
+| USL2       | UC2                     |
+| USL3       | UC3                     |
+| USL4       | UC3, UC5                |
+| USL5       | UC4                     |
+| USL6       | UC4                     |
+| USL7       | UC3                     |
+| USL8       | UC7                     |
+| USL9       | UC6                     |
+| USL10      | UC5                     |
+| UST1       | UC8                     |
+| UST2       | UC9                     |
+| UST3       | UC9                     |
+| USA1       | UC11                    |
+| USA2       | UC11                    |
+| USA3       | UC10                    |
+| USA4       | UC12                    |
+| USA5       | UC11                    |
+
+### Use case diagram (UCD)
+
+To depict how the use cases were related to the system actors, a use case diagram was created as shown below:
+
+![Use Case Diagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
+
+As can be seen, the UCD also introduced the internal boundary for teachers and admins - specifying that these actors are not simply learners with privileges but there is a boundary to be crossed when becoming a teacher or an admin. The UCD also specifies the system boundary, which in the case of Learnify covers all the use cases developed.
+
+### Use case descriptions
+
+In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Activity use case:
+
+![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
+
+As seen above, the use case descriptions provided a structured way of understanding how the system should behave and gave a strong basis for the test cases. 
+
+All the use case descriptions were made in the same format with:
+
+- Use Case ID and Name
+- Summary
+- Actor(s)
+- Preconditions
+- Postconditions
+- Base Sequence
+- Alternative Sequences
+
+### Test Cases
+
+| Test Case ID | Test Case Name            | Description                                                     | Precondition                                              | Steps                                                                                                                                                                                                 | Expected Result                                                                                                  |
+|--------------|---------------------------|-----------------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| TC_LR_01     | Register Account          | Verify that a learner can register for a new account            | Learner does not already have an account                  | 1. Learner initiates registration.<br>2. System requests details.<br>3. Learner submits valid information.<br>4. System validates input.<br>5. Account is created.<br>6. System confirms registration. | Account is created successfully; invalid input results in an error message.                                      |
+| TC_LR_02     | Log in                    | Verify that a learner can log in with valid credentials         | Learner has a registered account and is logged out        | 1. Learner initiates login.<br>2. Learner enters credentials.<br>3. System authenticates.<br>4. Session is created.<br>5. Access is granted.                                                         | Learner is authenticated and granted access; invalid credentials are rejected.                                   |
+| TC_LR_03     | Manage Personal Learning  | Verify that a learner can resume or unenroll from courses       | Learner is logged in and enrolled in courses              | 1. Learner opens enrolled courses.<br>2. System shows progress.<br>3a. Learner resumes a course.<br>4a. System restores progress.<br>OR<br>3b. Learner unenrolls.<br>4b. Course is removed.        | Course resumes correctly or is removed from the learner’s course list.                                           |
+| TC_LR_04     | Browse and Search Catalog | Verify that a learner can browse and filter courses             | Learner is logged in                                     | 1. Learner opens course catalog.<br>2. System displays courses.<br>3. Learner applies filters/search.<br>4. System updates results.<br>5. Filtered list is shown.                                   | Filtered course list is displayed or a “no results” message appears.                                             |
+| TC_LR_05     | Complete Learning Activity| Verify that a learner can complete learning activities          | Learner is enrolled and viewing a learning unit           | 1. System presents an activity.<br>2. Learner submits an answer.<br>3. System evaluates.<br>4a. Correct answer gives feedback and proceeds.<br>OR<br>4b. Incorrect answer gives retry feedback.     | Learner receives appropriate feedback and can continue or retry.                                                  |
+| TC_LR_06     | View User Profile         | Verify that a learner can view their profile information        | Learner is logged in                                     | 1. Learner opens profile page.<br>2. System displays account information.                                                                                                                             | Profile details are displayed correctly.                                                                          |
+| TC_LR_07     | View Leaderboard          | Verify that a learner can view the leaderboard                  | Learner is logged in                                     | 1. Learner opens leaderboard view.<br>2. System displays ranked users based on performance.                                                                                                          | Leaderboard with rankings is displayed.                                                                           |
+| TC_TC_08     | Create Course Draft       | Verify that a teacher can create a course draft                 | Teacher is logged in                                     | 1. Teacher initiates course creation.<br>2. Teacher enters metadata.<br>3. Teacher submits draft.<br>4. System saves draft.                                                                         | New course draft is created and stored as a draft.                                                                |
+| TC_TC_09     | Edit Course Content       | Verify that a teacher can edit existing course content          | Teacher is logged in and a course exists                  | 1. Teacher selects content unit.<br>2. Teacher edits content.<br>3. Teacher saves changes.<br>4. System updates the content.                                                                        | Course content is updated successfully.                                                                           |
+| TC_AD_10     | Manage System Metadata    | Verify that an admin can manage categories and languages        | Administrator is logged in                               | 1. Admin opens metadata management.<br>2a. Creates category.<br>3a. Saves category.<br>OR<br>2b. Creates language.<br>3b. Saves language.                                                         | New categories or languages become available in the system.                                                       |
+| TC_AD_11     | Review Course Drafts      | Verify that an admin can approve or disapprove drafts           | Administrator is logged in and drafts exist               | 1. Admin opens pending drafts.<br>2. Reviews a draft.<br>3a. Approves draft → published.<br>OR<br>3b. Disapproves draft → hidden from catalog.                                                   | Approved drafts are published; disapproved drafts remain unavailable.                                             |
+| TC_AD_12     | Manage User Roles         | Verify that an admin can assign or remove user roles            | Administrator is logged in                               | 1. Admin opens user management.<br>2. Selects a user.<br>3a. Assigns role and saves.<br>OR<br>3b. Removes role.<br>4. System updates permissions.                                                | User roles and permissions are updated correctly.                                                                 |
 
 ### Activity diagram
 
@@ -107,15 +182,15 @@ The activity diagram below shows the workflow of the given "Complete Learning Ac
 
 ### Domain model
 
-The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders. 
+The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders.
 
 ![Domain Model](..\out\Analysis\DomainModel\DomainModel.svg)
 
-The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other. 
+The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other.
 
-The inheritance from the User entity reflects the fact that all system users have some common basic attributes, rights and behaviours that can be generalized. 
+The inheritance from the User entity reflects the fact that all system users have some common basic attributes, rights and behaviours that can be generalized.
 
-The philosophy behind the attribute selection and abstraction into separate entities was to provide full flexibility for future development of the system, and ensuring that no restrictions are imposed for no reason. For example, Learning Steps are abstracted into three different entities to fully support any kind of idea of a learning step as seen both in the domain and from stakeholder interactions. 
+The philosophy behind the attribute selection and abstraction into separate entities was to provide full flexibility for future development of the system, and ensuring that no restrictions are imposed for no reason. For example, Learning Steps are abstracted into three different entities to fully support any kind of idea of a learning step as seen both in the domain and from stakeholder interactions.
 
 At the same time, the domain model was kept in its simplest form possible in terms of more abstract entity concepts. As can be seen on the domain model, the core aspects of the system are:
 
@@ -123,25 +198,23 @@ At the same time, the domain model was kept in its simplest form possible in ter
 - Courses
 - Learning Steps
 
-And it could be further argued that Learning Steps only exist as a part of Courses, therefore the Domain Model is centered around the idea of Users learning from Courses, which did not change from the initial vision of the system. 
+And it could be further argued that Learning Steps only exist as a part of Courses, therefore the Domain Model is centered around the idea of Users learning from Courses, which did not change from the initial vision of the system.
 
 ### Security Requirements
 
 The security requirements for the system were developed as a part of the threat modelling process. The security objectives were as follows:
 
-* **Confidentiality:** Protect user passwords and personal data from unauthorized disclosure.
-* **Integrity:** Ensuring that data can not be altered or tampered with by unauthorized parties.
-* **Availability:** Ensure the system remains accessible during high traffic or denial-of-service attempts.
-* **Accountability:** Actions must be uniquely traceable to a specific entity.
-* **Authenticity:** Verify that data inputs and users are genuine.
+- **Confidentiality:** Protect user passwords and personal data from unauthorized disclosure.
+- **Integrity:** Ensuring that data can not be altered or tampered with by unauthorized parties.
+- **Availability:** Ensure the system remains accessible during high traffic or denial-of-service attempts.
+- **Accountability:** Actions must be uniquely traceable to a specific entity.
+- **Authenticity:** Verify that data inputs and users are genuine.
 
 These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix A: Threat Model).
 
 Similarly to other parts of the analysis phase, stakeholder interactions shaped the system's security requirements. In particular, even testing the prototype (before having the core system functional) showed concerns about the authority of Administrators and Teachers, and needs for accountability for actions.
 
 ## Design
-
-
 
 ### System design
 
@@ -155,7 +228,7 @@ The creation of the fronted included the designing wireframes of the web pages. 
 ### Architectural overview
 
 The architectural overview shown on the picture below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
-Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database. 
+Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
 ![Architectural Overview](ArchitecturalOverview.png)
 
@@ -176,7 +249,6 @@ Figure X demonstrates the definition of the message structures (Requests and Res
 Figure X illustrates the service definition, detailing the available RPC methods, their required parameters, and return types.return.
 
 ![gRPC Service definition](ImageProtoFile_2.png)
-
 
 #### API Specification
 
@@ -200,7 +272,7 @@ As means of bridging the gap from the problem domain in general and the Learnify
 
 ![Enhanced Entity Relationship Diagram](..\out\Implementation\EER\EER.png)
 
-The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled. 
+The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled.
 
 ```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship"}
 @startuml
@@ -218,10 +290,10 @@ The figure above focuses on the relationship between the User and their Roles. T
 
 #### Relational Schema
 
-Contrary to the conceptual modelling, the logical modelling required adherence to the rules and specificities of the relational model. 
+Contrary to the conceptual modelling, the logical modelling required adherence to the rules and specificities of the relational model.
 Because of the designed use of standard relational database (PostgreSQL), the mapping of the EER needed to determine all the necessary resolutions of relationships, strong and weak entities, and the establishment of integrity keys.
 
-The mapping of the EER diagram resulted in a relational schema and the to it related global relations diagram. 
+The mapping of the EER diagram resulted in a relational schema and the to it related global relations diagram.
 
 The mapping resulted in the relation schema as shown on the figure below:
 
@@ -257,7 +329,9 @@ The final GR diagram is shown on the figure below:
 It can be seen that the GRD reflects the same concepts as the relational schema, however, in this case the positioning of the elements provides a more natural step going from the EER and the domain model; although, the positioning did not fully preserve the conceptual relationships as seen in the EER diagram.
 
 ### Class diagram design
+
 ### Communication Protocol Design:
+
 ### Data Persistence Design (maybe we should add some design related to this?):
 
 ER Diagram: showing how data is structured in the database.
@@ -266,9 +340,9 @@ Consistency Model: Since it is distributed, mention how you handle data integrit
 
 ## Implementation
 
-The implementation of the system followed the designed architecture and communication protocols with a focus on setting up the core of the architecture first as one continuous vertical slice. 
+The implementation of the system followed the designed architecture and communication protocols with a focus on setting up the core of the architecture first as one continuous vertical slice.
 
-At first, a database schema was created in PostgreSQL, a Springboot project was created for the Data Server, and two .NET solutions were created for the Logic Server and the Client Application. 
+At first, a database schema was created in PostgreSQL, a Springboot project was created for the Data Server, and two .NET solutions were created for the Logic Server and the Client Application.
 
 This stage did not include any actual logic but rather provided a skeleton of the system. One of the decisions taken at this stage was to maintain separate solutions for the Logic Server and Client Application. Despite the initial idea of implementing a shared solution, it was decided that the feature of C# anonymous types would suffice for most of the purposes of data transfer objects (DTOs) and that the added complexity of a shared solution would not be justified.
 
@@ -278,7 +352,7 @@ The individual components of the vertical slice can be seen below:
 
 ```plantuml
 @startuml
-class Course 
+class Course
 {
     id
     title
@@ -293,17 +367,20 @@ At a later stage, the original database setup was split into pure DDL script and
 
 List the two languages (e.g., Go, Java, Python) and the database (e.g., PostgreSQL, MongoDB).
 
-
 Justification: Explain why each language was chosen for its specific task. (e.g., "Go was selected for the backend service due to its concurrency handling...").
 
 ### Server A Implementation (Language 1):
+
 ### Server B Implementation (Language 2):
+
 ### Server C Implementation:
+
 ### Integration Logic:
 
 Show how the two services "talk" to each other. Provide a code snippet showing the gRPC client/server handshake or the HTTP request handling.
 
 ## Testing
+
 ### Testing Approach
 
 Testing in this project was structured around the V-Model, where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
@@ -328,7 +405,6 @@ In practice, different types of tests naturally aligned with different parts of 
 - Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
 
 Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
-
 
 ### Tools and frameworks
 
@@ -365,7 +441,45 @@ However, testing of faulty or malformed input data was less comprehensive. While
 
 ### Method-level test case documentation
 
+Method-level testing focused on logic-heavy and high-impact methods, following a white-box testing approach. Instead of testing every method, priority was given to areas where errors would have the greatest impact on system behavior.
+
+For critical methods, tests were designed to cover:
+
+- Normal execution paths
+- Boundary conditions
+- Exceptional cases
+- Interface correctness
+
+This approach ensured that the internal behavior of key methods was thoroughly validated, not just their external outputs. Test cases were documented to show clear intent and traceability between requirements, logic, and expected outcomes.
+
+| Test Case ID | Test Case Name            | Description                                                     | Precondition                                              | Steps                                                                                                                                                                                                 | Expected Result                                                                                                  | Actual Result                           |
+|--------------|---------------------------|-----------------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| TC_LR_01     | Register Account          | Verify that a learner can register for a new account            | Learner does not already have an account                  | 1. Learner initiates registration.<br>2. System requests details.<br>3. Learner submits valid information.<br>4. System validates input.<br>5. Account is created.<br>6. System confirms registration. | Account is created successfully; invalid input results in an error message.                                      | Works as expected                      |
+| TC_LR_02     | Log in                    | Verify that a learner can log in with valid credentials         | Learner has a registered account and is logged out        | 1. Learner initiates login.<br>2. Learner enters credentials.<br>3. System authenticates.<br>4. Session is created.<br>5. Access is granted.                                                         | Learner is authenticated and granted access; invalid credentials are rejected.                                   | Works as expected                      |
+| TC_LR_03     | Manage Personal Learning  | Verify that a learner can resume or unenroll from courses       | Learner is logged in and enrolled in courses              | 1. Learner opens enrolled courses.<br>2. System shows progress.<br>3a. Learner resumes a course.<br>4a. System restores progress.<br>OR<br>3b. Learner unenrolls.<br>4b. Course is removed.        | Course resumes correctly or is removed from the learner’s course list.                                           | Works as expected                      |
+| TC_LR_04     | Browse and Search Catalog | Verify that a learner can browse and filter courses             | Learner is logged in                                     | 1. Learner opens course catalog.<br>2. System displays courses.<br>3. Learner applies filters/search.<br>4. System updates results.<br>5. Filtered list is shown.                                   | Filtered course list is displayed or a “no results” message appears.                                             | Works as expected                      |
+| TC_LR_05     | Complete Learning Activity| Verify that a learner can complete learning activities          | Learner is enrolled and viewing a learning unit           | 1. System presents an activity.<br>2. Learner submits an answer.<br>3. System evaluates.<br>4a. Correct answer gives feedback and proceeds.<br>OR<br>4b. Incorrect answer gives retry feedback.     | Learner receives appropriate feedback and can continue or retry.                                                  | Works as expected                      |
+| TC_LR_06     | View User Profile         | Verify that a learner can view their profile information        | Learner is logged in                                     | 1. Learner opens profile page.<br>2. System displays account information.                                                                                                                             | Profile details are displayed correctly.                                                                          | Works as expected                      |
+| TC_LR_07     | View Leaderboard          | Verify that a learner can view the leaderboard                  | Learner is logged in                                     | 1. Learner opens leaderboard view.<br>2. System displays ranked users based on performance.                                                                                                          | Leaderboard with rankings is displayed.                                                                           | Works as expected                      |
+| TC_TC_08     | Create Course Draft       | Verify that a teacher can create a course draft                 | Teacher is logged in                                     | 1. Teacher initiates course creation.<br>2. Teacher enters metadata.<br>3. Teacher submits draft.<br>4. System saves draft.                                                                         | New course draft is created and stored as a draft.                                                                | Works as expected                      |
+| TC_TC_09     | Edit Course Content       | Verify that a teacher can edit existing course content          | Teacher is logged in and a course exists                  | 1. Teacher selects content unit.<br>2. Teacher edits content.<br>3. Teacher saves changes.<br>4. System updates the content.                                                                        | Course content is updated successfully.                                                                           | Works as expected                      |
+| TC_AD_10     | Manage System Metadata    | Verify that an admin can manage categories and languages        | Administrator is logged in                               | 1. Admin opens metadata management.<br>2a. Creates category.<br>3a. Saves category.<br>OR<br>2b. Creates language.<br>3b. Saves language.                                                         | New categories or languages become available in the system.                                                       | Works as expected                      |
+| TC_AD_11     | Review Course Drafts      | Verify that an admin can approve or disapprove drafts           | Administrator is logged in and drafts exist               | 1. Admin opens pending drafts.<br>2. Reviews a draft.<br>3a. Approves draft → published.<br>OR<br>3b. Disapproves draft → hidden from catalog.                                                   | Approved drafts are published; disapproved drafts remain unavailable.                                             | Works as expected                      |
+| TC_AD_12     | Manage User Roles         | Verify that an admin can assign or remove user roles            | Administrator is logged in                               | 1. Admin opens user management.<br>2. Selects a user.<br>3a. Assigns role and saves.<br>OR<br>3b. Removes role.<br>4. System updates permissions.                                                | User roles and permissions are updated correctly.                                                                 | Works as expected                      |
+
 ### Benefits and bug detection
+
+Testing played an important role in maintaining system stability throughout development and gave the team confidence when introducing changes.
+
+One of the main benefits of automated testing was that it enabled safe refactoring. Because core logic and most endpoints were covered by tests, the team could restructure and improve the codebase without the constant risk of breaking existing functionality. This was especially valuable in later stages of the project, where refactoring became more frequent as the system matured.
+
+In several cases, features appeared to work correctly when tested manually through the user interface, but automated tests revealed issues that were not immediately visible. These included:
+
+- Missing validation for null or unexpected input
+- Edge cases and boundary values not being handled correctly
+- Operations failing silently without clear feedback
+
+The team followed a continuous test–fix–verify cycle during development. When a problem was discovered, it was corrected, committed through version control, and often accompanied by additional tests to prevent similar issues in the future. Although the project did not strictly follow Test-Driven Development from the start, the gradual shift toward automated testing significantly improved reliability, reduced regressions, and supported ongoing changes as the project evolved.
 
 ## Result
 
@@ -375,41 +489,39 @@ The guidelines require you to support results with data, programs, or models.
 
 ## Ethical Considerations:
 
-
 Requirement: You must describe ethical considerations and how negative impacts are minimized.
 
 Content: Discuss data privacy (GDPR), user consent, or the societal impact of the app.
 
-
 ---
 
-# Discussion  
+# Discussion
 
 #### What Has Been Accomplished
 
 The main purpose of this project has been achieved through the creation of the “Learnify” distributed heterogeneous e-learning system which targets the problem of educational inequality. The system operates through a three-tier architecture which combines a C# Blazor client application with a Logic Server built in C# .NET and a Data Server developed in Java. The PostgreSQL database functions as the storage system which maintains all relevant information for every service. The system architecture uses gRPC protocol to establish fast communication between services while it employs HTTP protocol to enable client application interaction. The system has achieved full integration of 21 specific user stories which support the complete learning process. The system enables users to create new accounts through its registration feature. Users can browse course catalogs. Users can take part in courses. The system provides users with suitable interactive learning activities that deliver instant feedback. The system enforces a rigid role-based structure which applies to all users including Learners and Teachers and Administrators. The role hierarchy establishes a governance process which requires Teachers to obtain administrator approval before their content can be published. The security implementation utilizes industrial standards with Argon2 for Password Hashing with salting and JWT for Stateless Authentication. In addition, the User Experience has been strengthened with the incorporation of leaderboards for gamification and a Color Validated User Interface for color-deficient users. The overall requirements have been designed in accordance with the primary values laid down in the project and potential customers' feedback.
 
-#### What Can Be Improved  
+#### What Can Be Improved
+
 Even with the successful implementation of the fundamental system, there are some aspects that need optimization towards the reduction of the identified security risks and the improvement of scalability. The basic application needs additional security measures to protect against advanced attacks even though it uses Argon2 password hashing and JSON Web Tokens. The Critical risk of unpatched software vulnerability exploitation requires automated scanning and effective patch management for future developments. The protection of high-risk systems against Man-in-the-Middle attacks and credential exploitation needs Transport Layer Security/Secure Sockets Layer combined with HTTP Strict Transport Security and Content Security Policies to prevent Cross-Site Scripting attacks and Multi-Factor Authentication. The system has passed normal functional tests to meet operational requirements but its performance under severe stress remains untested through extreme load testing. The risk assessment shows that Distributed Denial of Service requires future research to simulate high user volumes for identifying system bottlenecks.
 Concerning user experience, there is still a lot of room for improving the inclusivity of the platform. Although the support for color vision disabilities is a good starting point, the support needs to be extended to implement full compatibility with the Web Content Accessibility Guidelines and screen readers for users with motor disabilities. In addition to this, the format of the learning model needs to change from the linear pattern that it currently supports to an adaptive path and also an advanced gamification system incorporating features like badges and streaks. Lastly, to avoid administrative delays that could arise in the future due to the expansion of users, it is advised that the manual content reviewing system should be integrated with an AI-powered content review system.
 
-
 ---
 
-# Conclusion and Recommendations  
+# Conclusion and Recommendations
 
-The main goal of this study was to develop a scalable heterogeneous distributed e-learning system which tackles educational inequalities through superior performance and system integrity, while delivering an excellent user experience. The system development process required a three-tier architectural design which implemented a multi programming language approach by combining C#, Java, and the PostgreSQL database. The tests showed that the system operates effectively when handling multiple sessions and processing data. 
+The main goal of this study was to develop a scalable heterogeneous distributed e-learning system which tackles educational inequalities through superior performance and system integrity, while delivering an excellent user experience. The system development process required a three-tier architectural design which implemented a multi programming language approach by combining C#, Java, and the PostgreSQL database. The tests showed that the system operates effectively when handling multiple sessions and processing data.
 
 The system delivered its core objectives but failed to achieve complete functionality because content moderation features remained unimplemented within the project timeframe. The system establishes a core structure which enables the creation of a distributed system.
 
-Future research should direct its attention toward creating strong security systems which include Multi-Factor Authentication and advanced permission frameworks because the existing basic systems would need to evolve for commercial deployment. The learning platform will become better after the implementation of full accessibility features which include screen reader support and adaptive layout functionality. The platform requires testing for production-level usability and maximum load capacity to achieve production readiness and acceptable latency levels. 
+Future research should direct its attention toward creating strong security systems which include Multi-Factor Authentication and advanced permission frameworks because the existing basic systems would need to evolve for commercial deployment. The learning platform will become better after the implementation of full accessibility features which include screen reader support and adaptive layout functionality. The platform requires testing for production-level usability and maximum load capacity to achieve production readiness and acceptable latency levels.
 
 The project achieved success through its development of a distributed learning system which met all essential criteria established during the planning phases. However, there are still some areas which needs space for an improvement. The results of this study could possibly help educational institutions improve their technology systems which currently exist in schools. Digital learning systems produce various results which need to be evaluated during the evaluation process. The development team needs to resolve privacy issues and content recommendation problems and digital divide problems for future Learnify learning platform versions.
 
 ---
 
-# References  
- 
+# References
+
 - Haleem, A., Javaid, M., Qadri, M. A., & Suman, R. (2022). Understanding the role of digital technologies in education: A review. Sustainable Operations and Computers, 3(1), 275–285. https://doi.org/10.1016/j.susoc.2022.05.004
 - Project Description.
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
