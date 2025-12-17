@@ -1,8 +1,11 @@
 # Subject Info
 
 Name (Can be nickname, anonymous, just some identifier): Karina
+
 Role (Learner, Teacher, Admin): Learner
+
 Age: 20
+
 Culture/Origin: Bulgaria
 
 # Interview Questions

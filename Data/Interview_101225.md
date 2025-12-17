@@ -1,8 +1,11 @@
 # Subject Info
 
 Name (Can be nickname, anonymous, just some identifier): Elena
+
 Role (Learner, Teacher, Admin): Learner
+
 Age: 20
+
 Culture/Origin: Italy
 
 # Interview Questions

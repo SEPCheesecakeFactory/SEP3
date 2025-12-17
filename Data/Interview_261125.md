@@ -1,8 +1,11 @@
 # Subject Info
 
 Name (Can be nickname, anonymous, just some identifier): Dávid
+
 Role (Learner, Teacher, Admin): Learner
+
 Age: 31
+
 Culture/Origin: Slovakia
 
 # Interview Questions
