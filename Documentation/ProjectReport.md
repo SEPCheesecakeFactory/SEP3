@@ -16,18 +16,38 @@ The approach of this project is to develop a distributed system implemented usin
 
 # Main Section 
 
-In the main section development experience of the "Learnify" e-learning platform is being documented. It describes the importance of essential phases that took place in the development process from the vision to a working software system. This chapter is organized around the core stages: Analysis, Design, Implementation, and Testing, ensuring that each were necessary while building the system.
+The main section of this document is organized in the direction from the high-level analysis of the problem towards the specific implementation, testing and other relevant aspects of the solution created. This direction does not represent the chronological order of the project development and thus some aspects of the problem might not have a solution designed, implemented, tested, or deployed yet. 
 
-This chapter starts by elaborating Analysis phase, which incorporates the functional and non-functional requirements, use case diagrams, use case descriptions activity diagrams, threat model as well as the domain model of the system. The design section then focused on forming each parts of the system's architectures and database design, including the communication methods such as gRPC and HTTP. The Implementation stage converted the blueprints into components in two programming languages - C# and Java - that exhibit the integrated logic of the system. Finally, Testing were performed to ensure the system behaves according to the requirements and also meets the general objectives of the project.
+This overview represents merely a snapshot of the project development across each phase, and thus does not present a full solution or even analysis of the problem domain.
 
 ## Analysis
 
-In the beginning of the technical documentation Analysis processes of the the distributed system - "Learnify" - are described. This stage applies the higher-level goals of the project to the real challenges that come with the multi-language distributed system.
+The fundamental domain knowledge was at first derived from the analyzed problem domain via literature review, and research. Because of the data-driven nature of this project, the analysis focused on stakeholder interactions since the beginning to ensure proper understanding and to test the assumptions made. With more progress made on the solution, the analysis was evolutionary refined to reflect the new understanding of the problem domain in the specificities of the solution space created by Learnify.
 
-For defining the scope of the proposed system with clarity, the initial idea was thoroughly refined using requirements. This involved the identification and definition of the functional requirements of the system as well as non-functional ones, including latency, scalability, and security, which are the most important requirements of the distributed learning system.
-In addition, several interviews with potential clients were done in order to gather new data which helped creating and updating the requirements and then use cases.
-This stage of analysis also involved the use of structured modeling. The Use Case and Activity Diagrams were used for the representation of user interaction and system behavior, and the Domain Model defined the conceptual framework for the design of data persistence and service integration.
+The most abstract and crucial aspect of the analysis was defining the system actors. The actors were defined to be:
 
+- Learners
+- Teachers
+- Admins
+
+The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
+
+- both teachers and admins were expected to be skilled users of the platform (Appendix B.1) and were supposed to be educated on it (Appendix B.2)
+- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix B.2)
+
+### Actor Descriptions
+
+#### Learner
+
+Learners strive for knowledge acquisition. They want to be motivated to learn and they should be allowed to have a structured way of learning new information. They want to be able to learn various different topics at their own pace. They are looking for a gamified experience.
+
+#### Teacher
+
+Teachers are trusted Learners, who also want to share their knowledge with others. They want to be able to manage courses easily and have a structured way of doing it. 
+
+#### Administrator (Admin)
+
+Admins are trusted Learners, who have the right to manage the platform. They should be able to manage all learners, and platform settings. 
 
 ### Requirements
 
@@ -69,17 +89,7 @@ The requirements were taken from not only the initial vision of the system but a
 
 The use case diagram visible on the Figure X below shows all use cases and their actors, which were made out of functional requirements. The goal of the project was to include security within the system by using authorization and authentication. Consequently, because of that all use cases require an authenticated user. In addition, two internal actors, Teacher and Administrator, were designed to inherit from Learner, while also having extra use cases which are not accessible for Learners.
 
-![UseCaseDiagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
-
-
-
-### Use cases and their related requirements
-
-The table on the Figure below shows the connections between use cases and the requirements they cover.
-
-![Use Cases with their related requirements](Usecaseswiththeirrelatedrequirements.png)
-
-
+![Use Case Diagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
 
 ### Use case description
 
@@ -87,6 +97,11 @@ Complete Learning Activity Use Case Description shown on the figure presents tha
 
 ![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
 
+### Use cases and their related requirements
+
+The table on the Figure below shows the connections between use cases and the requirements they cover.
+
+![Use Cases with their related requirements](Usecaseswiththeirrelatedrequirements.png)
 
 ### Activity diagram
 
@@ -402,3 +417,13 @@ The project achieved success through its development of a distributed learning s
 ## Appendix A: Threat Model
 
 Can be found as ThreatModel.pdf
+
+## Appendix B: Stakeholder Interviews
+
+### Appendix B.1: Interview David
+
+Can be found as Interview_261125_1.md (TODO: pdf or md? recording?)
+
+### Appendix B.2: Interview Andrej
+
+Can be found as Interview_101225_1. (TODO: png? video recording?)

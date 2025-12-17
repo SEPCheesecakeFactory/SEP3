@@ -1,7 +1,7 @@
 @startuml UseCaseDiagram
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 
-scale 2
+scale 1
 left to right direction
 
 actor "Learner" as s
@@ -13,18 +13,21 @@ package Internal {
 t --|> s
 a --|> s
 
-usecase "Register User" as UC1
-usecase "User Login" as UC2
-usecase "Manage Personal Learning" as UC3
-usecase "Browse and Search Catalog" as UC4
-usecase "Complete Learning Activity" as UC5
-usecase "View User Profile" as UC6
-usecase "View Leaderboard" as UC7
-usecase "Create Course Draft" as UC8
-usecase "Edit Course Content" as UC9
-usecase "Manage System Metadata" as UC10
-usecase "Review Course Drafts" as UC11
-usecase "Manage User Roles" as UC12
+package System {
+    usecase "Register" as UC1
+    usecase "Log in" as UC2
+    usecase "Manage Personal Learning" as UC3
+    usecase "Browse and Search Catalog" as UC4
+    usecase "Complete Learning Activity" as UC5
+    usecase "View User Profile" as UC6
+    usecase "View Leaderboard" as UC7
+    usecase "Create Course Draft" as UC8
+    usecase "Edit Course Content" as UC9
+    usecase "Manage System Metadata" as UC10
+    usecase "Review Course Drafts" as UC11
+    usecase "Manage User Roles" as UC12
+}
+
 
 s -- UC1
 s -- UC2
