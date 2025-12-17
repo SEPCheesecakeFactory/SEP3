@@ -366,7 +366,7 @@ This stage did not include any actual logic but rather provided a skeleton of th
 
 The implementation of the skeleton was followed by a the implementation of a vertical slice which focused on fetching all courses from the database.
 
-The individual components of the vertical slice can be seen below:
+The individual components of the vertical slice can be seen below on the part of Domain Model (Appendix 2.3 Diagrams):
 
 ```plantuml
 @startuml
