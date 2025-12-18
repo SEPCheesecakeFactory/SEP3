@@ -1,0 +1,33 @@
+<div class="game-card mb-4 fade-in">
+    <div class="d-flex justify-content-between align-items-center p-3 border-bottom"
+        style="cursor: pointer; background-color: #f8f9fa;" @onclick="Toggle">
+
+        <h5 class="fw-bold text-secondary text-uppercase m-0" style="letter-spacing:1px; font-size: 0.9rem;">
+            <i class="fas @Icon me-2 @IconColorClass"></i> @Title
+        </h5>
+
+        <i class="fas fa-chevron-down text-muted transition-icon @(IsExpanded ? "rotate-180" : "")"></i>
+    </div>
+
+    @if (IsExpanded)
+    {
+        <div class="p-4 bg-white">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Icon { get; set; } = "fa-cogs";
+    [Parameter] public string IconColorClass { get; set; } = "text-primary";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public bool IsExpanded { get; set; }
+    [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
+
+    private async Task Toggle()
+    {
+        IsExpanded = !IsExpanded;
+        await IsExpandedChanged.InvokeAsync(IsExpanded);
+    }
+}

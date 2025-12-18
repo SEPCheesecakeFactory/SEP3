@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavManager
+
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="text-center py-5 border-2 rounded-4 bg-light fade-in" style="border: 2px solid var(--gray);">
+
+        <i class="fas @Icon fa-3x text-secondary mb-3 opacity-50"></i>
+
+        <h2 class="fw-bold text-dark">@Title</h2>
+
+        <p class="lead text-muted mb-4">@Message</p>
+
+        <button class="btn btn-primary fw-bold px-4 shadow-sm-hover text-uppercase" style="letter-spacing: 1px;"
+            @onclick='() => NavManager.NavigateTo("login")'>
+            Log In
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Welcome to Learnify!";
+    [Parameter] public string Message { get; set; } = "Please log in to continue.";
+    [Parameter] public string Icon { get; set; } = "fa-lock";
+}
