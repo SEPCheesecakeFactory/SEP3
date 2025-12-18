@@ -23,4 +23,20 @@ public class Course
     public int? AuthorId { get; set; }
     public string? AuthorName { get; set; }
     public int? ApprovedBy { get; set; }
+
+    public Course DeepCopy()
+    {
+        return new Course
+        {
+            Id = this.Id,
+            Title = this.Title,
+            Description = this.Description,
+            Category = this.Category,
+            Language = this.Language,
+            TotalSteps = this.TotalSteps,
+            AuthorId = this.AuthorId,
+            AuthorName = this.AuthorName,
+            ApprovedBy = this.ApprovedBy
+        };
+    }
 }

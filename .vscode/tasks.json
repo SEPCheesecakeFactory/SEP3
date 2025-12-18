@@ -75,7 +75,7 @@
     {
       "label": "Run DataServer",
       "type": "shell",
-      "command": "mvn clean install compile exec:java",
+      "command": "mvn exec:java",
       "options": {
         "cwd": "${workspaceFolder}/System/DataServer/DataServer"
       },
