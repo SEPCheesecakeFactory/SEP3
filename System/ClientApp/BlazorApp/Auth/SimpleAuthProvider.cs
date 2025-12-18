@@ -7,19 +7,15 @@ using Microsoft.JSInterop;
 
 namespace BlazorApp.Auth;
 
-public class SimpleAuthProvider : AuthenticationStateProvider
+public class SimpleAuthProvider(HttpClient httpClient, IJSRuntime jsRuntime) : AuthenticationStateProvider
 {
-    private readonly HttpClient httpClient;
-    private ClaimsPrincipal currentClaimsPrincipal;
-    private readonly IJSRuntime jsRuntime;
-
-
-    public SimpleAuthProvider(HttpClient httpClient, IJSRuntime jsRuntime)
+    private readonly HttpClient httpClient = httpClient;
+    private readonly ClaimsPrincipal currentClaimsPrincipal;
+    private readonly IJSRuntime jsRuntime = jsRuntime;
+    private readonly JsonSerializerOptions jsonSerializerOptions = new()
     {
-        this.httpClient = httpClient;
-        this.jsRuntime = jsRuntime;
-    }
-
+        PropertyNameCaseInsensitive = true
+    };
 
     public async Task LoginASync(string userName, string password)
     {
@@ -33,21 +29,19 @@ public class SimpleAuthProvider : AuthenticationStateProvider
             throw new Exception(content);
         }
 
-        UserDto userDto = JsonSerializer.Deserialize<UserDto>(content, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        })!;
+        UserDto userDto = JsonSerializer.Deserialize<UserDto>(content, jsonSerializerOptions)!;
 
         string serialisedData = JsonSerializer.Serialize(userDto);
         await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
 
-        List<Claim> claims = new List<Claim>()
-    {
-        new Claim(ClaimTypes.Name, userDto.Username),
-        new Claim(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
-    };
-        ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth");
-        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+        List<Claim> claims =
+        [
+            new(ClaimTypes.Name, userDto.Username),
+            new(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
+        ];
+
+        ClaimsIdentity identity = new(claims, "apiauth");
+        ClaimsPrincipal claimsPrincipal = new(identity);
 
         NotifyAuthenticationStateChanged(
             Task.FromResult(new AuthenticationState(claimsPrincipal))
@@ -72,13 +66,13 @@ public class SimpleAuthProvider : AuthenticationStateProvider
         }
 
         UserDto userDto = JsonSerializer.Deserialize<UserDto>(userAsJson)!;
-        List<Claim> claims = new List<Claim>()
-    {
-        new Claim(ClaimTypes.Name, userDto.Username),
-        new Claim(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
-    };
-        ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth");
-        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+        List<Claim> claims =
+        [
+            new(ClaimTypes.Name, userDto.Username),
+            new(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
+        ];
+        ClaimsIdentity identity = new(claims, "apiauth");
+        ClaimsPrincipal claimsPrincipal = new(identity);
         return new AuthenticationState(claimsPrincipal);
     }
 
@@ -87,8 +81,6 @@ public class SimpleAuthProvider : AuthenticationStateProvider
         await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new())));
     }
-
-
 }
 
 

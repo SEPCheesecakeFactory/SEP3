@@ -7,7 +7,8 @@
 @inject NavigationManager navMgr
 
 <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="card bg-white p-5" style="max-width: 500px; width: 100%; --course-color: var(--game-gray);">
+    <div class="game-card p-5 fade-in" style="max-width: 500px; width: 100%;">
+
         <div class="text-center mb-4">
             <h3 class="fw-bolder text-secondary text-uppercase" style="letter-spacing:0.5px">Register</h3>
         </div>
@@ -16,51 +17,64 @@
             <NotAuthorized>
                 @if (isLoading)
                 {
-                    <LoadingSpinner />
+                    <div class="d-flex justify-content-center my-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
                 }
                 else
                 {
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-muted text-uppercase"
-                            style="font-size: 0.75rem; letter-spacing: 1px;">User name</label>
-                        <input type="text" class="form-control" @bind="userName" />
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold text-muted text-uppercase"
-                                style="font-size: 0.75rem; letter-spacing: 1px;">Password</label>
-                            <input type="password" class="form-control" @bind="password" />
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold text-muted text-uppercase"
-                                style="font-size: 0.75rem; letter-spacing: 1px;">Repeat Password</label>
-                            <input type="password" class="form-control" @bind="passwordRepeat" />
-                        </div>
-                    </div>
+                    <form @onsubmit="RegisterAsync">
 
-                    @if (!string.IsNullOrEmpty(errorLabel))
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @errorLabel
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Username</label>
+                            <input type="text" class="form-control game-input" @bind="userName"
+                                placeholder="Choose a username" />
                         </div>
-                    }
 
-                    <div class="d-grid gap-2 mt-4">
-                        <button class="btn btn-primary fw-bold text-uppercase" style="letter-spacing: 1px;"
-                            @onclick="async () => await RegisterAsync()">Register</button>
-                    </div>
-                    <div class="text-center mt-3">
-                        <a href="login" class="text-muted text-decoration-none" style="font-size: 0.8rem;">Already have an
-                            account? Login</a>
-                    </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-muted text-uppercase">Password</label>
+                                <input type="password" class="form-control game-input" @bind="password"
+                                    placeholder="Password" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-muted text-uppercase">Repeat Password</label>
+                                <input type="password" class="form-control game-input" @bind="passwordRepeat"
+                                    placeholder="Confirm" />
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorLabel))
+                        {
+                            <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 fw-bold mb-3">
+                                <i class="fas fa-exclamation-circle me-2"></i> @errorLabel
+                            </div>
+                        }
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary fw-bold text-uppercase shadow-sm-hover"
+                                style="letter-spacing: 1px;">
+                                Register
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="login" class="text-muted text-decoration-none small fw-bold">
+                                Already have an account? <span class="text-primary">Login</span>
+                            </a>
+                        </div>
+                    </form>
                 }
             </NotAuthorized>
+
             <Authorized>
-                <div class="text-center">
-                    <h3 class="fw-bolder text-dark">Hello, @context.User.Claims.First(claim =>
-                                                claim.Type.Equals("Username")).Value</h3>
-                    <button class="btn btn-outline-secondary mt-3" @onclick='() => navMgr.NavigateTo("/")'>Go
-                        Home</button>
+                <div class="text-center py-4">
+                    <h3 class="fw-bolder text-dark mb-3">
+                        Hello, @context.User.Claims.FirstOrDefault(c => c.Type == "Username")?.Value!
+                    </h3>
+                    <button class="btn btn-outline-secondary fw-bold px-4" @onclick='() => navMgr.NavigateTo("/")'>
+                        Go Home
+                    </button>
                 </div>
             </Authorized>
         </AuthorizeView>
@@ -72,15 +86,15 @@
     private string password = "";
     private string passwordRepeat = "";
     private string errorLabel = "";
-    private bool isTeacher = false;
     private bool isLoading = false;
+
     private async Task RegisterAsync()
     {
         isLoading = true;
         errorLabel = "";
         try
         {
-            await authService.RegisterAsync(userName, password, passwordRepeat, isTeacher);
+            await authService.RegisterAsync(userName, password, passwordRepeat);
             navMgr.NavigateTo("/");
             isLoading = false;
         }

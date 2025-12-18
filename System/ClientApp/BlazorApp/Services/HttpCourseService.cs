@@ -3,108 +3,58 @@ using System.Text;
 using System.Text.Json;
 using BlazorApp.Entities;
 using System.Net.Http.Json;
+using BlazorApp.Shared;
+
 namespace BlazorApp.Services;
 
-using BlazorApp.Entities;
-
-public class HttpCourseService : ICourseService
+public class HttpCourseService(HttpCrudService httpCrudService) : ICourseService
 {
-    private readonly HttpClient client;
-    public HttpCourseService(HttpClient client)
+    // GET COURSES
+    public async Task<Optional<List<Course>>> GetCourses() => await httpCrudService.GetAsync<List<Course>>("courses");
+    public async Task<Optional<List<Course>>> GetCourses(int? userId = null)
     {
-        this.client = client;
-    }
-    public async Task<List<Course>> GetCourses()
-    {
-        var result = await client.GetFromJsonAsync<List<Course>>("courses");
-        return new List<Course>(result ?? new List<Course>());
-    }
-    public async Task<List<Course>> GetCourses(int? userId = null)
-    {
-        // If userId has a value, use the user-specific URL; otherwise, use the "all courses" URL
         var uri = userId.HasValue ? $"courses/my-courses/{userId}" : "courses";
 
-        var result = await client.GetFromJsonAsync<List<Course>>(uri);
-
-        return result ?? new List<Course>();
+        return await httpCrudService.GetAsync<List<Course>>(uri);
     }
 
-    public async Task CreateDraft(CreateDraftDto dto)
-    {
-        var response = await client.PostAsJsonAsync("drafts", dto);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error creating draft: {response.ReasonPhrase}");
-        }
-    }
+    // CREATE DRAFT
+    public async Task<Optional<Draft>> CreateDraft(CreateDraftDto dto) => await httpCrudService.CreateAsync<Draft, CreateDraftDto>("drafts", dto);
 
-    public async Task<List<Draft>> GetDrafts()
-    {
-        var result = await client.GetFromJsonAsync<List<Draft>>("drafts");
-        return result ?? new List<Draft>();
-    }
+    // GET DRAFTS
+    public async Task<Optional<List<Draft>>> GetDrafts() => await httpCrudService.GetAsync<List<Draft>>("drafts");
 
-    public async Task ApproveDraft(int draftId, int adminId)
-    {
-        var response = await client.PutAsJsonAsync($"drafts/{draftId}", adminId);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error approving draft: {response.ReasonPhrase}");
-        }
-    }
-    public async Task<int> GetCourseProgressAsync(int userId, int courseId)
-    {
-        try
-        {
-            var response = await client.GetAsync($"CourseProgress/{userId}/{courseId}");
+    // APPROVE DRAFT
+    public async Task<Optional<Draft>> ApproveDraft(int draftId, int adminId) => await httpCrudService.UpdateAsync<Draft, int>("drafts", adminId, draftId);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<int>();
-            }
-            return 1;
-        }
-        catch
-        {
-            return 1;
-        }
-    }
-
-    public async Task UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
+    // COURSE PROGRESS
+    public async Task<Optional<int>> GetCourseProgressAsync(int userId, int courseId) => await httpCrudService.GetAsync<int>($"CourseProgress/{userId}/{courseId}");
+    public async Task<Optional<int>> UpdateCourseProgressAsync(int userId, int courseId, int currentStep)
     {
         var dto = new { UserId = userId, CourseId = courseId, CurrentStep = currentStep };
 
-        await client.PostAsJsonAsync("CourseProgress", dto);
-    }
-    public async Task UpdateCourse(int id, Course course)
-    {
-        var json = JsonSerializer.Serialize(course);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        var response = await client.PutAsync($"courses/{id}", content);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception(await response.Content.ReadAsStringAsync());
-        }
+        return await httpCrudService.CreateAsync<int, object>("CourseProgress", dto);
     }
 
-    public async Task<List<LeaderboardEntry>> GetLeaderboardAsync()
+    public async Task DeleteCourseProgressAsync(int courseId, int userId) => await httpCrudService.DeleteAsync($"CourseProgress/{courseId}/{userId}");
+
+    // UPDATE COURSE
+    public async Task<Optional<Course>> UpdateCourse(int id, Course course) => await httpCrudService.UpdateAsync<Course, Course>($"courses/{id}", course);
+
+    // LEADERBOARD
+    public async Task<Optional<List<LeaderboardEntry>>> GetLeaderboardAsync() => await httpCrudService.GetAsync<List<LeaderboardEntry>>("leaderboard");
+
+    // CATEGORIES
+    public async Task<Optional<CourseCategory>> CreateCategory(CreateCourseCategoryDto dto) => await httpCrudService.CreateAsync<CourseCategory, CreateCourseCategoryDto>("categories", dto);
+    public async Task<List<CourseCategory>> GetCategories() => (await httpCrudService.GetAsync<List<CourseCategory>>("categories")).Value ?? [];
+
+    // LANGUAGES
+    public async Task<Optional<Language>> CreateLanguage(CreateLanguageDto dto) => await httpCrudService.CreateAsync<Language, CreateLanguageDto>("languages", dto);
+    public async Task<List<Language>> GetLanguages() => (await httpCrudService.GetAsync<List<Language>>("languages")).Value ?? [];
+
+    public async Task<Optional<bool>> DisapproveDraft(int draftId)
     {
-        var result = await client.GetFromJsonAsync<List<LeaderboardEntry>>("Leaderboard");
-        return result ?? new List<LeaderboardEntry>();
+        return await httpCrudService.DeleteAsync("drafts", draftId);
     }
-    public async Task CreateCategory(CreateCourseCategoryDto dto)
-    {
-        var response = await client.PostAsJsonAsync("categories", dto);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error creating category: {response.ReasonPhrase}");
-        }
-    }
-    public async Task<List<CourseCategory>> GetCategories()
-    {
-        var result = await client.GetFromJsonAsync<List<CourseCategory>>("categories");
-        return result ?? new List<CourseCategory>();
-    }
+
 }

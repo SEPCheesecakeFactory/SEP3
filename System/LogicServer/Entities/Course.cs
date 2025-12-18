@@ -10,4 +10,5 @@ public class Course : IIdentifiable<int>
     public int TotalSteps { get; set; }
     public int? AuthorId{set;get;}
     public int? ApprovedBy{set;get;}
+    public string? AuthorName { get; set; }
 }

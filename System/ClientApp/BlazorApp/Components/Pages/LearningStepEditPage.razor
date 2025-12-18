@@ -27,42 +27,75 @@
             else if (wasError)
             {
                 <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-                    <LearningStepHeader CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
-                        ShowProgressText="false" BottomMargin="4" />
-                    
+                    <LearningStepHeader CurrentStep="@StepOrder" TotalSteps="@totalSteps" ShowProgressText="false"
+                        BottomMargin="4" />
+
                     <div class="alert alert-danger mt-5 mx-auto" role="alert" style="max-width: 600px;">
                         An error occurred while loading the learning step. Please try again later.
                     </div>
-                    
-                    <StepNavigationButtons CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
-                        IsEditMode="true" CanContinue="true" IsCreating="@isCreatingStep"
-                        ShowCreateError="@wasCreateError" CreateErrorMessage="@createErrorMessage"
-                        OnPrevious="GoPrevious" OnNext="GoNext" OnAddNewStep="AddNewStep" />
+
+                    <StepNavigationButtons CurrentStep="@StepOrder" TotalSteps="@totalSteps" IsEditMode="true"
+                        CanContinue="true" IsCreating="@isCreatingStep" ShowCreateError="@wasCreateError"
+                        CreateErrorMessage="@createErrorMessage" OnPrevious="GoPrevious" OnNext="GoNext"
+                        OnAddNewStep="AddNewStep" />
                 </div>
             }
             else if (currentStep != null)
             {
                 <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-                    <LearningStepHeader CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
-                        ShowProgressText="false" BottomMargin="4" />
+                    
+                    <LearningStepHeader CurrentStep="@StepOrder" TotalSteps="@totalSteps" ShowProgressText="false"
+                        BottomMargin="4" />
 
-                    <div class="card p-4 shadow-sm">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Step Type</label>
-                            <input type="text" class="form-control" @bind-value="currentStep.Type" @bind-value:event="oninput"
-                                placeholder="e.g. Video, Text, Quiz" />
+                    <div class="edit-card p-4 p-md-5 mb-4 fade-in">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Step Type</label>
+                            <select class="form-select game-input" value="@currentStep.Type" @onchange="OnTypeChanged">
+                                <option value="" disabled>Select Type...</option>
+                                <option value="Text">Text Content</option>
+                                <option value="Video">Video Embed</option>
+                                <option value="QuestionMC">Multiple Choice Question</option>
+                                <option value="QuestionFILL">Fill in the Blank</option>
+                            </select>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Content</label>
-                            <textarea class="form-control" style="min-height: 100px; overflow-y: hidden; resize: none;"
-                                @bind-value="currentStep.Content" @bind-value:event="oninput"
-                                placeholder="Enter learning content..."></textarea>
+                            <label class="form-label fw-bold small text-muted text-uppercase">Content</label>
+                            
+                            <textarea class="form-control game-input" 
+                                      style="min-height: 150px; resize: vertical;"
+                                      @bind-value="currentStep.Content" 
+                                      @bind-value:event="oninput"
+                                      placeholder="Enter learning content..."></textarea>
+                            
+                            <div class="form-text text-muted small mt-2 d-flex align-items-start">
+                                <i class="fas fa-info-circle me-2 mt-1"></i>
+                                <div>
+                                    @if (currentStep.Type == "QuestionMC")
+                                    {
+                                        <span><strong>Rule:</strong> The first answer after the pipe <code>|</code> is always the correct one. We shuffle them automatically for the learner.</span>
+                                    }
+                                    else if (currentStep.Type == "QuestionFILL")
+                                    {
+                                        <span><strong>Rule:</strong> Use three underscores <code>___</code> to create the gap. The text after the pipe <code>|</code> is the hidden answer.</span>
+                                    }
+                                    else if (currentStep.Type == "Video")
+                                    {
+                                        <span><strong>Tip:</strong> Paste the full YouTube URL.</span>
+                                    }
+                                    else
+                                    {
+                                        <span><strong>Tip:</strong> Write your lesson content here.</span>
+                                    }
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="d-flex justify-content-end align-items-center mt-3">
-                            <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")" @onclick="Save"
-                                disabled="@(!IsDirty || isSaving)">
+                        <div class="d-flex justify-content-end align-items-center mt-4 pt-3 border-top" style="border-color: var(--gray) !important;">
+                            <button class="btn btn-primary px-5 @(wasSavingError ? "btn-error" : "")" 
+                                    @onclick="Save"
+                                    disabled="@(!IsDirty || isSaving)">
                                 @if (isSaving)
                                 {
                                     <span class="spinner-border spinner-border-sm me-2"></span>
@@ -71,15 +104,13 @@
                             </button>
                         </div>
                     </div>
-
-                    <StepNavigationButtons CurrentStep="@StepOrder" TotalSteps="@totalSteps" 
-                        IsEditMode="true" CanContinue="true" IsCreating="@isCreatingStep"
-                        ShowCreateError="@wasCreateError" CreateErrorMessage="@createErrorMessage"
-                        OnPrevious="GoPrevious" OnNext="GoNext" OnAddNewStep="AddNewStep" />
-
+                    <StepNavigationButtons CurrentStep="@StepOrder" TotalSteps="@totalSteps" IsEditMode="true"
+                        CanContinue="true" IsCreating="@isCreatingStep" ShowCreateError="@wasCreateError"
+                        CreateErrorMessage="@createErrorMessage" OnPrevious="GoPrevious" OnNext="GoNext"
+                        OnAddNewStep="AddNewStep" />
                     <div class="mb-5">
                         <button class="btn btn-outline-secondary" @onclick="BackToPreview">
-                            Back to Preview
+                            <i class="fas fa-eye me-2"></i> Back to Preview
                         </button>
                     </div>
                 </div>
@@ -118,11 +149,9 @@
     private bool wasSavingError = false;
     private bool wasCreateError = false;
     private string? createErrorMessage = null;
-
     private bool IsDirty => currentStep != null && originalState != null &&
     (currentStep.Type != originalState.Type ||
     currentStep.Content != originalState.Content);
-
     protected override async Task OnParametersSetAsync()
     {
         isLoading = true;
@@ -130,18 +159,35 @@
 
         try
         {
-            // Get total steps for the course
-            var allCourses = await CourseService.GetCourses();
-            var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
-            if (thisCourse != null && thisCourse.TotalSteps > 0)
+            var resultCourses = await CourseService.GetCourses();
+            if (resultCourses.HasError)
             {
-                totalSteps = thisCourse.TotalSteps;
+                NavToError();
+                return;
             }
 
-            var fetched = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+            var allCourses = resultCourses.Value ?? new List<Course>();
+            var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
+
+            if (thisCourse != null && thisCourse.TotalSteps > 0)
+                totalSteps = thisCourse.TotalSteps;
+
+            var resultStep = await StepService.GetLearningStepAsync(CourseId, StepOrder);
+
+            if (resultStep.HasError)
+            {
+                NavToError();
+                return;
+            }
+
+            var fetched = resultStep.Value;
+            if (fetched == null)
+            {
+                wasError = true;
+                return;
+            }
 
             originalState = fetched.DeepCopy();
-
             currentStep = fetched.DeepCopy();
         }
         catch
@@ -154,12 +200,45 @@
         }
     }
 
+    private void OnTypeChanged(ChangeEventArgs e)
+    {
+        var newType = e.Value?.ToString() ?? "";
+        if (currentStep != null)
+        {
+            currentStep.Type = newType;
+            if (string.IsNullOrWhiteSpace(currentStep.Content) || IsDefaultContent(currentStep.Content))
+            {
+                currentStep.Content = GetTemplateForType(newType);
+            }
+        }
+    }
+
+    private string GetTemplateForType(string type)
+    {
+        return type switch
+        {
+            "Text" => "Enter your learning content here...",
+            "Video" => "https://www.youtube.com/watch?v=...",
+            "QuestionMC" => "Write your question here?|Correct Answer|Wrong Answer 1|Wrong Answer 2|Wrong Answer N",
+            "QuestionFILL" => "The capital city of the Roman Empire was ___ .|Rome",
+            _ => ""
+        };
+    }
+
+    private bool IsDefaultContent(string content)
+    {
+        return content == "Work in progress - edit this step to add content." ||
+               content == "Enter your learning content here..." ||
+               content == "https://www.youtube.com/watch?v=..." || 
+               content.Contains("|Correct Answer") ||
+               content.Contains("|Wrong Answer 1") ||
+               content.Contains("___ .|Rome");
+    }
+
     private void GoPrevious()
     {
         if (StepOrder > 1)
-        {
             NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder - 1}/edit");
-        }
     }
 
     private void GoNext()
@@ -174,9 +253,15 @@
         isSaving = true;
         try
         {
-            await UploadEdit(CourseId, StepOrder, currentStep);
+            var result = await StepService.UpdateLearningStepAsync(currentStep);
 
-            // Re-sync original state to new saved state to disable button
+            if (result.HasError)
+            {
+                NavToError();
+                wasSavingError = true;
+                return;
+            }
+
             originalState = currentStep.DeepCopy();
             wasSavingError = false;
         }
@@ -189,11 +274,6 @@
         {
             isSaving = false;
         }
-    }
-
-    private async Task UploadEdit(int courseId, int stepOrder, LearningStep editedStep)
-    {
-        await StepService.UpdateLearningStepAsync(editedStep);
     }
 
     private async Task AddNewStep()
@@ -210,12 +290,19 @@
                 CourseId = CourseId,
                 StepOrder = totalSteps + 1,
                 Type = "Text",
-                Content = "Work in progress - edit this step to add content."
+                Content = GetTemplateForType("Text")
             };
 
-            await StepService.CreateLearningStepAsync(newStep);
-            
-            // Update local totalSteps and navigate to edit the new step
+            var result = await StepService.CreateLearningStepAsync(newStep);
+
+            if (result.HasError)
+            {
+                NavToError();
+                wasCreateError = true;
+                createErrorMessage = result.ErrorMessage;
+                return;
+            }
+
             totalSteps++;
             NavManager.NavigateTo($"/courses/{CourseId}/steps/{newStep.StepOrder}/edit");
         }
@@ -234,5 +321,11 @@
     private void BackToPreview()
     {
         NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}");
+    }
+    
+    private void NavToError()
+    {
+        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
     }
 }

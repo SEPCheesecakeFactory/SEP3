@@ -6,7 +6,7 @@ using BlazorApp.Entities;
 
 namespace gRPCRepo;
 
-public class gRPCCourseCategoryRepository(string host, int port) : gRPCRepository<CourseCategory, CreateCourseCategoryDto, CourseCategory, int>(host, port), ICourseCategoryRepository
+public class gRPCCourseCategoryRepository(string host, int port) : gRPCRepository<CourseCategory, CreateCourseCategoryDto, CourseCategory, int>(host, port), IRepositoryID<CourseCategory, CreateCourseCategoryDto, CourseCategory, int>
 {
     public override async Task<CourseCategory> AddAsync(CreateCourseCategoryDto entity)
     {

@@ -9,9 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.stereotype.Service;
 import io.grpc.stub.StreamObserver;
-import via.sep3.dataserver.data.UserCourseProgress;
 import via.sep3.dataserver.data.LeaderboardEntry;
-import via.sep3.dataserver.data.SystemUser;
 import via.sep3.dataserver.data.Course;
 import via.sep3.dataserver.data.*;
 import via.sep3.dataserver.grpc.*;
@@ -82,11 +80,12 @@ public class ProgressServiceImpl extends ProgressServiceGrpc.ProgressServiceImpl
     @Override
     public void getLeaderboard(Empty request, StreamObserver<GetLeaderboardResponse> responseObserver) {
         try {
-            // Get Top 10
-            Pageable topTen = PageRequest.of(0, 10);
+            // ✅ FIX: Increase the limit to 1000 (or larger) to get all active students.
+            // This ensures the Client receives the full list and can calculate neighbors.
+            Pageable allPlayers = PageRequest.of(0, 1000);
 
-            // Note: Ensure your SystemUserRepository has this custom query method
-            List<LeaderboardEntry> dbEntries = userRepository.findTopPlayers(topTen);
+            // Update the variable name in the query call too
+            List<LeaderboardEntry> dbEntries = userRepository.findTopPlayers(allPlayers);
 
             List<via.sep3.dataserver.grpc.LeaderboardEntry> grpcEntries = new ArrayList<>();
             int rank = 1;

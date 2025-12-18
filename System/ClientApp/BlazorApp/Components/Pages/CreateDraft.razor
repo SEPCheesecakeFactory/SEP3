@@ -15,40 +15,74 @@
         {
             <PageTitle>Create Draft</PageTitle>
 
-            <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
+            <div class="container mt-2 content-wrapper mx-auto" style="max-width: 800px;">
                 <div class="d-flex align-items-center mb-4 pt-2">
-                    <a href="/" class="btn btn-link text-secondary p-0 me-4">
-                        <i class="fas fa-times fa-2x"></i>
+                    <a href="all-courses" class="btn btn-link text-secondary p-0 me-3 text-decoration-none">
+                        <i class="fas fa-arrow-left fa-lg"></i>
                     </a>
                     <h2 class="fw-bolder text-secondary mb-0">Create New Course Draft</h2>
                 </div>
 
-                <div class="card p-4 shadow-sm">
+                @* ADDED: 'create-card' to match your other pages styling *@
+                <div class="create-card p-4 p-md-5 fade-in">
+                    
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Title</label>
-                        <input type="text" class="form-control" @bind="draft.Title" placeholder="e.g. Advanced C#" />
+                        <label class="form-label fw-bold small text-muted text-uppercase">Title</label>
+                        <input type="text" class="form-control game-input" @bind="draft.Title" placeholder="e.g. Advanced C#" />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Language</label>
-                        <input type="text" class="form-control" @bind="draft.Language" placeholder="e.g. C#" />
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Language</label>
+                            @if (languages == null)
+                            {
+                                <div class="spinner-border spinner-border-sm ms-2 text-primary"></div>
+                            }
+                            else
+                            {
+                                <select class="form-select game-input" @bind="draft.Language">
+                                    <option value="" disabled selected>Select Language...</option>
+                                    @foreach (var lang in languages)
+                                    {
+                                        <option value="@lang.Code">@lang.Name</option>
+                                    }
+                                </select>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Category</label>
+                            @if (categories == null)
+                            {
+                                <div class="spinner-border spinner-border-sm ms-2 text-primary"></div>
+                            }
+                            else
+                            {
+                                <select class="form-select game-input" @bind="draft.Category">
+                                    <option value="" disabled selected>Select Category...</option>
+                                    @foreach (var cat in categories)
+                                    {
+                                        <option value="@cat.Name">@cat.Name</option>
+                                    }
+                                </select>
+                            }
+                        </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Description</label>
-                        <textarea class="form-control" style="min-height: 100px; resize: none;"
-                            @bind="draft.Description" placeholder="Enter course description..."></textarea>
+                        <label class="form-label fw-bold small text-muted text-uppercase">Description</label>
+                        <textarea class="form-control game-input" style="min-height: 120px; resize: none;" 
+                                  @bind="draft.Description" placeholder="Enter course description..."></textarea>
                     </div>
 
                     @if (!string.IsNullOrEmpty(errorMessage))
                     {
-                        <div class="alert alert-danger" role="alert">
-                            @errorMessage
+                        <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 fw-bold mb-3">
+                            <i class="fas fa-exclamation-circle me-2"></i> @errorMessage
                         </div>
                     }
 
-                    <div class="d-flex justify-content-end mt-3">
-                        <button class="btn btn-primary px-4" @onclick="Create" disabled="@isSaving">
+                    <div class="d-flex justify-content-end mt-4 pt-3 border-top" style="border-color: var(--gray) !important;">
+                        <button class="btn btn-primary px-5" @onclick="Create" disabled="@isSaving">
                             @if (isSaving)
                             {
                                 <span class="spinner-border spinner-border-sm me-2"></span>
@@ -62,7 +96,7 @@
         else
         {
             <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-warning fw-bold border-2 rounded-3">
                     You do not have permission to create drafts.
                 </div>
             </div>
@@ -70,7 +104,7 @@
     </Authorized>
     <NotAuthorized>
         <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
-            <div class="alert alert-warning" role="alert">
+            <div class="alert alert-warning fw-bold border-2 rounded-3">
                 Please login to create drafts.
             </div>
         </div>
@@ -79,25 +113,45 @@
 
 @code {
     private CreateDraftDto draft = new();
+    private List<CourseCategory> categories = new();
+    private List<Language> languages = new();
     private bool isSaving = false;
     private string errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Load master lists
+            categories = await CourseService.GetCategories();
+            languages = await CourseService.GetLanguages();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error fetching data: " + ex.Message);
+        }
+    }
 
     private async Task Create()
     {
         isSaving = true;
         errorMessage = "";
+
+        if (string.IsNullOrEmpty(draft.Title)) { errorMessage = "Title is required."; isSaving = false; return; }
+        if (string.IsNullOrEmpty(draft.Language)) { errorMessage = "Please select a language."; isSaving = false; return; }
+        if (string.IsNullOrEmpty(draft.Category)) { errorMessage = "Please select a category."; isSaving = false; return; }
+
         try
         {
             var authState = await AuthProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            
+
             if (user.IsTeacher())
             {
                 var id = user.GetID();
                 if (id != null)
                 {
                     draft.AuthorId = id.Value;
-                    draft.Category = "default";
                 }
                 else
                 {
@@ -107,7 +161,7 @@
                 }
 
                 await CourseService.CreateDraft(draft);
-                NavManager.NavigateTo("/");
+                NavManager.NavigateTo("all-courses"); // Fixed redirect
             }
             else
             {

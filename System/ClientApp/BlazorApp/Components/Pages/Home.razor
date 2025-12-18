@@ -5,185 +5,127 @@
 @using BlazorApp.Entities
 @using BlazorApp.Utils
 @using System.Security.Claims
+@using BlazorApp.Components
 @inject AuthenticationStateProvider AuthProvider
 @inject IAuthService AuthService
 @inject NavigationManager NavManager
 @inject ICourseService CourseService
 
-<PageTitle>All Courses</PageTitle>
+<PageTitle>Course Library</PageTitle>
 
 <AuthorizeView>
     <Authorized Context="context">
 
-        <h2 class="fw-bolder text-secondary mb-5">All Courses</h2>
+        <div class="container mt-4 content-wrapper mx-auto" style="max-width: 1200px;">
 
-        @if (context.User.IsTeacher())
-        {
-            <div class="d-flex justify-content-end mb-4">
-                <button class="btn btn-primary" @onclick='() => NavManager.NavigateTo("create-draft")'>
-                    <i class="fas fa-plus me-2"></i> Create Draft
-                </button>
-            </div>
-        }
-        @if (context.User.IsAdmin())
-        {
-            <div class="d-flex justify-content-end mb-4">
-                <button class="btn btn-warning" @onclick='() => NavManager.NavigateTo("approve-draft")'>
-                    <i class="fas fa-clipboard-check me-2"></i> Waiting Drafts
-                </button>
-            </div>
-        }
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-end mb-4 fade-in">
+                <div>
+                    <h2 class="fw-bolder text-secondary mb-0">All Courses</h2>
+                </div>
 
-        @if (courses == null || isLoading)
-        {
-            <div class="d-flex justify-content-center align-items-center" style="height:40vh;">
-                <LoadingSpinner />
-            </div>
-        }
-        else if (loadError)
-        {
-            <div class="alert alert-danger">Failed to load courses.</div>
-        }
-        else if (!courses.Any())
-        {
-            <p class="text-muted fs-4 mt-5">No courses available.</p>
-        }
-        else
-        {
-            @foreach (var group in courses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c => c.Category))
-            {
-                <h5 class="fw-bolder text-secondary text-uppercase mt-5 mb-3 ps-1" style="letter-spacing:0.5px">
-                    @group.Key
-                </h5>
-
-                <div class="row g-3">
-                    @foreach (var course in group)
+                <div class="d-flex gap-2 mt-3 mt-md-0">
+                    @if (context.User.IsTeacher())
                     {
-                        <div class="col-md-6 col-lg-4">
+                        <button class="btn btn-primary fw-bold px-4 shadow-sm-hover"
+                            @onclick='() => NavManager.NavigateTo("create-draft")'>
+                            <i class="fas fa-plus me-2"></i> Create Draft
+                        </button>
+                    }
+                    @if (context.User.IsAdmin())
+                    {
+                        <button class="btn btn-warning fw-bold px-4 shadow-sm-hover text-dark"
+                            @onclick='() => NavManager.NavigateTo("approve-draft")'>
+                            <i class="fas fa-clipboard-check me-2"></i> Waiting Drafts
+                        </button>
+                    }
+                </div>
+            </div>
 
-                            <div class="card card-course h-100 text-center bg-white @CourseDisplayUtils.GetBorderClass(course.Category)"
-                                style="--course-color: var(--game-gray);">
+            @if (context.User.IsTeacherOrAdmin())
+            {
+                <div class="d-flex justify-content-center mb-5 fade-in">
+                    <div class="bg-light p-1 rounded-pill d-inline-flex shadow-sm align-items-center"
+                        style="border: 2px solid var(--gray) !important;">
+                        
+                        <button
+                            class="btn btn-sm rounded-pill px-4 py-2 fw-bold @(viewMode == "public" ? "btn-primary shadow-sm" : "text-muted bg-transparent")"
+                            style="transition: all 0.2s ease; margin-bottom: 0 !important; border: 0 !important;"
+                            @onclick='() => viewMode = "public"'>
+                            <i class="fas fa-globe me-2"></i> Public Library
+                        </button>
+                        
+                        <button
+                            class="btn btn-sm rounded-pill px-4 py-2 fw-bold @(viewMode == "workspace" ? "btn-primary shadow-sm" : "text-muted bg-transparent")"
+                            style="transition: all 0.2s ease; margin-bottom: 0 !important; border: 0 !important;"
+                            @onclick='() => viewMode = "workspace"'>
+                            <i class="fas fa-pencil-ruler me-2"></i> My Workspace
+                        </button>
+                    </div>
+                </div>
+            }
 
-                                @if (context.User.IsTeacherOrAdmin())
-                                {
-                                    <button class="btn btn-edit-card position-absolute"
-                                        style="top: 8px; right: 8px;" @onclick:stopPropagation="true"
-                                        @onclick="() => OpenEditModal(course)">
-                                        <i class="fas fa-pen fa-sm"></i>
-                                    </button>
-                                }
+            @if (courses != null && courses.Any())
+            {
+                <div class="fade-in mb-5" style="animation-delay: 0.1s;">
+                    <CourseFilter @bind-SearchQuery="searchQuery" @bind-SelectedCategory="selectedCategory"
+                        UniqueCategories="uniqueCategories" />
+                </div>
+            }
 
-                                <div class="w-100 @CourseDisplayUtils.GetBgClass(course.Category)" style="height: 10px;"></div>
+            @if (isLoading)
+            {
+                <div class="d-flex justify-content-center align-items-center" style="height:40vh;">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+                </div>
+            }
+            else if (loadError)
+            {
+                <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 fw-bold fade-in">
+                    <i class="fas fa-wifi me-2"></i> Failed to load courses. Please try again.
+                </div>
+            }
+            else if (!FilteredCourses.Any())
+            {
+                <div class="text-center py-5 fade-in border-2 border-dashed rounded-4"
+                    style="border-color: var(--gray); background-color: #f9f9f9;">
+                    <i
+                        class="fas @(viewMode == "public" ? "fa-search" : "fa-feather-alt") fa-3x text-muted mb-3 opacity-50"></i>
+                    <h5 class="text-muted fw-bold">@(viewMode == "public" ? "No matches found" : "Your workspace is empty")
+                    </h5>
+                </div>
+            }
+            else
+            {
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    @foreach (var group in FilteredCourses.OrderBy(c => c.Category).ThenBy(c => c.Id).GroupBy(c =>
+                                    c.Category))
+                    {
+                        <h5 class="fw-bolder text-secondary text-uppercase mb-3 mt-4 ps-1" style="letter-spacing:0.5px">
+                            @group.Key
+                        </h5>
 
-                                <div class="p-4 d-flex flex-column align-items-center justify-content-center flex-grow-1"
-                                    @onclick="() => OpenCourse(course)">
-
-                                    <i
-                                        class="@CourseDisplayUtils.GetIconClass(course.Category) fa-3x mb-4 @CourseDisplayUtils.GetTextClass(course.Category)"></i>
-
-                                    <h5 class="fw-bolder text-dark mb-1">@course.Title</h5>
-
-                                    <small class="text-muted fw-bold text-uppercase mt-2"
-                                        style="font-size: 0.75rem; letter-spacing: 1px;">
-                                        @course.Description
-                                        @if (!string.IsNullOrEmpty(course.Language))
-                                        {
-                                            <span class="mx-1">• @course.Language</span>
-                                        }
-                                    </small>
-                                    @{
-                                        int saved = GetSavedStep(course.Id);
-                                        int total = course.TotalSteps;
-                                        double completedSteps = Math.Max(0, saved - 1);
-                                        double pct = (total > 0) ? (completedSteps / total * 100) : 0;
-                                    }
-                                    @if (saved > total && total > 0)
-                                    {
-                                        <div class="mt-3 badge bg-success text-white border border-success">
-                                            COMPLETED <i class="fas fa-check ms-1"></i>
-                                        </div>
-                                    }
-                                    else if (saved > 1)
-                                    {
-                                        <div class="mt-3 badge bg-info text-dark bg-opacity-10 border border-info">
-                                            RESUME: @Math.Round(pct)%
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="mt-3 badge bg-light text-secondary border">
-                                            START
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-
+                        <div class="row g-4 mb-2">
+                            @foreach (var course in group)
+                            {
+                                <CourseCard Course="course" OnOpen="OpenCourse" OnEdit="OpenEditModal"
+                                    OnManageSteps='(id) => NavManager.NavigateTo($"/courses/{id}/steps/1/edit")'
+                                    ProgressStep="GetSavedStep(course.Id)" />
+                            }
                         </div>
                     }
                 </div>
             }
-        }
 
-        <!-- EDIT MODAL -->
-        @if (isModalOpen)
-        {
-            <div class="modal fade show" style="display:block; background-color:rgba(0,0,0,0.5);">
-                <div class="modal-dialog">
-                    <div class="modal-content p-3">
+            <CourseEditModal Show="isModalOpen" CourseToEdit="editModel" OriginalCourse="originalModel"
+                IsSaving="isSaving" WasError="wasSavingError" OnClose="CloseModal" OnSave="SaveChanges"
+                AvailableCategories="allCategories" AvailableLanguages="allLanguages" />
 
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Course</h5>
-                            <button type="button" class="btn-close" @onclick="CloseModal"></button>
-                        </div>
-
-                        <div class="modal-body">
-
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Title</label>
-                                <input class="form-control" @bind="editModel.Title" @bind:event="oninput" />
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Description</label>
-                                <textarea class="form-control" style="min-height:80px;" @bind="editModel.Description"
-                                    @bind:event="oninput"></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Category</label>
-                                <input class="form-control" @bind="editModel.Category" @bind:event="oninput" />
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Language</label>
-                                <input class="form-control" @bind="editModel.Language" @bind:event="oninput" />
-                            </div>
-
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" @onclick="CloseModal">Close</button>
-
-                            <button class="btn btn-primary px-4 @(wasSavingError ? "btn-error" : "")"
-                                disabled="@(!IsDirty || isSaving)" @onclick="SaveChanges">
-
-                                @if (isSaving)
-                                {
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                }
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-
+        </div>
     </Authorized>
 
     <NotAuthorized>
-        <p>You must be logged in to view courses.</p>
+        <AccessDeniedState Title="Course Library" Message="Please log in to browse our full catalog of courses."
+            Icon="fa-th-list" />
     </NotAuthorized>
 </AuthorizeView>
 
@@ -191,47 +133,100 @@
     private List<Course> courses = new();
     private Dictionary<int, int> courseProgressMap = new();
     private int currentUserId = 0;
+    private bool isAdmin = false;
+    private List<CourseCategory> allCategories = new();
+    private List<Language> allLanguages = new();
+
     private bool isModalOpen = false;
     private bool isSaving = false;
     private bool wasSavingError = false;
     private bool loadError = false;
     private bool isLoading = true;
 
+    private string searchQuery = "";
+    private string selectedCategory = "";
+    private List<string> uniqueCategories = new();
+    private string viewMode = "public"; // "public" or "workspace"
+
     private Course editModel = new();
     private Course originalModel = new();
 
-    private bool IsDirty =>
-    editModel != null && originalModel != null &&
-    (editModel.Title != originalModel.Title ||
-    editModel.Description != originalModel.Description ||
-    editModel.Category != originalModel.Category ||
-    editModel.Language != originalModel.Language);
+    private IEnumerable<Course> FilteredCourses
+    {
+        get
+        {
+            var query = courses.AsEnumerable();
+
+            // Filter by View Mode
+            if (viewMode == "workspace")
+            {
+                // Workspace shows everything I authored (Drafts + Published)
+                query = query.Where(c => c.AuthorId == currentUserId);
+            }
+            else
+            {
+                // Public Library shows only Approved courses unless you are an admin, you see everything
+                query = query.Where(c => (c.ApprovedBy != null && c.ApprovedBy > 0) || isAdmin);
+            }
+
+            // Search and cat filters
+            return query
+            .Where(c => string.IsNullOrEmpty(searchQuery) || (c.Title ?? "").Contains(searchQuery,
+            StringComparison.OrdinalIgnoreCase))
+            .Where(c => string.IsNullOrEmpty(selectedCategory) || c.Category == selectedCategory);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
-        
-        if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
         {
-            currentUserId = uid;
+            isLoading = false;
+            return;
         }
-        
+
+        currentUserId = user.GetID() ?? 0;
+        isAdmin = user.IsAdmin();
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        loadError = false;
+
         try
         {
-            courses = await CourseService.GetCourses();
-            
-            // Fetch progress for each course when logged in
-            if (currentUserId > 0 && courses.Any())
+            var coursesResult = await CourseService.GetCourses();
+
+            if (!coursesResult.IsSuccess)
+            {
+                loadError = true;
+                return;
+            }
+
+            courses = coursesResult.Value;
+            allCategories = await CourseService.GetCategories();
+            allLanguages = await CourseService.GetLanguages();
+
+            uniqueCategories = courses
+            .Select(c => c.Category)
+            .Where(c => !string.IsNullOrEmpty(c))
+            .Select(c => c!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+
+            if (currentUserId > 0)
             {
                 foreach (var course in courses)
                 {
-                    int step = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
-                    if (courseProgressMap.ContainsKey(course.Id))
-                        courseProgressMap[course.Id] = step;
-                    else
-                        courseProgressMap.Add(course.Id, step);
+                    var stepResult = await CourseService.GetCourseProgressAsync(currentUserId, course.Id);
+                    courseProgressMap[course.Id] = stepResult.IsSuccess ? stepResult.Value : 1;
                 }
             }
         }
@@ -245,10 +240,7 @@
         }
     }
 
-    private int GetSavedStep(int courseId)
-    {
-        return courseProgressMap.ContainsKey(courseId) ? courseProgressMap[courseId] : 1;
-    }
+    private int GetSavedStep(int courseId) => courseProgressMap.ContainsKey(courseId) ? courseProgressMap[courseId] : 1;
 
     private void OpenCourse(Course course)
     {
@@ -259,24 +251,8 @@
 
     private void OpenEditModal(Course course)
     {
-        originalModel = new Course
-        {
-            Id = course.Id,
-            Title = course.Title,
-            Description = course.Description,
-            Category = course.Category,
-            Language = course.Language
-        };
-
-        editModel = new Course
-        {
-            Id = course.Id,
-            Title = course.Title,
-            Description = course.Description,
-            Category = course.Category,
-            Language = course.Language
-        };
-
+        originalModel = course.DeepCopy();
+        editModel = course.DeepCopy();
         wasSavingError = false;
         isModalOpen = true;
     }
@@ -285,30 +261,12 @@
 
     private async Task SaveChanges()
     {
-        if (!IsDirty) return;
-
         isSaving = true;
-
         try
         {
             await CourseService.UpdateCourse(editModel.Id, editModel);
-
-            // Keep modal open (different from step editor)
-            wasSavingError = false;
-
-            // Update original model → disables save button
-            originalModel = new Course
-            {
-                Id = editModel.Id,
-                Title = editModel.Title,
-                Description = editModel.Description,
-                Category = editModel.Category,
-                Language = editModel.Language
-            };
-
-            // Refresh list in background
-            courses = await CourseService.GetCourses();
-            await InvokeAsync(StateHasChanged);
+            await LoadData();
+            CloseModal();
         }
         catch
         {

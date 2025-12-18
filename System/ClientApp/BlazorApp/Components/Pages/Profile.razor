@@ -3,89 +3,288 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @using BlazorApp.Services
-@using System.Text.Json
+@using BlazorApp.Utils
+@using BlazorApp.Entities 
+@using BlazorApp.Components
+
 @inject IAuthService authService
+@inject IUserService userService 
 @inject NavigationManager navMgr
+@inject AuthenticationStateProvider AuthProvider
+
+<PageTitle>My Profile</PageTitle>
 
 <AuthorizeView>
     <NotAuthorized>
-        @if (isLoading)
-        {
-            <LoadingSpinner />
-        }
-        else
-        {
-            <div class="alert alert-warning" role="alert">
-                You must be logged in to view your profile. Please <a href="login" class="alert-link">log in</a>.
-            </div>
-        }
+        <AccessDeniedState 
+            Title="My Profile" 
+            Message="Please log in to view your stats and settings." 
+            Icon="fa-user-circle" />
     </NotAuthorized>
-    <Authorized>
-        <div class="text-center mt-4">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning text-white border border-4 border-white shadow mb-3"
-                style="width: 120px; height: 120px; font-size: 3rem; font-weight: 800;">
-                @GetInitials(context.User.Claims.First(claim =>
-                claim.Type.Equals("Username")).Value)
+    
+    <Authorized Context="context">
+        <div class="container-fluid mt-4 content-wrapper mx-auto" style="max-width: 1200px;">
+            
+            <div class="d-flex justify-content-between align-items-end mb-4 fade-in">
+                <h2 class="fw-bolder text-secondary mb-0">My Profile</h2>
             </div>
-            <h2 class="fw-bolder text-dark mb-5">@context.User.Claims.First(claim =>
-                                claim.Type.Equals("Username")).Value</h2>
 
-            <div class="row justify-content-center g-4 mx-auto" style="max-width: 600px;">
-                @foreach (var claim in context.User.Claims.Where(c => c.Type == "Role"))
-                {
-                    @foreach (var role in Utils.AuthUtils.ConvertFromClaim(claim.Value))
-                    {
-                        <div class="col-12">
-                            <div class="card border-2 rounded-4 p-3" style="border-color: var(--game-gray);">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h5 class="fw-bold text-secondary mb-1" style="letter-spacing: 0.5px;">
-                                            ROLE
-                                        </h5>
-                                        <p class="mb-0 text-dark" style="font-size: 1.1rem;">@role</p>
-                                    </div>
+            @if (isLoading)
+            {
+                <div class="d-flex justify-content-center align-items-center" style="height: 40vh;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            }
+            else if (loadError)
+            {
+                <div class="alert alert-danger fade-in d-flex align-items-center justify-content-between border-2 rounded-3">
+                    <div>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Connection Error:</strong> Could not load profile data.
+                    </div>
+                    <button class="btn btn-outline-danger btn-sm bg-white" @onclick="LoadData">
+                        <i class="fas fa-sync-alt me-1"></i> Retry
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="row g-4 fade-in" style="animation-delay: 0.1s;">
+                    
+                    <div class="col-md-5 col-lg-4">
+                        <div class="profile-card h-100">
+                            <div class="card-header-custom text-center">
+                                <h5 class="fw-bold text-secondary text-uppercase m-0" style="letter-spacing:1px; font-size: 0.9rem;">
+                                    Identity
+                                </h5>
+                            </div>
+
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-5 text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-4 avatar-container">
+                                    @GetInitials(context.User.FindFirst("Username")?.Value ?? "?")
+                                </div>
+
+                                <h3 class="fw-bolder text-dark mb-1">
+                                    @(context.User.FindFirst("Username")?.Value ?? "User")
+                                </h3>
+                                
+                                <span class="text-muted small mb-3">@context.User.FindFirst(ClaimTypes.Email)?.Value</span>
+
+                                <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                                    @if (UserRoles.Any())
+                                    {
+                                        @foreach (var role in UserRoles)
+                                        {
+                                            <span class="badge @GetRoleBadgeClass(role) border px-3 py-2 rounded-pill fs-6 text-uppercase fw-bold">
+                                                @role
+                                            </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-light text-muted border px-3 py-2 rounded-pill">Student</span>
+                                    }
                                 </div>
                             </div>
                         </div>
-                    }
-                }
-            </div>
+                    </div>
+                    <div class="col-md-7 col-lg-8">
+                        <div class="profile-card h-100">
+                            <div class="card-header-custom">
+                                <h5 class="fw-bold text-secondary text-uppercase m-0" style="letter-spacing:1px; font-size: 0.9rem;">
+                                    <i class="fas fa-shield-alt me-2"></i> Security
+                                </h5>
+                            </div>
+
+                            <div class="card-body p-4 p-lg-5">
+                                @if (!string.IsNullOrEmpty(successMessage))
+                                {
+                                    <div class="alert bg-green-100 text-green-600 border-green-200 border-2 rounded-3 d-flex align-items-center fw-bold fade-in mb-4">
+                                        <i class="fas fa-check-circle me-2"></i> @successMessage
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(errorMessage))
+                                {
+                                    <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 d-flex align-items-center fw-bold fade-in mb-4">
+                                        <i class="fas fa-exclamation-circle me-2"></i> @errorMessage
+                                    </div>
+                                }
+
+                                <div class="row g-3">
+                                    @* --- Current Password with Reveal Button --- *@
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold small text-muted text-uppercase">Current Password</label>
+                                        <div class="input-group">
+                                            <input type="@(showCurrentPassword ? "text" : "password")" 
+                                                   class="form-control game-input border-end-0" 
+                                                   style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;"
+                                                   @bind="currentPassword" />
+                                            
+                                            <button class="btn btn-outline-secondary game-input border-start-0" 
+                                                    type="button"
+                                                    style="border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important;"
+                                                    @onclick="TogglePasswordVisibility">
+                                                <i class="fas @(showCurrentPassword ? "fa-eye-slash" : "fa-eye") text-muted"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small text-muted text-uppercase">New Password</label>
+                                        <input type="password" class="form-control game-input" placeholder="New password" @bind="newPassword" />
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small text-muted text-uppercase">Confirm New Password</label>
+                                        <input type="password" class="form-control game-input" placeholder="Repeat password" @bind="reTypePassword" />
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end mt-4 pt-3 border-top" style="border-color: var(--gray) !important;">
+                                    <button class="btn btn-primary px-5 shadow-sm-hover" @onclick="() => ChangePassword(context.User)" disabled="@isBusy">
+                                        @if(isBusy) {
+                                            <span class="spinner-border spinner-border-sm me-2"></span> <span>Updating...</span>
+                                        } else {
+                                            <span>Update Password</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    private string userName = "";
-    private string password = "";
-    private string errorLabel = "";
-    private bool isLoading = true;
-    private async Task LoginAsync()
+    // --- State Variables ---
+    private bool isLoading = true; 
+    private bool loadError = false;
+    private bool isBusy = false;
+    
+    // Toggles password visibility
+    private bool showCurrentPassword = false;
+
+    // --- Form Data ---
+    private string currentPassword = "";
+    private string newPassword = "";
+    private string reTypePassword = "";
+
+    // --- UI Data ---
+    private string errorMessage = "";
+    private string successMessage = "";
+    private List<string> UserRoles = new();
+
+    protected override async Task OnInitializedAsync()
     {
-        errorLabel = "";
+        await LoadData();
+    }
+    
+    private void TogglePasswordVisibility()
+    {
+        showCurrentPassword = !showCurrentPassword;
+    }
+
+    private async Task LoadData()
+    {
         isLoading = true;
-        try
+        loadError = false;
+        try 
         {
-            await authService.LoginAsync(userName, password);
-            navMgr.NavigateTo("/");
-            isLoading = false;
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity != null && user.Identity.IsAuthenticated)
+            {
+            UserRoles = user.Claims
+             .Where(c => c.Type == "Role" || c.Type == ClaimTypes.Role)
+             .SelectMany(c => AuthUtils.ConvertFromClaim(c.Value))
+             .Distinct()
+             .ToList();
+
+                var uid = user.GetID();
+                if (uid.HasValue)
+                {
+                    await userService.GetUser(uid.Value);
+                }
+            }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
-            errorLabel = $"Error: {e.Message}";
+            loadError = true;
+        }
+        finally
+        {
             isLoading = false;
         }
     }
 
+    private string GetRoleBadgeClass(string roleName)
+    {
+        return roleName.ToLower() switch
+        {
+            "admin" => "bg-red-100 text-red-600 border-red-200",
+            "teacher" => "bg-purple-100 text-purple-600 border-purple-200",
+            _ => "bg-blue-100 text-blue-600 border-blue-200"
+        };
+    }
+
     private string GetInitials(string fullName)
     {
-        if (string.IsNullOrWhiteSpace(fullName))
-            return "";
-
+        if (string.IsNullOrWhiteSpace(fullName)) return "?";
         var names = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (names.Length == 1)
-            return names[0][0].ToString().ToUpper();
-
+        if (names.Length == 1) return names[0][0].ToString().ToUpper();
         return (names[0][0].ToString() + names[^1][0].ToString()).ToUpper();
+    }
+
+    private async Task ChangePassword(ClaimsPrincipal user)
+    {
+        errorMessage = "";
+        successMessage = "";
+        isBusy = true;
+        
+        await Task.Delay(300);
+
+        if (string.IsNullOrEmpty(currentPassword) || string.IsNullOrEmpty(newPassword))
+        {
+            errorMessage = "Please fill in all fields.";
+            isBusy = false;
+            return;
+        }
+
+        if (newPassword != reTypePassword)
+        {
+            errorMessage = "New passwords do not match.";
+            isBusy = false;
+            return;
+        }
+
+        try
+        {
+            var username = user.FindFirst("Username")?.Value 
+                        ?? user.FindFirst(ClaimTypes.Name)?.Value;
+            
+            if (string.IsNullOrEmpty(username)) throw new Exception("User context invalid.");
+
+            await authService.ChangePasswordAsync(username, currentPassword, newPassword);
+
+            successMessage = "Password updated successfully!";
+            currentPassword = "";
+            newPassword = "";
+            reTypePassword = "";
+            showCurrentPassword = false;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isBusy = false;
+        }
     }
 }
