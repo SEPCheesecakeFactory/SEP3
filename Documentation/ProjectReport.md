@@ -308,6 +308,33 @@ The system implements a multi-tiered architecture that utilizes distinct communi
 
 ![Application Layer Sequence Diagram](Application-LayerSD.png){width=60%}
 
+### Security Design 
+
+Taking into consideration the earlier defined threat analysis and risk assessment, the security design focuses on the technologies used to defend against identified threats. System maintains various strategies of protecting the data at rest and while being transmitted. 
+
+##### Authentification and Authorization 
+
+To adress the threats of Spoofing and Elevation of Privilege, the System is based on stateless authentification architecture. 
+
+- Authentification: The System delegates auth operations to an AuthController. Once credentials are successfully validated, the System sends a JWT to the client. The System relies on JwtSecurityTokenHandler to sign the token using the HmacSha256Signature algorithm and a pre-configured secret key loaded though server level application settings.
+
+ - Authorization (RBAC): Access control is granted via ADDJwtBearer authentication method. The System inspects the claims of incoming requests to restrict access based on user roles (Learner, Teacher, Admin), effectively mitigating threats and unauthorized access.
+ 
+  ##### Data Protection and Integrity 
+  
+  To adress Confidentiality and Integrity requirements, following strategies have been adopted to protect data throughout its lifecycle. 
+  
+  - Data at Rest: The system follows the principle of data minimization, ensuring no personal information is stored beyond the necessary authentication credentials (usaernames and passwords). To reduce the impact of potential database leaks, passwords are never stored as plain text. The system utilizes the Argon2 algorithm. This is hash algorithm provide resistance against brute-force attacks. 
+
+  - Data during Transit: To protect data against Man-in-the-Middle Attacks, protection strategies differ based on network exposure: Client to Server: The Logic Server enforces Transport Layer Security (TLS) via the app.UseHttpsRedirection() middleware. This ensures that user credentials are encrypted when being transferred over the public internet. Logic to Data: Communication between the Logic and Data servers occurs via gRPC. While this traffic remains unencrypted, the data is serialized in binary Protobuf format. This unencrypted state is considered acceptable for the current project scope as it assumes strict network isolation.
+
+##### Input Validation
+
+To reduce the possibility of injection attacks the system valides users input.
+- The System's SecureAuthService is designed to handle user inputs and throw erors when invalid inputs  such as missmatched passwords are detected, so that bad data is rejected before entering database.
+
+- The system uses strict gRPC message typing (e.g., the AddUserRequest) to guarantee data structure. This ensures that injection attacks relying on malformed data structures or unexpected fields are impossible, as they are rejected by the protocol's strict binary validation before reaching the application logic.
+
 #### Interface Definition (gRPC & Protobuf)
 
 Internal communication between the Logic Server and the Data Server is managed via gRPC. The data structures and service contracts are defined using Protocol Buffers (Protobuf), ensuring strict typing.
