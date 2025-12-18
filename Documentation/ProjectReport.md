@@ -263,7 +263,7 @@ The architecture is a distributed, three-tier solution that aims for strict sepa
 
 The client-side application is built using Blazor in C# .NET. This layer hosts the web interface accessible to all system actors: learners, teachers, and admins. It is responsible solely for UI rendering and user input handling, delegating all business logic to the backend services.
 
-Blazor is technically a double tier as blazor web server was chosen for the project. This means that a significant part of the interactions is done on the blazor server rather than directly on the client machine. 
+The solution utilizes Blazor Server, which decouples the UI rendering from the client. This means that a significant part of the interactions is done on the blazor server rather than directly on the client machine. 
 
 #### Logic Tier
 
