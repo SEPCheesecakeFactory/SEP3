@@ -350,13 +350,13 @@ To address the threats of Spoofing and Elevation of Privilege, the System is bas
 
  - Authorization (RBAC): Access control is granted via ADDJwtBearer authentication method. The System inspects the claims of incoming requests to restrict access based on user roles (Learner, Teacher, Admin), effectively mitigating threats and unauthorized access.
  
-  ##### Data Protection and Integrity 
+##### Data Protection and Integrity 
   
   To address Confidentiality and Integrity requirements, following strategies have been adopted to protect data throughout its lifecycle. 
   
-  - Data at Rest: The system follows the principle of data minimization, ensuring no personal information is stored beyond the necessary authentication credentials (usernames and passwords). To reduce the impact of potential database leaks, passwords are never stored as plain text. The system utilizes the Argon2 algorithm. This is hash algorithm provide resistance against brute-force attacks. 
+  - Data at Rest: The system follows the principle of data minimization, ensuring no personal information is stored beyond the necessary authentication credentials (usernames and passwords). To reduce the impact of potential database leaks, passwords are never stored as plain text. The system utilizes the Argon2 algorithm. This hash algorithm provide resistance against brute-force attacks and can be considered the current state-of-the-art in password hashing (Password Hashing Competition, 2015). 
 
-  - Data during Transit: To protect data against Man-in-the-Middle Attacks, protection strategies differ based on network exposure: Client to Server: The Logic Server enforces Transport Layer Security (TLS) via the app.UseHttpsRedirection() middleware. This ensures that user credentials are encrypted when being transferred over the public internet. Logic to Data: Communication between the Logic and Data servers occurs via gRPC. While this traffic remains unencrypted, the data is serialized in binary Protobuf format. This unencrypted state is considered acceptable for the current project scope as it assumes strict network isolation.
+  - Data during Transit: To protect data against Man-in-the-Middle Attacks, protection strategies differ based on network exposure: Client to Server: The Logic Server enforces Transport Layer Security (TLS) via the app - UseHttpsRedirection() middleware. This ensures that user credentials are encrypted when being transferred over the public internet. Logic to Data: Communication between the Logic and Data servers occurs via gRPC. While this traffic remains unencrypted, the data is serialized in binary Protobuf format. This unencrypted state is considered acceptable for the current project scope as it assumes strict network isolation.
 
 ##### Input Validation
 
@@ -371,7 +371,7 @@ Internal communication between the Logic Server and the Data Server is managed v
 
 The next code snippet demonstrates the definition of the message structures (Requests and Responses) used within the system.
 
-```Protobuf
+```protobuf
 message User {
   int32 id = 1;
   string username = 2;
@@ -392,7 +392,7 @@ message GetUsersResponse {
 
 The next code snippet illustrates the service definition, detailing the RPC methods, their required parameters, and return types.
 
-```Protobuf
+```protobuf
 service UserService {
   rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
   rpc GetUser(GetUserRequest) returns (User);
@@ -919,6 +919,7 @@ The project achieved success through its development of a distributed learning s
 # References
 
 - Haleem, A., Javaid, M., Qadri, M. A., & Suman, R. (2022). Understanding the role of digital technologies in education: A review. Sustainable Operations and Computers, 3(1), 275–285. https://doi.org/10.1016/j.susoc.2022.05.004
+- Password Hashing Competition. (2015). Password-Hashing.net. https://www.password-hashing.net
 - Project Description.
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
 - Samonas, S., & Coss, D. (2014). The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security. In Journal of Information System Security (Vol. 10, Issue 3). https://www.proso.com/dl/Samonas.pdf
