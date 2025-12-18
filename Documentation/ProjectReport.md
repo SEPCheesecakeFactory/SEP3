@@ -183,7 +183,7 @@ An SSD was created for each of the 12 use cases, ensuring that the dynamic behav
 
 The figure below shows the SSD for UC5 - Complete Learning Step, which highlights the iterative nature of the learning process and the system's role in providing feedback.
 
-![Complete Learning Step SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg){width=60%}
+![Complete Learning Step SSD (Appendix 2.3.2 System Sequence Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg){width=60%}
 
 The system sequence diagrams were kept simple and focused on the core interaction. Nevertheless, for UC9 and UC11 it was decided to include alternate paths while not including anything else than the main success scenarios. 
 
@@ -195,7 +195,7 @@ A set of activity diagrams was developed to cover the most critical workflows of
 
 The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Step), and UC7 (View Leaderboard). 
 
-![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
+![Learning and Achievement Activity Diagram (Appendix 2.3.1 Activity Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
 
 This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
 
@@ -940,10 +940,10 @@ Can be found as UseCaseDiagram.svg
 Can be found as CompleteLearningStepUseCaseDescription.png
 
 ## Appendix 2.3 Diagrams
-### System Sequence Diagrams
-Can be found in the SSDs folder (UC1 to UC12)
-### Learning and Achievement Activity Diagram
-Can be found as LearningAndAchievement.png
+### 2.3.1 Activity Diagrams
+Can be found in the Activity Diagrams folder
+### 2.3.2 System Sequence Diagrams
+Can be found in the System Sequence Diagrams folder
 ### Domain Model
 Can be found as DomainModel.png
 ### Enhanced Entity Relationship Diagram
