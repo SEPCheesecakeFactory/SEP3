@@ -143,6 +143,18 @@ In this project there has been a clear difference between members that worked ac
 
 Regarding next semester project, I am excited to work with such a big team and take the project as a job and not at an assignment. Since it might be the last big project I am going to do before landing an intership, and therefore it will be the last opportunity to know myself better before getting into the real working market.
 
+----
+During this semester we wanted to try a different agile framework since we do not know which one our future company will use ,and we would like to find the most relevant for us in order to work more efficiently. This time we decided to combine Kanban with the role of Product Owner from SCRUM. This allowed us to switch more easily from one task to another without needing to wait for the Scrum Master to assign the next task. Additionally, keeping the role of Product Owner, helped us maintaining an unified and static vision of our final system.
+
+At the beginning of the project I thought this agile method was the best for me, but know that we have finished I would not say so. Because of not having any tasks assigned, I felt less attached to the project, and in some cases that meant taking longer to finish a tasks because it did not feel like mine. I am still getting to know myself and this project has definitely helped with that. If I could reshape our agile framework I would have included a rule saying that a task must be taken by a person, so I could feel more attached to it and therefore work more effectively. To continue discovering myself and how do I perform in different methododologies, I am open to explore other agile frameworks in the next semester in order to find the one that suits best with me. Since in a company I will have to adapt to their prefered working medothology.
+
+In this project there has been differences between members that worked actively and members who worked passively. Meaning that some of us were taking tasks one after another, sacrificing their time for the great of the project, while others spent less time and priorized personal task. I personally think that this group is great, but after collaboratig for 2 projects in a row we might need a change, we already know how each of us reacts to different challenges and given that there was no task ownership, we knew that if we didn't finish a task someone could take over our work and continue from there. Maybe expanging the group to 12 members next semester is the change we need.
+
+Regarding next semester project, I am excited to work with such a big team and take the project as a job and not at an assignment. Since it might be the last big project I am going to do before landing an intership, and therefore it will be the last opportunity to know myself better before getting into the real working market.
+
+Concluding, the kanban framework has been something useful to work with but I would make some modifications to it in order to perform better. I am happy with the final system we built, and I feel like this has been the first real project I have ever done, which is something i am proud of.
+
+
 ## Piotr Junosz  
 
 This semester, our group decided to explore new methods and frameworks so that we can learn more about different types of software development processes. The idea was to maintain working in the iterative, agile approach, transiting from strictly using Scrum with Unified Process (UP) to Kanban workflow while retaining Product Owner role which was found useful in the previous semester.

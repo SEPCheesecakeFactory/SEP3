@@ -296,7 +296,7 @@ The mentioned technologies, frameworks, and tools were chosen both to fulfill th
 
 ### Class diagram design
 
-We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
+There is a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
 
 #### Client App Class Diagram
 
@@ -324,11 +324,11 @@ This server main responsibility is to manage the database by adding, fetching, m
 
 ![Data Server Class Diagram](../out/Implementation/DataServerClass/DataServerClass.svg)
 
-In the next diagram the entities of the data server are exposed. It looks exactly the same as the GRD since by using JPA, we ensure that the relationships we set in the data server's entities are transfered to the database,
+In the next diagram the entities of the data server are exposed. It looks similar to the GRD since the system uses JPA, ensuring that the relationships in the data server's entities are transfered to the database,
 
 ![Entities Data Server](../out/Implementation/EntitiesDataServerClass/EntitiesDataServerClass.svg)
 
-The following diagram displays a summary of the data server class diagram. In it we can see the services and which repositories they use.
+The following diagram displays a summary of the data server class diagram. Services and repositories can be seen on it.
 
 ![Summary Data Server](../out/Implementation/SummaryDataServerClass/SummaryDataServerClass.svg)
 
@@ -409,9 +409,9 @@ For example, authentication is handled via the /auth/login endpoint. By sending 
 
 #### Protocol Justification
 
-A hybrid protocol approach was chosen to balance user experience with system performance, in specific, we chose to use HTTP for the logic server and gRPC for the data server:
+A hybrid protocol approach was chosen to balance user experience with system performance, in specific, HTTP was chosen for the logic server and gRPC for the data server:
 
-· External Communication (HTTP/JSON): We utilized HTTP with JSON for client-server interaction because of its universality and readability. JSON is natively supported by web browsers and mobile clients, making the system easy to debug and integrate. While the text-based format introduces some overhead, the trade-off favors the ease of development and broad compatibility required at the client layer.
+· External Communication (HTTP/JSON): HTTP was used with JSON for client-server interaction because of its universality and readability. JSON is natively supported by web browsers and mobile clients, making the system easy to debug and integrate. While the text-based format introduces some overhead, the trade-off favors the ease of development and broad compatibility required at the client layer.
 
 · Internal Communication (gRPC/Protobuf): For communication between the Logic and Data servers, gRPC was selected over REST. Unlike the text-based JSON, gRPC uses Protocol Buffers to serialize data into a binary format. This results in significantly smaller payload sizes and faster serialization/deserialization times. Furthermore, gRPC operates over HTTP/2, allowing for multiplexing and lower latency, which is critical for high-throughput internal traffic.
 
