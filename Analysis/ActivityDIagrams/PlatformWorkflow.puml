@@ -13,10 +13,12 @@ repeat
     :Learner enrolls in course;
     repeat
         :System provides learning activity;
+        repeat
         :Learner completes learning activity;
         :System provides feedback;
-    repeat while (Course not finished?)
-    :System updates points and badges;
+        repeat while (Activity not completed correctly?)
+        :System updates points (leaderboard);
+    repeat while (Course not finished?)    
     :Learner checks leaderboard position;
 backward:Learner explores more courses;
 repeat while (User wants to learn more?)

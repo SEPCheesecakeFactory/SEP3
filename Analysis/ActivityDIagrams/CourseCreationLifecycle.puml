@@ -11,9 +11,7 @@ if (Is draft acceptable?) then (yes)
     :Teacher starts adding learning steps;
 else (no)
     :Admin disapproves draft;
-    :Admin provides feedback;
-    :System updates status to rejected;
-    :Teacher reviews feedback;
+    :System deletes the draft;
 endif
 stop
 @enduml

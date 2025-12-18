@@ -2,9 +2,7 @@
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 start
 :Learner accesses own profile;
-:System provides user information and statistics;
-:Learner views achievement badges;
-:System retrieves earned badges;
+:System provides user information;
 :Learner updates personal details;
 :System updates user record;
 :System confirms success;

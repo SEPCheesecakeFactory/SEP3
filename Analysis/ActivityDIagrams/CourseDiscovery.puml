@@ -5,7 +5,7 @@ start
 :System provides available categories and languages;
 :Learner applies search filters;
 :System filters courses based on criteria;
-:Learner selects course for overview;
+:Learner selects a course;
 :Learner enrolls in course;
 stop
 @enduml

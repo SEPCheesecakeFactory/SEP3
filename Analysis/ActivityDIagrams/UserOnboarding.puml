@@ -10,17 +10,10 @@ if (User already exists?) then (yes)
     stop
 else (no)
     :System creates user account;
-    :System confirms registration;
+    :System confirms registration and logs the user in;
 endif
 
-:User enters credentials;
 :System authenticates user;
-if (Credentials valid?) then (yes)
-    :System creates user session;
-    :System grants access to platform;
-    stop
-else (no)
-    :System shows authentication error;
-    stop
-endif
+:System grants access to platform;
+
 @enduml
