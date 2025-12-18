@@ -14,7 +14,7 @@ Verification procedures confirmed that the system meets essential requirements, 
 
 # Introduction
 
-The acquisition of new knowledge is an essential part of human life and evolution. Functioning in the society necessitates communication, which in turn requires a foundational level of knowledge (Habermas, 1984). Although mandatory education became a universal global standard during the late 20th and early 21st centuries (UNESCO, 2000), significant disparities remain - approximately 40% of the global population still lacks access to education in a language they understand (PTI, 2025).
+The acquisition of new knowledge is an essential part of human life and evolution. Functioning in society necessitates communication, which in turn requires a foundational level of knowledge (Habermas, 1984). Although mandatory education became a universal global standard during the late 20th and early 21st centuries (UNESCO, 2000), significant disparities remain - approximately 40% of the global population still lacks access to education in a language they understand (PTI, 2025).
 
 The aim of this project is the development of a system which would be able to provide learning opportunities with a specific focus on accessibility, efficiency, and the optimization of learning processes. Beyond this, the system also aimed to ensure security, data integrity, and deployability of the solution among other things.
 
@@ -32,7 +32,7 @@ This overview represents merely a snapshot of the project development across eac
 
 ## Analysis
 
-The fundamental domain knowledge was at first derived from the analyzed problem domain via literature review, and research. Because of the data-driven nature of this project, the analysis focused on stakeholder interactions since the beginning to ensure proper understanding and to test the assumptions made. With more progress made on the solution, the analysis was evolutionary refined to reflect the new understanding of the problem domain in the specificities of the solution space created by Learnify.
+The fundamental domain knowledge was at first derived from the analyzed problem domain via literature review, and research. Because of the data-driven nature of this project, the analysis focused on stakeholder interactions since the beginning to ensure proper understanding and to test the assumptions made. With more progress made on the solution, the analysis was evolutionarily refined to reflect the new understanding of the problem domain in the specificities of the solution space created by Learnify.
 
 The most abstract and crucial aspect of the analysis was defining the system actors. The actors were defined to be:
 
@@ -40,7 +40,7 @@ The most abstract and crucial aspect of the analysis was defining the system act
 - Teachers
 - Admins
 
-The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
+The most debated aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
 
 - both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, Interview_121025.pdf)
 - both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, Interview_121025.pdf)
@@ -229,7 +229,7 @@ At the same time, the domain model was kept in its simplest form possible in ter
 
 And it could be further argued that Learning Steps only exist as a part of Courses, therefore the Domain Model is centered around the idea of Users learning from Courses, which did not change from the initial vision of the system.
 
-The inclusion of stakeholders as entities within the domain model mostly arised from the need of defining and understanding attributes and relationships of Users.
+The inclusion of stakeholders as entities within the domain model mostly arose from the need of defining and understanding attributes and relationships of Users.
 
 ### Security Requirements
 
@@ -261,7 +261,7 @@ The figure above depicts one of the wireframes created for the system - all cour
 
 The interface also includes features which are showed only to users with specific roles (Teacher, Admin); it can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
 
-The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (Open-Source Tool That Uses Simple Textual Descriptions to Draw Beautiful UML Diagrams., n.d.) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
+The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (Roques, n.d.) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
 
 ### Architectural overview
 
@@ -341,26 +341,26 @@ The system implements a multi-tiered architecture that utilizes distinct communi
 
 Taking into consideration the earlier defined threat analysis and risk assessment, the security design focuses on the technologies used to defend against identified threats. System maintains various strategies of protecting the data at rest and while being transmitted. 
 
-##### Authentification and Authorization 
+##### Authentication and Authorization 
 
-To adress the threats of Spoofing and Elevation of Privilege, the System is based on stateless authentification architecture. 
+To address the threats of Spoofing and Elevation of Privilege, the System is based on stateless authentication architecture. 
 
-- Authentification: The System delegates auth operations to an AuthController. Once credentials are successfully validated, the System sends a JWT to the client. The System relies on JwtSecurityTokenHandler to sign the token using the HmacSha256Signature algorithm and a pre-configured secret key loaded though server level application settings.
+- Authentication: The System delegates auth operations to an AuthController. Once credentials are successfully validated, the System sends a JWT to the client. The System relies on JwtSecurityTokenHandler to sign the token using the HmacSha256Signature algorithm and a pre-configured secret key loaded though server level application settings.
 
  - Authorization (RBAC): Access control is granted via ADDJwtBearer authentication method. The System inspects the claims of incoming requests to restrict access based on user roles (Learner, Teacher, Admin), effectively mitigating threats and unauthorized access.
  
   ##### Data Protection and Integrity 
   
-  To adress Confidentiality and Integrity requirements, following strategies have been adopted to protect data throughout its lifecycle. 
+  To address Confidentiality and Integrity requirements, following strategies have been adopted to protect data throughout its lifecycle. 
   
-  - Data at Rest: The system follows the principle of data minimization, ensuring no personal information is stored beyond the necessary authentication credentials (usaernames and passwords). To reduce the impact of potential database leaks, passwords are never stored as plain text. The system utilizes the Argon2 algorithm. This is hash algorithm provide resistance against brute-force attacks. 
+  - Data at Rest: The system follows the principle of data minimization, ensuring no personal information is stored beyond the necessary authentication credentials (usernames and passwords). To reduce the impact of potential database leaks, passwords are never stored as plain text. The system utilizes the Argon2 algorithm. This is hash algorithm provide resistance against brute-force attacks. 
 
   - Data during Transit: To protect data against Man-in-the-Middle Attacks, protection strategies differ based on network exposure: Client to Server: The Logic Server enforces Transport Layer Security (TLS) via the app.UseHttpsRedirection() middleware. This ensures that user credentials are encrypted when being transferred over the public internet. Logic to Data: Communication between the Logic and Data servers occurs via gRPC. While this traffic remains unencrypted, the data is serialized in binary Protobuf format. This unencrypted state is considered acceptable for the current project scope as it assumes strict network isolation.
 
 ##### Input Validation
 
-To reduce the possibility of injection attacks the system valides users input.
-- The System's SecureAuthService is designed to handle user inputs and throw erors when invalid inputs  such as missmatched passwords are detected, so that bad data is rejected before entering database.
+To reduce the possibility of injection attacks the system validates users input.
+- The System's SecureAuthService is designed to handle user inputs and throw errors when invalid inputs  such as mismatched passwords are detected, so that bad data is rejected before entering database.
 
 - The system uses strict gRPC message typing (e.g., the AddUserRequest) to guarantee data structure. This ensures that injection attacks relying on malformed data structures or unexpected fields are impossible, as they are rejected by the protocol's strict binary validation before reaching the application logic.
 
@@ -510,7 +510,7 @@ At first, a database schema was created in PostgreSQL, a Springboot project was 
 
 This stage did not include any actual logic but rather provided a skeleton of the system. One of the decisions taken at this stage was to maintain separate solutions for the Logic Server and Client Application. Despite the initial idea of implementing a shared solution, it was decided that the feature of C# anonymous types would suffice for most of the purposes of data transfer objects (DTOs) and that the added complexity of a shared solution would not be justified.
 
-The implementation of the skeleton was followed by a the implementation of a vertical slice which focused on fetching all courses from the database.
+The implementation of the skeleton was followed by the implementation of a vertical slice which focused on fetching all courses from the database.
 
 The individual components of the vertical slice can be seen below on the part of Domain Model (Appendix 2.3 Diagrams):
 
@@ -538,16 +538,16 @@ Java programming language was selected to run the Data Server because it met thi
 
 Data Server implemented using Java was intended to not have any code related to the main logic of the system. Its main responsibility was to handle operations of the services which were either taking data from the database or updating the database. The framework that was used in order to make the implementation process cleaner and more efficient was Spring boot. The team chose Spring Data JPA when it comes to handling data persistent with PostgreSQL due to the possibility of working with Java objects instead of raw SQL queries.
 
-The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a bog part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
+The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a big part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
 
-When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave the team a structured template to work on the fronted using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
+When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave the team a structured template to work on the frontend using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
 
 ### Integration Logic:
 To showcase the path from GUI through the servers, the database, and back as well as communication between the servers, the following figures demonstrate the necessary logs and implementations of such functionality. The code can be found in (Appendix 3.1 Source Code).
 
 #### Login Feature
 
-When an user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
+When a user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
 
 ![Click login as teacher](clicklogin.png)
 
@@ -890,16 +890,6 @@ Regarding security-related aspects, the system communicates over HTTP during dev
 
 The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
-## Final Product Showcase: Screenshots of the "Learnify" app UI or console logs showing successful data processing.
-
-## Ethical Considerations:
-
-Requirement: You must describe ethical considerations and how negative impacts are minimized.
-
-Content: Discuss data privacy (GDPR), user consent, or the societal impact of the app.
-
----
-
 # Discussion
 
 #### What Has Been Accomplished
@@ -921,7 +911,7 @@ The system delivered its core objectives but failed to achieve complete function
 
 Future research should direct its attention toward creating strong security systems which include Multi-Factor Authentication and advanced permission frameworks because the existing basic systems would need to evolve for commercial deployment. The learning platform will become better after the implementation of full accessibility features which include screen reader support and adaptive layout functionality. The platform requires testing for production-level usability and maximum load capacity to achieve production readiness and acceptable latency levels.
 
-The project achieved success through its development of a distributed learning system which met all essential criteria established during the planning phases. However, there are still some areas which needs space for an improvement. The results of this study could possibly help educational institutions improve their technology systems which currently exist in schools. Digital learning systems produce various results which need to be evaluated during the evaluation process. The development team needs to resolve privacy issues and content recommendation problems and digital divide problems for future Learnify learning platform versions.
+The project achieved success through its development of a distributed learning system which met all essential criteria established during the planning phases. However, there are still some areas which require improvement. The results of this study could possibly help educational institutions improve their technology systems which currently exist in schools. Digital learning systems produce various results which need to be evaluated during the evaluation process. The development team needs to resolve privacy issues and content recommendation problems and digital divide challenges for future Learnify learning platform versions.
 
 ---
 
@@ -935,7 +925,7 @@ The project achieved success through its development of a distributed learning s
 - Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
 - UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
 - Sommerville, I. (2016). Software Engineering Tenth Edition. https://dn790001.ca.archive.org/0/items/bme-vik-konyvek/Software%20Engineering%20-%20Ian%20Sommerville.pdf
-- Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. (n.d.). PlantUML.com. https://plantuml.com/
+- Roques, A. (n.d.). Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. PlantUML.com. https://plantuml.com/
 
 # Appendices
 
