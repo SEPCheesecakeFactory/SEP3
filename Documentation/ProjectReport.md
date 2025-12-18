@@ -979,80 +979,145 @@ In conclusion, Learnify establishes a robust foundation for a distributed learni
 # Appendices
 
 ## Appendix 2.1 Requirements
+
 ### Requirements
+
 Can be found as requirements.png
 
+
 ## Appendix 2.2 Use Cases
+
 ### Use Case Diagram
+
 Can be found as UseCaseDiagram.svg
+
 ### Complete Learning Step Use Case Description
+
 Can be found as CompleteLearningStepUseCaseDescription.png
 
+
 ## Appendix 2.3 Diagrams
+
 ### 2.3.1 Activity Diagrams
+
 Can be found in the Activity Diagrams folder
+
 ### 2.3.2 System Sequence Diagrams
+
 Can be found in the System Sequence Diagrams folder
+
 ### Domain Model
+
 Can be found as DomainModel.png
+
 ### Enhanced Entity Relationship Diagram
+
 Can be found as EER.png
+
 ### Global Relational Diagram
+
 Can be found as GR.png
+
 ### Application Layer Sequence Diagram
+
 Can be found as Application-LayerSD.png
 
+
 ## Appendix 2.4 Tests
+
 ### Test Cases
+
 Can be found as Tests.xlsx
 
+
 ## Appendix 3.1 Source Code
+
 ### AuthController.cs
+
 Can be found as System/LogicServer/RESTAPI/Controllers/AuthController.cs
+
 ### SecureAuthService.cs
+
 Can be found as System/LogicServer/RESTAPI/Services/SecureAuthService.cs
+
 ### gRPCUserRepository.cs
+
 Can be found as System/LogicServer/gRPCRepo/gRPCUserRepository.cs
+
 ### data_protocol.proto
+
 Can be found as System/DataServer/DataServer/src/main/proto/data_protocol.proto
+
 ### UserServiceImpl.java
+
 Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/UserServiceImpl.java
+
 ### HttpCourseService.cs
+
 Can be found as System/ClientApp/BlazorApp/Services/HttpCourseService.cs
+
 ### CoursesController.cs
+
 Can be found as System/LogicServer/RESTAPI/Controllers/CoursesController.cs
+
 ### gRPCCourseRepository.cs
+
 Can be found as System/LogicServer/gRPCRepo/gRPCCourseRepository.cs
+
 ### CourseServiceImpl.java
-Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/CourseServiceImpl.java
+
+Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/CourseServiceImpl.
+java
+
 
 ## Appendix 4.1 Relation Schema
+
 ### Relational Schema
+
 Can be found as RelationalSchema.png
 
+
 ## Appendix 7.1 Threat Model
+
 ### Threat model
+
 Can be found as ThreatModel.pdf
 
+
 ## Appendix 7.2 Security Policy
+
 ### Security Policy
+
 Can be found as SecurityPolicy.pdf
 
+
 ## Appendix 9.1 Wireframes
+
 ### All Courses Page Wireframe
+
 Can be found as Wireframes-2.png
 
+
 ## Appendix 10.1: Stakeholder Interviews
+
 ### Interview David
+
 Can be found as Interview_261125_1.pdf
+
 ### Interview Andrej
+
 Can be found as Interview_121025.pdf
 
+
 ## Appendix 11.1 Architecture
+
 ### Architectural Overview 
+
 Can be found as ArchitecturalOverview.png
 
-## Appendix 13.1 Deployment Diagram
-### Deployment Diagram
-Can be found as DeploymentDiagram.svg
 
+## Appendix 13.1 Deployment Diagram
+
+### Deployment Diagram
+
+Can be found as DeploymentDiagram.svg

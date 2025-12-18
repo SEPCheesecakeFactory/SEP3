@@ -85,11 +85,11 @@ Working with the team usually involved calling, sketching ideas, and drawing UML
 
 It must be noted that the adherence was not perfect. One such example is periodical claiming of tasks that often happened with no reason, which resulted in a so-called "Code Ownership Trash Can" where labels were put from tasks that did not need to be reserved by anyone. This can be seen on the figure below:
 
-![Code Ownership Trash Can](COTC.png)
+![Code Ownership Trash Can](COTC.png){width=60%}
 
-Another important point is the splitting of the work and the adherence to Kanban in critical situations - like before deadlines. IN these situations we resorted to more chaotic working as can be seen on the figure below, depicting a cumulative clump of tasks that arised towards the end of the project:
+Another important point is the splitting of the work and the adherence to Kanban in critical situations - like before deadlines. In these situations we resorted to more chaotic working as can be seen on the figure below, depicting a cumulative clump of tasks that arised towards the end of the project:
 
-![Tasks Before The Deadline](TasksDeadline.png)
+![Tasks Before The Deadline](TasksDeadline.png){width=60%}
 
 # Choice of Tools and Methods
 
@@ -97,7 +97,7 @@ Another important point is the splitting of the work and the adherence to Kanban
 
 One of the most often used techniques for determining the priority of tasks was utilizing a board with Impact and Effort axes. Despite a lack of public information about such usage - in time restricted situations, the tasks were prioritized from left to right, and in periods with time to spare - top to bottom. Overall, this method proved to be an effective planning technique that allowed the PO to quickly and relatively with no bias to prioritize tasks. A snapshot of a usage of this graph can be seen below:
 
-![Impact Effort Snapshot](ImpactEffort.png)
+![Impact Effort Snapshot](ImpactEffort.png){width=60%}
 
 Creating concepts from sources like user stories, non-functional requirements and others also proved to be a powerful idea that arised from the project initiation period. This method allowed great flexibility while keeping the opinionated choices of prioritization - often arising from the data-driven nature of the project. 
 
@@ -109,7 +109,7 @@ For documentation, a hybrid approach with markdown (Pandoc) and PlantUML was cho
 
 PlantUML was also important for all UML purposes in general - text-based form of diagrams allowed for great collaborative experiences, simple exports and truly dynamic changes. The ease of use and its popularity also resulted in UML being used outside of pure engineering diagramming, for example as shown on the figure below depicting a quick guide we shared on our board in Figma:
 
-![UML Guide](UMLNon.png)
+![UML Guide](UMLNon.png){width=60%}
 
 Visual Studio Code also allowed for efficient work with the database - providing the ability to connect to the database and easily execute all queries from the same environment as everything else. 
 
@@ -221,31 +221,43 @@ The project showed how flexible structured team collaboration works through our 
 
 The team needs open communication and respect as fundamental values together with a Product Owner who manages the vision to achieve successful teamwork. We should keep using standup meetings to exchange information while supervisors need to provide essential feedback and help with technical issues and code submissions must happen regularly to avoid creating bottlenecks. 
 
-It would be a good idea to avoid three main mistakes which include making decisions based on assumptions when data exists, enforcing processes that block work and splitting into groups that do not collaborate well with each other. The team should focus on achieving fundamental goals before attempting to tackle complex problems. 
+It would be a good idea to avoid three main mistakes which include making decisions based on assumptions when data exists, enforcing processes that block work and splitting into groups that do not collaborate well with each other. We should focus on achieving fundamental goals before attempting to tackle complex problems. 
 
-The team needs to keep their group contract active while using Kanban pull-based workflow management and feature decisions must be based on data. The team should seek outside feedback to confirm their project's direction.
+We need to keep the group contract active while using Kanban pull-based workflow management and feature decisions must be based on data. We should seek outside feedback to confirm the project's direction.
 
 ---
 
 # References  
 
-Kanban University. (2022). The official guide to the Kanban method (Version 2). Mauvius Group Inc. https://kanban.university/wp-content/uploads/2023/04/The-Official-Kanban-Guide_A4.pdf
+- Kanban University. (2022). The official guide to the Kanban method (Version 2). Mauvius Group Inc. https://kanban.university/wp-content/uploads/2023/04/The-Official-Kanban-Guide_A4.pdf
 
-Pierce, J. L., Kostova, T., & Dirks, K. T. (2001). Toward a Theory of Psychological Ownership in Organizations. The Academy of Management Review, 26(2), 298–310. https://doi.org/10.2307/259124
+- Pierce, J. L., Kostova, T., & Dirks, K. T. (2001). Toward a Theory of Psychological Ownership in Organizations. The Academy of Management Review, 26(2), 298–310. https://doi.org/10.2307/259124
 
 # Appendices
+
 ## Appendix 1.1 GroupContract
+
 ### Group Contract
+
 Can be found as GroupContract.pdf
 
+
 ## Appendix 7.3: Other documents
+
 ### Project Guidelines
+
 Can be found as ProjectGuidelines.pdf
 
+
 ## Appendix 6.1 Personal Profiles
+
 ### Personal Profiles
+
 Can be found as PersonalProfiles.png
 
+
 ## Appendix 12.1 Process Brainstorm
+
 ### Process Brainstorm
+
 Can be found as ProcessBrainstorm.png
