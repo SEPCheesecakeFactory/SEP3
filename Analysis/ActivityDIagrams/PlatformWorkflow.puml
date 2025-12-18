@@ -1,25 +1,37 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|User|
 start
-:User accesses platform;
+:Access platform;
 if (Has account?) then (no)
-    :User registers;
+    :Register;
 endif
-:User logs in;
-:System authenticates user;
+:Log in;
+|System|
+:Authenticate user;
+|Learner|
 repeat
-    :Learner browses course catalog;
-    :Learner filters by category or language;
-    :Learner enrolls in course;
+    :Browse course catalog;
+    :Filter by category or language;
+    :Enroll in course;
     repeat
-        :System provides learning activity;
-        :Learner completes learning activity;
-        :System provides feedback;
-    repeat while (Course not finished?)
-    :System updates points and badges;
-    :Learner checks leaderboard position;
-backward:Learner explores more courses;
+        |System|
+        :Provide learning step;
+        |Learner|
+        repeat
+        :Complete learning step;
+        |System|
+        :Provide feedback;
+        |Learner|
+        repeat while (Activity not completed correctly?)
+        |System|
+        :Update points (leaderboard);
+        |Learner|
+    repeat while (Course not finished?)    
+    :Check leaderboard position;
+backward:Explore more courses;
 repeat while (User wants to learn more?)
-:User logs out;
+|User|
+:Log out;
 stop
 @enduml

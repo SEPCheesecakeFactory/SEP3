@@ -1,0 +1,23 @@
+@startuml UC9_EditCourseContent
+title UC9 - Edit Course Content
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Teacher
+participant System
+
+Teacher -> System: Open own courses
+System --> Teacher: Retrieve courses assigned to teacher
+Teacher -> System: Select course to edit
+System --> Teacher: Provide course content
+alt Add New Learning Step
+    Teacher -> System: Add new learning step
+    System -> System: Create new step
+    System --> Teacher: Show the new step
+else Edit Existing Learning Step
+    Teacher -> System: Select learning step to edit
+    System --> Teacher: Provide current step content
+    Teacher -> System: Edit learning step, save changes
+    System -> System: Update step content
+    System --> Teacher: Confirm step update
+end
+@enduml

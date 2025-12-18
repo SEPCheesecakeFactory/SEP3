@@ -1,19 +1,33 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+|Teacher|
 start
-:Teacher proposes new course;
-:System stores course details as draft;
-:Admin reviews pending drafts;
+:Propose new course;
+
+|System|
+:Store course details as draft;
+
+|Admin|
+:Review pending drafts;
+
 if (Is draft acceptable?) then (yes)
-    :Admin approves draft;
-    :System updates status to approved;
-    :System initializes new course;
-    :Teacher starts adding learning steps;
+    partition Approve {
+        :Approve draft;
+        |System|
+        :Update status to approved;
+        :Initialize new course;
+        |Teacher|
+        :Start adding learning steps;
+    }
 else (no)
-    :Admin disapproves draft;
-    :Admin provides feedback;
-    :System updates status to rejected;
-    :Teacher reviews feedback;
+    partition Disapprove {
+        |Admin|
+        :Disapprove draft;
+        |System|
+        :Delete the draft;
+    }
 endif
+
 stop
 @enduml

@@ -1,13 +1,21 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|Teacher|
 start
-:Teacher opens own courses;
-:System retrieves courses assigned to teacher;
-:Teacher selects course to edit;
-:System provides course content;
-:Teacher adds or edits learning step;
-:System updates step content;
-:Teacher saves changes;
-:System confirms update;
+:Open own courses;
+|System|
+:Retrieve courses assigned to teacher;
+|Teacher|
+:Select course to edit;
+|System|
+:Provide course content;
+|Teacher|
+:Add or edit learning step;
+|System|
+:Update step content;
+|Teacher|
+:Save changes;
+|System|
+:Confirm update;
 stop
 @enduml

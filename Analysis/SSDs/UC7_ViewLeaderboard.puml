@@ -1,0 +1,11 @@
+@startuml UC7_ViewLeaderboard
+title UC7 - View Leaderboard
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Learner
+participant System
+
+Learner -> System: View leaderboard
+System -> System: Calculate rankings
+System --> Learner: Display the leaderboard
+@enduml

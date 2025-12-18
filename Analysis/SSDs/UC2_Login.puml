@@ -1,0 +1,15 @@
+@startuml UC2_Login
+title UC2 - Log in
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor User
+participant System
+
+User -> System: Enter credentials
+System -> System: Authenticate user
+alt Success
+    System --> User: Grant access to platform
+else Failure
+    System --> User: Show authentication error
+end
+@enduml

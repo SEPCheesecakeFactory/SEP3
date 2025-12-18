@@ -34,8 +34,8 @@ The most abstract and crucial aspect of the analysis was defining the system act
 
 The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
 
-- both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, TODO: Sasha update this)
-- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, TODO: Sasha update this)
+- both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, Interview_121025.pdf)
+- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, Interview_121025.pdf)
 
 ### Actor Descriptions
 
@@ -101,7 +101,7 @@ The uses cases developed are shown in a table below:
 | UC2  | Log in                     |
 | UC3  | Manage Personal Learning   |
 | UC4  | Browse and Search Catalog  |
-| UC5  | Complete Learning Activity |
+| UC5  | Complete Learning Step     |
 | UC6  | View User Profile          |
 | UC7  | View Leaderboard           |
 | UC8  | Create Course Draft        |
@@ -143,15 +143,15 @@ The table below shows how the use cases are related to the user stories
 
 To depict how the use cases were related to the system actors, a use case diagram was created as shown below:
 
-![Use Case Diagram (Appendix 2.2 Use Cases)](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
+![Use Case Diagram (Appendix 2.2 Use Cases)](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg){width=60%}
 
 As can be seen, the UCD also introduced the internal boundary for teachers and admins - specifying that these actors are not simply learners with privileges but there is a boundary to be crossed when becoming a teacher or an admin. The UCD also specifies the system boundary, which in the case of Learnify covers all the use cases developed.
 
 ### Use case descriptions
 
-In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Activity use case:
+In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Step use case:
 
-![Complete Learning Activity Use Case Description (Appendix 2.2 Use Cases)](CompleteLearningActivityUseCaseDescription.png)
+![Complete Learning Step Use Case Description (Appendix 2.2 Use Cases)](CompleteLearningStepUseCaseDescription.png)
 
 As seen above, the use case descriptions provided a structured way of understanding how the system should behave and gave a strong basis for the test cases. 
 
@@ -165,7 +165,39 @@ All the use case descriptions were made in the same format with:
 - Base Sequence
 - Alternative Sequences
 
+It was also determined that when the system fails to perform its action, the user should be notified of the error and the inability to proceed. This was noted on the side of the Use Case Descriptions as a general alternative sequence.
+
+### System sequence diagrams (SSD)
+
+System Sequence Diagrams (SSDs) were developed to illustrate the interaction between the system actors and the system as a black box. By focusing on the input and output events, the SSDs helped in identifying the necessary system operations and the data that needs to be exchanged to fulfill each use case.
+
+An SSD was created for each of the 12 use cases, ensuring that the dynamic behavior of the system is fully captured from an external perspective.
+
+The figure below shows the SSD for UC5 - Complete Learning Step, which highlights the iterative nature of the learning process and the system's role in providing feedback.
+
+![Complete Learning Step SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg){width=60%}
+
+The system sequence diagrams were kept simple and focused on the core interaction. Nevertheless, for UC9 and UC11 it was decided to include alternate paths while not including anything else than the main success scenarios. 
+
+### Activity diagrams
+
+The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases and domain entities. While use case descriptions provide a structured textual representation, activity diagrams allow for a visual understanding of the logical flow, decision points, and the interaction between the user and the system's core components.
+
+A set of activity diagrams was developed to cover the most critical workflows of the Learnify platform, including user onboarding, course discovery, content creation, and the learning process itself. 
+
+The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Step), and UC7 (View Leaderboard). 
+
+![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
+
+This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
+
+By modeling these workflows, the analysis phase ensured that the system's dynamic behavior aligns with the identified user stories and the relationships defined in the domain model.
+
 ### Test Cases
+
+Following the definition of the system’s dynamic behavior through use cases, SSDs and activity diagrams, a set of high-level test cases was derived to formalize the acceptance criteria for the Learnify system. These test cases were constructed directly from the use case descriptions, specifically targeting the preconditions, base sequences, and alternative sequences defined in the previous sections.
+
+The objective of defining these test cases during the analysis phase - rather than the testing phase - was to ensure understanding of system's functionality and to aid the definition of done.
 
 | Test Case ID | Test Case Name | Description | Precondition | Steps | Expected Result |
 | :--: | :---- | :--- | :-- | :----------- | :------ |
@@ -192,25 +224,11 @@ All the use case descriptions were made in the same format with:
 
 *Table 4: Test Cases (Appendix 2.4 Tests)*
 
-### Activity diagrams
-
-The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases and domain entities. While use case descriptions provide a structured textual representation, activity diagrams allow for a visual understanding of the logical flow, decision points, and the interaction between the user and the system's core components.
-
-A set of activity diagrams was developed to cover the most critical workflows of the Learnify platform, including user onboarding, course discovery, content creation, and the learning process itself. 
-
-The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Activity), and UC7 (View Leaderboard). 
-
-![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
-
-This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
-
-By modeling these workflows, the analysis phase ensured that the system's dynamic behavior aligns with the identified user stories and the relationships defined in the domain model.
-
 ### Domain model
 
 The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders.
 
-![Domain Model (Appendix 2.3 Diagrams)](..\out\Analysis\DomainModel\DomainModel.svg)
+![Domain Model (Appendix 2.3 Diagrams)](..\out\Analysis\DomainModel\DomainModel.svg){width=80%}
 
 The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other.
 
@@ -246,21 +264,28 @@ Similarly to other parts of the analysis phase, stakeholder interactions shaped 
 
 ### System design
 
+The aim of the designing phase was to establish a clear vision and guide for implementing the solution. Design phase created the largest gap between the initial problem definition and the approach taken to solve it by transforming certain concepts into an implementable or more flexible form (e.g. user roles).
+
 #### Wireframes
-*Figure X: All Courses Page Wireframe*
-![All Courses Page Wireframe (Appendix 9.1 Wireframes)](..\out\Analysis\Wireframes\Wireframes-2.png)
 
+Wireframes were used along other rough sketches to design the components of the user interface without the hassle of dealing with the final styling. Because of the chosen methodologies, wireframes provided a strong basis for creating HTML skeletons of various razor pages.
 
-The creation of the fronted included the designing wireframes of the web pages. One of the them is visible on the diagram above - All Courses Page Wireframe (Appendix A: Wireframes-2.png). This wireframe design shows a user-centered approach which enables simple course catalog browsing which is accessible for all users. The system provides users with two extra features which consist of a search function and category-based filtering options at the top of the interface. The content organization uses card-based design which shows key details including title, description, category and language of the course to assist users with their enrollment decisions. The interface includes also features which are showed only to users with specific roles (Teacher, Admin). It can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
+![All Courses Page Wireframe (Appendix 9.1 Wireframes)](..\out\Analysis\Wireframes\Wireframes-2.png){width=80%}
+
+The figure above depicts one of the wireframes created for the system - all courses page or as described in the analysis - "The Course Catalogue".
+
+The interface also includes features which are showed only to users with specific roles (Teacher, Admin); it can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
+
+The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (TODO: Source puml web) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
 
 ### Architectural overview
 
-The architectural overview shown on the picture below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
+The architectural overview shown on the figure below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain there is the Postgres database. The data is received through sockets.
 Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
-![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png)
+![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png){width=60%}
 
-### Communication Protocol Design:
+### Class diagram design
 We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
 
 #### Client App Class Diagram
@@ -283,9 +308,9 @@ This server main responsibility is to manage the database by adding, fetching, m
 
 ### Communication protocol design
 
-The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
+The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram below illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
 
-![Application Layer Sequence Diagram](Application-LayerSD.png)
+![Application Layer Sequence Diagram](Application-LayerSD.png){width=60%}
 
 #### Interface Definition (gRPC & Protobuf)
 
@@ -347,7 +372,7 @@ As means of bridging the gap from the problem domain in general and the Learnify
 
 The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled.
 
-```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship"}
+```plantuml {caption="SystemUser to Role Relationship"}
 @startuml
 class SystemUser {
     id
@@ -359,7 +384,31 @@ SystemUser "*" -right- "*" Role : has
 @enduml
 ```
 
-The figure above is a part of domain model (Appendix 2.3 Diagrams) focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+The figure above is a part of the domain model (Appendix 2.3 Diagrams) and focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+
+Certain relationships could in theory be kept as many-to-many, however the need to attach attributes to these relationships led to the preference of a separate entity to hold the attribute thus separating the concerns and providing a more flexible design. This can be seen on, for example, the UserCourseProgress entity as shown below:
+
+```plantuml {caption="SystemUser to Role Relationship"}
+@startuml
+class SystemUser
+{
+    id
+    username
+    password_hash
+}
+class UserCourseProgress {
+    current_step
+}
+class Course {
+    id
+    title
+    description
+    total_steps
+}
+SystemUser "1" -right- "*" UserCourseProgress : has progress
+Course "1" -left- "*" UserCourseProgress : tracked in
+@enduml
+```
 
 #### Relational Schema
 
@@ -374,7 +423,7 @@ The mapping resulted in the relation schema as shown on the figure below:
 
 As can be seen below on the part of Global Relational Diagram (Appendix 2.3 Diagrams), the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
 
-```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship Resolution"}
+```plantuml {caption="Caption"}
 @startuml
 class SystemUser {
     id
@@ -401,91 +450,6 @@ The final GR diagram is shown on the figure below:
 
 It can be seen that the GRD reflects the same concepts as the relational schema, however, in this case the positioning of the elements provides a more natural step going from the EER and the domain model; although, the positioning did not fully preserve the conceptual relationships as seen in the EER diagram.
 
-### Class diagram design
-
-We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
-
-#### Client App Class Diagram
-
-This server is responsible for displaying the system to the client and to help the client navigate through our system, giving freedom to the user to use the system as they please, using high-level methods.
-
-![Client App Class Diagram](../out/Implementation/ClientAppClass/ClientAppClass.svg)
-
-#### Logic Server Class Diagram
-
-In this server the logic of the system is defined through the controllers, allowing the client server to perform the actions requested by the client.
-
-![Logic Server Class Diagram](../out/Implementation/LogicServerClass/LogicServerClass.svg)
-
-#### Data Server Class Diagram
-
-This server main responsibility is to manage the database by adding, fetching, modifying and deleting the entities, ensuring that the logic server requests are completed successfully.
-
-![Data Server Class Diagram](../out/Implementation/DataServerClass/DataServerClass.svg)
-
-### Communication protocol design
-
-The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
-
-![Application Layer Sequence Diagram](Application-LayerSD.png)
-
-#### Interface Definition (gRPC & Protobuf)
-
-Internal communication between the Logic Server and the Data Server is managed via gRPC. The data structures and service contracts are defined using Protocol Buffers (Protobuf), ensuring strict typing.
-
-The next code snippet demonstrates the definition of the message structures (Requests and Responses) used within the system.
-
-```Protobuf
-message User {
-  int32 id = 1;
-  string username = 2;
-  string password = 3;
-  repeated Role roles = 4;
-}
-
-message Role {
-  string role = 1;
-}
-
-message GetUsersRequest {}
-
-message GetUsersResponse {
-  repeated User users = 1;
-}
-```
-
-The next code snippet illustrates the service definition, detailing the RPC methods, their required parameters, and return types.
-
-```Protobuf
-service UserService {
-  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
-  rpc GetUser(GetUserRequest) returns (User);
-  rpc AddUser(AddUserRequest) returns (AddUserResponse);
-  rpc UpdateUser(UpdateUserRequest) returns (User);
-}
-```
-
-
-#### API Specification
-
-The Logic Server exposes a RESTful API to external clients using standard HTTP/1.1 protocols. This design streamlines client integration by using standard HTTP verbs (GET, POST, PUT, DELETE) and status codes.
-
-For example, authentication is handled via the /auth/login endpoint. By sending a POST request to http://localhost:9090/auth/login with the correct credentials, a client can successfully authenticate and connect to the system.
-
-#### Protocol Justification
-
-A hybrid protocol approach was chosen to balance user experience with system performance, in specific, we chose to use HTTP for the logic server and gRPC for the data server:
-
-· External Communication (HTTP/JSON): We utilized HTTP with JSON for client-server interaction because of its universality and readability. JSON is natively supported by web browsers and mobile clients, making the system easy to debug and integrate. While the text-based format introduces some overhead, the trade-off favors the ease of development and broad compatibility required at the client layer.
-
-· Internal Communication (gRPC/Protobuf): For communication between the Logic and Data servers, gRPC was selected over REST. Unlike the text-based JSON, gRPC uses Protocol Buffers to serialize data into a binary format. This results in significantly smaller payload sizes and faster serialization/deserialization times. Furthermore, gRPC operates over HTTP/2, allowing for multiplexing and lower latency, which is critical for high-throughput internal traffic.
-
-### Data Persistence Design (maybe we should add some design related to this?):
-
-ER Diagram: showing how data is structured in the database.
-
-Consistency Model: Since it is distributed, mention how you handle data integrity across services.
-
 ## Implementation
 
 The implementation of the system followed the designed architecture and communication protocols with a focus on setting up the core of the architecture first as one continuous vertical slice.
@@ -498,7 +462,7 @@ The implementation of the skeleton was followed by a the implementation of a ver
 
 The individual components of the vertical slice can be seen below on the part of Domain Model (Appendix 2.3 Diagrams):
 
-```plantuml
+```plantuml {caption="Caption"}
 @startuml
 class Course
 {
@@ -514,19 +478,15 @@ At a later stage, the original database setup was split into pure DDL script and
 
 ### Methods and tools
 
-List the two languages (e.g., Go, Java, Python) and the database (e.g., PostgreSQL, MongoDB).
+Going further into implementation details, Java and C# programming languages were chosen to meet the requirements of multilanguage system. For storing information PostgreSQL database has been implemented. 
+The development team chose C# Blazor .NET for the frontend because its component-based system gave a possibility for fast GUI development without needing an additional JavaScript code. On the Logic Server, ASP.NET Core provided an intuitive environment for managing REST endpoints and gRPC services, facilitating high-speed communication. It was achieved by using shared Data Transfer Objects (DTOs) and validation logic which kept data model changes synchronized between client and server systems. 
+Java programming language was selected to run the Data Server because it met this semester's polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
 
-Justification: Explain why each language was chosen for its specific task. (e.g., "Go was selected for the backend service due to its concurrency handling...").
+### Servers Implementation
 
-### Server A Implementation (Language 1):
+### Security Implementation
 
-### Server B Implementation (Language 2):
-
-### Server C Implementation:
-
-### Integration Logic:
-
-Show how the two services "talk" to each other. Provide a code snippet showing the gRPC client/server handshake or the HTTP request handling.
+Learnify bases its entire system security approach on the foundation of its Security Policy (Appendix 7.2 Security Policy). The document describes vital security measures which organizations employ to protect their information from unauthorized access and security breaches. The System depends on three critical security principles which include confidentiality, integrity and availability that protect its core functions through multiple essential security measures. The process needs each user to enter their personal login details for authentication. The policy specifies that users needs to create passwords which contain at least eight characters to safeguard their accounts. Role-Based Access Control (RBAC) provides additional protection through its access management system which grants specific permissions to Learners and Teachers and Administrators based on their designated roles. The Logic Server performs user role verification through generated claims to authorize only permitted actions before processing any requests. The endpoints of WebApi logic server have been secured. The team strived to achieve data security by using a well-planned system which organizes information through classification and protects it with encryption methods. The system contains three types of data which include public information that users can access through registration and login pages, internal information that requires authentication to view course catalogs and content and sensitive information which needs encryption for user passwords. The system uses Argon2 as a secure password hashing function which includes salting to protect user information. The system operates with continuous security measures and regular software updates to maintain its network security. It functions through a firewall which grants access to particular ports that are essential for operation.
 
 ## Testing
 
@@ -552,8 +512,6 @@ In practice, different types of tests naturally aligned with different parts of 
 
 - High-level test cases and use-case validation corresponded to the upper part of the V (requirements and acceptance testing).
 - Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
-
-Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
 
 ### Tools and frameworks
 
@@ -643,7 +601,34 @@ The team followed a continuous test–fix–verify cycle during development. Whe
 
 ## Result
 
-The guidelines require you to support results with data, programs, or models.
+Based on the defined use cases and their corresponding test scenarios, the system was evaluated through a combination of automated tests and manual verification. The implemented functionality covers the main workflows for learners, teachers, and administrators that were within the project scope.
+
+The results show that all implemented use cases behave according to their expected outcomes. Core features such as user registration and login, course participation, learning activities, course creation, and administrative management were verified to function correctly.
+
+Regarding security-related aspects, the system communicates over HTTP during development and testing. While the application configuration includes redirection to HTTPS outside of development mode, a full HTTPS setup with proper certificate handling was not established as part of this project. Additionally, no explicit enforcement of a minimum password length (such as an 8-character requirement) is implemented in the current system.
+
+| Use Case | Result | Comments |
+|---|---|---|
+| Register User – Success | Works | A new user can register with valid input and is prompted to log in afterward. |
+| Register User – Invalid / Duplicate | Works | The system rejects invalid or duplicate registration attempts and shows an error message. |
+| Log In – Success | Works | A registered user can log in and access their personalized dashboard. |
+| Log In – Failure | Works | Invalid credentials are rejected, and the user stays unauthenticated with a clear error message. |
+| Manage Personal Learning – Resume Course | Works | A learner can resume an enrolled course from the exact point where they stopped. |
+| Manage Personal Learning – Unenroll | Works | A learner can unenroll from a course, and it is removed from their active course list. |
+| Browse and Search Catalog – Results Found | Works | The catalog displays courses matching the user’s search terms or filters. |
+| Browse and Search Catalog – No Results | Works | The system informs the user when no courses match the selected filters/search criteria. |
+| Complete Learning Step – Correct Answer | Works | Correct answers are accepted, progress is saved, and the learner can proceed. |
+| Complete Learning Step – Incorrect Answer | Works | Incorrect answers trigger feedback, and the learner must retry before continuing. |
+| View User Profile | Works | The user can view their profile details, matching stored account information. |
+| View Leaderboard | Works | The leaderboard displays users ranked based on performance metrics. |
+| Create Course Draft | Works | A teacher can create a draft, which is saved and visible in their workspace. |
+| Edit Course Content | Works | A teacher can edit course content, and changes are saved and reflected. |
+| Admin – Manage Categories | Works | An admin can create categories that become available for course configuration. |
+| Admin – Manage Languages | Works | An admin can add languages that become available for course creation. |
+| Admin – Approve Draft | Works | Approved drafts become courses and appear in the system as available content. |
+| Admin – Disapprove Draft | Works | Disapproved drafts are removed and do not appear in the course catalog. |
+| Admin – Assign Role | Works | An admin can assign roles, and permissions update immediately. |
+| Admin – Remove Role | Works | An admin can remove roles, and permissions are revoked correctly. |
 
 ## Final Product Showcase: Screenshots of the "Learnify" app UI or console logs showing successful data processing.
 
@@ -699,10 +684,12 @@ Can be found as TODO:eduard.pdf
 ## Appendix 2.2 Use Cases
 ### Use Case Diagram
 Can be found as TODO:eduard.pdf
-### Complete Learning Activity Use Case Description
+### Complete Learning Step Use Case Description
 Can be found as TODO:eduard.pdf
 
 ## Appendix 2.3 Diagrams
+### System Sequence Diagrams
+Can be found in the SSDs folder (UC1 to UC12)
 ### Learning and Achievement Activity Diagram
 Can be found as LearningAndAchievement.png
 ### Domain Model
@@ -718,7 +705,27 @@ Can be found as Application-LayerSD.png
 ### Test Cases
 Can be found as TestCases.pdf???? TODO:add this to the appendix
 ### Test Cases Result
-Can be found as ...... TODO:add this to the appendix
+Can be found as ...... TODO:add this to the appendix\
+
+## Appendix 3.1 Source Code
+### AuthController.cs
+Can be found as System/LogicServer/RESTAPI/Controllers/AuthController.cs
+### SecureAuthService.cs
+Can be found as System/LogicServer/RESTAPI/Services/SecureAuthService.cs
+### gRPCUserRepository.cs
+Can be found as System/LogicServer/gRPCRepo/gRPCUserRepository.cs
+### data_protocol.proto
+Can be found as System/DataServer/DataServer/src/main/proto/data_protocol.proto
+### UserServiceImpl.java
+Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/UserServiceImpl.java
+### HttpCourseService.cs
+Can be found as System/ClientApp/BlazorApp/Services/HttpCourseService.cs
+### CoursesController.cs
+Can be found as System/LogicServer/RESTAPI/Controllers/CoursesController.cs
+### gRPCCourseRepository.cs
+Can be found as System/LogicServer/gRPCRepo/gRPCCourseRepository.cs
+### CourseServiceImpl.java
+Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/CourseServiceImpl.java
 
 ## Appendix 4.1 Relation Schema
 ### Relational Schema
@@ -728,6 +735,10 @@ Can be found as RelationalSchema.png
 ### Threat model
 Can be found as ThreatModel.pdf
 
+## Appendix 7.2 Security Policy
+### Security Policy
+Can be found as SecurityPolicy.pdf
+
 ## Appendix 9.1 Wireframes
 ### All Courses Page Wireframe
 Can be found as Wireframes-2.png
@@ -735,8 +746,8 @@ Can be found as Wireframes-2.png
 ## Appendix 10.1: Stakeholder Interviews
 ### Interview David
 Can be found as Interview_261125_1.pdf
-### Interview Andrej TODO: Sasha update this
-Can be found as Interview_XXX.pdf
+### Interview Andrej
+Can be found as Interview_121025.pdf
 
 ## Appendix 11.1 Architecture
 ### Architectural Overview 

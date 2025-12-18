@@ -1,0 +1,23 @@
+@startuml CompleteLearningActivity
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|System|
+start
+:Display learning step;
+|User|
+repeat
+:Input answer;
+:Submit answer;
+|System|
+:Evaluate answer;
+
+if (Is answer correct?) then (yes)
+    :Display success message;
+    :Mark step as completed;
+    stop
+else (no)
+    :Display error message; 
+    :Provide corrective feedback;   
+endif
+|User|
+repeat while (answer is incorrect)
+@enduml

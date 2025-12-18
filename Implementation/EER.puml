@@ -61,17 +61,17 @@ class UserCourseProgress {
 
 ' Relationships
 
-SystemUser "*" -- "*" Role : has
+SystemUser "*" -- "*" Role : has ▶
 
-Course "*" -- "1" CourseCategory : belongs to
-Course "*" -- "1" Language : is in
-Course "*" -- "1" SystemUser : created by
-Course "*" -- "1" SystemUser : approved by
+Course "*" -- "1" CourseCategory : belongs to ▶
+Course "*" -- "1" Language : is in ▶
+Course "*" -- "1" SystemUser : created by ▼
+Course "*" -- "1" SystemUser : approved by ▼
 
-LearningStep "*" -- "1" Course : belongs to
-LearningStep "*" -- "1" LearningStepType : is of type
+LearningStep "*" --* "1" Course : belongs to ▼
+LearningStep "*" -- "1" LearningStepType : is of type ▼
 
-SystemUser "1" -- "*" UserCourseProgress : has progress
-Course "1" -- "*" UserCourseProgress : tracked in
+SystemUser "1" o-- "*" UserCourseProgress : has progress ▶
+Course "1" -- "*" UserCourseProgress : tracked in ▲
 
 @enduml

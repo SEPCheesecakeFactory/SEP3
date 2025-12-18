@@ -1,0 +1,13 @@
+@startuml UC6_ViewUserProfile
+title UC6 - View User Profile
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Learner
+participant System
+
+Learner -> System: Access own profile
+System --> Learner: Provide user information
+Learner -> System: Update personal details
+System -> System: Update user record
+System --> Learner: Confirm success
+@enduml

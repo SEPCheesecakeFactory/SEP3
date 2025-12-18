@@ -1,26 +1,23 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|User|
 start
-:User initiates registration;
-:System requests user details;
-:User provides username and password;
-:System validates user details;
+:Initiate registration;
+|System|
+:Request user details;
+|User|
+:Provide username and password;
+|System|
+:Validate user details;
 if (User already exists?) then (yes)
-    :System shows error message;
+    :Show error message;
     stop
 else (no)
-    :System creates user account;
-    :System confirms registration;
+    :Create user account;
+    :Confirm registration and log the user in;
 endif
 
-:User enters credentials;
-:System authenticates user;
-if (Credentials valid?) then (yes)
-    :System creates user session;
-    :System grants access to platform;
-    stop
-else (no)
-    :System shows authentication error;
-    stop
-endif
+:Authenticate user;
+:Grant access to platform;
+stop
 @enduml

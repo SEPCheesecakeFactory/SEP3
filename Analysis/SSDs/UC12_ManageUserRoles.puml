@@ -1,0 +1,13 @@
+@startuml UC12_ManageUserRoles
+title UC12 - Manage User Roles
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Admin
+participant System
+
+Admin -> System: Search for user
+System --> Admin: Display matching user list
+Admin -> System: Select target user and assign/revoke role
+System -> System: Update user permissions
+System --> Admin: Confirm changes
+@enduml

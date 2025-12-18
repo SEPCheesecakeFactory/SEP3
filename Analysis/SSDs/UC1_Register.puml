@@ -1,0 +1,17 @@
+@startuml UC1_Register
+title UC1 - Register
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor User
+participant System
+
+User -> System: Initiate registration
+System --> User: Request user details
+User -> System: Provide username and password
+System -> System: Validate user details
+alt Success
+    System --> User: Confirm registration and log the user in
+else Failure
+    System --> User: Show error message
+end
+@enduml

@@ -1,0 +1,19 @@
+@startuml UC5_CompleteLearningActivity
+title UC5 - Complete Learning Step
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Learner
+participant System
+
+Learner -> System: Request current learning step
+System --> Learner: Display learning step
+loop Until correct answer
+    Learner -> System: Submit answer
+    System -> System: Evaluate answer
+    alt Correct
+        System --> Learner: Display success message and mark step as completed
+    else Incorrect
+        System --> Learner: Display error message and provide corrective feedback
+    end
+end
+@enduml
