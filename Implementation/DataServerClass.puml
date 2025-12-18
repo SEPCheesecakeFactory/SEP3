@@ -6,92 +6,90 @@ skinparam titleBorderRoundCorner 15
 skinparam titleBorderThickness 2
 title "DataServer Class Diagram"
 
-package via.sep3.dataserver
+package data
 {
-    package data
-    {
-        ' --- Entities ---
-        class SystemUser {
-            - Integer id
-            - String username
-            - String password_hash
-        }
-
-        class Role {
-            - String role
-        }
-
-        class SystemUserRole {
-            
-        }
-        
-        class Course {
-            - Integer id
-            - String title
-            - String description
-        }
-
-        class CourseCategory {
-            - Integer id
-            - String name
-        }
-
-        class Language {
-            - String code
-            - String name
-        }
-
-        class LearningStep {
-            - String content
-        }
-
-        class LearningStepId <<Embeddable>> {
-            - Integer stepOrder
-            - Integer courseId
-        }
-
-        class LearningStepType {
-            - Integer id
-            - String name
-        }
-
-        class UserCourseProgress {
-            - int currentStep
-        }
-        
-        interface LeaderboardEntry <<Projection>> {
-             + getUsername()
-             + getTotalScore()
-        }
-
-        ' --- Repositories ---
-        interface JpaRepository<T, ID>
-        
-        interface SystemUserRepository {
-            + findTopPlayers()
-        }
-        interface RoleRepository
-        interface SystemUserRoleRepository
-        interface CourseRepository
-        interface CourseCategoryRepository
-        interface LanguageRepository
-        interface LearningStepRepository
-        interface LearningStepTypeRepository
-        interface UserCourseProgressRepository
+    ' --- Entities ---
+    class SystemUser {
+        - Integer id
+        - String username
+        - String password_hash
     }
 
-    package service
-    {
-        ' --- gRPC Services ---
-        class UserServiceImpl <<@GrpcService>>
-        class CourseServiceImpl <<@GrpcService>>
-        class ProgressServiceImpl <<@GrpcService>>
-        
-        class UserServiceGrpc.UserServiceImplBase
-        class CourseServiceGrpc.CourseServiceImplBase
-        class ProgressServiceGrpc.ProgressServiceImplBase
+    class Role {
+        - String role
     }
+
+    class SystemUserRole {
+
+    }
+
+    class Course {
+        - Integer id
+        - String title
+        - String description
+    }
+
+    class CourseCategory {
+        - Integer id
+        - String name
+    }
+
+    class Language {
+        - String code
+        - String name
+    }
+
+    class LearningStep {
+        - String content
+    }
+
+    class LearningStepId <<Embeddable>> {
+        - Integer stepOrder
+        - Integer courseId
+    }
+
+    class LearningStepType {
+        - Integer id
+        - String name
+    }
+
+    class UserCourseProgress {
+        - int currentStep
+    }
+
+    interface LeaderboardEntry <<Projection>> {
+        + getUsername()
+        + getTotalScore()
+    }
+
+    ' --- Repositories ---
+    interface JpaRepository<T, ID>
+
+    interface SystemUserRepository {
+        + findTopPlayers()
+    }
+    interface RoleRepository
+    interface SystemUserRoleRepository
+    interface CourseRepository
+    interface CourseCategoryRepository
+    interface LanguageRepository
+    interface LearningStepRepository
+    interface LearningStepTypeRepository
+    interface UserCourseProgressRepository
 }
+
+package service
+{
+    ' --- gRPC Services ---
+    class UserServiceImpl <<@GrpcService>>
+    class CourseServiceImpl <<@GrpcService>>
+    class ProgressServiceImpl <<@GrpcService>>
+
+    class UserServiceGrpc.UserServiceImplBase
+    class CourseServiceGrpc.CourseServiceImplBase
+    class ProgressServiceGrpc.ProgressServiceImplBase
+}
+
 
 ' --- Relationships ---
 

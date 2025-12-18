@@ -1,0 +1,53 @@
+@startuml DataServerClass
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+scale 1
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+title "Summary DataServer Class Diagram"
+
+package service
+{
+    ' --- gRPC Services ---
+    class UserServiceImpl <<@GrpcService>>
+    class CourseServiceImpl <<@GrpcService>>
+    class ProgressServiceImpl <<@GrpcService>>
+}
+
+
+' --- Relationships ---
+
+' Repository Inheritance
+SystemUserRepository --|> JpaRepository
+RoleRepository --|> JpaRepository
+SystemUserRoleRepository --|> JpaRepository
+CourseRepository --|> JpaRepository
+CourseCategoryRepository --|> JpaRepository
+LanguageRepository --|> JpaRepository
+LearningStepRepository --|> JpaRepository
+LearningStepTypeRepository --|> JpaRepository
+UserCourseProgressRepository --|> JpaRepository
+
+' Service Implementation
+UserServiceImpl --|> UserServiceGrpc.UserServiceImplBase
+CourseServiceImpl --|> CourseServiceGrpc.CourseServiceImplBase
+ProgressServiceImpl --|> ProgressServiceGrpc.ProgressServiceImplBase
+
+' Service Dependencies (Injection)
+UserServiceImpl --> SystemUserRepository : uses
+UserServiceImpl --> SystemUserRoleRepository : uses
+UserServiceImpl --> RoleRepository : uses
+
+CourseServiceImpl --> CourseRepository : uses
+CourseServiceImpl --> LearningStepRepository : uses
+CourseServiceImpl --> LearningStepTypeRepository : uses
+CourseServiceImpl --> LanguageRepository : uses
+CourseServiceImpl --> CourseCategoryRepository : uses
+CourseServiceImpl --> UserCourseProgressRepository : uses
+CourseServiceImpl --> SystemUserRepository : uses
+
+ProgressServiceImpl --> UserCourseProgressRepository : uses
+ProgressServiceImpl --> SystemUserRepository : uses
+ProgressServiceImpl --> CourseRepository : uses
+
+@enduml

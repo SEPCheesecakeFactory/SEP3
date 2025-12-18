@@ -1,0 +1,85 @@
+@startuml DataServerClass
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+scale 1
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+title "Entities DataServer Class Diagram"
+
+package data
+{
+    ' --- Entities ---
+    class SystemUser {
+        - Integer id
+        - String username
+        - String password_hash
+    }
+
+    class Role {
+        - String role
+    }
+
+    class SystemUserRole {
+
+    }
+
+    class Course {
+        - Integer id
+        - String title
+        - String description
+    }
+
+    class CourseCategory {
+        - Integer id
+        - String name
+    }
+
+    class Language {
+        - String code
+        - String name
+    }
+
+    class LearningStep {
+        - String content
+    }
+
+    class LearningStepId {
+        - Integer stepOrder
+        - Integer courseId
+    }
+
+    class LearningStepType {
+        - Integer id
+        - String name
+    }
+
+    class UserCourseProgress {
+        - int currentStep
+    }
+
+    interface LeaderboardEntry {
+        + getUsername()
+        + getTotalScore()
+    }
+
+}
+
+' --- Relationships ---
+
+' Entity Associations (JPA)
+SystemUser "1" *-- "*" SystemUserRole : contains >
+SystemUserRole "*" --> "1" Role : has >
+
+Course "*" --> "1" Language : uses >
+Course "*" --> "1" CourseCategory : classified as >
+Course "*" --> "1" SystemUser : author >
+Course "*" --> "0..1" SystemUser : approvedBy >
+
+LearningStep "*" --> "1" Course : belongs to >
+LearningStep "*" --> "1" LearningStepType : is type >
+LearningStep -- LearningStepId : embedded id >
+
+UserCourseProgress "*" --> "1" SystemUser : user >
+UserCourseProgress "*" --> "1" Course : course >
+
+@enduml
