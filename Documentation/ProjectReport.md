@@ -281,7 +281,7 @@ Although the three-tier overview seems to appear a bit basic, each tier plays th
 
 ![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png){width=60%}
 
-### Communication Protocol Design:
+### Class diagram design
 We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
 
 #### Client App Class Diagram
@@ -304,7 +304,7 @@ This server main responsibility is to manage the database by adding, fetching, m
 
 ### Communication protocol design
 
-The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
+The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram below illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
 
 ![Application Layer Sequence Diagram](Application-LayerSD.png){width=60%}
 
@@ -446,91 +446,6 @@ The final GR diagram is shown on the figure below:
 
 It can be seen that the GRD reflects the same concepts as the relational schema, however, in this case the positioning of the elements provides a more natural step going from the EER and the domain model; although, the positioning did not fully preserve the conceptual relationships as seen in the EER diagram.
 
-### Class diagram design
-
-We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
-
-#### Client App Class Diagram
-
-This server is responsible for displaying the system to the client and to help the client navigate through our system, giving freedom to the user to use the system as they please, using high-level methods.
-
-![Client App Class Diagram](../out/Implementation/ClientAppClass/ClientAppClass.svg)
-
-#### Logic Server Class Diagram
-
-In this server the logic of the system is defined through the controllers, allowing the client server to perform the actions requested by the client.
-
-![Logic Server Class Diagram](../out/Implementation/LogicServerClass/LogicServerClass.svg)
-
-#### Data Server Class Diagram
-
-This server main responsibility is to manage the database by adding, fetching, modifying and deleting the entities, ensuring that the logic server requests are completed successfully.
-
-![Data Server Class Diagram](../out/Implementation/DataServerClass/DataServerClass.svg)
-
-### Communication protocol design
-
-The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
-
-![Application Layer Sequence Diagram](Application-LayerSD.png)
-
-#### Interface Definition (gRPC & Protobuf)
-
-Internal communication between the Logic Server and the Data Server is managed via gRPC. The data structures and service contracts are defined using Protocol Buffers (Protobuf), ensuring strict typing.
-
-The next code snippet demonstrates the definition of the message structures (Requests and Responses) used within the system.
-
-```Protobuf
-message User {
-  int32 id = 1;
-  string username = 2;
-  string password = 3;
-  repeated Role roles = 4;
-}
-
-message Role {
-  string role = 1;
-}
-
-message GetUsersRequest {}
-
-message GetUsersResponse {
-  repeated User users = 1;
-}
-```
-
-The next code snippet illustrates the service definition, detailing the RPC methods, their required parameters, and return types.
-
-```Protobuf
-service UserService {
-  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
-  rpc GetUser(GetUserRequest) returns (User);
-  rpc AddUser(AddUserRequest) returns (AddUserResponse);
-  rpc UpdateUser(UpdateUserRequest) returns (User);
-}
-```
-
-
-#### API Specification
-
-The Logic Server exposes a RESTful API to external clients using standard HTTP/1.1 protocols. This design streamlines client integration by using standard HTTP verbs (GET, POST, PUT, DELETE) and status codes.
-
-For example, authentication is handled via the /auth/login endpoint. By sending a POST request to http://localhost:9090/auth/login with the correct credentials, a client can successfully authenticate and connect to the system.
-
-#### Protocol Justification
-
-A hybrid protocol approach was chosen to balance user experience with system performance, in specific, we chose to use HTTP for the logic server and gRPC for the data server:
-
-· External Communication (HTTP/JSON): We utilized HTTP with JSON for client-server interaction because of its universality and readability. JSON is natively supported by web browsers and mobile clients, making the system easy to debug and integrate. While the text-based format introduces some overhead, the trade-off favors the ease of development and broad compatibility required at the client layer.
-
-· Internal Communication (gRPC/Protobuf): For communication between the Logic and Data servers, gRPC was selected over REST. Unlike the text-based JSON, gRPC uses Protocol Buffers to serialize data into a binary format. This results in significantly smaller payload sizes and faster serialization/deserialization times. Furthermore, gRPC operates over HTTP/2, allowing for multiplexing and lower latency, which is critical for high-throughput internal traffic.
-
-### Data Persistence Design (maybe we should add some design related to this?):
-
-ER Diagram: showing how data is structured in the database.
-
-Consistency Model: Since it is distributed, mention how you handle data integrity across services.
-
 ## Implementation
 
 The implementation of the system followed the designed architecture and communication protocols with a focus on setting up the core of the architecture first as one continuous vertical slice.
@@ -564,16 +479,6 @@ The development team chose C# Blazor .NET for the frontend because its component
 Java programming language was selected to run the Data Server because it met our polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
 
 
-### Data Server Implementation:
-
-### Logic Server Implementation: 
-
-### Blazor Client App Implementation:
-
-### Integration Logic:
-
-Show how the two services "talk" to each other. Provide a code snippet showing the gRPC client/server handshake or the HTTP request handling.
-
 ### Security Implementation
 
 Learnify bases its entire system security approach on the foundation of its Security Policy (Appendix 7.2 Security Policy). The document describes vital security measures which organizations employ to protect their information from unauthorized access and security breaches. The System depends on three critical security principles which include confidentiality, integrity and availability that protect its core functions through multiple essential security measures. The process needs each user to enter their personal login details for authentication. The policy specifies that users needs to create passwords which contain at least eight characters to safeguard their accounts. Role-Based Access Control (RBAC) provides additional protection through its access management system which grants specific permissions to Learners and Teachers and Administrators based on their designated roles. The Logic Server performs user role verification through generated claims to authorize only permitted actions before processing any requests. The endpoints of WebApi logic server have been secured. The team strived to achieve data security by using a well-planned system which organizes information through classification and protects it with encryption methods. The system contains three types of data which include public information that users can access through registration and login pages, internal information that requires authentication to view course catalogs and content and sensitive information which needs encryption for user passwords. The system uses Argon2 as a secure password hashing function which includes salting to protect user information. The system operates with continuous security measures and regular software updates to maintain its network security. It functions through a firewall which grants access to particular ports that are essential for operation.
@@ -602,8 +507,6 @@ In practice, different types of tests naturally aligned with different parts of 
 
 - High-level test cases and use-case validation corresponded to the upper part of the V (requirements and acceptance testing).
 - Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
-
-Automated tests focused mainly on the lower part of the V, especially unit and integration testing.
 
 ### Tools and frameworks
 
