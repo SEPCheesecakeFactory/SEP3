@@ -763,6 +763,12 @@ public void addCourse(AddCourseRequest request, StreamObserver<AddCourseResponse
 
 Learnify bases its entire system security approach on the foundation of its Security Policy (Appendix 7.2 Security Policy). The document describes vital security measures which organizations employ to protect their information from unauthorized access and security breaches. The System depends on three critical security principles which include confidentiality, integrity and availability that protect its core functions through multiple essential security measures. The process needs each user to enter their personal login details for authentication. The policy specifies that users needs to create passwords which contain at least eight characters to safeguard their accounts. Role-Based Access Control (RBAC) provides additional protection through its access management system which grants specific permissions to Learners and Teachers and Administrators based on their designated roles. The Logic Server performs user role verification through generated claims to authorize only permitted actions before processing any requests. The endpoints of WebApi logic server have been secured. The team strived to achieve data security by using a well-planned system which organizes information through classification and protects it with encryption methods. The system contains three types of data which include public information that users can access through registration and login pages, internal information that requires authentication to view course catalogs and content and sensitive information which needs encryption for user passwords. The system uses Argon2 as a secure password hashing function which includes salting to protect user information. The system operates with continuous security measures and regular software updates to maintain its network security. It functions through a firewall which grants access to particular ports that are essential for operation.
 
+### Deployment
+
+A deployment diagram was created to visualize the physical deployment of the system components. The diagram illustrates how the system components are dependent on each other and how they interact once deployed. The diagram can be found as Appendix 13.1 Deployment Diagram or seen on the figure below:
+
+![Deployment Diagram (Appendix 13.1 Deployment Diagram)](../out/Deployment/DeploymentDiagram/DeploymentDiagram.svg){width=60%}
+
 ## Testing
 
 ### Testing Approach
@@ -983,4 +989,8 @@ Can be found as Interview_121025.pdf
 ## Appendix 11.1 Architecture
 ### Architectural Overview 
 Can be found as ArchitecturalOverview.png
+
+## Appendix 13.1 Deployment Diagram
+### Deployment Diagram
+Can be found as DeploymentDiagram.svg
 
