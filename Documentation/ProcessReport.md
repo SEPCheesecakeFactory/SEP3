@@ -10,14 +10,16 @@ Many of our group processes stemmed as a continuation from our previous project 
 
 ![Personal Profiles (Appendix 6.1 Personal Profiles)](PersonalProfiles.png)
 
-Our team was culturally diverse, because members were from: Slovakia, Poland, Moldova, Spain and Turkey. The Southern European members of our team exhibited flexible relationship-based communication which proved to be a good balance for the structured task-oriented methods used by Central and Eastern European members. In addition, our earlier experiences together enabled us to handle cultural differences better because we understood each team member's work habits which helped us predict problems and address personal challenges before they could harm the team's performance. For example, knowing who preferred straightforward communication versus who tended to procrastinate with the set tasks allowed us to motivate each other effectively while maintaining a healthy working balance.
+Our team was culturally diverse as we come from: Slovakia, Poland, Moldova, Spain and Turkey. The Southern European members of our team exhibited flexible relationship-based communication which proved to be a good balance for the structured task-oriented methods used by Central and Eastern European members. In addition, our earlier experiences together enabled us to handle cultural differences better because we understood each team member's work habits which helped us predict problems and address personal challenges before they could harm the team's performance. For example, knowing who preferred straightforward communication versus who tended to procrastinate with the set tasks allowed us to motivate each other effectively while maintaining a healthy working balance.
 
-We based the group contract (Appendix 1.1 Group Contract) for the project on our previous contract with slight changes, for example to the point system. This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. While social loafing still occurred in the group, the team tried to handle it in a different way compared to having super strict contract with a lot of penalties in it. Unfortunately, this approach did not work well, so that many serious talks took place within the team, including warnings about the necessity of supervisor interventions if performance of the member did not improve.
+We based the group contract (Appendix 1.1 Group Contract) for the project on our previous contract with slight changes, for example to the point system. This group contract outlined our core values, purpose, expectations, conflict resolution strategies, and accountability measures in the team. While social loafing still occurred in the group, the team tried to handle it in a different way compared to having super strict contract with a lot of penalties in it. Unfortunately, this approach did not work well, thus many serious talks took place within the team, including warnings about the necessity of supervisor interventions if performance of the member did not improve.
 
 ### Professional Collaboration
+
 To document our ability to independently take part in professional collaboration, we adopted industry-standard practices such as using git. We used branching with Pull Requests to review code, ensuring no single person could break the main build. More details about use of version control can be found in the UseOfVersionControl (Appendix A: UseOfVersionControl.pdf). We communicated asynchronously via Discord/Teams to respect deep work time.
 
 An important feature of the project's process was the role of a Product Owner (PO). The PO was responsible for managing the user stories, prioritizing the backlog, and ensuring that the team was aligned with the project goals. This role was crucial in maintaining a clear vision and direction for the project.
+
 Contrary to our previous experience, this role was set to be more settled and less rotating among team members. This was done to ensure consistency and a clear point of contact for the team regarding project requirements and priorities. The role of the PO was assigned democratically at the start of the project.
 
 ---
@@ -31,6 +33,10 @@ The alignment on the actual vision was more complicated than the initial idea se
 One of the problems we faced during the initiation phase was deciding on the actual scope of the project. We were all juggling between thinking about it as an actual ambitious product versus a simpler prototype suitable for the course requirements. This problem was resolved by agreeing on scalable and flexible solutions that allow for both simple approaches and potential complex upgrades. 
 
 Another challenge was approaching the problem in a data-driven manner. Considering our mostly European backgrounds, we had to ensure that the project's aims were relevant and applicable on a global scale by researching, and not relying solely on our personal experiences and assumptions. This also included exploring various perspectives and shifting some of the focus on minorities and underrepresented groups in education. This aligned with our mission to improve the education, rather than just having business goals focusing on making profit off of profitable majorities. 
+
+## Choice and Alignment on Framework
+
+Shortly after the group formation, a process brainstorm session was hosted, where most details of the desired framework were discussed and the Product Owner was selected. The full export of the session can be found as Appendix 12.1 Process Brainstorm.
 
 ---
 
@@ -74,6 +80,42 @@ Each day the calls lasted until around 16:30 with breaks for lunch and short bre
 Working on a feature was usually for 1-3 people subgroups. The feature was started by discussing the definition of done, breaking down the tasks, and creating a branch for it. Each feature was practically a vertical slice of the product and the work was also often split into vertical slices (in order to reduce interpersonal dependencies). The aim of each feature team was to deliver a working feature compatible with main (which was evolving in parallel) by the end of the feature work. Each feature would have to be reviewed by someone least biased before merging to main.
 
 Working with the team usually involved calling, sketching ideas, and drawing UML diagrams, while researching domain context and processing data from users. On a practical level, we used Visual Studio Code with Live Share for pair programming, GitHub for version control, Figma/FigJam for brainstorming and unrestricted diagramming, PlantUML inside VSCode for quick UML sketches, and Discord for screen sharing and communication.
+
+## Adherence to the Framework
+
+It must be noted that the adherence was not perfect. One such example is periodical claiming of tasks that often happened with no reason, which resulted in a so-called "Code Ownership Trash Can" where labels were put from tasks that did not need to be reserved by anyone. This can be seen on the figure below:
+
+![Code Ownership Trash Can](COTC.png)
+
+Another important point is the splitting of the work and the adherence to Kanban in critical situations - like before deadlines. IN these situations we resorted to more chaotic working as can be seen on the figure below, depicting a cumulative clump of tasks that arised towards the end of the project:
+
+![Tasks Before The Deadline](TasksDeadline.png)
+
+# Choice of Tools and Methods
+
+## Task Decision and the PO Role
+
+One of the most often used techniques for determining the priority of tasks was utilizing a board with Impact and Effort axes. Despite a lack of public information about such usage - in time restricted situations, the tasks were prioritized from left to right, and in periods with time to spare - top to bottom. Overall, this method proved to be an effective planning technique that allowed the PO to quickly and relatively with no bias to prioritize tasks. A snapshot of a usage of this graph can be seen below:
+
+![Impact Effort Snapshot](ImpactEffort.png)
+
+Creating concepts from sources like user stories, non-functional requirements and others also proved to be a powerful idea that arised from the project initiation period. This method allowed great flexibility while keeping the opinionated choices of prioritization - often arising from the data-driven nature of the project. 
+
+## Tools
+
+A powerful tool for this project compared to other semester projects proved to be Visual Studio Code by Microsoft. Through the power of extensions, actions, and powershell scripts, the whole team was able to work collaboratively and effectively. 
+
+For documentation, a hybrid approach with markdown (Pandoc) and PlantUML was chosen. Markdown allowed for easy collaboration (both Live Share and Git) with not many conflicts while providing a powerful framework in which styling is not a concern during content creating. PlantUML allowed for quick diagramming and sketching of ideas without the need to open a separate application. This allowed for quick iterations and changes to diagrams as the project evolved.
+
+PlantUML was also important for all UML purposes in general - text-based form of diagrams allowed for great collaborative experiences, simple exports and truly dynamic changes. The ease of use and its popularity also resulted in UML being used outside of pure engineering diagramming, for example as shown on the figure below depicting a quick guide we shared on our board in Figma:
+
+![UML Guide](UMLNon.png)
+
+Visual Studio Code also allowed for efficient work with the database - providing the ability to connect to the database and easily execute all queries from the same environment as everything else. 
+
+On top of hosting all these features, Visual Studio Code also allowed for automating terminal sessions for running all parts of the system (building documentation, running all systems, zipping everything) and because of the language server support, also provided one IDE for managing the whole project. 
+
+Despite that, a significant part of the collaboration still relied on Figma - including a part of documentation (diagrams, user story maps, ...) and general task/iteration management. Figma proved to be a superior tool for brainstorming, quick collaboration sessions, and truly free and easy alignment sessions.
 
 ---
 
@@ -210,3 +252,7 @@ Can be found as ProjectGuidelines.pdf
 ## Appendix 6.1 Personal Profiles
 ### Personal Profiles
 Can be found as PersonalProfiles.png
+
+## Appendix 12.1 Process Brainstorm
+### Process Brainstorm
+Can be found as ProcessBrainstorm.png

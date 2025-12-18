@@ -507,6 +507,253 @@ Java programming language was selected to run the Data Server because it met thi
 
 ### Servers Implementation
 
+Data Server implemented using Java was intended to not have any code related to the main logic of the system. Its main responsibility was to handle operations of the services which were either taking data from the database or updating the database. The framework that was used in order to make the implementation process cleaner and more efficient was Spring boot. The team chose Spring Data JPA when it comes to handling data persistent with PostgreSQL due to the possibility of working with Java objects instead of raw SQL queries.
+
+The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a bog part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
+
+When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave the team a structured template to work on the fronted using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
+
+### Integration Logic:
+To showcase the path from GUI through the servers, the database, and back as well as communication between the servers, the following figures demonstrate the necessary logs and implementations of such functionality. The code can be found in (Appendix 3.1 Source Code).
+
+#### Login Feature
+
+When an user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
+
+![Click login as teacher](image-44.png)
+
+After clicking the login button, the client side server sends a request to the Logic Server. The following json represents the HTTP request sent:
+
+```json
+[Client] Sending HTTP POST /auth/login:
+{
+  "username": "teacher1",
+  "password": "password123"
+}
+```
+
+The Logic Server receives this request and initiates the validation process.
+
+**Logic Server (AuthController.cs):**
+
+```csharp
+[HttpPost("login")]
+public async Task<ActionResult> Login([FromBody] LoginRequest request)
+{
+    try
+    {
+        User foundUser = await authService.ValidateUser(request.Username, request.Password);
+        string token = GenerateJwt(foundUser);
+        return Ok(token);
+    }
+    catch (Exception e)
+    {
+        return BadRequest(e.Message);
+    }
+}
+```
+*Code Snippet 1: AuthController (Appendix 3.1 Source Code)*
+
+
+The `AuthController` delegates the validation to the `SecureAuthService`.
+
+**Logic Server (SecureAuthService.cs):**
+
+```csharp
+public async Task<User> ValidateUser(string username, string password)
+{
+    User? existingUser = await GetUserByUsernameAsync(username) ?? throw new Exception("User not found");
+
+    if (!Argon2.Verify(existingUser.Password, password))
+        throw new Exception("Password mismatch");
+
+    return existingUser;
+}
+
+private async Task<User?> GetUserByUsernameAsync(string userName)
+{
+    IEnumerable<User> users = await Task.Run(() => userRepository.GetMany());
+    foreach (User user in users)
+    {
+        if (user.Username.Equals(userName))
+        {
+            return user;
+        }
+    }
+    return null;
+}
+```
+*Code Snippet 2: SecureAuthService (Appendix 3.1 Source Code)*
+
+The `SecureAuthService` retrieves users via the `gRPCUserRepository`, which communicates with the Data Server.
+
+**Logic Server (gRPCUserRepository.cs):**
+
+```csharp
+public override IQueryable<User> GetMany()
+{
+    var resp = UserServiceClient.GetUsers(new GetUsersRequest());
+    var users = resp.Users.Select(c => new User
+    {
+        Id = c.Id,
+        Username = c.Username,
+        Password = c.Password,
+        Roles = c.Roles.Select(r => new Entities.Role { RoleName = r.Role_ }).ToList(),
+    }).ToList();
+
+    return users.AsQueryable();
+}
+```
+*Code Snippet 3: gRPCUserRepository (Appendix 3.1 Source Code)*
+
+The Protobuf message structure used for this communication is:
+
+```protobuf
+message User {
+  int32 id = 1;
+  string username = 2;
+  string password = 3;
+  repeated Role roles = 4;
+}
+
+message Role {
+  string role = 1;
+}
+
+message GetUsersRequest {}
+
+message GetUsersResponse {
+  repeated User users = 1;
+}
+```
+*Code Snippet 4: Protocol (Appendix 3.1 Source Code)*
+
+Finally, the Data Server handles the gRPC request and retrieves the users from the database.
+
+**Data Server (UserServiceImpl.java):**
+
+```java
+@Override
+public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver) {
+    try {
+        List<SystemUser> users = userRepository.findAll();
+        List<via.sep3.dataserver.grpc.User> grpcUsers = new ArrayList<>();
+
+        for (SystemUser user : users) {
+            grpcUsers.add(convertToGrpcUser(user));
+        }
+        GetUsersResponse response = GetUsersResponse.newBuilder()
+                .addAllUsers(grpcUsers)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    } catch (Exception e) {
+        responseObserver.onError(e);
+    }
+}
+```
+*Code Snippet 5: UserServiceImpl (Appendix 3.1 Source Code)*
+
+#### Create Draft Feature
+
+Once logged in, the teacher can create a course draft. This process involves the Client sending data to the Logic Server, which then forwards it to the Data Server.
+
+![Click Create Draft](image-45.png)
+
+**Client App (HttpCourseService.cs):**
+
+```csharp
+public async Task<Optional<Draft>> CreateDraft(CreateDraftDto dto) 
+    => await httpCrudService.CreateAsync<Draft, CreateDraftDto>("drafts", dto);
+```
+*Code Snippet 6: HttpCourseService (Appendix 3.1 Source Code)*
+
+The Logic Server handles the request at the `/drafts` endpoint:
+
+**Logic Server (CoursesController.cs):**
+
+```csharp
+[HttpPost("/drafts")]
+[Authorize("MustBeTeacher")]
+public async Task<ActionResult<Course>> HttpCreateAsync([FromBody] CreateCourseDto entity) 
+    => await CreateAsync(entity);
+```
+*Code Snippet 7: CoursesController (Appendix 3.1 Source Code)*
+
+The controller uses the `gRPCCourseRepository` to send the data to the Data Server.
+
+**Logic Server (gRPCCourseRepository.cs):**
+
+```csharp
+public override async Task<Course> AddAsync(CreateCourseDto entity)
+{
+    var request = new AddCourseRequest
+    {
+        Title = entity.Title ?? "",
+        Description = entity.Description ?? "",
+        Language = entity.Language ?? "",
+        Category = entity.Category ?? "",
+        AuthorId = entity.AuthorId ?? -1
+    };
+
+    var response = await CourseServiceClient.AddCourseAsync(request);
+
+    return new Course
+    {
+        Id = response.Course.Id,
+        Title = response.Course.Title,
+        // ... mapping other fields ...
+    };
+}
+```
+*Code Snippet 8: gRPCCourseRepository (Appendix 3.1 Source Code)*
+
+The gRPC messages for creating a course are defined as:
+
+```protobuf
+message AddCourseRequest {
+  string title = 1;
+  string description = 2;
+  string language = 3;
+  string category = 4;
+  int32 authorId = 5;
+}
+
+message AddCourseResponse {
+  Course course = 1;
+}
+```
+*Code Snippet 9: Protocol (Appendix 3.1 Source Code)*
+
+Finally, the Data Server persists the new course draft:
+
+**Data Server (CourseServiceImpl.java):**
+
+```java
+@Override
+public void addCourse(AddCourseRequest request, StreamObserver<AddCourseResponse> responseObserver) {
+    try {
+        Course course = new Course();
+        course.setTitle(request.getTitle());
+        course.setDescription(request.getDescription());
+        // ... additional field setting ...
+        course = courseRepository.save(course);
+
+        AddCourseResponse response = AddCourseResponse.newBuilder()
+                .setCourse(convertToGrpcCourse(course))
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    } catch (Exception e) {
+        responseObserver.onError(e);
+    }
+}
+```
+*Code Snippet 10: CourseServiceImpl (Appendix 3.1 Source Code)*
+
+
 ### Security Implementation
 
 Learnify bases its entire system security approach on the foundation of its Security Policy (Appendix 7.2 Security Policy). The document describes vital security measures which organizations employ to protect their information from unauthorized access and security breaches. The System depends on three critical security principles which include confidentiality, integrity and availability that protect its core functions through multiple essential security measures. The process needs each user to enter their personal login details for authentication. The policy specifies that users needs to create passwords which contain at least eight characters to safeguard their accounts. Role-Based Access Control (RBAC) provides additional protection through its access management system which grants specific permissions to Learners and Teachers and Administrators based on their designated roles. The Logic Server performs user role verification through generated claims to authorize only permitted actions before processing any requests. The endpoints of WebApi logic server have been secured. The team strived to achieve data security by using a well-planned system which organizes information through classification and protects it with encryption methods. The system contains three types of data which include public information that users can access through registration and login pages, internal information that requires authentication to view course catalogs and content and sensitive information which needs encryption for user passwords. The system uses Argon2 as a secure password hashing function which includes salting to protect user information. The system operates with continuous security measures and regular software updates to maintain its network security. It functions through a firewall which grants access to particular ports that are essential for operation.
