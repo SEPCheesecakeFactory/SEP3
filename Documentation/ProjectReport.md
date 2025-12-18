@@ -257,20 +257,24 @@ The fidelity of the wireframes was kept low but the transformation into the chos
 
 ### Architectural overview
 
-The architecture is a distributed, three-tier solution designed that aims for strict separation of concerns, scalability, and polyglot interoperability. The architecture facilitates interaction between a C# frontend, a C# logic middleware, and a Java data persistence layer.
+The architecture is a distributed, three-tier solution that aims for strict separation of concerns, scalability, and polyglot interoperability. The architecture facilitates interaction between a C# frontend, a C# logic middleware, and a Java data persistence layer.
 
 #### Client
+
 The client-side application is built using Blazor in C# .NET. This layer hosts the web interface accessible to all system actors: learners, teachers, and admins. It is responsible solely for UI rendering and user input handling, delegating all business logic to the backend services.
 
 Blazor is technically a double tier as blazor web server was chosen for the project. This means that a significant part of the interactions is done on the blazor server rather than directly on the client machine. 
 
 #### Logic Tier
+
 The Logic Server, implemented in C# (ASP.NET Core), and acts as the central orchestrator. It exposes a RESTful API via HTTP(s) to the client, ensuring broad compatibility and standard web communication. This layer handles authentication, authorization (RBAC), and feature-specific business rules. It serves as a protocol bridge, translating external HTTP requests into internal gRPC calls for the data layer.
 
 #### Data Tier
+
 The Data Server is implemented in Java (Spring Boot), fulfilling the project's polyglot requirement. Communication between the Logic and Data servers is conducted via gRPC - Google's Remote Procedure Call framework. This choice leverages Protocol Buffers (Protobuf) for binary serialization, resulting in lower latency and higher throughput compared to text-based JSON over HTTP.
 
 #### Data Persistence
+
 At the foundation of the architecture is a PostgreSQL database. The Java Data Server manages all database interactions, ensuring that the Logic and Client layers remain agnostic to the underlying storage mechanics.
 
 #### Architectural Diagram and Justification
@@ -282,6 +286,7 @@ The figure below depicts the final architecture of the system as described above
 The mentioned technologies, frameworks, and tools were chosen both to fulfill the requirements but also prioritized flexibility and ease of development. 
 
 ### Class diagram design
+
 We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
 
 #### Client App Class Diagram
