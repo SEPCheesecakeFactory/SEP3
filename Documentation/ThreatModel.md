@@ -6,8 +6,8 @@
     {\Huge Threat Model - Learnify}\\[3em]
     {\Large Semester Project - Group 3}\\[1em]
     {\Large 3rd Semester}\\[4em]
-    {\large Date: \today}\\[0.3em]
-    {\large Version: 1.5}\\[1em]
+    {\large Last Update: \today}\\[0.3em]
+    {\large Version: 1.6}\\[1em]
 \end{center}
 \vfill
 \clearpage
@@ -32,12 +32,12 @@ Accountability and Authenticity can also be considered subsets of Integrity. (Sa
 
 Who the attackers are and where they are attacking from based on EIOO.
 
-### Who is attacking?
+## Who is attacking?
 
 * **External:** Hackers, Competitors
 * **Internal:** Administrators, Teachers, Project Members
 
-### Where is the attack occurring?
+## Where is the attack occurring?
 
 * **Network:** Interception of traffic, man-in-the-middle attacks
 * **Online:** Attacks on the database, data server, logic server, or client web server
@@ -45,7 +45,7 @@ Who the attackers are and where they are attacking from based on EIOO.
 
 # Threat Categorization
 
-Potential threats based on the attacker's goal based on STRIDE (TODO: Source).
+Potential threats based on the attacker's goal based on STRIDE.
 
 | Category | Definition | Potential Threats to Learnify |
 | :- | :-- | :----- |
@@ -60,17 +60,17 @@ Potential threats based on the attacker's goal based on STRIDE (TODO: Source).
 
 The means and entry points used by attackers.
 
-### Attack Surfaces
+## Attack Surfaces
 
 * **Network:** Open ports, Wi-Fi, Firewalls, Intranet, VPNs
 * **Software:** API endpoints, Database interfaces, IDEs and browsers
 * **Human:** Social engineering, Phishing, Human error, Insider threats, Physical access, Lost devices
 
-### Attack Means
+## Attack Means
 
 * **Passive Attacks:**
     * *Eavesdropping:* Monitoring transmissions for sensitive data.
-    * *Traffic Analysis:* Observing patterns/frequency of communication.  
+    * *Traffic Analysis:* Observing patterns/frequency of communication.
     * *Shoulder Surfing:* Observing user input directly (e.g., passwords).
     * *Dumpster Diving:* Searching through physical trash for sensitive information.
     * *Wiretapping:* Intercepting communication lines to capture data. (cables, etc.)
@@ -98,13 +98,13 @@ Potential failures based on their source:
 | :- | :------ | :-- | :-- | :-- | :---------- |
 | T-01 | SQL Injection into an input field | High | High | **Critical** | Implement Input Validation and Parameterized Queries. |
 | T-02 | Admin Password Phishing | Low | High | **Medium** | Implement MFA for all admin accounts. |
-| T-03 | DDoS Attack | Low | Medium | **Medium** | Configure Firewall. Tools like Fail2ban or Cloudflare. |
-| T-04 | Insider Threat - Data Leakage by Employee | Low | High | **Medium** | Monitor user activities, rotate credentials, and enforce secure storage policies. |
+| T-03 | DDoS Attack | Low | Medium | **Low** | Configure Firewall. Tools like Fail2ban or Cloudflare. |
+| T-04 | Insider Threat - Data Leakage by Admin | Low | High | **Medium** | Monitor user activities, rotate credentials, and enforce secure storage policies. |
 | T-05 | Man-in-the-Middle Attack on Data Transmission | Medium | High | **High** | Use TLS/SSL for all communications. Enforce HSTS. |
 | T-06 | Cross-Site Scripting (XSS) | Medium | Medium | **Medium** | Implement Content Security Policy (CSP) and sanitize user inputs. |
 | T-07 | Weak Passwords | High | Medium | **High** | Enforce strong password policies and implement password strength meters. Using proper password storage and verification algorithms. |
 | T-08 | Unpatched Software Vulnerabilities | High | High | **Critical** | Regularly update and patch all software components. Use automated vulnerability scanning tools. Use auto-update tools for unattended patching. (0-day protection tools and similar) |
-| T-09 | Physical Theft or access to devices | Low | High | **Medium** | Encrypt sensitive data on devices. Educate employees on physical security. |
+| T-09 | Physical Theft or access to devices | Low | High | **Medium** | Encrypt sensitive data on devices. Educate admins on physical security. |
 
 The risk level is determined by the following table:
 
@@ -130,3 +130,4 @@ This threat model provides an overview of the potential security threats to Lear
 
 - Biba, K. J. Integrity Considerations for Secure Computer Systems. Bedford, Massachusetts, The MITRE Corporation, Apr. 1977, apps.dtic.mil/sti/tr/pdf/ADA039324.pdf. Accessed 14 Dec. 2025.
 - Samonas, Spyridon, and David Coss. “The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security.” 2014.
+- “Threat Modeling Process | OWASP.” Owasp.org, owasp.org/www-community/Threat_Modeling_Process#stride-threat--mitigation-techniques.

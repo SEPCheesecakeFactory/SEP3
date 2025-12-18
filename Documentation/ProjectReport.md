@@ -6,7 +6,7 @@ This work focuses on the need for scalable and adaptable digital educational sol
 
 # Introduction
 
-Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge.(REFERENCE) The idea of mandatory education keeps its origin between late 1900s and early 2000s(REFERENCE), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
+Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (UNESCO, 2000). The idea of mandatory education keeps its origin between late 1900s and early 2000s(Habermas, 1984), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
 
 The aim of this project is on the ability to create a system which would be able to provide learning opportunities with main focus on simplifying the accessibility and exploring the idea of learning processes and its speed and efficiency. The goal is to also ensure security, knowledge correctness and deployment of the system.
 
@@ -34,8 +34,8 @@ The most abstract and crucial aspect of the analysis was defining the system act
 
 The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
 
-- both teachers and admins were expected to be skilled users of the platform (Appendix B.1) and were supposed to be educated on it (Appendix B.2)
-- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix B.2)
+- both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, TODO: Sasha update this)
+- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, TODO: Sasha update this)
 
 ### Actor Descriptions
 
@@ -78,6 +78,8 @@ The functional requirements are structured as user stories to better capture the
 | USA4  | As an Admin, I want to manage users’ roles, so that I can manage what access is given to the platform and to what degree. |
 | USA5  | As an Admin, I want to disapprove course drafts, so that the teacher knows such course is not needed at the moment.       |
 
+*Table 1: Functional Requirements (Appendix 2.1 Requirements)*
+
 The user stories are sorted based on the actors to which they correspond, not according to the chronological order in which they were added/discovered. The chronological order is also not perfectly reflected on the IDs, as these were not always static for the same user story (when managing them, they would be adjusted)
 
 #### Non-functional requirements
@@ -104,9 +106,12 @@ The uses cases developed are shown in a table below:
 | UC7  | View Leaderboard           |
 | UC8  | Create Course Draft        |
 | UC9  | Edit Course Content        |
-| UC10 | Manage System Metadata     |
+| UC10 | Manage System Settings     |
 | UC11 | Review Course Drafts       |
 | UC12 | Manage User Roles          |
+
+*Table 2: Use Cases (Appendix 2.2 Use Cases)*
+
 
 The table below shows how the use cases are related to the user stories
 
@@ -131,11 +136,14 @@ The table below shows how the use cases are related to the user stories
 | USA4       | UC12                    |
 | USA5       | UC11                    |
 
+*Table 3: Use Cases and their related requirements (Appendix 2.2 Use Cases)*
+
+
 ### Use case diagram (UCD)
 
 To depict how the use cases were related to the system actors, a use case diagram was created as shown below:
 
-![Use Case Diagram](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
+![Use Case Diagram (Appendix 2.2 Use Cases)](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
 
 As can be seen, the UCD also introduced the internal boundary for teachers and admins - specifying that these actors are not simply learners with privileges but there is a boundary to be crossed when becoming a teacher or an admin. The UCD also specifies the system boundary, which in the case of Learnify covers all the use cases developed.
 
@@ -143,7 +151,7 @@ As can be seen, the UCD also introduced the internal boundary for teachers and a
 
 In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Activity use case:
 
-![Complete Learning Activity Use Case Description](CompleteLearningActivityUseCaseDescription.png)
+![Complete Learning Activity Use Case Description (Appendix 2.2 Use Cases)](CompleteLearningActivityUseCaseDescription.png)
 
 As seen above, the use case descriptions provided a structured way of understanding how the system should behave and gave a strong basis for the test cases. 
 
@@ -160,32 +168,49 @@ All the use case descriptions were made in the same format with:
 ### Test Cases
 
 | Test Case ID | Test Case Name | Description | Precondition | Steps | Expected Result |
-|--------------|----------------|-------------|--------------|-------|-----------------|
-| TC_UC_01 | Register User | Verify that a new user can register and that invalid registrations are rejected | User does not already have an account | 1. User initiates registration.<br>2. System requests account details.<br>3. User submits registration data.<br>4a. System validates input.<br>5a. System creates account.<br>6a. System confirms registration.<br>— OR —<br>4b. System detects invalid input or existing user.<br>5b. System displays error message.<br>6b. User corrects input and resubmits. | Valid input creates a new account and prompts login; invalid input or duplicate credentials result in an error and retry option. |
-| TC_UC_02 | Log In | Verify that a registered user can log in and that invalid credentials are rejected | User has a registered account and is logged out | 1. User initiates login.<br>2. User enters credentials.<br>3a. System authenticates credentials.<br>4a. System creates secure session.<br>5a. System grants access.<br>— OR —<br>3b. System rejects credentials.<br>4b. System displays authentication error.<br>5b. User retries login. | Valid credentials grant access; invalid credentials keep the user unauthenticated with error feedback. |
-| TC_UC_03 | Manage Personal Learning | Verify that a learner can resume or unenroll from courses | Learner is logged in | 1. Learner opens enrolled courses list.<br>2. System displays enrollments and progress.<br>3a. Learner selects course to continue.<br>4a. System restores last saved progress.<br>— OR —<br>3b. Learner selects unenroll option.<br>4b. System removes course.<br>5b. System updates enrollment view. | Course resumes at last progress point or is removed from the learner’s list. |
-| TC_UC_04 | Browse and Search Catalog | Verify that users can browse and filter courses, including no-result scenarios | User is logged in | 1. User opens course catalog.<br>2. System displays all courses.<br>3. User applies search or filter.<br>4a. System finds matching courses.<br>5a. System displays filtered results.<br>— OR —<br>4b. System finds no matches.<br>5b. System displays no-results message. | Matching courses are shown when available; otherwise a clear no-results message is displayed. |
-| TC_UC_05 | Complete Learning Activity | Verify correct and incorrect answer handling during learning activities | User is enrolled and viewing a learning unit | 1. System displays learning activity.<br>2. User submits response.<br>3a. System evaluates as correct.<br>4a. System gives positive feedback.<br>5a. User proceeds to next unit.<br>— OR —<br>3b. System evaluates as incorrect.<br>4b. System provides corrective feedback.<br>5b. User retries activity. | Correct answers allow progression; incorrect answers provide feedback and allow retry. |
-| TC_UC_06 | View User Profile | Verify that a user can view their profile information | User is logged in | 1. User accesses account information.<br>2. System displays profile details. | User profile information is displayed correctly. |
-| TC_UC_07 | View Leaderboard | Verify that users can view leaderboard rankings | User is logged in | 1. User opens leaderboard view.<br>2. System displays ranking based on performance. | Leaderboard rankings are displayed successfully. |
-| TC_UC_08 | Create Course Draft | Verify that a teacher can create a new course draft | Teacher is logged in | 1. Teacher initiates course creation.<br>2. Teacher enters course metadata.<br>3. Teacher submits draft.<br>4. System saves draft. | Course draft is successfully created and stored. |
-| TC_UC_09 | Edit Course Content | Verify that a teacher can edit and save course content | Teacher is logged in and course exists | 1. Teacher selects content unit.<br>2. Teacher enters edit mode.<br>3. Teacher modifies content.<br>4. Teacher saves changes.<br>5. System updates content. | Course content changes are saved successfully. |
-| TC_UC_10 | Manage System Metadata | Verify that administrators can manage categories and languages | Administrator is logged in | 1. Admin opens metadata management.<br>2a. Admin manages categories.<br>3a. Admin creates new category.<br>4a. System saves category.<br>— OR —<br>2b. Admin manages languages.<br>3b. Admin creates new language.<br>4b. System saves language. | New categories or languages become available in the system. |
-| TC_UC_11 | Review Course Drafts | Verify that administrators can approve or disapprove drafts | Administrator is logged in and drafts exist | 1. Admin opens pending drafts list.<br>2. System displays drafts.<br>3. Admin reviews draft.<br>4a. Admin approves draft.<br>5a. System publishes course.<br>— OR —<br>4b. Admin disapproves draft.<br>5b. System keeps course unavailable. | Approved drafts become visible to learners; disapproved drafts remain hidden. |
-| TC_UC_12 | Manage User Roles | Verify that administrators can assign or remove user roles | Administrator is logged in | 1. Admin opens user management.<br>2. Admin selects user.<br>3a. Admin assigns new role.<br>4a. Admin saves changes.<br>5a. System updates permissions.<br>— OR —<br>3b. Admin removes existing role.<br>4b. System updates permissions. | User roles and permissions are updated correctly. |
+| :--: | :---- | :--- | :-- | :----------- | :------ |
+| TC_UC_01a | Register User - Success | Verify a new user can register with valid data. | User does not have an account. | 1. User initiates registration.<br>2. System requests details.<br>3. User submits valid data.<br>4. System validates input.<br>5. System creates account.<br>6. System confirms registration. | Account created; user prompted to login. |
+| TC_UC_01b | Register User - Invalid/Duplicate | Verify registration fails with invalid or existing data. | User provides existing username. | 1. User initiates registration.<br>2. User submits invalid/existing data.<br>3. System detects error.<br>4. System displays error message. | Registration rejected; user prompted to correct data. |
+| TC_UC_02a | Log In - Success | Verify registered user can log in with valid credentials. | User has a registered account. | 1. User initiates login.<br>2. User enters valid credentials.<br>3. System authenticates.<br>4. System creates session.<br>5. System grants access. | User is redirected to dashboard. |
+| TC_UC_02b | Log In - Failure | Verify login is rejected with invalid credentials. | User is logged out. | 1. User initiates login.<br>2. User enters wrong credentials.<br>3. System rejects authentication.<br>4. System displays error. | Access denied; user remains on login page. |
+| TC_UC_03a | Manage Learning - Resume | Verify learner can resume a course. | Learner is enrolled in a course. | 1. Learner opens enrolled courses.<br>2. Learner selects course to continue.<br>3. System restores last saved progress. | Course opens at the exact point where the user left off. |
+| TC_UC_03b | Manage Learning - Unenroll | Verify learner can unenroll from a course. | Learner is enrolled in a course. | 1. Learner selects unenroll option.<br>2. System removes course from learner list. | Course is no longer visible in user's active enrollments. |
+| TC_UC_04a | Search Catalog - Results | Verify search returns matching courses. | User is logged in. | 1. User opens catalog.<br>2. User enters search term that matches content.<br>3. System filters results. | System displays relevant courses matching the term/filters. |
+| TC_UC_04b | Search Catalog - No Results | Verify system behavior when no matches are found. | User is logged in. | 1. User opens catalog.<br>2. User enters search term with no matches.<br>3. System processes search. | System displays that no course was found with such filters. |
+| TC_UC_05a | Learning Step - Correct Answer | Verify handling of correct answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits correct response.<br>3. System gives positive feedback.<br>4. User proceeds to next unit. | Progress is updated; next unit is unlocked. |
+| TC_UC_05b | Learning Step - Incorrect Answer | Verify handling of incorrect answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits incorrect response.<br>3. System provides corrective feedback.<br>4. User retries activity. | User cannot proceed until correct answer is provided. |
+| TC_UC_06 | View User Profile | Verify profile display accuracy. | User is logged in. | 1. User accesses account info.<br>2. System displays profile details. | The user details match the database. |
+| TC_UC_07 | View Leaderboard | Verify leaderboard ranking display. | User is logged in. | 1. User opens leaderboard.<br>2. System calculates and displays rankings. | Global rankings are visible and accurate. |
+| TC_UC_08 | Create Course Draft | Verify teacher can create a new draft. | Teacher is logged in. | 1. Teacher enters details.<br>2. Teacher submits draft.<br>3. System saves draft. | Draft is stored and visible in teacher's workspace. |
+| TC_UC_09 | Edit Course Content | Verify teacher can modify existing content. | Course exists (and has the teacher as admin). | 1. Teacher enters the course edit mode.<br>2. Teacher modifies the learning step.<br>3. Teacher saves changes. | System updates content and confirms save. |
+| TC_UC_10a | Admin - Manage Categories | Verify admin can create categories. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new category.<br>3. System saves category. | Category becomes available for course tagging (setting/changing the category). |
+| TC_UC_10b | Admin - Manage Languages | Verify admin can create languages. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new language.<br>3. System saves language. | Language becomes available for course tagging (setting/changing the language). |
+| TC_UC_11a | Admin - Approve Draft | Verify draft. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin approves.<br>3. System creates the course. | Course becomes available to work on. |
+| TC_UC_11b | Admin - Disapprove Draft | Verify draft rejection. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin disapproves.<br>3. System deletes the draft. | Course is not created and draft is removed. |
+| TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. |
+| TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. |
 
+*Table 4: Test Cases (Appendix 2.4 Tests)*
 
-### Activity diagram
+### Activity diagrams
 
-The activity diagram below shows the workflow of the given "Complete Learning Activity" use case. The diagram highlights the sequence of operations performed by the user and the system, which begin with the display of a question or an exercise. Validation logic is highlighted in this activity diagram where the system analyzes the response of the user. Based on this, if a wrong solution is provided, a "feedback loop" is initiated where a message prompts the user to try again. As a result, a learning activity will be marked accomplished only when a correct answer is given, which demonstrates a mastery learning technique.
+The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases and domain entities. While use case descriptions provide a structured textual representation, activity diagrams allow for a visual understanding of the logical flow, decision points, and the interaction between the user and the system's core components.
 
-![Complete Learning Activity Activity Diagram](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
+A set of activity diagrams was developed to cover the most critical workflows of the Learnify platform, including user onboarding, course discovery, content creation, and the learning process itself. 
+
+The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Activity), and UC7 (View Leaderboard). 
+
+![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
+
+This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
+
+By modeling these workflows, the analysis phase ensured that the system's dynamic behavior aligns with the identified user stories and the relationships defined in the domain model.
 
 ### Domain model
 
 The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders.
 
-![Domain Model](..\out\Analysis\DomainModel\DomainModel.svg)
+![Domain Model (Appendix 2.3 Diagrams)](..\out\Analysis\DomainModel\DomainModel.svg)
 
 The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other.
 
@@ -201,6 +226,8 @@ At the same time, the domain model was kept in its simplest form possible in ter
 
 And it could be further argued that Learning Steps only exist as a part of Courses, therefore the Domain Model is centered around the idea of Users learning from Courses, which did not change from the initial vision of the system.
 
+The inclusion of stakeholders as entities within the domain model mostly arised from the need of defining and understanding attributes and relationships of Users.
+
 ### Security Requirements
 
 The security requirements for the system were developed as a part of the threat modelling process. The security objectives were as follows:
@@ -211,7 +238,7 @@ The security requirements for the system were developed as a part of the threat 
 - **Accountability:** Actions must be uniquely traceable to a specific entity.
 - **Authenticity:** Verify that data inputs and users are genuine.
 
-These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix A: Threat Model).
+These objectives were developed based on the CIA triad and expanded to fit the needs of the system (Appendix 7.1 Threat Model).
 
 Similarly to other parts of the analysis phase, stakeholder interactions shaped the system's security requirements. In particular, even testing the prototype (before having the core system functional) showed concerns about the authority of Administrators and Teachers, and needs for accountability for actions.
 
@@ -221,7 +248,7 @@ Similarly to other parts of the analysis phase, stakeholder interactions shaped 
 
 #### Wireframes
 *Figure X: All Courses Page Wireframe*
-![All Courses Page Wireframe](..\out\Analysis\Wireframes\Wireframes-2.png)
+![All Courses Page Wireframe (Appendix 9.1 Wireframes)](..\out\Analysis\Wireframes\Wireframes-2.png)
 
 
 The creation of the fronted included the designing wireframes of the web pages. One of the them is visible on the diagram above - All Courses Page Wireframe (Appendix A: Wireframes-2.png). This wireframe design shows a user-centered approach which enables simple course catalog browsing which is accessible for all users. The system provides users with two extra features which consist of a search function and category-based filtering options at the top of the interface. The content organization uses card-based design which shows key details including title, description, category and language of the course to assist users with their enrollment decisions. The interface includes also features which are showed only to users with specific roles (Teacher, Admin). It can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
@@ -231,7 +258,39 @@ The creation of the fronted included the designing wireframes of the web pages. 
 The architectural overview shown on the picture below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
 Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
-![Architectural Overview](ArchitecturalOverview.png)
+![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png)
+
+### Communication protocol design
+
+The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
+
+![Application Layer Sequence Diagram (Appendix 2.3 Diagrams)](Application-LayerSD.png)
+
+#### Interface Definition (gRPC & Protobuf)
+
+Internal communication between the Logic Server and the Data Server is managed via gRPC. The data structures and service contracts are defined using Protocol Buffers (Protobuf), ensuring strict typing.
+
+Figure X demonstrates the definition of the message structures (Requests and Responses) used within the system.
+
+![Protobuf message definitions](ImageProtoFile_1.png)
+
+Figure X illustrates the service definition, detailing the available RPC methods, their required parameters, and return types.return.
+
+![gRPC Service definition](ImageProtoFile_2.png)
+
+#### API Specification
+
+The Logic Server exposes a RESTful API to external clients using standard HTTP/1.1 protocols. This design streamlines client integration by using standard HTTP verbs (GET, POST, PUT, DELETE) and status codes.
+
+For example, authentication is handled via the /auth/login endpoint. By sending a POST request to http://localhost:9090/auth/login with the correct credentials, a client can successfully authenticate and connect to the system.
+
+#### Protocol Justification
+
+A hybrid protocol approach was chosen to balance user experience with system performance:
+
+· External Communication (HTTP/JSON): We utilized HTTP with JSON for client-server interaction because of its universality and readability. JSON is natively supported by web browsers and mobile clients, making the system easy to debug and integrate. While the text-based format introduces some overhead, the trade-off favors the ease of development and broad compatibility required at the client layer.
+
+· Internal Communication (gRPC/Protobuf): For communication between the Logic and Data servers, gRPC was selected over REST. Unlike the text-based JSON, gRPC uses Protocol Buffers to serialize data into a binary format. This results in significantly smaller payload sizes and faster serialization/deserialization times. Furthermore, gRPC operates over HTTP/2, allowing for multiplexing and lower latency, which is critical for high-throughput internal traffic.
 
 ### Database design
 
@@ -239,7 +298,7 @@ Although the three-tier overview seems to appear a bit basic, each tier plays th
 
 As means of bridging the gap from the problem domain in general and the Learnify system in specific, an EER diagram was created as can be seen on the figure below:
 
-![Enhanced Entity Relationship Diagram](..\out\Implementation\EER\EER.png)
+![Enhanced Entity Relationship Diagram (Appendix 2.3 Diagrams)](..\out\Implementation\EER\EER.png)
 
 The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled.
 
@@ -255,7 +314,7 @@ SystemUser "*" -right- "*" Role : has
 @enduml
 ```
 
-The figure above focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+The figure above is a part of domain model (Appendix 2.3 Diagrams) focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
 
 #### Relational Schema
 
@@ -266,9 +325,9 @@ The mapping of the EER diagram resulted in a relational schema and the to it rel
 
 The mapping resulted in the relation schema as shown on the figure below:
 
-![Relational Schema](..\out\Implementation\RelationalSchema\RelationalSchema.png)
+![Relational Schema (Appendix 4.1 Relation Schema)](..\out\Implementation\RelationalSchema\RelationalSchema.png)
 
-As can be seen, the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
+As can be seen below on the part of Global Relational Diagram (Appendix 2.3 Diagrams), the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
 
 ```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship Resolution"}
 @startuml
@@ -293,7 +352,7 @@ Relational schema and Global Relations Diagram are technically identical. In the
 
 The final GR diagram is shown on the figure below:
 
-![Global Relational Diagram](..\out\Implementation\GR\GR.png)
+![Global Relational Diagram (Appendix 2.3 Diagrams)](..\out\Implementation\GR\GR.png)
 
 It can be seen that the GRD reflects the same concepts as the relational schema, however, in this case the positioning of the elements provides a more natural step going from the EER and the domain model; although, the positioning did not fully preserve the conceptual relationships as seen in the EER diagram.
 
@@ -392,13 +451,14 @@ This stage did not include any actual logic but rather provided a skeleton of th
 
 The implementation of the skeleton was followed by a the implementation of a vertical slice which focused on fetching all courses from the database.
 
-The individual components of the vertical slice can be seen below:
+The individual components of the vertical slice can be seen below on the part of Domain Model (Appendix 2.3 Diagrams):
 
 ```plantuml
 @startuml
 class Course
 {
     id
+    language
     title
     description
 }
@@ -427,7 +487,7 @@ Show how the two services "talk" to each other. Provide a code snippet showing t
 
 ### Testing Approach
 
-Testing in this project was structured around the V-Model, where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
+Testing in this project was structured around the V-Model (TODO: Source), where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
 
 The first step of the V-Model was requirement analysis, which directly maps to acceptance testing.
 
@@ -497,19 +557,29 @@ For critical methods, tests were designed to cover:
 This approach ensured that the internal behavior of key methods was thoroughly validated, not just their external outputs. Test cases were documented to show clear intent and traceability between requirements, logic, and expected outcomes.
 
 | Test Case ID | Test Case Name | Description | Precondition | Steps | Expected Result | Actual Result |
-|--------------|----------------|-------------|--------------|-------|-----------------|---------------|
-| TC_UC_01 | Register User | Verify that a new user can register and that invalid registrations are rejected | User does not already have an account | 1. User initiates registration.<br>2. System requests account details.<br>3. User submits registration data.<br>4a. System validates input.<br>5a. System creates account.<br>6a. System confirms registration.<br>— OR —<br>4b. System detects invalid input or existing user.<br>5b. System displays error message.<br>6b. User corrects input and resubmits. | Valid input creates a new account; invalid input results in error and retry option. | New accounts were successfully created with valid input. Invalid or duplicate data correctly triggered error messages and prevented registration. |
-| TC_UC_02 | Log In | Verify that a registered user can log in and that invalid credentials are rejected | User has a registered account and is logged out | 1. User initiates login.<br>2. User enters credentials.<br>3a. System authenticates credentials.<br>4a. System creates secure session.<br>5a. System grants access.<br>— OR —<br>3b. System rejects credentials.<br>4b. System displays authentication error.<br>5b. User retries login. | User gains access or receives authentication error. | Users with valid credentials were authenticated and granted access. Invalid credentials were rejected with clear error messages. |
-| TC_UC_03 | Manage Personal Learning | Verify that a learner can resume or unenroll from courses | Learner is logged in | 1. Learner opens enrolled courses list.<br>2. System displays enrollments and progress.<br>3a. Learner selects course to continue.<br>4a. System restores last saved progress.<br>— OR —<br>3b. Learner selects unenroll option.<br>4b. System removes course.<br>5b. System updates enrollment view. | Course resumes or is removed from learner’s list. | Courses resumed at the last saved progress point. Unenrolled courses were removed immediately from the learner’s course list. |
-| TC_UC_04 | Browse and Search Catalog | Verify that users can browse and filter courses, including no-result scenarios | User is logged in | 1. User opens course catalog.<br>2. System displays all courses.<br>3. User applies search or filter.<br>4a. System finds matching courses.<br>5a. System displays filtered results.<br>— OR —<br>4b. System finds no matches.<br>5b. System displays no-results message. | Course list updates or shows no-results message. | Matching courses were correctly filtered and displayed. When no matches existed, the system clearly indicated that no results were found. |
-| TC_UC_05 | Complete Learning Activity | Verify correct and incorrect answer handling during learning activities | User is enrolled and viewing a learning unit | 1. System displays learning activity.<br>2. User submits response.<br>3a. System evaluates as correct.<br>4a. System gives positive feedback.<br>5a. User proceeds to next unit.<br>— OR —<br>3b. System evaluates as incorrect.<br>4b. System provides corrective feedback.<br>5b. User retries activity. | Correct answers progress; incorrect answers give feedback and retry. | Correct answers allowed progression to the next unit. Incorrect answers triggered corrective feedback and allowed repeated attempts. |
-| TC_UC_06 | View User Profile | Verify that a user can view their profile information | User is logged in | 1. User accesses account information.<br>2. System displays profile details. | Profile information is displayed. | User profile details were displayed correctly and matched stored account information. |
-| TC_UC_07 | View Leaderboard | Verify that users can view leaderboard rankings | User is logged in | 1. User opens leaderboard view.<br>2. System displays ranking based on performance. | Leaderboard is displayed. | The leaderboard displayed user rankings based on performance metrics without errors. |
-| TC_UC_08 | Create Course Draft | Verify that a teacher can create a new course draft | Teacher is logged in | 1. Teacher initiates course creation.<br>2. Teacher enters course metadata.<br>3. Teacher submits draft.<br>4. System saves draft. | Course draft is created. | Course drafts were successfully saved and became visible in the administrator’s review list. |
-| TC_UC_09 | Edit Course Content | Verify that a teacher can edit and save course content | Teacher is logged in and course exists | 1. Teacher selects content unit.<br>2. Teacher edits content.<br>3. Teacher saves changes.<br>4. System updates content. | Content changes are saved. | Edited course content was saved correctly and reflected immediately when reopened. |
-| TC_UC_10 | Manage System Metadata | Verify that administrators can manage categories and languages | Administrator is logged in | 1. Admin opens metadata management.<br>2. Admin creates category or language.<br>3. System saves metadata. | Metadata becomes available. | Newly created categories and languages became available for course creation and filtering. |
-| TC_UC_11 | Review Course Drafts | Verify that administrators can approve or disapprove drafts | Administrator is logged in and drafts exist | 1. Admin reviews pending draft.<br>2a. Admin approves draft.<br>3a. System publishes course.<br>— OR —<br>2b. Admin disapproves draft.<br>3b. System hides course. | Draft is approved or remains unavailable. | Approved drafts became visible in the course catalog. Disapproved drafts remained unavailable to learners. |
-| TC_UC_12 | Manage User Roles | Verify that administrators can assign or remove user roles | Administrator is logged in | 1. Admin selects user.<br>2a. Admin assigns role.<br>3a. System updates permissions.<br>— OR —<br>2b. Admin removes role.<br>3b. System updates permissions. | User roles are updated. | User roles were updated correctly, and permissions changed immediately according to the assigned roles. |
+| :--: | :---- | :--- | :-- | :----------- | :------ | :---- |
+| TC_UC_01a | Register User - Success | Verify a new user can register with valid data. | User does not have an account. | 1. User initiates registration.<br>2. System requests details.<br>3. User submits valid data.<br>4. System validates input.<br>5. System creates account.<br>6. System confirms registration. | Account created; user prompted to login. | not performed |
+| TC_UC_01b | Register User - Invalid/Duplicate | Verify registration fails with invalid or existing data. | User provides existing username. | 1. User initiates registration.<br>2. User submits invalid/existing data.<br>3. System detects error.<br>4. System displays error message. | Registration rejected; user prompted to correct data. | not performed |
+| TC_UC_02a | Log In - Success | Verify registered user can log in with valid credentials. | User has a registered account. | 1. User initiates login.<br>2. User enters valid credentials.<br>3. System authenticates.<br>4. System creates session.<br>5. System grants access. | User is redirected to dashboard. | not performed |
+| TC_UC_02b | Log In - Failure | Verify login is rejected with invalid credentials. | User is logged out. | 1. User initiates login.<br>2. User enters wrong credentials.<br>3. System rejects authentication.<br>4. System displays error. | Access denied; user remains on login page. | not performed |
+| TC_UC_03a | Manage Learning - Resume | Verify learner can resume a course. | Learner is enrolled in a course. | 1. Learner opens enrolled courses.<br>2. Learner selects course to continue.<br>3. System restores last saved progress. | Course opens at the exact point where the user left off. | not performed |
+| TC_UC_03b | Manage Learning - Unenroll | Verify learner can unenroll from a course. | Learner is enrolled in a course. | 1. Learner selects unenroll option.<br>2. System removes course from learner list. | Course is no longer visible in user's active enrollments. | not performed |
+| TC_UC_04a | Search Catalog - Results | Verify search returns matching courses. | User is logged in. | 1. User opens catalog.<br>2. User enters search term that matches content.<br>3. System filters results. | System displays relevant courses matching the term/filters. | not performed |
+| TC_UC_04b | Search Catalog - No Results | Verify system behavior when no matches are found. | User is logged in. | 1. User opens catalog.<br>2. User enters search term with no matches.<br>3. System processes search. | System displays that no course was found with such filters. | not performed |
+| TC_UC_05a | Learning Step - Correct Answer | Verify handling of correct answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits correct response.<br>3. System gives positive feedback.<br>4. User proceeds to next unit. | Progress is updated; next unit is unlocked. | not performed |
+| TC_UC_05b | Learning Step - Incorrect Answer | Verify handling of incorrect answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits incorrect response.<br>3. System provides corrective feedback.<br>4. User retries activity. | User cannot proceed until correct answer is provided. | not performed |
+| TC_UC_06 | View User Profile | Verify profile display accuracy. | User is logged in. | 1. User accesses account info.<br>2. System displays profile details. | The user details match the database. | not performed |
+| TC_UC_07 | View Leaderboard | Verify leaderboard ranking display. | User is logged in. | 1. User opens leaderboard.<br>2. System calculates and displays rankings. | Global rankings are visible and accurate. | not performed |
+| TC_UC_08 | Create Course Draft | Verify teacher can create a new draft. | Teacher is logged in. | 1. Teacher enters details.<br>2. Teacher submits draft.<br>3. System saves draft. | Draft is stored and visible in teacher's workspace. | not performed |
+| TC_UC_09 | Edit Course Content | Verify teacher can modify existing content. | Course exists (and has the teacher as admin). | 1. Teacher enters the course edit mode.<br>2. Teacher modifies the learning step.<br>3. Teacher saves changes. | System updates content and confirms save. | not performed |
+| TC_UC_10a | Admin - Manage Categories | Verify admin can create categories. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new category.<br>3. System saves category. | Category becomes available for course tagging (setting/changing the category). | not performed |
+| TC_UC_10b | Admin - Manage Languages | Verify admin can create languages. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new language.<br>3. System saves language. | Language becomes available for course tagging (setting/changing the language). | not performed |
+| TC_UC_11a | Admin - Approve Draft | Verify draft. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin approves.<br>3. System creates the course. | Course becomes available to work on. | not performed |
+| TC_UC_11b | Admin - Disapprove Draft | Verify draft rejection. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin disapproves.<br>3. System deletes the draft. | Course is not created and draft is removed. | not performed |
+| TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. | not performed |
+| TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. | not performed |
+
+*Table 5: Test Cases Results (Appendix 2.4 Tests)*
 
 
 ### Benefits and bug detection
@@ -572,19 +642,58 @@ The project achieved success through its development of a distributed learning s
 - PTI. (2025, March 2). 40% global population doesn’t have access to education in language they understand: UNESCO. Deccan Herald. https://www.deccanherald.com/world/40-global-population-doesnt-have-access-to-education-in-language-they-understand-unesco-3428194
 - Samonas, S., & Coss, D. (2014). The Cia Strikes Back: Redefining Confidentiality, Integrity and Availability in Security. In Journal of Information System Security (Vol. 10, Issue 3). https://www.proso.com/dl/Samonas.pdf
 - Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
+- Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
+- UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
 
 # Appendices
 
-## Appendix A: Threat Model
+## Appendix 2.1 Requirements
+### Requirements
+Can be found as TODO:eduard.pdf
 
+## Appendix 2.2 Use Cases
+### Use Case Diagram
+Can be found as TODO:eduard.pdf
+### Complete Learning Activity Use Case Description
+Can be found as TODO:eduard.pdf
+
+## Appendix 2.3 Diagrams
+### Learning and Achievement Activity Diagram
+Can be found as LearningAndAchievement.png
+### Domain Model
+Can be found as DomainModel.png
+### Enhanced Entity Relationship Diagram
+Can be found as EER.png
+### Global Relational Diagram
+Can be found as GR.png
+### Application Layer Sequence Diagram
+Can be found as Application-LayerSD.png
+
+## Appendix 2.4 Tests
+### Test Cases
+Can be found as TestCases.pdf???? TODO:add this to the appendix
+### Test Cases Result
+Can be found as ...... TODO:add this to the appendix
+
+## Appendix 4.1 Relation Schema
+### Relational Schema
+Can be found as RelationalSchema.png
+
+## Appendix 7.1 Threat Model
+### Threat model
 Can be found as ThreatModel.pdf
 
-## Appendix B: Stakeholder Interviews
+## Appendix 9.1 Wireframes
+### All Courses Page Wireframe
+Can be found as Wireframes-2.png
 
-### Appendix B.1: Interview David
+## Appendix 10.1: Stakeholder Interviews
+### Interview David
+Can be found as Interview_261125_1.pdf
+### Interview Andrej TODO: Sasha update this
+Can be found as Interview_XXX.pdf
 
-Can be found as Interview_261125_1.md (TODO: pdf or md? recording?)
+## Appendix 11.1 Architecture
+### Architectural Overview 
+Can be found as ArchitecturalOverview.png
 
-### Appendix B.2: Interview Andrej
-
-Can be found as Interview_101225_1. (TODO: png? video recording?)
