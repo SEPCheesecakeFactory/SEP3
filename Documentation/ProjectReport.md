@@ -165,6 +165,16 @@ All the use case descriptions were made in the same format with:
 - Base Sequence
 - Alternative Sequences
 
+### System sequence diagrams (SSD)
+
+System Sequence Diagrams (SSDs) were developed to illustrate the interaction between the system actors and the system as a black box. By focusing on the input and output events, the SSDs helped in identifying the necessary system operations and the data that needs to be exchanged to fulfill each use case.
+
+An SSD was created for each of the 12 use cases, ensuring that the dynamic behavior of the system is fully captured from an external perspective.
+
+The figure below shows the SSD for UC5 - Complete Learning Activity, which highlights the iterative nature of the learning process and the system's role in providing feedback.
+
+![Complete Learning Activity SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg)
+
 ### Test Cases
 
 Following the definition of the system’s dynamic behavior through use cases, SSDs and activity diagrams, a set of high-level test cases was derived to formalize the acceptance criteria for the Learnify system. These test cases were constructed directly from the use case descriptions, specifically targeting the preconditions, base sequences, and alternative sequences defined in the previous sections.
@@ -715,6 +725,8 @@ Can be found as TODO:eduard.pdf
 Can be found as TODO:eduard.pdf
 
 ## Appendix 2.3 Diagrams
+### System Sequence Diagrams
+Can be found in the SSDs folder (UC1 to UC12)
 ### Learning and Achievement Activity Diagram
 Can be found as LearningAndAchievement.png
 ### Domain Model

@@ -1,0 +1,14 @@
+@startuml UC4_BrowseSearchCatalog
+title UC4 - Browse and Search Catalog
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor User
+participant System
+
+User -> System: Access course catalog
+System --> User: Display available courses and filters
+User -> System: Apply search term and filters (category, language)
+System --> User: Display filtered course results
+User -> System: Select course for details
+System --> User: Show course overview
+@enduml

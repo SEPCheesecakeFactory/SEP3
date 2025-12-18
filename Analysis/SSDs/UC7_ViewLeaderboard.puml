@@ -1,0 +1,10 @@
+@startuml UC7_ViewLeaderboard
+title UC7 - View Leaderboard
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor User
+participant System
+
+User -> System: Open leaderboard
+System --> User: Display global rankings and user position
+@enduml

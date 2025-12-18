@@ -1,0 +1,19 @@
+@startuml UC11_ReviewCourseDrafts
+title UC11 - Review Course Drafts
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Admin
+participant System
+
+Admin -> System: Request pending drafts
+System --> Admin: Display list of drafts awaiting review
+Admin -> System: Select draft to review
+System --> Admin: Show draft details
+alt Approve
+    Admin -> System: Approve draft
+    System --> Admin: Confirm approval and notify teacher
+else Disapprove
+    Admin -> System: Disapprove draft with feedback
+    System --> Admin: Confirm rejection and notify teacher
+end
+@enduml

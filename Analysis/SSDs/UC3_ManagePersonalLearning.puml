@@ -1,0 +1,17 @@
+@startuml UC3_ManagePersonalLearning
+title UC3 - Manage Personal Learning
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Learner
+participant System
+
+Learner -> System: Request enrolled courses
+System --> Learner: Display list of enrolled courses
+alt Resume Course
+    Learner -> System: Select course to resume
+    System --> Learner: Display last saved learning step
+else Unenroll
+    Learner -> System: Select unenroll from course
+    System --> Learner: Confirm unenrollment
+end
+@enduml

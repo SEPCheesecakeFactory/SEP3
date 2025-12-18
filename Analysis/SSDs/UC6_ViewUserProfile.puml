@@ -1,0 +1,12 @@
+@startuml UC6_ViewUserProfile
+title UC6 - View User Profile
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor User
+participant System
+
+User -> System: Access personal profile
+System --> User: Display user details, roles, and statistics
+User -> System: Request achievement badges
+System --> User: Display earned badges
+@enduml

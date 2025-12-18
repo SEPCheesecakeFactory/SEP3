@@ -1,0 +1,12 @@
+@startuml UC8_CreateCourseDraft
+title UC8 - Create Course Draft
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Teacher
+participant System
+
+Teacher -> System: Propose new course
+System --> Teacher: Request course title, description, and category
+Teacher -> System: Submit draft details
+System --> Teacher: Confirm draft submission (pending approval)
+@enduml

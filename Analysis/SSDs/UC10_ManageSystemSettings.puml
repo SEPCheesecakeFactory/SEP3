@@ -1,0 +1,12 @@
+@startuml UC10_ManageSystemSettings
+title UC10 - Manage System Settings
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+
+actor Admin
+participant System
+
+Admin -> System: Access system settings
+System --> Admin: Display current categories and languages
+Admin -> System: Add new category or language
+System --> Admin: Confirm update to platform options
+@enduml
