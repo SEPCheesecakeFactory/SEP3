@@ -533,7 +533,7 @@ To showcase the path from GUI through the servers, the database, and back as wel
 
 When an user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
 
-![Click login as teacher](image-44.png)
+![Click login as teacher](clicklogin.png)
 
 After clicking the login button, the client side server sends a request to the Logic Server. The following json represents the HTTP request sent:
 
@@ -672,7 +672,7 @@ public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> r
 
 Once logged in, the teacher can create a course draft. This process involves the Client sending data to the Logic Server, which then forwards it to the Data Server.
 
-![Click Create Draft](image-45.png)
+![Click Create Draft](createdraft.png)
 
 **Client App (HttpCourseService.cs):**
 
