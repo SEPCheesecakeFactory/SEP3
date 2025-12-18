@@ -231,6 +231,8 @@ The team needs to keep their group contract active while using Kanban pull-based
 
 Kanban University. (2022). The official guide to the Kanban method (Version 2). Mauvius Group Inc. https://kanban.university/wp-content/uploads/2023/04/The-Official-Kanban-Guide_A4.pdf
 
+Pierce, J. L., Kostova, T., & Dirks, K. T. (2001). Toward a Theory of Psychological Ownership in Organizations. The Academy of Management Review, 26(2), 298–310. https://doi.org/10.2307/259124
+
 # Appendices
 ## Appendix 1.1 GroupContract
 ### Group Contract
