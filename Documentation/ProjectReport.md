@@ -96,12 +96,13 @@ The user stories are sorted based on the actors to which they correspond, not ac
 2. User passwords must be securely stored at rest
 3. The system must be deployable
 4. The system must be color-blind friendly
+5. The system must be distributed
 
 ### Use cases and their related requirements
 
 In order to address the user stories, use cases of the system were developed, which further clarified the requirements and provided a basis for understanding the system behaviour (giving basis for dynamic rather than static analysis).
 
-The uses cases developed are shown in a table below:
+The use cases developed are shown in a table below:
 
 | ID   | Use Case                   |
 | :--- | :------------------------- |
@@ -195,7 +196,7 @@ A set of activity diagrams was developed to cover the most critical workflows of
 
 The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Step), and UC7 (View Leaderboard). 
 
-![Learning and Achievement Activity Diagram (Appendix 2.3.1 Activity Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
+![Learning and Achievement Activity Diagram (Appendix 2.3.1 Activity Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg){width=60%}
 
 This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
 
@@ -207,7 +208,7 @@ Following the definition of the system’s dynamic behavior through use cases, S
 
 The objective of defining these test cases during the analysis phase - rather than the testing phase - was to ensure understanding of system's functionality and to aid the definition of done.
 
-The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
+The table with all test cases can be found in Appendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ### Domain model
 
