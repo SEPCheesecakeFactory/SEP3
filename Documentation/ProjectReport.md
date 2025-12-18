@@ -261,7 +261,7 @@ The figure above depicts one of the wireframes created for the system - all cour
 
 The interface also includes features which are showed only to users with specific roles (Teacher, Admin); it can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
 
-The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (Open-Source Tool That Uses Simple Textual Descriptions to Draw Beautiful UML Diagrams., n.d.) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
+The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (Roques, n.d.) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
 
 ### Architectural overview
 
@@ -522,7 +522,7 @@ Java programming language was selected to run the Data Server because it met thi
 
 Data Server implemented using Java was intended to not have any code related to the main logic of the system. Its main responsibility was to handle operations of the services which were either taking data from the database or updating the database. The framework that was used in order to make the implementation process cleaner and more efficient was Spring boot. The team chose Spring Data JPA when it comes to handling data persistent with PostgreSQL due to the possibility of working with Java objects instead of raw SQL queries.
 
-The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a bog part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
+The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a big part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
 
 When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave the team a structured template to work on the fronted using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
 
@@ -874,16 +874,6 @@ Regarding security-related aspects, the system communicates over HTTP during dev
 
 The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
-## Final Product Showcase: Screenshots of the "Learnify" app UI or console logs showing successful data processing.
-
-## Ethical Considerations:
-
-Requirement: You must describe ethical considerations and how negative impacts are minimized.
-
-Content: Discuss data privacy (GDPR), user consent, or the societal impact of the app.
-
----
-
 # Discussion
 
 #### What Has Been Accomplished
@@ -919,7 +909,7 @@ The project achieved success through its development of a distributed learning s
 - Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
 - UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
 - Sommerville, I. (2016). Software Engineering Tenth Edition. https://dn790001.ca.archive.org/0/items/bme-vik-konyvek/Software%20Engineering%20-%20Ian%20Sommerville.pdf
-- Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. (n.d.). PlantUML.com. https://plantuml.com/
+- Roques, A. (n.d.). Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. PlantUML.com. https://plantuml.com/
 
 # Appendices
 
