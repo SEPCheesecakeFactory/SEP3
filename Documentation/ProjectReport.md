@@ -405,7 +405,7 @@ service UserService {
 
 The Logic Server exposes a RESTful API to external clients using standard HTTP/1.1 protocols. This design streamlines client integration by using standard HTTP verbs (GET, POST, PUT, DELETE) and status codes.
 
-For example, authentication is handled via the /auth/login endpoint. By sending a POST request to http://localhost:9090/auth/login with the correct credentials, a client can successfully authenticate and connect to the system.
+For example, authentication is handled via the /auth/login endpoint. By sending a POST request to http://domain:port/auth/login with the correct credentials, a client can successfully authenticate and connect to the system.
 
 #### Protocol Justification
 
@@ -532,16 +532,16 @@ At a later stage, the original database setup was split into pure DDL script and
 ### Methods and tools
 
 Going further into implementation details, Java and C# programming languages were chosen to meet the requirements of multilanguage system. For storing information PostgreSQL database has been implemented. 
-The development team chose C# Blazor .NET for the frontend because its component-based system gave a possibility for fast GUI development without needing an additional JavaScript code. On the Logic Server, ASP.NET Core provided an intuitive environment for managing REST endpoints and gRPC services, facilitating high-speed communication. It was achieved by using shared Data Transfer Objects (DTOs) and validation logic which kept data model changes synchronized between client and server systems. 
+C# Blazor .NET was used for the frontend implementation because its component-based system gave a possibility for fast GUI development without needing an additional JavaScript code. On the Logic Server, ASP.NET Core provided an intuitive environment for managing REST endpoints and gRPC services, facilitating high-speed communication. It was achieved by using shared Data Transfer Objects (DTOs) as well as anonymous types and validation logic which kept data model changes synchronized between client and server systems. 
 Java programming language was selected to run the Data Server because it met this semester's polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
 
 ### Servers Implementation
 
-Data Server implemented using Java was intended to not have any code related to the main logic of the system. Its main responsibility was to handle operations of the services which were either taking data from the database or updating the database. The framework that was used in order to make the implementation process cleaner and more efficient was Spring boot. The team chose Spring Data JPA when it comes to handling data persistent with PostgreSQL due to the possibility of working with Java objects instead of raw SQL queries.
+Data Server implemented using Java was intended to not have any code related to the main logic of the system. Its main responsibility was to handle operations of the services which were either taking data from the database or updating the database. The framework that was used in order to make the implementation process cleaner and more efficient was Spring boot. Spring Data JPA was chosen when it comes to handling data persistent with PostgreSQL due to the possibility of working with Java objects instead of raw SQL queries.
 
-The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a big part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
+The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security was of high concern on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the code to be kept organized and easy to build on.
 
-When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave the team a structured template to work on the frontend using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
+When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave a structured template to work on the frontend using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
 
 ### Integration Logic:
 To showcase the path from GUI through the servers, the database, and back as well as communication between the servers, the following figures demonstrate the necessary logs and implementations of such functionality. The code can be found in (Appendix 3.1 Source Code).
@@ -550,7 +550,7 @@ To showcase the path from GUI through the servers, the database, and back as wel
 
 When a user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
 
-![Click login as teacher](clicklogin.png)
+![Click login as teacher](clicklogin.png){width=40%}
 
 After clicking the login button, the client side server sends a request to the Logic Server. The following json represents the HTTP request sent:
 
@@ -689,7 +689,7 @@ public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> r
 
 Once logged in, the teacher can create a course draft. This process involves the Client sending data to the Logic Server, which then forwards it to the Data Server.
 
-![Click Create Draft](createdraft.png)
+![Click Create Draft](createdraft.png){width=40%}
 
 **Client App (HttpCourseService.cs):**
 
@@ -786,7 +786,21 @@ public void addCourse(AddCourseRequest request, StreamObserver<AddCourseResponse
 
 ### Security Implementation
 
-Learnify bases its entire system security approach on the foundation of its Security Policy (Appendix 7.2 Security Policy). The document describes vital security measures which organizations employ to protect their information from unauthorized access and security breaches. The System depends on three critical security principles which include confidentiality, integrity and availability that protect its core functions through multiple essential security measures. The process needs each user to enter their personal login details for authentication. The policy specifies that users needs to create passwords which contain at least eight characters to safeguard their accounts. Role-Based Access Control (RBAC) provides additional protection through its access management system which grants specific permissions to Learners and Teachers and Administrators based on their designated roles. The Logic Server performs user role verification through generated claims to authorize only permitted actions before processing any requests. The endpoints of WebApi logic server have been secured. The team strived to achieve data security by using a well-planned system which organizes information through classification and protects it with encryption methods. The system contains three types of data which include public information that users can access through registration and login pages, internal information that requires authentication to view course catalogs and content and sensitive information which needs encryption for user passwords. The system uses Argon2 as a secure password hashing function which includes salting to protect user information. The system operates with continuous security measures and regular software updates to maintain its network security. It functions through a firewall which grants access to particular ports that are essential for operation.
+Learnify bases its entire system security approach on the foundation of its Security Policy (Appendix 7.2 Security Policy). The document describes vital security measures which the system aims to employ to protect the information from unauthorized access and security breaches. 
+
+The System depends on three critical security principles which include confidentiality, integrity and availability that protect its core functions through multiple essential security measures. 
+
+The process needs each user to enter their personal login details for authentication. The policy specifies that users needs to create passwords which contain at least eight characters to safeguard their accounts. Role-Based Access Control (RBAC) provides additional protection through its access management system which grants specific permissions to Learners and Teachers and Administrators based on their designated roles. 
+
+The Logic Server performs user role verification through generated claims to authorize only permitted actions before processing any requests. The endpoints of WebApi logic server have been secured. Focus was also on achieving data security by using a well-planned system which organizes information through classification and protects it with encryption methods. 
+
+The system contains three types of data which include:
+
+- public information that users can access through registration and login pages, 
+- internal information that requires authentication to view course catalogs and content, and 
+- sensitive information which needs encryption for user passwords. 
+
+The system uses Argon2 as a secure password hashing and salting algorithm which protects user passwords. The system operates with continuous security measures and regular software updates to maintain its network security. It functions through a firewall which grants access to particular ports that are essential for operation.
 
 ### Deployment
 
@@ -802,17 +816,15 @@ Testing in this project was structured around the V-Model (Sommerville, 2016), w
 
 The first step of the V-Model was requirement analysis, which directly maps to acceptance testing.
 
-At this stage, testing focused on answering a simple but critical question:
+At this stage, testing focused on the question of the ability to determine whether the system fulfills the user requirements.
 
-How can it be determined whether the system fulfills the user requirements?
-
-Rather then writing code-level tests, the team defined high-level acceptance criteria for each use case. These criteria described:
+Rather then writing code-level tests, high-level acceptance criteria were defined for each use case. These criteria described:
 
 - What user expects to achieve
 - Under which conditions the system should allow or deny actions
 - What outcome confirms that the requirement is fulfilled
 
-These acceptance-oriented test ideas were later used to validate the system both manually and through automated test. In this way, test cases were already embedded in the analysis phase.
+These acceptance-oriented test ideas were later used to validate the system both manually and through automated test. In this way, the test cases were already embedded in the analysis phase.
 
 In practice, different types of tests naturally aligned with different parts of the V-Model:
 
@@ -823,9 +835,8 @@ In practice, different types of tests naturally aligned with different parts of 
 
 A combination of automated and manual testing tools was used throughout the project:
 
-- xUnit / JUnit – Used for writing automated unit and integration tests.
-- Mockito / Mocking frameworks – Used to isolate logic and mock external dependencies.
-- HTTP client–based tests – Used for endpoint-level testing.
+- xUnit – Used for writing automated unit and integration tests.
+- HTTP client–based tests – Used for endpoint-level testing (Postman).
 - .http files – Used early in development for manual REST endpoint testing.
 - BloomRPC – Used for manually testing gRPC endpoints.
 - In-memory repositories – Used to test logic without external dependencies.
@@ -844,7 +855,7 @@ The following aspects of the system were tested:
 - Course and draft management workflows
 - Integration between services
 
-The team aimed for high endpoint coverage, testing endpoints under different scenarios such as:
+The aim was for high endpoint coverage, testing endpoints under different scenarios such as:
 
 - Different user roles and credentials
 - Authorized vs. unauthorized access
@@ -869,23 +880,25 @@ The table of all test case results can be found in (Appendix 2.4 Tests).
 
 ### Benefits and bug detection
 
-Testing played an important role in maintaining system stability throughout development and gave the team confidence when introducing changes.
+Testing played an important role in maintaining system stability throughout development and provided confidence when introducing changes.
 
-One of the main benefits of automated testing was that it enabled safe refactoring. Because core logic and most endpoints were covered by tests, the team could restructure and improve the codebase without the constant risk of breaking existing functionality. This was especially valuable in later stages of the project, where refactoring became more frequent as the system matured.
+One of the main benefits of automated testing was that it enabled safe refactoring. Because core logic and most endpoints were covered by tests, the codebase could be restructured and improved without the constant risk of breaking existing functionality. This was especially valuable in later stages of the project, where refactoring became more frequent as the system matured.
 
 In several cases, features appeared to work correctly when tested manually through the user interface, but automated tests revealed issues that were not immediately visible. These included:
 
-- Missing validation for null or unexpected input
+- Missing validation for unexpected input
 - Edge cases and boundary values not being handled correctly
 - Operations failing silently without clear feedback
 
-The team followed a continuous test–fix–verify cycle during development. When a problem was discovered, it was corrected, committed through version control, and often accompanied by additional tests to prevent similar issues in the future. Although the project did not strictly follow Test-Driven Development from the start, the gradual shift toward automated testing significantly improved reliability, reduced regressions, and supported ongoing changes as the project evolved.
+A continuous test–fix–verify cycle was followed during development. When a problem was discovered, it was corrected, committed through version control, and often accompanied by additional tests to prevent similar issues in the future. Although the project did not strictly follow Test-Driven Development from the start, the gradual shift toward automated testing significantly improved reliability, reduced regressions, and supported ongoing changes as the project evolved.
+
+The red-green-refactor cycle also played its role. The implementation often followed this patterns where a failing test (red) would be written first, followed by the implementation to make it pass (green), and finally refactoring the code for clarity and maintainability while keeping the tests passing (refactor).
 
 ## Result
 
 Based on the defined use cases and their corresponding test scenarios, the system was evaluated through a combination of automated tests and manual verification. The implemented functionality covers the main workflows for learners, teachers, and administrators that were within the project scope.
 
-The results show that all implemented use cases behave according to their expected outcomes. Core features such as user registration and login, course participation, learning activities, course creation, and administrative management were verified to function correctly.
+The results show that most implemented use cases behave according to their expected outcomes. Core features such as user registration and login, learning activities, course creation, and administrative management were verified to function correctly.
 
 Regarding security-related aspects, the system communicates over HTTP during development and testing. While the application configuration includes redirection to HTTPS outside of development mode, a full HTTPS setup with proper certificate handling was not established as part of this project. Additionally, no explicit enforcement of a minimum password length (such as an 8-character requirement) is implemented in the current system.
 
@@ -895,26 +908,60 @@ The table with all test cases can be found as (Appendix 2.4 Tests) - the table p
 
 #### What Has Been Accomplished
 
-The main purpose of this project has been achieved through the creation of the “Learnify” distributed heterogeneous e-learning system which targets the problem of educational inequality. The system operates through a three-tier architecture which combines a C# Blazor client application with a Logic Server built in C# .NET and a Data Server developed in Java. The PostgreSQL database functions as the storage system which maintains all relevant information for every service. The system architecture uses gRPC protocol to establish fast communication between services while it employs HTTP protocol to enable client application interaction. The system has achieved full integration of 21 specific user stories which support the complete learning process. The system enables users to create new accounts through its registration feature. Users can browse course catalogs. Users can take part in courses. The system provides users with suitable interactive learning activities that deliver instant feedback. The system enforces a rigid role-based structure which applies to all users including Learners and Teachers and Administrators. The role hierarchy establishes a governance process which requires Teachers to obtain administrator approval before their content can be published. The security implementation utilizes industrial standards with Argon2 for Password Hashing with salting and JWT for Stateless Authentication. In addition, the User Experience has been strengthened with the incorporation of leaderboards for gamification and a Color Validated User Interface for color-deficient users. The overall requirements have been designed in accordance with the primary values laid down in the project and potential customers' feedback.
+The main purpose of this project has been achieved through the creation of the “Learnify” distributed heterogeneous e-learning system which targets the problem of educational inequality. 
+
+The system operates through a three-tier architecture which combines a C# Blazor client application with a Logic Server built in C# .NET and a Data Server developed in Java. The PostgreSQL database functions as the storage system which maintains all relevant information for every service. 
+
+The system architecture uses gRPC protocol to establish fast communication between services while it employs HTTP protocol to enable client application interaction. 
+
+The system has achieved full addressment of 18 specific user stories which support the complete learning process. 
+
+The system enables users to:
+
+- create new accounts through its registration feature. 
+- browse course catalogs. 
+- take part in courses. 
+
+The system provides users with suitable interactive learning activities that deliver instant feedback. It also enforces a rigid role-based structure which applies to all users including Learners, Teachers and Administrators. The role hierarchy establishes a governance process which requires Teachers to obtain administrator approval before their content can be published. 
+
+The security implementation utilizes industrial standards with Argon2 for Password Hashing with salting and JWT for Stateless Authentication. In addition, the User Experience has been strengthened with the incorporation of leaderboards for gamification and a User Interface for color-deficient users. 
+
+The overall requirements have been designed in accordance with the primary values laid down in the project and stakeholder feedback.
 
 #### What Can Be Improved
 
-Even with the successful implementation of the fundamental system, there are some aspects that need optimization towards the reduction of the identified security risks and the improvement of scalability. The basic application needs additional security measures to protect against advanced attacks even though it uses Argon2 password hashing and JSON Web Tokens. The Critical risk of unpatched software vulnerability exploitation requires automated scanning and effective patch management for future developments. The protection of high-risk systems against Man-in-the-Middle attacks and credential exploitation needs Transport Layer Security/Secure Sockets Layer combined with HTTP Strict Transport Security and Content Security Policies to prevent Cross-Site Scripting attacks and Multi-Factor Authentication. The system has passed normal functional tests to meet operational requirements but its performance under severe stress remains untested through extreme load testing. The risk assessment shows that Distributed Denial of Service requires future research to simulate high user volumes for identifying system bottlenecks.
-Concerning user experience, there is still a lot of room for improving the inclusivity of the platform. Although the support for color vision disabilities is a good starting point, the support needs to be extended to implement full compatibility with the Web Content Accessibility Guidelines and screen readers for users with motor disabilities. In addition to this, the format of the learning model needs to change from the linear pattern that it currently supports to an adaptive path and also an advanced gamification system incorporating features like badges and streaks. Lastly, to avoid administrative delays that could arise in the future due to the expansion of users, it is advised that the manual content reviewing system should be integrated with an AI-powered content review system.
+Even with the successful implementation of the fundamental system, there are some aspects that need optimization towards the reduction of the identified security risks and the improvement of scalability. 
 
----
+The basic application needs additional security measures to protect against advanced attacks even though it uses Argon2 password hashing and JSON Web Tokens. The Critical risk of unpatched software vulnerability exploitation requires automated scanning and effective patch management for future developments. The protection of high-risk systems against Man-in-the-Middle attacks and credential exploitation needs Transport Layer Security/Secure Sockets Layer combined with HTTP Strict Transport Security and Content Security Policies to prevent Cross-Site Scripting attacks and Multi-Factor Authentication. 
+
+The system has passed normal functional tests to meet operational requirements but its performance under severe stress remains untested through extreme load testing. The risk assessment shows that Distributed Denial of Service requires future research to simulate high user volumes for identifying system bottlenecks.
+
+The testing also significantly failed to address certain parts of the system and unit tests like the InMemoryRepository test suite only proved their functionality once their failure started affecting other tests relying on them. 
+
+In addition to testing, compiler feedback also went unaddressed for many parts of the system despite already showing potential future issues.
+
+Concerning user experience, improvement can be done towards the inclusivity of the platform. Although the support for color vision disabilities is a good starting point, the support needs to be extended to implement full compatibility with the Web Content Accessibility Guidelines and screen readers for users with motor disabilities. 
+
+In addition to this, the format of the learning model needs to change from the linear pattern that it currently supports to an adaptive path and also an advanced gamification system incorporating features like badges and streaks. 
+
+One of the flaws and features that were not implemented in the project related to the performance testing is also the performance itself. Even though the implementation fully allowed for simple caching and other performance optimization techniques (via the proxy pattern and other partially implemented solutions), such optimizations were never made as their need went virtually unnoticed. 
+
+Lastly, to avoid administrative delays that could arise in the future due to the expansion of users, it is advised that the manual content reviewing system should be integrated with an AI-powered content review system.
 
 # Conclusion and Recommendations
 
-The main goal of this study was to develop a scalable heterogeneous distributed e-learning system which tackles educational inequalities through superior performance and system integrity, while delivering an excellent user experience. The system development process required a three-tier architectural design which implemented a multi programming language approach by combining C#, Java, and the PostgreSQL database. The tests showed that the system operates effectively when handling multiple sessions and processing data.
+The primary objective of the Learnify project was to develop a scalable, heterogeneous, and distributed e-learning system designed to mitigate educational inequalities. This was successfully achieved through a three-tier architectural design that leveraged a polyglot approach, combining C# (Blazor and ASP.NET Core) with Java (Spring Boot) and a PostgreSQL database. A key technical success was the implementation of a hybrid communication protocol—utilizing REST for external client-server interaction and gRPC for high-performance internal data exchange—which ensured both accessibility and system efficiency.
 
-The system delivered its core objectives but failed to achieve complete functionality because content moderation features remained unimplemented within the project timeframe. The system establishes a core structure which enables the creation of a distributed system.
+The system fulfilled its core functional requirements, including user registration, course management, and an interactive learning loop. Notably, the project met its non-functional requirement for inclusivity by delivering a color-blind friendly interface. However, the full vision for system integrity was partially constrained as automated content moderation features remained unimplemented within the project timeframe, necessitating manual oversight by administrators.
 
-Future research should direct its attention toward creating strong security systems which include Multi-Factor Authentication and advanced permission frameworks because the existing basic systems would need to evolve for commercial deployment. The learning platform will become better after the implementation of full accessibility features which include screen reader support and adaptive layout functionality. The platform requires testing for production-level usability and maximum load capacity to achieve production readiness and acceptable latency levels.
+Future development should prioritize the following areas:
 
-The project achieved success through its development of a distributed learning system which met all essential criteria established during the planning phases. However, there are still some areas which require improvement. The results of this study could possibly help educational institutions improve their technology systems which currently exist in schools. Digital learning systems produce various results which need to be evaluated during the evaluation process. The development team needs to resolve privacy issues and content recommendation problems and digital divide challenges for future Learnify learning platform versions.
+1. Enhanced Security and Robustness: Implementation of Multi-Factor Authentication (MFA) and Transport Layer Security (TLS) across all tiers is essential. Future iterations must also undergo rigorous stress and load testing to mitigate risks associated with Distributed Denial of Service (DDoS) attacks and to ensure low latency under high user volumes.
+2. AI-Powered Moderation: To resolve the bottleneck of manual content review, integrating AI-driven moderation tools would allow for scalable and immediate quality control of teacher-submitted drafts.
+3. Advanced Inclusivity and Gamification: While color-blind support is present, full adherence to WCAG standards, including screen reader support and motor-disability adaptations, is required. Furthermore, expanding the current leaderboard into a comprehensive gamification suite with badges and learning streaks would further enhance user engagement.
+4. Adaptive Learning Paths: Moving beyond linear course structures toward AI-driven content recommendations would better address the "digital divide" by tailoring educational experiences to individual learner needs.
 
----
+In conclusion, Learnify establishes a robust foundation for a distributed learning system. By addressing the identified security, performance, and accessibility gaps, the platform has the potential to significantly improve the technological infrastructure of educational institutions and provide a more equitable digital learning environment.
 
 # References
 
