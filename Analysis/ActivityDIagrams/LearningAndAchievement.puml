@@ -1,24 +1,33 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|Learner|
 start
-:Learner opens enrolled courses;
-:System retrieves the courses;
-:Learner selects course to resume;
-:System provides current learning step;
+:Open enrolled courses;
+|System|
+:Retrieve the courses;
+|Learner|
+:Select course to resume;
+|System|
+:Provide current learning step;
 repeat
-    :System displays activity;
-    :Learner submits answer;
-    :System evaluates answer;
+    :Display activity;
+    |Learner|
+    :Submit answer;
+    |System|
+    :Evaluate answer;
     if (Correct?) then (yes)
-        :System updates completion status;
-        :System awards points (if needed);
-        :System shows success and next step;
+        :Update completion status;
+        :Award points (if needed);
+        :Show success and next step;
     else (no)
-        :System shows feedback and retry;
+        :Show feedback and retry;
     endif
+    |Learner|
 repeat while (More steps in course?)
-:Learner views leaderboard;
-:System calculates rankings;
-:Learner compares progress with others;
+:View leaderboard;
+|System|
+:Calculate rankings;
+|Learner|
+:Compare progress with others;
 stop
 @enduml

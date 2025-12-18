@@ -1,10 +1,14 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|Learner|
 start
-:Learner accesses own profile;
-:System provides user information;
-:Learner updates personal details;
-:System updates user record;
-:System confirms success;
+:Access own profile;
+|System|
+:Provide user information;
+|Learner|
+:Update personal details;
+|System|
+:Update user record;
+:Confirm success;
 stop
 @enduml

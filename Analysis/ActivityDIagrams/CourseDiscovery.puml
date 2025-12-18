@@ -1,11 +1,16 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|Learner|
 start
-:Learner accesses course catalog;
-:System provides available categories and languages;
-:Learner applies search filters;
-:System filters courses based on criteria;
-:Learner selects a course;
-:Learner enrolls in course;
+:Access course catalog;
+|System|
+:Provide available categories and languages;
+|Learner|
+:Apply search filters;
+|System|
+:Filter courses based on criteria;
+|Learner|
+:Select a course;
+:Enroll in course;
 stop
 @enduml
