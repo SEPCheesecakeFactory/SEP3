@@ -55,7 +55,7 @@ Admins are trusted Learners, who have the right to manage the platform. They sho
 
 #### Functional requirements
 
-The functional requirements are structured as user stories to better capture the perspective of the actor and to clarify permissions and intentions behind each requirement. This way the user stories served as the fundamental source of truth and a guide light for understanding the problem and being able to design a solution that would address the problem preserving the idea behind the intention of the actor.
+The functional requirements are structured as user stories to better capture the perspective of the actor and to clarify permissions and intentions behind each requirement. This way the user stories served as the fundamental source of truth and a guideline for understanding the problem and being able to design a solution that would address the problem preserving the idea behind the intention of the actor.
 
 |  ID   | User Story                                                                                                                |
 | :---: | :------------------------------------------------------------------------------------------------------------------------ |
