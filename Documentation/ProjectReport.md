@@ -194,9 +194,13 @@ All the use case descriptions were made in the same format with:
 
 ### Activity diagram
 
+The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases. 
+
 The activity diagram below shows the workflow of the given "Complete Learning Activity" use case. The diagram highlights the sequence of operations performed by the user and the system, which begin with the display of a question or an exercise. Validation logic is highlighted in this activity diagram where the system analyzes the response of the user. Based on this, if a wrong solution is provided, a "feedback loop" is initiated where a message prompts the user to try again. As a result, a learning activity will be marked accomplished only when a correct answer is given, which demonstrates a mastery learning technique.
 
 ![Complete Learning Activity Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
+
+(TODO: not just one use case!!)
 
 ### Domain model
 
@@ -217,6 +221,8 @@ At the same time, the domain model was kept in its simplest form possible in ter
 - Learning Steps
 
 And it could be further argued that Learning Steps only exist as a part of Courses, therefore the Domain Model is centered around the idea of Users learning from Courses, which did not change from the initial vision of the system.
+
+The inclusion of stakeholders as entities within the domain model mostly arised from the need of defining and understanding attributes and relationships of Users.
 
 ### Security Requirements
 
