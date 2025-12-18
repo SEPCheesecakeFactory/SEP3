@@ -1,0 +1,115 @@
+@page "/login"
+@using BlazorApp.Auth
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using BlazorApp.Services
+@inject IAuthService authService
+@inject NavigationManager navMgr
+
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+    <div class="game-card p-5 fade-in" style="max-width: 400px; width: 100%;">
+
+        <div class="text-center mb-4">
+            <h3 class="fw-bolder text-secondary text-uppercase" style="letter-spacing:0.5px">Login</h3>
+        </div>
+
+        <AuthorizeView>
+            <NotAuthorized>
+                @if (isLoading)
+                {
+                    <div class="d-flex justify-content-center my-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
+                }
+                else
+                {
+                    <form @onsubmit="LoginAsync">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Username</label>
+                            <input type="text" class="form-control game-input" @bind="userName"
+                                placeholder="Enter username" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Password</label>
+                            <input type="password" class="form-control game-input" @bind="password"
+                                placeholder="Enter password" />
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorLabel))
+                        {
+                            <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 fw-bold mb-3">
+                                <i class="fas fa-exclamation-circle me-2"></i> @errorLabel
+                            </div>
+                        }
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary fw-bold text-uppercase shadow-sm-hover"
+                                style="letter-spacing: 1px;">
+                                Log in
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="register" class="text-muted text-decoration-none small fw-bold">
+                                Don't have an account? <span class="text-primary">Register</span>
+                            </a>
+                        </div>
+                    </form>
+                }
+            </NotAuthorized>
+            <Authorized>
+                <div class="text-center py-4">
+                    <div class="mb-3">
+                        <i class="fas fa-user-check fa-4x text-success"></i>
+                    </div>
+                    <h3 class="fw-bolder text-dark mb-3">
+                        Hello, @context.User.Claims.FirstOrDefault(c => c.Type == "Username")?.Value!
+                    </h3>
+                    <button class="btn btn-outline-secondary fw-bold px-4" @onclick='() => navMgr.NavigateTo("/")'>
+                        Go Home
+                    </button>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+@code {
+    private string userName = "";
+    private string password = "";
+    private string errorLabel = "";
+    private bool isLoading = false;
+    private async Task LoginAsync()
+    {
+        errorLabel = "";
+        isLoading = true;
+
+        try
+        {
+            await authService.LoginAsync(userName, password);
+            navMgr.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+            if (e is HttpRequestException ||
+            e.Message.Contains("connection", StringComparison.OrdinalIgnoreCase) ||
+            e.Message.Contains("refused", StringComparison.OrdinalIgnoreCase) ||
+            e.Message.Contains("unreachable", StringComparison.OrdinalIgnoreCase))
+            {
+                navMgr.NavigateTo("/no-connection");
+                return;
+            }
+
+            errorLabel = $"Error: {e.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

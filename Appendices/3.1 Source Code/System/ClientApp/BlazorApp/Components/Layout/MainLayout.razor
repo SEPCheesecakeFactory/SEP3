@@ -1,0 +1,49 @@
+﻿@inherits LayoutComponentBase
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IAuthService AuthService
+@inject NavigationManager NavMgr
+
+<div class="page d-flex flex-column h-100">
+    
+    @* Desktop Sidebar - Only visible on md+ screens. NavMenu.razor already has its layout classes. *@
+    <div class="sidebar d-none d-md-flex">
+        <NavMenu />
+    </div>
+
+    @* Main Content - Corresponds to the original <main id="app-main">. The main content is inside the Body *@
+    <main id="app-main" class="flex-grow-1">
+        <div id="view-container" class="container-fluid p-4 p-md-5 content-wrapper mx-auto pb-5 mb-5">
+            @Body
+        </div>
+    </main>
+
+    @* Mobile Nav (Bottom) - Only visible on mobile screens. d-md-none hides it on desktop. *@
+    <nav class="mobile-nav d-md-none position-fixed bottom-0 w-100 bg-white d-flex justify-content-around py-3">
+        <NavLink class="btn btn-link text-secondary p-2" href="" Match="NavLinkMatch.All"><i class="fas fa-home fa-xl"></i></NavLink>
+        <NavLink class="btn btn-link text-secondary p-2" href="leaderboard"><i class="fas fa-shield-alt fa-xl"></i></NavLink>
+        <NavLink class="btn btn-link text-secondary p-2" href="profile"><i class="fas fa-user fa-xl"></i></NavLink>
+        <AuthorizeView>
+            <Authorized>
+                <button class="btn btn-link text-secondary p-2" @onclick="Logout"><i class="fas fa-sign-out-alt fa-xl"></i></button>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink class="btn btn-link text-secondary p-2" href="login"><i class="fas fa-sign-in-alt fa-xl"></i></NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+    </nav>
+
+    <div id="blazor-error-ui" data-nosnippet>
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+</div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+        NavMgr.NavigateTo("/");
+    }
+}

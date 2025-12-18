@@ -1,0 +1,234 @@
+@page "/approve-draft"
+@using BlazorApp.Services
+@using BlazorApp.Entities
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using BlazorApp.Utils
+@inject ICourseService CourseService
+@inject NavigationManager NavManager
+@inject AuthenticationStateProvider AuthProvider
+
+<AuthorizeView>
+    <Authorized>
+        @if (context.User.IsAdmin())
+        {
+            <PageTitle>Approve Drafts</PageTitle>
+
+            <div class="container mt-2 content-wrapper mx-auto" style="max-width: 800px;">
+
+                <div class="d-flex align-items-center mb-4 pt-2 fade-in">
+                    <a href="all-courses" class="btn btn-link text-secondary p-0 me-3 text-decoration-none">
+                        <i class="fas fa-arrow-left fa-lg"></i>
+                    </a>
+                    <div>
+                        <h2 class="fw-bolder text-secondary mb-0">Waiting Drafts</h2>
+                        <p class="text-muted small mb-0 fw-bold text-uppercase" style="letter-spacing: 1px;">
+                            Review and publish new content
+                        </p>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(errorMessage))
+                {
+                    <div
+                        class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 fw-bold mb-4 fade-in d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle me-2"></i> @errorMessage
+                    </div>
+                }
+
+                @if (drafts == null)
+                {
+                    <div class="d-flex justify-content-center align-items-center" style="height: 40vh;">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
+                }
+                else if (!drafts.Any())
+                {
+                    <div class="text-center py-5 fade-in">
+                        <div class="mb-3 opacity-50">
+                            <i class="fas fa-clipboard-check fa-4x text-muted"></i>
+                        </div>
+                        <h4 class="text-muted fw-bold">All caught up!</h4>
+                        <p class="text-muted">No drafts are waiting for approval.</p>
+                        <button class="btn btn-outline-secondary mt-2" @onclick='() => NavManager.NavigateTo("all-courses")'>
+                            Back to Courses
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="fade-in" style="animation-delay: 0.1s;">
+                        @foreach (var draft in drafts)
+                        {
+                            <div class="approve-card p-4 p-md-5 mb-4 position-relative">
+
+                                <div class="position-absolute top-0 end-0 m-4">
+                                    <span
+                                        class="badge bg-light text-secondary border border-secondary border-opacity-25 px-3 py-2 rounded-pill text-uppercase fw-bold"
+                                        style="letter-spacing:0.5px; font-size: 0.7rem;">
+                                        @draft.Category
+                                    </span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="text-muted text-uppercase fw-bold small mb-1"
+                                        style="font-size: 0.7rem; letter-spacing: 1px;">
+                                        Course Title
+                                    </label>
+                                    <h3 class="fw-bolder text-dark mb-0">@draft.Title</h3>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3 mb-4 text-muted small fw-bold text-uppercase"
+                                    style="font-size: 0.75rem; letter-spacing: 0.5px;">
+
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-center bg-purple text-white rounded-circle me-2 shadow-sm"
+                                            style="width:24px; height:24px;">
+                                            <i class="fas fa-user fa-xs"></i>
+                                        </div>
+                                        @(draft.AuthorName ?? "Unknown Author")
+                                    </div>
+
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-center bg-green text-white rounded-circle me-2 shadow-sm"
+                                            style="width:24px; height:24px;">
+                                            <i class="fas fa-globe fa-xs"></i>
+                                        </div>
+                                        @draft.Language
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="text-muted text-uppercase fw-bold small mb-2"
+                                        style="font-size: 0.7rem; letter-spacing: 1px;">
+                                        Description
+                                    </label>
+                                    <div class="p-3 bg-light rounded-3 border">
+                                        <p class="mb-0 text-secondary" style="line-height: 1.6;">
+                                            @draft.Description
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2 border-top pt-4"
+                                    style="border-color: var(--gray) !important;">
+                                    <button class="btn btn-outline-danger px-4 fw-bold shadow-sm-hover"
+                                        @onclick="() => Disapprove(draft.Id)">
+                                        <i class="fas fa-times me-2"></i> Reject
+                                    </button>
+
+                                    <button class="btn btn-success px-4 fw-bold shadow-sm-hover" @onclick="() => Approve(draft.Id)">
+                                        <i class="fas fa-check me-2"></i> Approve & Publish
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+                <div class="alert alert-warning fw-bold border-2 rounded-3">
+                    You do not have permission to approve drafts.
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="container mt-5" style="max-width: 700px;">
+            <div class="text-center py-5 border-2 rounded-4 bg-light fade-in" style="border: 2px solid var(--gray);">
+                <i class="fas fa-lock fa-3x text-secondary mb-3"></i>
+                <h2 class="fw-bold text-dark">Admin Access Only</h2>
+                <p class="lead text-muted mb-4">Please log in to manage drafts.</p>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<Draft> drafts;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            errorMessage = null;
+            var result = await CourseService.GetDrafts();
+
+            if (result.HasError)
+            {
+                errorMessage = result.ErrorMessage == "NO_CONNECTION"
+                ? "Cannot connect to the server. Please try again later."
+                : result.ErrorMessage;
+                drafts = new List<Draft>();
+                return;
+            }
+
+            var allDrafts = result.Value ?? new List<Draft>();
+            drafts = allDrafts.Where(d => d.ApprovedBy == null || d.ApprovedBy == 0).ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            errorMessage = "Unexpected error while loading drafts.";
+            drafts = new List<Draft>();
+        }
+    }
+
+    private async Task Approve(int draftId)
+    {
+        try
+        {
+            errorMessage = null;
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var adminId = user.GetID();
+
+            if (adminId != null)
+            {
+                var approveResult = await CourseService.ApproveDraft(draftId, adminId.Value);
+
+                if (approveResult.HasError)
+                {
+                    errorMessage = approveResult.ErrorMessage;
+                    return;
+                }
+                await OnInitializedAsync();
+            }
+            else
+            {
+                errorMessage = "Could not resolve admin ID.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error approving draft: {ex.Message}");
+            errorMessage = "Unexpected error while approving.";
+        }
+    }
+
+    private async Task Disapprove(int draftId)
+    {
+        try
+        {
+            errorMessage = null;
+            var result = await CourseService.DisapproveDraft(draftId);
+
+            if (result.HasError)
+            {
+                errorMessage = result.ErrorMessage;
+                return;
+            }
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error disapproving draft: {ex.Message}");
+            errorMessage = "Unexpected error while disapproving.";
+        }
+    }
+}

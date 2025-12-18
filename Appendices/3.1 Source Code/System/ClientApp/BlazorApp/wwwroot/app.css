@@ -1,0 +1,484 @@
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
+:root {
+    --font-main: "Nunito", sans-serif;
+    
+    /* Brand Colors */
+    --primary: #3b82f6;       /* Blue 500 */
+    --primary-shadow: #2563eb;
+    --secondary: #64748b;     /* Slate 500 */
+    
+    --green: #58cc02;
+    --green-shadow: #46a302;
+    
+    --blue: #1cb0f6;
+    --blue-shadow: #1899d6;
+    
+    --yellow: #ffc800;
+    --yellow-shadow: #d6a800;
+    
+    --red: #ff4b4b;
+    --red-shadow: #d43131;
+    
+    --purple: #ce82ff;
+    --purple-shadow: #a568cc;
+    
+    --gray: #e5e5e5;
+    --gray-shadow: #afafaf;
+    --bg: #ffffff;
+
+    /* Semantic Aliases */
+    --game-gray: var(--gray);
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg);
+    overflow-x: hidden;
+    margin: 0;
+    color: #333;
+}
+
+a { text-decoration: none; }
+
+/* Override Bootstrap Defaults */
+.text-primary { color: var(--primary) !important; }
+
+/* =========================================
+   2. LAYOUT & SIDEBAR
+   ========================================= */
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+main {
+    flex-grow: 1;
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Central Content Wrapper */
+.content-wrapper {
+    max-width: 1200px;
+    padding-bottom: 3rem;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 256px;
+    border-right: 2px solid var(--gray);
+    z-index: 1030;
+    padding: 24px 16px;
+    background-color: white;
+}
+
+.mascot-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+/* Desktop Sidebar Logic */
+@media (min-width: 768px) {
+    .sidebar {
+        position: fixed;
+        height: 100vh;
+        top: 0;
+        left: 0;
+    }
+
+    .page { flex-direction: row; }
+
+    main {
+        margin-left: 256px;
+        width: calc(100% - 256px);
+    }
+}
+
+/* Mobile Nav */
+.mobile-nav {
+    border-top: 2px solid var(--gray);
+    z-index: 1040;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* =========================================
+   3. ANIMATIONS
+   ========================================= */
+.fade-in {
+    animation: fadeIn 0.4s ease-out backwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   4. UI COMPONENTS (The Gamified Look)
+   ========================================= */
+
+/* --- 1. BASE CARD STYLE (Static - No Movement) --- */
+/* Applies to Admin, Profile, Create, Approve, etc. */
+.game-card, 
+.admin-card, 
+.profile-card, 
+.create-card, 
+.approve-card,
+.edit-card,
+.leaderboard-card {
+    background: white;
+    border: 1.5px solid var(--gray-shadow); /* Slimmer border */
+    border-radius: 16px;
+    box-shadow: none; 
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; 
+    /* Transition kept in case you want to add interactivity later manually */
+}
+
+/* --- 2. INTERACTIVE CARD STYLE (Moves on Hover) --- */
+/* Only apply this class to cards you WANT to move (like Course Cards) */
+.interactive-card:hover,
+.card-course:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 0 var(--gray-shadow);
+    cursor: pointer;
+}
+
+/* --- 3. SPECIFIC OVERRIDES --- */
+
+/* Course Card (Always Interactive) */
+.card-course {
+    border: 1.5px solid var(--gray);
+    border-radius: 16px;
+    box-shadow: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-course:active { transform: translateY(0); box-shadow: none; }
+
+/* Item Card (Used in Admin Lists - Retain Hover) */
+/* These are the small cards inside the Admin Panel sections */
+.item-card {
+    background: white;
+    border: 1.5px solid var(--gray);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.item-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+}
+
+/* --- INPUTS --- */
+.game-input {
+    background-color: #f7f7f7;
+    border: 1.5px solid var(--gray) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    font-weight: 700;
+    color: #4b4b4b;
+    transition: all 0.2s ease;
+}
+
+.game-input:focus {
+    background-color: white;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+    color: black;
+    outline: none;
+}
+
+/* --- BUTTONS --- */
+.btn {
+    border: 0;
+    border-radius: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 12px 24px;
+    transition: filter 0.1s, transform 0.1s, box-shadow 0.1s;
+    margin-bottom: 4px;
+}
+
+/* (Rest of button styles remain the same...) */
+/* ... */
+
+/* Sidebar Nav Buttons */
+.nav-btn {
+    text-align: left;
+    background: transparent;
+    color: #777;
+    border: 2px solid transparent;
+    box-shadow: none;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    padding: 12px 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.nav-btn:hover { background: #f7f7f7; color: #777; }
+.nav-btn.active {
+    background: #ddfffc;
+    color: var(--game-blue) !important;
+    border: 2px solid #84d8ff;
+}
+.nav-btn i { width: 32px; font-size: 1.25rem; margin-right: 8px; text-align: center; }
+
+/* Primary Button (Blue) */
+.btn-primary {
+    background-color: var(--primary);
+    box-shadow: 0 4px 0 var(--primary-shadow);
+    color: white;
+}
+.btn-primary:hover { background-color: #60a5fa; color: white; filter: brightness(1.05); }
+.btn-primary:active { transform: translateY(4px); box-shadow: none; margin-bottom: 0; margin-top: 4px; }
+.btn-primary:disabled {
+    background-color: white; color: var(--gray); border: 2px solid var(--gray);
+    box-shadow: none; cursor: not-allowed; transform: none; opacity: 1; margin-top: 0;
+}
+
+/* Error/Danger Button (Red) */
+.btn-error, .btn-danger {
+    background-color: var(--red);
+    box-shadow: 0 4px 0 var(--red-shadow);
+    color: white;
+}
+.btn-error:hover, .btn-danger:hover { background-color: #ff5c5c; color: white; }
+.btn-error:active, .btn-danger:active { transform: translateY(4px); box-shadow: none; margin-bottom: 0; margin-top: 4px; }
+
+/* Outline Button */
+.btn-outline-secondary {
+    background: white;
+    border: 2px solid var(--gray) !important;
+    box-shadow: 0 4px 0 var(--gray);
+    color: #777;
+}
+.btn-outline-secondary:hover { background: #f8f9fa; color: #777; }
+.btn-outline-secondary:active { transform: translateY(4px); box-shadow: none; margin-bottom: 0; margin-top: 4px; }
+
+/* Small Circular Action Buttons (Edit/Delete) */
+.action-btn {
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid var(--gray);
+    transition: transform 0.1s;
+}
+.action-btn:hover { transform: scale(1.1); }
+
+/* Edit Card Button (Old Style Support) */
+.btn-edit-card {
+    background: white;
+    border: 2px solid var(--gray) !important;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #777;
+    transition: all 0.15s ease;
+}
+.btn-edit-card:hover { background: #f0f0f0; color: #555; border-color: #ccc !important; }
+
+/* Shadow Hover Utility */
+.shadow-sm-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.shadow-sm-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+/* =========================================
+   5. PAGE SPECIFIC STYLES
+   ========================================= */
+
+/* --- LEADERBOARD & ADMIN LISTS --- */
+.card-header-custom {
+    background-color: transparent;
+    padding: 1.5rem;
+    /* CHANGE HERE: 2px -> 1px (internal dividers usually look best at 1px) */
+    border-bottom: 1px solid var(--gray);
+    cursor: default;
+    transition: background-color 0.1s;
+}
+
+.item-card {
+    background: white;
+    border: 2px solid var(--gray);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.item-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+}
+
+/* Leaderboard Rows */
+.leaderboard-row {
+    padding: 1rem 0.5rem;
+    background: white;
+    /* CHANGE HERE: 2px -> 1px */
+    border-bottom: 1px solid var(--gray);
+    transition: background-color 0.1s;
+}
+
+/* Avatars */
+.mini-avatar {
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    background-color: var(--yellow);
+    border: 2px solid var(--yellow-shadow);
+    color: white; font-weight: 800; font-size: 1.2rem;
+    display: flex; justify-content: center; align-items: center; text-transform: uppercase;
+}
+
+/* Profile Big Avatar */
+.avatar-container {
+    width: 120px; height: 120px;
+    font-size: 3rem; font-weight: 800; color: white;
+    background-color: var(--yellow);
+    box-shadow: 0 4px 0 var(--yellow-shadow);
+    border: 2px solid var(--yellow-shadow);
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Rank Columns */
+.rank-col { width: 50px; font-size: 1.1rem; display: flex; justify-content: center; align-items: center; }
+.text-bronze { color: #cd7f32; }
+.drop-shadow { filter: drop-shadow(0 2px 0 rgba(0,0,0,0.1)); }
+
+/* Leaderboard Gap */
+.leaderboard-gap {
+    text-align: center; padding: 0.5rem;
+    background-color: #f9f9f9;
+    /* CHANGE HERE: 2px -> 1px */
+    border-bottom: 1px solid var(--gray);
+}
+
+/* --- ADMIN BUTTONS --- */
+.btn-outline-purple {
+    background: white; border: 2px solid var(--purple); color: var(--purple-shadow);
+    box-shadow: 0 4px 0 rgba(206, 130, 255, 0.2); transition: all 0.2s ease;
+}
+.btn-outline-purple:hover { background: #f3e8ff; transform: translateY(-2px); box-shadow: 0 6px 0 rgba(206, 130, 255, 0.3); }
+.btn-outline-purple:active { transform: translateY(0); box-shadow: none; }
+
+.btn-outline-red {
+    background: white; border: 2px solid var(--red); color: var(--red-shadow);
+    box-shadow: 0 4px 0 rgba(255, 75, 75, 0.2); transition: all 0.2s ease;
+}
+.btn-outline-red:hover { background: #fee2e2; transform: translateY(-2px); box-shadow: 0 6px 0 rgba(255, 75, 75, 0.3); }
+.btn-outline-red:active { transform: translateY(0); box-shadow: none; }
+
+/* =========================================
+   6. UTILITIES
+   ========================================= */
+.cursor-pointer { cursor: pointer; }
+.transition-icon { transition: transform 0.3s ease; }
+.rotate-180 { transform: rotate(180deg); }
+.border-dashed { border-style: dashed !important; }
+
+/* Colors & Badges */
+.bg-blue-100 { background-color: #dbeafe; } .text-blue-600 { color: #2563eb; } .border-blue-200 { border-color: #bfdbfe !important; }
+.bg-purple-100 { background-color: #f3e8ff; } .text-purple-600 { color: #9333ea; } .border-purple-200 { border-color: #e9d5ff !important; }
+.bg-yellow-100 { background-color: #fef9c3; } .text-yellow-600 { color: #ca8a04; } .border-yellow-200 { border-color: #fde047 !important; }
+.bg-green-100 { background-color: #dcfce7; } .text-green-600 { color: #16a34a; } .border-green-200 { border-color: #bbf7d0 !important; }
+.bg-pink-100 { background-color: #fce7f3; } .text-pink-600 { color: #db2777; } .border-pink-200 { border-color: #fbcfe8 !important; }
+.bg-red-100 { background-color: #fee2e2; } .text-red-600 { color: #dc2626; } .border-red-200 { border-color: #fecaca !important; }
+
+.bg-purple { background-color: #8b5cf6; }
+.bg-green { background-color: #10b981; }
+
+/* Empty State Box */
+.empty-state-box {
+    text-align: center;
+    padding: 3rem 0;
+    border: 2px dashed var(--gray);
+    background-color: #f9f9f9;
+    border-radius: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Blazor Error UI */
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* =========================================
+   7. STICKY ACTION BAR & SCROLL HINTS
+   ========================================= */
+
+/* The container for the buttons */
+.sticky-action-bar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0; /* Default for mobile */
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px); /* Nice glass effect */
+    border-top: 1.5px solid var(--gray-shadow);
+    padding: 1rem 2rem;
+    z-index: 1020; /* Above most things, below modal/sidebar overlays */
+    display: flex;
+    justify-content: space-between; /* Space out Left/Right buttons */
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+/* Adjust for Desktop Sidebar */
+@media (min-width: 768px) {
+    .sticky-action-bar {
+        left: 256px; /* Match your sidebar width */
+    }
+}
+
+/* Add padding to the bottom of the page so content isn't hidden behind the bar */
+.pb-safe-area {
+    padding-bottom: 100px !important;
+}
+
+/* --- OPTIONAL: Bouncing Scroll Arrow --- */
+.scroll-indicator {
+    position: absolute;
+    bottom: 100px; /* Just above the action bar */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: var(--primary);
+    animation: bounce 2s infinite;
+    pointer-events: none; /* Let clicks pass through */
+    opacity: 0.8;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+    40% {transform: translateX(-50%) translateY(-10px);}
+    60% {transform: translateX(-50%) translateY(-5px);}
+}

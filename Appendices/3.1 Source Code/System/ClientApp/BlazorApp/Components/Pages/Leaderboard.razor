@@ -1,0 +1,192 @@
+@page "/leaderboard"
+@using BlazorApp.Entities
+@using BlazorApp.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inject ICourseService CourseService
+@inject NavigationManager NavMgr
+@inject AuthenticationStateProvider AuthProvider
+
+<PageTitle>Leaderboard</PageTitle>
+
+<AuthorizeView>
+    <Authorized Context="authContext">
+        @* CHANGED: Reverted to centered container with max-width *@
+        <div class="container fade-in mx-auto" style="max-width: 700px;">
+
+            @* Header *@
+            <div class="mb-4 mt-4 text-center">
+                <h2 class="fw-bolder text-secondary mb-1">Leaderboard</h2>
+                <p class="text-muted fw-bold text-uppercase small" style="letter-spacing: 1px;">
+                    See who is learning the most!
+                </p>
+            </div>
+
+            @if (isLoading)
+            {
+                <div class="d-flex justify-content-center align-items-center" style="height:30vh;">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+            }
+            else if (loadError)
+            {
+                <div class="alert alert-danger fade-in d-flex align-items-center justify-content-between border-2 rounded-3">
+                    <div>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Connection Error:</strong> Could not load data.
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger" @onclick="LoadData">Retry</button>
+                </div>
+            }
+            else if (entries == null || !entries.Any())
+            {
+                <div class="text-center text-muted py-5 fade-in">
+                    <i class="fas fa-ghost fa-3x mb-3 opacity-50"></i>
+                    <h4 class="text-muted fw-bold">No active learners yet.</h4>
+                    <p>Be the first to join the leaderboard!</p>
+                </div>
+            }
+            else
+            {
+                <div class="leaderboard-card fade-in" style="animation-delay: 0.1s;">
+                    
+                    @* Table Header *@
+                    <div class="card-header-custom d-flex align-items-center text-muted fw-bold small text-uppercase" 
+                         style="cursor: default;">
+                        <div class="text-center" style="width: 50px;">Rank</div>
+                        <div class="mx-3" style="width: 45px;"></div>
+                        <div class="flex-grow-1">User</div>
+                        <div class="text-end px-3">XP</div>
+                    </div>
+
+                    @* Rows *@
+                    <div class="d-flex flex-column">
+                        @{
+                            int topCount = 10;
+                            var userEntry = entries.FirstOrDefault(e => e.Username == currentUsername);
+                            int userRank = userEntry?.Rank ?? 0;
+                            bool showGap = userRank > (topCount + 2);
+                        }
+
+                        @foreach (var entry in entries.Take(topCount))
+                        {
+                            <div class="leaderboard-row @(entry.Username == currentUsername ? "is-me" : "")">
+                                @RenderRowContent(entry)
+                            </div>
+                        }
+
+                        @if (showGap)
+                        {
+                            <div class="leaderboard-gap">
+                                <i class="fas fa-ellipsis-v text-muted opacity-50"></i>
+                            </div>
+
+                            var neighbors = entries.Where(e => e.Rank >= userRank - 2 && e.Rank <= userRank + 2);
+                            foreach (var entry in neighbors)
+                            {
+                                <div class="leaderboard-row @(entry.Username == currentUsername ? "is-me" : "")">
+                                    @RenderRowContent(entry)
+                                </div>
+                            }
+
+                            if (userRank + 2 < entries.Count)
+                            {
+                                <div class="text-center py-3 text-muted small fw-bold bg-light">
+                                    And @(entries.Count - (userRank + 2)) others below
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            foreach (var entry in entries.Skip(topCount).Take(15))
+                            {
+                                <div class="leaderboard-row @(entry.Username == currentUsername ? "is-me" : "")">
+                                    @RenderRowContent(entry)
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </Authorized>
+
+    <NotAuthorized>
+        <AccessDeniedState Title="Leaderboard" Message="Log in to see who is leading the charts!" Icon="fa-trophy" />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<LeaderboardEntry>? entries;
+    private bool isLoading = true;
+    private bool loadError = false;
+    private string currentUsername = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        loadError = false;
+
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            currentUsername = user.FindFirst("Username")?.Value ?? "";
+            var optionalEntries = await CourseService.GetLeaderboardAsync();
+            if (optionalEntries.IsSuccess)
+            {
+                var rawEntries = optionalEntries.Value!;
+                entries = rawEntries.OrderBy(x => x.Rank).ToList();
+            }
+            else
+            {
+                loadError = true;
+            }
+        }
+        isLoading = false;
+    }
+
+    private string GetInitials(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "?";
+        return name.Substring(0, 1).ToUpper();
+    }
+
+    private RenderFragment RenderRowContent(LeaderboardEntry entry) => __builder =>
+    {
+        <div class="d-flex align-items-center w-100">
+            <div class="rank-col text-center">
+                @if (entry.Rank == 1) { <i class="fas fa-trophy fa-lg text-warning drop-shadow"></i> }
+                else if (entry.Rank == 2) { <i class="fas fa-medal fa-lg text-secondary drop-shadow"></i> }
+                else if (entry.Rank == 3) { <i class="fas fa-medal fa-lg text-bronze drop-shadow"></i> }
+                else { <span class="fw-bold text-muted">@entry.Rank</span> }
+            </div>
+
+            <div class="mx-3">
+                <div class="mini-avatar">
+                    @GetInitials(entry.Username)
+                </div>
+            </div>
+
+            <div class="flex-grow-1">
+                <h6 class="mb-0 fw-bold @(entry.Username == currentUsername ? "text-primary" : "text-dark")">
+                    @entry.Username
+                    @if (entry.Username == currentUsername)
+                    {
+                        <span class="small text-muted ms-1">(You)</span>
+                    }
+                </h6>
+            </div>
+
+            <div class="text-end px-3">
+                <span class="fw-bolder" style="color: var(--green);">@entry.TotalScore XP</span>
+            </div>
+        </div>
+    };
+}
