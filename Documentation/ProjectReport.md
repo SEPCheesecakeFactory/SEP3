@@ -276,7 +276,7 @@ The fidelity of the wireframes was kept low but the transformation into the chos
 
 ### Architectural overview
 
-The architectural overview shown on the figure below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
+The architectural overview shown on the figure below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain there is the Postgres database. The data is received through sockets.
 Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
 ![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png){width=60%}
@@ -537,18 +537,252 @@ At a later stage, the original database setup was split into pure DDL script and
 
 Going further into implementation details, Java and C# programming languages were chosen to meet the requirements of multilanguage system. For storing information PostgreSQL database has been implemented. 
 The development team chose C# Blazor .NET for the frontend because its component-based system gave a possibility for fast GUI development without needing an additional JavaScript code. On the Logic Server, ASP.NET Core provided an intuitive environment for managing REST endpoints and gRPC services, facilitating high-speed communication. It was achieved by using shared Data Transfer Objects (DTOs) and validation logic which kept data model changes synchronized between client and server systems. 
-Java programming language was selected to run the Data Server because it met our polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
+Java programming language was selected to run the Data Server because it met this semester's polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
 
+### Servers Implementation
 
-### Data Server Implementation:
+Data Server implemented using Java was intended to not have any code related to the main logic of the system. Its main responsibility was to handle operations of the services which were either taking data from the database or updating the database. The framework that was used in order to make the implementation process cleaner and more efficient was Spring boot. The team chose Spring Data JPA when it comes to handling data persistent with PostgreSQL due to the possibility of working with Java objects instead of raw SQL queries.
 
-### Logic Server Implementation: 
+The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a bog part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
 
-### Blazor Client App Implementation:
+When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave the team a structured template to work on the fronted using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
 
 ### Integration Logic:
+To showcase the path from GUI through the servers, the database, and back as well as communication between the servers, the following figures demonstrate the necessary logs and implementations of such functionality. The code can be found in (Appendix 3.1 Source Code).
 
-Show how the two services "talk" to each other. Provide a code snippet showing the gRPC client/server handshake or the HTTP request handling.
+#### Login Feature
+
+When an user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
+
+After clicking the login button, the client side server sends a request to the Logic Server. The following json represents the HTTP request sent:
+
+```json
+[Client] Sending HTTP POST /auth/login:
+{
+  "username": "teacher1",
+  "password": "password123"
+}
+```
+
+The Logic Server receives this request and initiates the validation process.
+
+**Logic Server (AuthController.cs):**
+
+```csharp
+[HttpPost("login")]
+public async Task<ActionResult> Login([FromBody] LoginRequest request)
+{
+    try
+    {
+        User foundUser = await authService.ValidateUser(request.Username, request.Password);
+        string token = GenerateJwt(foundUser);
+        return Ok(token);
+    }
+    catch (Exception e)
+    {
+        return BadRequest(e.Message);
+    }
+}
+```
+*Code Snippet 1: AuthController (Appendix 3.1 Source Code)*
+
+
+The `AuthController` delegates the validation to the `SecureAuthService`.
+
+**Logic Server (SecureAuthService.cs):**
+
+```csharp
+public async Task<User> ValidateUser(string username, string password)
+{
+    User? existingUser = await GetUserByUsernameAsync(username) ?? throw new Exception("User not found");
+
+    if (!Argon2.Verify(existingUser.Password, password))
+        throw new Exception("Password mismatch");
+
+    return existingUser;
+}
+
+private async Task<User?> GetUserByUsernameAsync(string userName)
+{
+    IEnumerable<User> users = await Task.Run(() => userRepository.GetMany());
+    foreach (User user in users)
+    {
+        if (user.Username.Equals(userName))
+        {
+            return user;
+        }
+    }
+    return null;
+}
+```
+*Code Snippet 2: SecureAuthService (Appendix 3.1 Source Code)*
+
+The `SecureAuthService` retrieves users via the `gRPCUserRepository`, which communicates with the Data Server.
+
+**Logic Server (gRPCUserRepository.cs):**
+
+```csharp
+public override IQueryable<User> GetMany()
+{
+    var resp = UserServiceClient.GetUsers(new GetUsersRequest());
+    var users = resp.Users.Select(c => new User
+    {
+        Id = c.Id,
+        Username = c.Username,
+        Password = c.Password,
+        Roles = c.Roles.Select(r => new Entities.Role { RoleName = r.Role_ }).ToList(),
+    }).ToList();
+
+    return users.AsQueryable();
+}
+```
+*Code Snippet 3: gRPCUserRepository (Appendix 3.1 Source Code)*
+
+The Protobuf message structure used for this communication is:
+
+```protobuf
+message User {
+  int32 id = 1;
+  string username = 2;
+  string password = 3;
+  repeated Role roles = 4;
+}
+
+message Role {
+  string role = 1;
+}
+
+message GetUsersRequest {}
+
+message GetUsersResponse {
+  repeated User users = 1;
+}
+```
+*Code Snippet 4: Protocol (Appendix 3.1 Source Code)*
+
+Finally, the Data Server handles the gRPC request and retrieves the users from the database.
+
+**Data Server (UserServiceImpl.java):**
+
+```java
+@Override
+public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver) {
+    try {
+        List<SystemUser> users = userRepository.findAll();
+        List<via.sep3.dataserver.grpc.User> grpcUsers = new ArrayList<>();
+
+        for (SystemUser user : users) {
+            grpcUsers.add(convertToGrpcUser(user));
+        }
+        GetUsersResponse response = GetUsersResponse.newBuilder()
+                .addAllUsers(grpcUsers)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    } catch (Exception e) {
+        responseObserver.onError(e);
+    }
+}
+```
+*Code Snippet 5: UserServiceImpl (Appendix 3.1 Source Code)*
+
+#### Create Draft Feature
+
+Once logged in, the teacher can create a course draft. This process involves the Client sending data to the Logic Server, which then forwards it to the Data Server.
+
+**Client App (HttpCourseService.cs):**
+
+```csharp
+public async Task<Optional<Draft>> CreateDraft(CreateDraftDto dto) 
+    => await httpCrudService.CreateAsync<Draft, CreateDraftDto>("drafts", dto);
+```
+*Code Snippet 6: HttpCourseService (Appendix 3.1 Source Code)*
+
+The Logic Server handles the request at the `/drafts` endpoint:
+
+**Logic Server (CoursesController.cs):**
+
+```csharp
+[HttpPost("/drafts")]
+[Authorize("MustBeTeacher")]
+public async Task<ActionResult<Course>> HttpCreateAsync([FromBody] CreateCourseDto entity) 
+    => await CreateAsync(entity);
+```
+*Code Snippet 7: CoursesController (Appendix 3.1 Source Code)*
+
+The controller uses the `gRPCCourseRepository` to send the data to the Data Server.
+
+**Logic Server (gRPCCourseRepository.cs):**
+
+```csharp
+public override async Task<Course> AddAsync(CreateCourseDto entity)
+{
+    var request = new AddCourseRequest
+    {
+        Title = entity.Title ?? "",
+        Description = entity.Description ?? "",
+        Language = entity.Language ?? "",
+        Category = entity.Category ?? "",
+        AuthorId = entity.AuthorId ?? -1
+    };
+
+    var response = await CourseServiceClient.AddCourseAsync(request);
+
+    return new Course
+    {
+        Id = response.Course.Id,
+        Title = response.Course.Title,
+        // ... mapping other fields ...
+    };
+}
+```
+*Code Snippet 8: gRPCCourseRepository (Appendix 3.1 Source Code)*
+
+The gRPC messages for creating a course are defined as:
+
+```protobuf
+message AddCourseRequest {
+  string title = 1;
+  string description = 2;
+  string language = 3;
+  string category = 4;
+  int32 authorId = 5;
+}
+
+message AddCourseResponse {
+  Course course = 1;
+}
+```
+*Code Snippet 9: Protocol (Appendix 3.1 Source Code)*
+
+Finally, the Data Server persists the new course draft:
+
+**Data Server (CourseServiceImpl.java):**
+
+```java
+@Override
+public void addCourse(AddCourseRequest request, StreamObserver<AddCourseResponse> responseObserver) {
+    try {
+        Course course = new Course();
+        course.setTitle(request.getTitle());
+        course.setDescription(request.getDescription());
+        // ... additional field setting ...
+        course = courseRepository.save(course);
+
+        AddCourseResponse response = AddCourseResponse.newBuilder()
+                .setCourse(convertToGrpcCourse(course))
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    } catch (Exception e) {
+        responseObserver.onError(e);
+    }
+}
+```
+*Code Snippet 10: CourseServiceImpl (Appendix 3.1 Source Code)*
+
 
 ### Security Implementation
 
@@ -773,7 +1007,27 @@ Can be found as Application-LayerSD.png
 ### Test Cases
 Can be found as TestCases.pdf???? TODO:add this to the appendix
 ### Test Cases Result
-Can be found as ...... TODO:add this to the appendix
+Can be found as ...... TODO:add this to the appendix\
+
+## Appendix 3.1 Source Code
+### AuthController.cs
+Can be found as System/LogicServer/RESTAPI/Controllers/AuthController.cs
+### SecureAuthService.cs
+Can be found as System/LogicServer/RESTAPI/Services/SecureAuthService.cs
+### gRPCUserRepository.cs
+Can be found as System/LogicServer/gRPCRepo/gRPCUserRepository.cs
+### data_protocol.proto
+Can be found as System/DataServer/DataServer/src/main/proto/data_protocol.proto
+### UserServiceImpl.java
+Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/UserServiceImpl.java
+### HttpCourseService.cs
+Can be found as System/ClientApp/BlazorApp/Services/HttpCourseService.cs
+### CoursesController.cs
+Can be found as System/LogicServer/RESTAPI/Controllers/CoursesController.cs
+### gRPCCourseRepository.cs
+Can be found as System/LogicServer/gRPCRepo/gRPCCourseRepository.cs
+### CourseServiceImpl.java
+Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/CourseServiceImpl.java
 
 ## Appendix 4.1 Relation Schema
 ### Relational Schema
