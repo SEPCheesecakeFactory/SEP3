@@ -199,30 +199,7 @@ Following the definition of the system’s dynamic behavior through use cases, S
 
 The objective of defining these test cases during the analysis phase - rather than the testing phase - was to ensure understanding of system's functionality and to aid the definition of done.
 
-| Test Case ID | Test Case Name | Description | Precondition | Steps | Expected Result |
-| :--: | :---- | :--- | :-- | :----------- | :------ |
-| TC_UC_01a | Register User - Success | Verify a new user can register with valid data. | User does not have an account. | 1. User initiates registration.<br>2. System requests details.<br>3. User submits valid data.<br>4. System validates input.<br>5. System creates account.<br>6. System confirms registration. | Account created; user prompted to login. |
-| TC_UC_01b | Register User - Invalid/Duplicate | Verify registration fails with invalid or existing data. | User provides existing username. | 1. User initiates registration.<br>2. User submits invalid/existing data.<br>3. System detects error.<br>4. System displays error message. | Registration rejected; user prompted to correct data. |
-| TC_UC_02a | Log In - Success | Verify registered user can log in with valid credentials. | User has a registered account. | 1. User initiates login.<br>2. User enters valid credentials.<br>3. System authenticates.<br>4. System creates session.<br>5. System grants access. | User is redirected to dashboard. |
-| TC_UC_02b | Log In - Failure | Verify login is rejected with invalid credentials. | User is logged out. | 1. User initiates login.<br>2. User enters wrong credentials.<br>3. System rejects authentication.<br>4. System displays error. | Access denied; user remains on login page. |
-| TC_UC_03a | Manage Learning - Resume | Verify learner can resume a course. | Learner is enrolled in a course. | 1. Learner opens enrolled courses.<br>2. Learner selects course to continue.<br>3. System restores last saved progress. | Course opens at the exact point where the user left off. |
-| TC_UC_03b | Manage Learning - Unenroll | Verify learner can unenroll from a course. | Learner is enrolled in a course. | 1. Learner selects unenroll option.<br>2. System removes course from learner list. | Course is no longer visible in user's active enrollments. |
-| TC_UC_04a | Search Catalog - Results | Verify search returns matching courses. | User is logged in. | 1. User opens catalog.<br>2. User enters search term that matches content.<br>3. System filters results. | System displays relevant courses matching the term/filters. |
-| TC_UC_04b | Search Catalog - No Results | Verify system behavior when no matches are found. | User is logged in. | 1. User opens catalog.<br>2. User enters search term with no matches.<br>3. System processes search. | System displays that no course was found with such filters. |
-| TC_UC_05a | Learning Step - Correct Answer | Verify handling of correct answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits correct response.<br>3. System gives positive feedback.<br>4. User proceeds to next unit. | Progress is updated; next unit is unlocked. |
-| TC_UC_05b | Learning Step - Incorrect Answer | Verify handling of incorrect answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits incorrect response.<br>3. System provides corrective feedback.<br>4. User retries activity. | User cannot proceed until correct answer is provided. |
-| TC_UC_06 | View User Profile | Verify profile display accuracy. | User is logged in. | 1. User accesses account info.<br>2. System displays profile details. | The user details match the database. |
-| TC_UC_07 | View Leaderboard | Verify leaderboard ranking display. | User is logged in. | 1. User opens leaderboard.<br>2. System calculates and displays rankings. | Global rankings are visible and accurate. |
-| TC_UC_08 | Create Course Draft | Verify teacher can create a new draft. | Teacher is logged in. | 1. Teacher enters details.<br>2. Teacher submits draft.<br>3. System saves draft. | Draft is stored and visible in teacher's workspace. |
-| TC_UC_09 | Edit Course Content | Verify teacher can modify existing content. | Course exists (and has the teacher as admin). | 1. Teacher enters the course edit mode.<br>2. Teacher modifies the learning step.<br>3. Teacher saves changes. | System updates content and confirms save. |
-| TC_UC_10a | Admin - Manage Categories | Verify admin can create categories. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new category.<br>3. System saves category. | Category becomes available for course tagging (setting/changing the category). |
-| TC_UC_10b | Admin - Manage Languages | Verify admin can create languages. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new language.<br>3. System saves language. | Language becomes available for course tagging (setting/changing the language). |
-| TC_UC_11a | Admin - Approve Draft | Verify draft. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin approves.<br>3. System creates the course. | Course becomes available to work on. |
-| TC_UC_11b | Admin - Disapprove Draft | Verify draft rejection. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin disapproves.<br>3. System deletes the draft. | Course is not created and draft is removed. |
-| TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. |
-| TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. |
-
-*Table 4: Test Cases (Appendix 2.4 Tests)*
+The table with all test cases can be found as Apendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ### Domain model
 
@@ -280,10 +257,29 @@ The fidelity of the wireframes was kept low but the transformation into the chos
 
 ### Architectural overview
 
-The architectural overview shown on the figure below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain there is the Postgres database. The data is received through sockets.
-Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
+The architecture is a distributed, three-tier solution designed that aims for strict separation of concerns, scalability, and polyglot interoperability. The architecture facilitates interaction between a C# frontend, a C# logic middleware, and a Java data persistence layer.
+
+#### Client
+The client-side application is built using Blazor in C# .NET. This layer hosts the web interface accessible to all system actors: learners, teachers, and admins. It is responsible solely for UI rendering and user input handling, delegating all business logic to the backend services.
+
+Blazor is technically a double tier as blazor web server was chosen for the project. This means that a significant part of the interactions is done on the blazor server rather than directly on the client machine. 
+
+#### Logic Tier
+The Logic Server, implemented in C# (ASP.NET Core), and acts as the central orchestrator. It exposes a RESTful API via HTTP(s) to the client, ensuring broad compatibility and standard web communication. This layer handles authentication, authorization (RBAC), and feature-specific business rules. It serves as a protocol bridge, translating external HTTP requests into internal gRPC calls for the data layer.
+
+#### Data Tier
+The Data Server is implemented in Java (Spring Boot), fulfilling the project's polyglot requirement. Communication between the Logic and Data servers is conducted via gRPC - Google's Remote Procedure Call framework. This choice leverages Protocol Buffers (Protobuf) for binary serialization, resulting in lower latency and higher throughput compared to text-based JSON over HTTP.
+
+#### Data Persistence
+At the foundation of the architecture is a PostgreSQL database. The Java Data Server manages all database interactions, ensuring that the Logic and Client layers remain agnostic to the underlying storage mechanics.
+
+#### Architectural Diagram and Justification
+
+The figure below depicts the final architecture of the system as described above:
 
 ![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png){width=60%}
+
+The mentioned technologies, frameworks, and tools were chosen both to fulfill the requirements but also prioritized flexibility and ease of development. 
 
 ### Class diagram design
 We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
@@ -559,31 +555,7 @@ For critical methods, tests were designed to cover:
 
 This approach ensured that the internal behavior of key methods was thoroughly validated, not just their external outputs. Test cases were documented to show clear intent and traceability between requirements, logic, and expected outcomes.
 
-| Test Case ID | Test Case Name | Description | Precondition | Steps | Expected Result | Actual Result |
-| :--: | :---- | :--- | :-- | :----------- | :------ | :---- |
-| TC_UC_01a | Register User - Success | Verify a new user can register with valid data. | User does not have an account. | 1. User initiates registration.<br>2. System requests details.<br>3. User submits valid data.<br>4. System validates input.<br>5. System creates account.<br>6. System confirms registration. | Account created; user prompted to login. | not performed |
-| TC_UC_01b | Register User - Invalid/Duplicate | Verify registration fails with invalid or existing data. | User provides existing username. | 1. User initiates registration.<br>2. User submits invalid/existing data.<br>3. System detects error.<br>4. System displays error message. | Registration rejected; user prompted to correct data. | not performed |
-| TC_UC_02a | Log In - Success | Verify registered user can log in with valid credentials. | User has a registered account. | 1. User initiates login.<br>2. User enters valid credentials.<br>3. System authenticates.<br>4. System creates session.<br>5. System grants access. | User is redirected to dashboard. | not performed |
-| TC_UC_02b | Log In - Failure | Verify login is rejected with invalid credentials. | User is logged out. | 1. User initiates login.<br>2. User enters wrong credentials.<br>3. System rejects authentication.<br>4. System displays error. | Access denied; user remains on login page. | not performed |
-| TC_UC_03a | Manage Learning - Resume | Verify learner can resume a course. | Learner is enrolled in a course. | 1. Learner opens enrolled courses.<br>2. Learner selects course to continue.<br>3. System restores last saved progress. | Course opens at the exact point where the user left off. | not performed |
-| TC_UC_03b | Manage Learning - Unenroll | Verify learner can unenroll from a course. | Learner is enrolled in a course. | 1. Learner selects unenroll option.<br>2. System removes course from learner list. | Course is no longer visible in user's active enrollments. | not performed |
-| TC_UC_04a | Search Catalog - Results | Verify search returns matching courses. | User is logged in. | 1. User opens catalog.<br>2. User enters search term that matches content.<br>3. System filters results. | System displays relevant courses matching the term/filters. | not performed |
-| TC_UC_04b | Search Catalog - No Results | Verify system behavior when no matches are found. | User is logged in. | 1. User opens catalog.<br>2. User enters search term with no matches.<br>3. System processes search. | System displays that no course was found with such filters. | not performed |
-| TC_UC_05a | Learning Step - Correct Answer | Verify handling of correct answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits correct response.<br>3. System gives positive feedback.<br>4. User proceeds to next unit. | Progress is updated; next unit is unlocked. | not performed |
-| TC_UC_05b | Learning Step - Incorrect Answer | Verify handling of incorrect answers. | User is viewing a learning step. | 1. System displays the step.<br>2. User submits incorrect response.<br>3. System provides corrective feedback.<br>4. User retries activity. | User cannot proceed until correct answer is provided. | not performed |
-| TC_UC_06 | View User Profile | Verify profile display accuracy. | User is logged in. | 1. User accesses account info.<br>2. System displays profile details. | The user details match the database. | not performed |
-| TC_UC_07 | View Leaderboard | Verify leaderboard ranking display. | User is logged in. | 1. User opens leaderboard.<br>2. System calculates and displays rankings. | Global rankings are visible and accurate. | not performed |
-| TC_UC_08 | Create Course Draft | Verify teacher can create a new draft. | Teacher is logged in. | 1. Teacher enters details.<br>2. Teacher submits draft.<br>3. System saves draft. | Draft is stored and visible in teacher's workspace. | not performed |
-| TC_UC_09 | Edit Course Content | Verify teacher can modify existing content. | Course exists (and has the teacher as admin). | 1. Teacher enters the course edit mode.<br>2. Teacher modifies the learning step.<br>3. Teacher saves changes. | System updates content and confirms save. | not performed |
-| TC_UC_10a | Admin - Manage Categories | Verify admin can create categories. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new category.<br>3. System saves category. | Category becomes available for course tagging (setting/changing the category). | not performed |
-| TC_UC_10b | Admin - Manage Languages | Verify admin can create languages. | Admin is logged in. | 1. Admin goes into management part.<br>2. Admin creates new language.<br>3. System saves language. | Language becomes available for course tagging (setting/changing the language). | not performed |
-| TC_UC_11a | Admin - Approve Draft | Verify draft. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin approves.<br>3. System creates the course. | Course becomes available to work on. | not performed |
-| TC_UC_11b | Admin - Disapprove Draft | Verify draft rejection. | Draft exists in pending queue. | 1. Admin reviews draft.<br>2. Admin disapproves.<br>3. System deletes the draft. | Course is not created and draft is removed. | not performed |
-| TC_UC_12a | Admin - Assign Role | Verify role assignment. | Target user exists. | 1. Admin selects user in the management part.<br>2. Admin assigns a role the user does not have. | User's permissions are immediately elevated. | not performed |
-| TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. | not performed |
-
-*Table 5: Test Cases Results (Appendix 2.4 Tests)*
-
+The table of all test case results can be found in Appendix 2.4 Tests. 
 
 ### Benefits and bug detection
 
