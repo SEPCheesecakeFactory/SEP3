@@ -276,7 +276,7 @@ The fidelity of the wireframes was kept low but the transformation into the chos
 
 ### Architectural overview
 
-The architectural overview shown on the figure below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
+The architectural overview shown on the figure below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain there is the Postgres database. The data is received through sockets.
 Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
 ![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png){width=60%}
@@ -476,8 +476,9 @@ At a later stage, the original database setup was split into pure DDL script and
 
 Going further into implementation details, Java and C# programming languages were chosen to meet the requirements of multilanguage system. For storing information PostgreSQL database has been implemented. 
 The development team chose C# Blazor .NET for the frontend because its component-based system gave a possibility for fast GUI development without needing an additional JavaScript code. On the Logic Server, ASP.NET Core provided an intuitive environment for managing REST endpoints and gRPC services, facilitating high-speed communication. It was achieved by using shared Data Transfer Objects (DTOs) and validation logic which kept data model changes synchronized between client and server systems. 
-Java programming language was selected to run the Data Server because it met our polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
+Java programming language was selected to run the Data Server because it met this semester's polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
 
+### Servers Implementation
 
 ### Security Implementation
 
@@ -700,7 +701,27 @@ Can be found as Application-LayerSD.png
 ### Test Cases
 Can be found as TestCases.pdf???? TODO:add this to the appendix
 ### Test Cases Result
-Can be found as ...... TODO:add this to the appendix
+Can be found as ...... TODO:add this to the appendix\
+
+## Appendix 3.1 Source Code
+### AuthController.cs
+Can be found as System/LogicServer/RESTAPI/Controllers/AuthController.cs
+### SecureAuthService.cs
+Can be found as System/LogicServer/RESTAPI/Services/SecureAuthService.cs
+### gRPCUserRepository.cs
+Can be found as System/LogicServer/gRPCRepo/gRPCUserRepository.cs
+### data_protocol.proto
+Can be found as System/DataServer/DataServer/src/main/proto/data_protocol.proto
+### UserServiceImpl.java
+Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/UserServiceImpl.java
+### HttpCourseService.cs
+Can be found as System/ClientApp/BlazorApp/Services/HttpCourseService.cs
+### CoursesController.cs
+Can be found as System/LogicServer/RESTAPI/Controllers/CoursesController.cs
+### gRPCCourseRepository.cs
+Can be found as System/LogicServer/gRPCRepo/gRPCCourseRepository.cs
+### CourseServiceImpl.java
+Can be found as System/DataServer/DataServer/src/main/java/via/sep3/dataserver/service/CourseServiceImpl.java
 
 ## Appendix 4.1 Relation Schema
 ### Relational Schema
