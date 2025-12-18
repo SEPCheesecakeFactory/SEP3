@@ -309,11 +309,27 @@ In this server the logic of the system is defined through the controllers, allow
 
 ![Logic Server Class Diagram](../out/Implementation/LogicServerClass/LogicServerClass.svg)
 
+The diagram bellow shows the different entities needed in the logic server. All entities implement the IIdentifiable interface, achieving an abstract system where entities are easily replaceable.
+
+![Entities Logic Server](../out/Implementation/EntitiesLogicServer/EntitiesLogicServer.svg)
+
+The following diagram is a summarized easy-to-read Logic Server Class Diagram.
+
+![Summary Logic Server Class Diagram](../out/Implementation/SummaryLogicServer/SummaryLogicServerClass.svg)
+
 #### Data Server Class Diagram
 
 This server main responsibility is to manage the database by adding, fetching, modifying and deleting the entities, ensuring that the logic server requests are completed successfully.
 
 ![Data Server Class Diagram](../out/Implementation/DataServerClass/DataServerClass.svg)
+
+In the next diagram the entities of the data server are exposed. It looks exactly the same as the GRD since by using JPA, we ensure that the relationships we set in the data server's entities are transfered to the database,
+
+![Entities Data Server](../out/Implementation/EntitiesDataServerClass/EntitiesDataServerClass.svg)
+
+The following diagram displays a summary of the data server class diagram. In it we can see the services and which repositories they use.
+
+![Summary Data Server](../out/Implementation/SummaryDataServerClass/SummaryDataServerClass.svg)
 
 ### Communication protocol design
 
