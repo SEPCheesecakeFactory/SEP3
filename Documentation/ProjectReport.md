@@ -34,8 +34,8 @@ The most abstract and crucial aspect of the analysis was defining the system act
 
 The most questionable aspect of the definition was the relationship between the roles, and particularly how teachers and admins relate to it. It was established that teachers and admins are a type of a learner, and this was confirmed throughout the project most importantly because:
 
-- both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, TODO: Sasha update this)
-- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, TODO: Sasha update this)
+- both teachers and admins were expected to be skilled users of the platform (Appendix 10.1, Interview_261125.pdf) and were supposed to be educated on it (Appendix 10.1, Interview_121025.pdf)
+- both teachers and admins were understood as learners within the leaderboard setting and were expected to be equal participants in it (Appendix 10.1, Interview_121025.pdf)
 
 ### Actor Descriptions
 
@@ -794,8 +794,8 @@ Can be found as Wireframes-2.png
 ## Appendix 10.1: Stakeholder Interviews
 ### Interview David
 Can be found as Interview_261125_1.pdf
-### Interview Andrej TODO: Sasha update this
-Can be found as Interview_XXX.pdf
+### Interview Andrej
+Can be found as Interview_121025.pdf
 
 ## Appendix 11.1 Architecture
 ### Architectural Overview 
