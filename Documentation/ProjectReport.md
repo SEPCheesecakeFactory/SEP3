@@ -63,7 +63,7 @@ Admins are trusted Learners, who have the right to manage the platform. They sho
 
 #### Functional requirements
 
-The functional requirements are structured as user stories to better capture the perspective of the actor and to clarify permissions and intentions behind each requirement. This way the user stories served as the fundamental source of truth and a guide light for understanding the problem and being able to design a solution that would address the problem preserving the idea behind the intention of the actor.
+The functional requirements are structured as user stories to better capture the perspective of the actor and to clarify permissions and intentions behind each requirement. This way the user stories served as the fundamental source of truth and a guideline for understanding the problem and being able to design a solution that would address the problem preserving the idea behind the intention of the actor.
 
 |  ID   | User Story                                                                                                                |
 | :---: | :------------------------------------------------------------------------------------------------------------------------ |
@@ -207,7 +207,7 @@ Following the definition of the system’s dynamic behavior through use cases, S
 
 The objective of defining these test cases during the analysis phase - rather than the testing phase - was to ensure understanding of system's functionality and to aid the definition of done.
 
-The table with all test cases can be found as Apendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
+The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ### Domain model
 
@@ -261,7 +261,7 @@ The figure above depicts one of the wireframes created for the system - all cour
 
 The interface also includes features which are showed only to users with specific roles (Teacher, Admin); it can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
 
-The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (TODO: Source puml web) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
+The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (Open-Source Tool That Uses Simple Textual Descriptions to Draw Beautiful UML Diagrams., n.d.) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
 
 ### Architectural overview
 
@@ -533,7 +533,7 @@ To showcase the path from GUI through the servers, the database, and back as wel
 
 When an user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
 
-![Click login as teacher](image-44.png)
+![Click login as teacher](clicklogin.png)
 
 After clicking the login button, the client side server sends a request to the Logic Server. The following json represents the HTTP request sent:
 
@@ -672,7 +672,7 @@ public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> r
 
 Once logged in, the teacher can create a course draft. This process involves the Client sending data to the Logic Server, which then forwards it to the Data Server.
 
-![Click Create Draft](image-45.png)
+![Click Create Draft](createdraft.png)
 
 **Client App (HttpCourseService.cs):**
 
@@ -848,7 +848,7 @@ For critical methods, tests were designed to cover:
 
 This approach ensured that the internal behavior of key methods was thoroughly validated, not just their external outputs. Test cases were documented to show clear intent and traceability between requirements, logic, and expected outcomes.
 
-The table of all test case results can be found in Appendix 2.4 Tests. 
+The table of all test case results can be found in (Appendix 2.4 Tests). 
 
 ### Benefits and bug detection
 
@@ -872,7 +872,7 @@ The results show that all implemented use cases behave according to their expect
 
 Regarding security-related aspects, the system communicates over HTTP during development and testing. While the application configuration includes redirection to HTTPS outside of development mode, a full HTTPS setup with proper certificate handling was not established as part of this project. Additionally, no explicit enforcement of a minimum password length (such as an 8-character requirement) is implemented in the current system.
 
-The table with all test cases can be found as Apendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
+The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ## Final Product Showcase: Screenshots of the "Learnify" app UI or console logs showing successful data processing.
 
@@ -919,6 +919,7 @@ The project achieved success through its development of a distributed learning s
 - Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
 - UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
 - Sommerville, I. (2016). Software Engineering Tenth Edition. https://dn790001.ca.archive.org/0/items/bme-vik-konyvek/Software%20Engineering%20-%20Ian%20Sommerville.pdf
+- Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. (n.d.). PlantUML.com. https://plantuml.com/
 
 # Appendices
 
@@ -948,9 +949,7 @@ Can be found as Application-LayerSD.png
 
 ## Appendix 2.4 Tests
 ### Test Cases
-Can be found as TestCases.pdf???? TODO:add this to the appendix
-### Test Cases Result
-Can be found as ...... TODO:add this to the appendix\
+Can be found as Tests.xlsx
 
 ## Appendix 3.1 Source Code
 ### AuthController.cs
