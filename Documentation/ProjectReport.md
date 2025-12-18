@@ -804,7 +804,7 @@ The first step of the V-Model was requirement analysis, which directly maps to a
 
 At this stage, testing focused on answering a simple but critical question:
 
-How can we tell that the system fulfills the user's requirements?
+How can it be determined whether the system fulfills the user requirements?
 
 Rather then writing code-level tests, the team defined high-level acceptance criteria for each use case. These criteria described:
 
