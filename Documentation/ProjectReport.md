@@ -101,7 +101,7 @@ The uses cases developed are shown in a table below:
 | UC2  | Log in                     |
 | UC3  | Manage Personal Learning   |
 | UC4  | Browse and Search Catalog  |
-| UC5  | Complete Learning Activity |
+| UC5  | Complete Learning Step     |
 | UC6  | View User Profile          |
 | UC7  | View Leaderboard           |
 | UC8  | Create Course Draft        |
@@ -149,9 +149,9 @@ As can be seen, the UCD also introduced the internal boundary for teachers and a
 
 ### Use case descriptions
 
-In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Activity use case:
+In order to fully describe the use cases, use case descriptions were created; an example below shows such use case description, specifically for the UC5 - Complete Learning Step use case:
 
-![Complete Learning Activity Use Case Description (Appendix 2.2 Use Cases)](CompleteLearningActivityUseCaseDescription.png)
+![Complete Learning Step Use Case Description (Appendix 2.2 Use Cases)](CompleteLearningStepUseCaseDescription.png)
 
 As seen above, the use case descriptions provided a structured way of understanding how the system should behave and gave a strong basis for the test cases. 
 
@@ -165,15 +165,19 @@ All the use case descriptions were made in the same format with:
 - Base Sequence
 - Alternative Sequences
 
+It was also determined that when the system fails to perform its action, the user should be notified of the error and the inability to proceed. This was noted on the side of the Use Case Descriptions as a general alternative sequence.
+
 ### System sequence diagrams (SSD)
 
 System Sequence Diagrams (SSDs) were developed to illustrate the interaction between the system actors and the system as a black box. By focusing on the input and output events, the SSDs helped in identifying the necessary system operations and the data that needs to be exchanged to fulfill each use case.
 
 An SSD was created for each of the 12 use cases, ensuring that the dynamic behavior of the system is fully captured from an external perspective.
 
-The figure below shows the SSD for UC5 - Complete Learning Activity, which highlights the iterative nature of the learning process and the system's role in providing feedback.
+The figure below shows the SSD for UC5 - Complete Learning Step, which highlights the iterative nature of the learning process and the system's role in providing feedback.
 
-![Complete Learning Activity SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg){width=60%}
+![Complete Learning Step SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg){width=60%}
+
+The system sequence diagrams were kept simple and focused on the core interaction. Nevertheless, for UC9 and UC11 it was decided to include alternate paths while not including anything else than the main success scenarios. 
 
 ### Activity diagrams
 
@@ -181,7 +185,7 @@ The development of activity diagrams was crucial in understanding the dynamic be
 
 A set of activity diagrams was developed to cover the most critical workflows of the Learnify platform, including user onboarding, course discovery, content creation, and the learning process itself. 
 
-The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Activity), and UC7 (View Leaderboard). 
+The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Step), and UC7 (View Leaderboard). 
 
 ![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
 
@@ -613,8 +617,8 @@ Regarding security-related aspects, the system communicates over HTTP during dev
 | Manage Personal Learning – Unenroll | Works | A learner can unenroll from a course, and it is removed from their active course list. |
 | Browse and Search Catalog – Results Found | Works | The catalog displays courses matching the user’s search terms or filters. |
 | Browse and Search Catalog – No Results | Works | The system informs the user when no courses match the selected filters/search criteria. |
-| Complete Learning Activity – Correct Answer | Works | Correct answers are accepted, progress is saved, and the learner can proceed. |
-| Complete Learning Activity – Incorrect Answer | Works | Incorrect answers trigger feedback, and the learner must retry before continuing. |
+| Complete Learning Step – Correct Answer | Works | Correct answers are accepted, progress is saved, and the learner can proceed. |
+| Complete Learning Step – Incorrect Answer | Works | Incorrect answers trigger feedback, and the learner must retry before continuing. |
 | View User Profile | Works | The user can view their profile details, matching stored account information. |
 | View Leaderboard | Works | The leaderboard displays users ranked based on performance metrics. |
 | Create Course Draft | Works | A teacher can create a draft, which is saved and visible in their workspace. |
@@ -680,7 +684,7 @@ Can be found as TODO:eduard.pdf
 ## Appendix 2.2 Use Cases
 ### Use Case Diagram
 Can be found as TODO:eduard.pdf
-### Complete Learning Activity Use Case Description
+### Complete Learning Step Use Case Description
 Can be found as TODO:eduard.pdf
 
 ## Appendix 2.3 Diagrams

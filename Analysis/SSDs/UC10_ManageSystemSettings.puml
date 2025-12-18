@@ -8,5 +8,6 @@ participant System
 Admin -> System: Access system settings
 System --> Admin: Display current categories and languages
 Admin -> System: Add new category or language
-System --> Admin: Confirm update to platform options
+System -> System: Update platform options
+System --> Admin: Confirm changes
 @enduml

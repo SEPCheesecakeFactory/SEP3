@@ -5,11 +5,11 @@ title UC3 - Manage Personal Learning
 actor Learner
 participant System
 
-Learner -> System: Request enrolled courses
-System --> Learner: Display list of enrolled courses
+Learner -> System: Open enrolled courses
+System --> Learner: Retrieve the courses
 alt Resume Course
     Learner -> System: Select course to resume
-    System --> Learner: Display last saved learning step
+    System --> Learner: Provide current learning step
 else Unenroll
     Learner -> System: Select unenroll from course
     System --> Learner: Confirm unenrollment

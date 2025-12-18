@@ -16,10 +16,10 @@ repeat
     :Enroll in course;
     repeat
         |System|
-        :Provide learning activity;
+        :Provide learning step;
         |Learner|
         repeat
-        :Complete learning activity;
+        :Complete learning step;
         |System|
         :Provide feedback;
         |Learner|

@@ -2,13 +2,17 @@
 title UC4 - Browse and Search Catalog
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
 
-actor User
+actor Learner
 participant System
 
-User -> System: Access course catalog
-System --> User: Display available courses and filters
-User -> System: Apply search term and filters (category, language)
-System --> User: Display filtered course results
-User -> System: Select course for details
-System --> User: Show course overview
+Learner -> System: Access course catalog
+System --> Learner: Provide available categories and languages
+
+loop Until found a course
+    Learner -> System: Apply search filters
+    System --> Learner: Display courses filtered based on criteria
+end
+
+Learner -> System: Select a course
+Learner -> System: Enroll in course
 @enduml

@@ -18,7 +18,7 @@ package System {
     usecase "Log in" as UC2
     usecase "Manage Personal Learning" as UC3
     usecase "Browse and Search Catalog" as UC4
-    usecase "Complete Learning Activity" as UC5
+    usecase "Complete Learning Step" as UC5
     usecase "View User Profile" as UC6
     usecase "View Leaderboard" as UC7
     usecase "Create Course Draft" as UC8

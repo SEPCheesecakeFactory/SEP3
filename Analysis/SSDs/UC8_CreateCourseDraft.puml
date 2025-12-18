@@ -6,7 +6,6 @@ actor Teacher
 participant System
 
 Teacher -> System: Propose new course
-System --> Teacher: Request course title, description, and category
-Teacher -> System: Submit draft details
+System -> System: Store course details as draft
 System --> Teacher: Confirm draft submission (pending approval)
 @enduml

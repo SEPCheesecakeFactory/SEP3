@@ -8,9 +8,9 @@ participant System
 User -> System: Initiate registration
 System --> User: Request user details
 User -> System: Provide username and password
-System -> System: Validate details
+System -> System: Validate user details
 alt Success
-    System --> User: Confirm registration
+    System --> User: Confirm registration and log the user in
 else Failure
     System --> User: Show error message
 end
