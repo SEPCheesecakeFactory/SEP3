@@ -257,20 +257,24 @@ The fidelity of the wireframes was kept low but the transformation into the chos
 
 ### Architectural overview
 
-The architecture is a distributed, three-tier solution designed that aims for strict separation of concerns, scalability, and polyglot interoperability. The architecture facilitates interaction between a C# frontend, a C# logic middleware, and a Java data persistence layer.
+The architecture is a distributed, three-tier solution that aims for strict separation of concerns, scalability, and polyglot interoperability. The architecture facilitates interaction between a C# frontend, a C# logic middleware, and a Java data persistence layer.
 
 #### Client
+
 The client-side application is built using Blazor in C# .NET. This layer hosts the web interface accessible to all system actors: learners, teachers, and admins. It is responsible solely for UI rendering and user input handling, delegating all business logic to the backend services.
 
 Blazor is technically a double tier as blazor web server was chosen for the project. This means that a significant part of the interactions is done on the blazor server rather than directly on the client machine. 
 
 #### Logic Tier
+
 The Logic Server, implemented in C# (ASP.NET Core), and acts as the central orchestrator. It exposes a RESTful API via HTTP(s) to the client, ensuring broad compatibility and standard web communication. This layer handles authentication, authorization (RBAC), and feature-specific business rules. It serves as a protocol bridge, translating external HTTP requests into internal gRPC calls for the data layer.
 
 #### Data Tier
+
 The Data Server is implemented in Java (Spring Boot), fulfilling the project's polyglot requirement. Communication between the Logic and Data servers is conducted via gRPC - Google's Remote Procedure Call framework. This choice leverages Protocol Buffers (Protobuf) for binary serialization, resulting in lower latency and higher throughput compared to text-based JSON over HTTP.
 
 #### Data Persistence
+
 At the foundation of the architecture is a PostgreSQL database. The Java Data Server manages all database interactions, ensuring that the Logic and Client layers remain agnostic to the underlying storage mechanics.
 
 #### Architectural Diagram and Justification
@@ -282,6 +286,7 @@ The figure below depicts the final architecture of the system as described above
 The mentioned technologies, frameworks, and tools were chosen both to fulfill the requirements but also prioritized flexibility and ease of development. 
 
 ### Class diagram design
+
 We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
 
 #### Client App Class Diagram
@@ -307,6 +312,33 @@ This server main responsibility is to manage the database by adding, fetching, m
 The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram below illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
 
 ![Application Layer Sequence Diagram](Application-LayerSD.png){width=60%}
+
+### Security Design 
+
+Taking into consideration the earlier defined threat analysis and risk assessment, the security design focuses on the technologies used to defend against identified threats. System maintains various strategies of protecting the data at rest and while being transmitted. 
+
+##### Authentification and Authorization 
+
+To adress the threats of Spoofing and Elevation of Privilege, the System is based on stateless authentification architecture. 
+
+- Authentification: The System delegates auth operations to an AuthController. Once credentials are successfully validated, the System sends a JWT to the client. The System relies on JwtSecurityTokenHandler to sign the token using the HmacSha256Signature algorithm and a pre-configured secret key loaded though server level application settings.
+
+ - Authorization (RBAC): Access control is granted via ADDJwtBearer authentication method. The System inspects the claims of incoming requests to restrict access based on user roles (Learner, Teacher, Admin), effectively mitigating threats and unauthorized access.
+ 
+  ##### Data Protection and Integrity 
+  
+  To adress Confidentiality and Integrity requirements, following strategies have been adopted to protect data throughout its lifecycle. 
+  
+  - Data at Rest: The system follows the principle of data minimization, ensuring no personal information is stored beyond the necessary authentication credentials (usaernames and passwords). To reduce the impact of potential database leaks, passwords are never stored as plain text. The system utilizes the Argon2 algorithm. This is hash algorithm provide resistance against brute-force attacks. 
+
+  - Data during Transit: To protect data against Man-in-the-Middle Attacks, protection strategies differ based on network exposure: Client to Server: The Logic Server enforces Transport Layer Security (TLS) via the app.UseHttpsRedirection() middleware. This ensures that user credentials are encrypted when being transferred over the public internet. Logic to Data: Communication between the Logic and Data servers occurs via gRPC. While this traffic remains unencrypted, the data is serialized in binary Protobuf format. This unencrypted state is considered acceptable for the current project scope as it assumes strict network isolation.
+
+##### Input Validation
+
+To reduce the possibility of injection attacks the system valides users input.
+- The System's SecureAuthService is designed to handle user inputs and throw erors when invalid inputs  such as missmatched passwords are detected, so that bad data is rejected before entering database.
+
+- The system uses strict gRPC message typing (e.g., the AddUserRequest) to guarantee data structure. This ensures that injection attacks relying on malformed data structures or unexpected fields are impossible, as they are rejected by the protocol's strict binary validation before reaching the application logic.
 
 #### Interface Definition (gRPC & Protobuf)
 
@@ -479,6 +511,253 @@ The development team chose C# Blazor .NET for the frontend because its component
 Java programming language was selected to run the Data Server because it met this semester's polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
 
 ### Servers Implementation
+
+Data Server implemented using Java was intended to not have any code related to the main logic of the system. Its main responsibility was to handle operations of the services which were either taking data from the database or updating the database. The framework that was used in order to make the implementation process cleaner and more efficient was Spring boot. The team chose Spring Data JPA when it comes to handling data persistent with PostgreSQL due to the possibility of working with Java objects instead of raw SQL queries.
+
+The Logic Server operated as the system's Web API which functioned as the core processing unit of the platform by using the C# ASP.NET Core framework. The Java server took care of database management while the Logic Server executed all business operations which enable the system to function properly. The system operated as a middleman between the Blazor client and the Data Server because it handled requests which followed system rules before sending data to the Data Server. It is worth mentioning that security took a bog part on this server. The system used JWT (JSON Web Tokens) to handle user authentication which restricted access to particular features based on user authorization. All the main logic was kept here which made it simple to control features such as course enrollments and leaderboard system or course draft approval workflow. Using C# for this layer was a great fit because it worked perfectly with the Blazor client on another server, allowing the team to keep the code organized and easy to build on.
+
+When it comes to Client Server, as mentioned before, Blazor C# was chosen. It gave the team a structured template to work on the fronted using reusable components and integrating logic using C# programming language instead of JavaScript. Client side was responsible for sending HTTP request to the WebApi through user friendly, GUI.
+
+### Integration Logic:
+To showcase the path from GUI through the servers, the database, and back as well as communication between the servers, the following figures demonstrate the necessary logs and implementations of such functionality. The code can be found in (Appendix 3.1 Source Code).
+
+#### Login Feature
+
+When an user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
+
+![Click login as teacher](image-44.png)
+
+After clicking the login button, the client side server sends a request to the Logic Server. The following json represents the HTTP request sent:
+
+```json
+[Client] Sending HTTP POST /auth/login:
+{
+  "username": "teacher1",
+  "password": "password123"
+}
+```
+
+The Logic Server receives this request and initiates the validation process.
+
+**Logic Server (AuthController.cs):**
+
+```csharp
+[HttpPost("login")]
+public async Task<ActionResult> Login([FromBody] LoginRequest request)
+{
+    try
+    {
+        User foundUser = await authService.ValidateUser(request.Username, request.Password);
+        string token = GenerateJwt(foundUser);
+        return Ok(token);
+    }
+    catch (Exception e)
+    {
+        return BadRequest(e.Message);
+    }
+}
+```
+*Code Snippet 1: AuthController (Appendix 3.1 Source Code)*
+
+
+The `AuthController` delegates the validation to the `SecureAuthService`.
+
+**Logic Server (SecureAuthService.cs):**
+
+```csharp
+public async Task<User> ValidateUser(string username, string password)
+{
+    User? existingUser = await GetUserByUsernameAsync(username) ?? throw new Exception("User not found");
+
+    if (!Argon2.Verify(existingUser.Password, password))
+        throw new Exception("Password mismatch");
+
+    return existingUser;
+}
+
+private async Task<User?> GetUserByUsernameAsync(string userName)
+{
+    IEnumerable<User> users = await Task.Run(() => userRepository.GetMany());
+    foreach (User user in users)
+    {
+        if (user.Username.Equals(userName))
+        {
+            return user;
+        }
+    }
+    return null;
+}
+```
+*Code Snippet 2: SecureAuthService (Appendix 3.1 Source Code)*
+
+The `SecureAuthService` retrieves users via the `gRPCUserRepository`, which communicates with the Data Server.
+
+**Logic Server (gRPCUserRepository.cs):**
+
+```csharp
+public override IQueryable<User> GetMany()
+{
+    var resp = UserServiceClient.GetUsers(new GetUsersRequest());
+    var users = resp.Users.Select(c => new User
+    {
+        Id = c.Id,
+        Username = c.Username,
+        Password = c.Password,
+        Roles = c.Roles.Select(r => new Entities.Role { RoleName = r.Role_ }).ToList(),
+    }).ToList();
+
+    return users.AsQueryable();
+}
+```
+*Code Snippet 3: gRPCUserRepository (Appendix 3.1 Source Code)*
+
+The Protobuf message structure used for this communication is:
+
+```protobuf
+message User {
+  int32 id = 1;
+  string username = 2;
+  string password = 3;
+  repeated Role roles = 4;
+}
+
+message Role {
+  string role = 1;
+}
+
+message GetUsersRequest {}
+
+message GetUsersResponse {
+  repeated User users = 1;
+}
+```
+*Code Snippet 4: Protocol (Appendix 3.1 Source Code)*
+
+Finally, the Data Server handles the gRPC request and retrieves the users from the database.
+
+**Data Server (UserServiceImpl.java):**
+
+```java
+@Override
+public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> responseObserver) {
+    try {
+        List<SystemUser> users = userRepository.findAll();
+        List<via.sep3.dataserver.grpc.User> grpcUsers = new ArrayList<>();
+
+        for (SystemUser user : users) {
+            grpcUsers.add(convertToGrpcUser(user));
+        }
+        GetUsersResponse response = GetUsersResponse.newBuilder()
+                .addAllUsers(grpcUsers)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    } catch (Exception e) {
+        responseObserver.onError(e);
+    }
+}
+```
+*Code Snippet 5: UserServiceImpl (Appendix 3.1 Source Code)*
+
+#### Create Draft Feature
+
+Once logged in, the teacher can create a course draft. This process involves the Client sending data to the Logic Server, which then forwards it to the Data Server.
+
+![Click Create Draft](image-45.png)
+
+**Client App (HttpCourseService.cs):**
+
+```csharp
+public async Task<Optional<Draft>> CreateDraft(CreateDraftDto dto) 
+    => await httpCrudService.CreateAsync<Draft, CreateDraftDto>("drafts", dto);
+```
+*Code Snippet 6: HttpCourseService (Appendix 3.1 Source Code)*
+
+The Logic Server handles the request at the `/drafts` endpoint:
+
+**Logic Server (CoursesController.cs):**
+
+```csharp
+[HttpPost("/drafts")]
+[Authorize("MustBeTeacher")]
+public async Task<ActionResult<Course>> HttpCreateAsync([FromBody] CreateCourseDto entity) 
+    => await CreateAsync(entity);
+```
+*Code Snippet 7: CoursesController (Appendix 3.1 Source Code)*
+
+The controller uses the `gRPCCourseRepository` to send the data to the Data Server.
+
+**Logic Server (gRPCCourseRepository.cs):**
+
+```csharp
+public override async Task<Course> AddAsync(CreateCourseDto entity)
+{
+    var request = new AddCourseRequest
+    {
+        Title = entity.Title ?? "",
+        Description = entity.Description ?? "",
+        Language = entity.Language ?? "",
+        Category = entity.Category ?? "",
+        AuthorId = entity.AuthorId ?? -1
+    };
+
+    var response = await CourseServiceClient.AddCourseAsync(request);
+
+    return new Course
+    {
+        Id = response.Course.Id,
+        Title = response.Course.Title,
+        // ... mapping other fields ...
+    };
+}
+```
+*Code Snippet 8: gRPCCourseRepository (Appendix 3.1 Source Code)*
+
+The gRPC messages for creating a course are defined as:
+
+```protobuf
+message AddCourseRequest {
+  string title = 1;
+  string description = 2;
+  string language = 3;
+  string category = 4;
+  int32 authorId = 5;
+}
+
+message AddCourseResponse {
+  Course course = 1;
+}
+```
+*Code Snippet 9: Protocol (Appendix 3.1 Source Code)*
+
+Finally, the Data Server persists the new course draft:
+
+**Data Server (CourseServiceImpl.java):**
+
+```java
+@Override
+public void addCourse(AddCourseRequest request, StreamObserver<AddCourseResponse> responseObserver) {
+    try {
+        Course course = new Course();
+        course.setTitle(request.getTitle());
+        course.setDescription(request.getDescription());
+        // ... additional field setting ...
+        course = courseRepository.save(course);
+
+        AddCourseResponse response = AddCourseResponse.newBuilder()
+                .setCourse(convertToGrpcCourse(course))
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    } catch (Exception e) {
+        responseObserver.onError(e);
+    }
+}
+```
+*Code Snippet 10: CourseServiceImpl (Appendix 3.1 Source Code)*
+
 
 ### Security Implementation
 
