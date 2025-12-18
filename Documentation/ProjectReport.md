@@ -143,7 +143,7 @@ The table below shows how the use cases are related to the user stories
 
 To depict how the use cases were related to the system actors, a use case diagram was created as shown below:
 
-![Use Case Diagram (Appendix 2.2 Use Cases)](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg)
+![Use Case Diagram (Appendix 2.2 Use Cases)](..\out\Analysis\UseCaseDiagram\UseCaseDiagram.svg){width=60%}
 
 As can be seen, the UCD also introduced the internal boundary for teachers and admins - specifying that these actors are not simply learners with privileges but there is a boundary to be crossed when becoming a teacher or an admin. The UCD also specifies the system boundary, which in the case of Learnify covers all the use cases developed.
 
@@ -173,7 +173,7 @@ An SSD was created for each of the 12 use cases, ensuring that the dynamic behav
 
 The figure below shows the SSD for UC5 - Complete Learning Activity, which highlights the iterative nature of the learning process and the system's role in providing feedback.
 
-![Complete Learning Activity SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg)
+![Complete Learning Activity SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg){width=60%}
 
 ### Test Cases
 
@@ -224,7 +224,7 @@ By modeling these workflows, the analysis phase ensured that the system's dynami
 
 The domain model was constructed for this project to better understand the problem domain and to aid communication among stakeholders. The crucial aspect of developing the domain model was identifying the relationships between different kinds of users, in particular the roles and responsibilities of Learners, Teachers, and Administrators; which had to be combined with the security aspect of the system as well as had to align with the shared understanding of the stakeholders.
 
-![Domain Model (Appendix 2.3 Diagrams)](..\out\Analysis\DomainModel\DomainModel.svg)
+![Domain Model (Appendix 2.3 Diagrams)](..\out\Analysis\DomainModel\DomainModel.svg){width=80%}
 
 The figure above shows the domain model for Learnify. It can be seen that the crucial aspect of fully describing the different system roles is understanding what entities exist and how they relate to each other.
 
@@ -266,8 +266,7 @@ The aim of the designing phase was to establish a clear vision and guide for imp
 
 Wireframes were used along other rough sketches to design the components of the user interface without the hassle of dealing with the final styling. Because of the chosen methodologies, wireframes provided a strong basis for creating HTML skeletons of various razor pages.
 
-*Figure X: All Courses Page Wireframe*
-![All Courses Page Wireframe (Appendix 9.1 Wireframes)](..\out\Analysis\Wireframes\Wireframes-2.png)
+![All Courses Page Wireframe (Appendix 9.1 Wireframes)](..\out\Analysis\Wireframes\Wireframes-2.png){width=80%}
 
 The figure above depicts one of the wireframes created for the system - all courses page or as described in the analysis - "The Course Catalogue".
 
@@ -280,7 +279,7 @@ The fidelity of the wireframes was kept low but the transformation into the chos
 The architectural overview shown on the figure below presents how the three-tier architecture of the system was looks like including all servers and how they communicate between them. Starting with client layer, which is responsible for running a server in C# Blazor .NET, it can be seen that its job is to host a web application which can be accessible by three types of users (Learners, Teachers and Administrators). Client application communicates with Logic Server, located inside the logic layer, by using HTTP requests and responses. Then from the Logic server information is being sent further into the data server, located inside data tier, which happens by following the gRPC protocol, which is faster than HTTP due to different formatting. Logic server was implemented using C# and Data server using Java. At the end of the architecture chain we have the Postgres database. The data is received through sockets.
 Although the three-tier overview seems to appear a bit basic, each tier plays their own important role in the system, ensuring that for example data server is not responsible for any feature logic but only performs operations between the database.
 
-![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png)
+![Architectural Overview (Appendix 11.1 Architecture)](ArchitecturalOverview.png){width=60%}
 
 ### Communication Protocol Design:
 We decided to make a class diagram for each of the servers, demonstrating their independence. These are the Client App, Logic Server and Data Server.
@@ -307,7 +306,7 @@ This server main responsibility is to manage the database by adding, fetching, m
 
 The system implements a multi-tiered architecture that utilizes distinct communication protocols for external and internal interactions. The sequence diagram in Figure X illustrates the end-to-end communication flow, demonstrating how the Client, Logic Server, and Data Server interact to process a request.
 
-![Application Layer Sequence Diagram](Application-LayerSD.png)
+![Application Layer Sequence Diagram](Application-LayerSD.png){width=60%}
 
 #### Interface Definition (gRPC & Protobuf)
 
@@ -369,7 +368,7 @@ As means of bridging the gap from the problem domain in general and the Learnify
 
 The EER developed does not significantly differ from the domain model as both diagrams are conceptual and could in theory be used interchangeably. However, the EER diagram further reflects the decisions made during analysis, which most notably reflected on the way how roles are handled.
 
-```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship"}
+```plantuml {caption="SystemUser to Role Relationship"}
 @startuml
 class SystemUser {
     id
@@ -396,7 +395,7 @@ The mapping resulted in the relation schema as shown on the figure below:
 
 As can be seen below on the part of Global Relational Diagram (Appendix 2.3 Diagrams), the many-to-many relationships got resolved into new relations - SystemUserRole, and UserCourseProgress.
 
-```plantuml {max-width=50% max-height=50% caption="SystemUser to Role Relationship Resolution"}
+```plantuml {caption="Caption"}
 @startuml
 class SystemUser {
     id
@@ -520,7 +519,7 @@ The implementation of the skeleton was followed by a the implementation of a ver
 
 The individual components of the vertical slice can be seen below on the part of Domain Model (Appendix 2.3 Diagrams):
 
-```plantuml
+```plantuml {caption="Caption"}
 @startuml
 class Course
 {

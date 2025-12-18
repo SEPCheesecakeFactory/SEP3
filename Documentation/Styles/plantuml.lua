@@ -27,11 +27,44 @@ function CodeBlock(block)
         else
             f_img:close()
         end
-        -- 4. Attributes
-        local img_attr = pandoc.Attr(block.identifier, {}, {})
-        if block.attributes['width'] then img_attr.attributes['width'] = block.attributes['width'] end
-        local caption = block.attributes['caption']
-        local img = pandoc.Image({}, fname, '', img_attr)
-        return pandoc.Para({ img })
+
+        -- 4. Attributes & Manual LaTeX Generation
+        local attributes = block.attributes
+        local caption_text = attributes['caption']
+        local width = attributes['width'] or '60%'
+
+        -- CHECK: If generating PDF (LaTeX), write raw TeX to force centering/captions
+        if FORMAT:match 'latex' then
+            -- Convert '60%' to '0.6\\linewidth' for LaTeX
+            local latex_width = width
+            if width:match('%%') then
+                 local num = tonumber(width:match('(%d+)'))
+                 if num then latex_width = (num/100) .. '\\linewidth' end
+            end
+
+            -- NOTE: \\\\begin = literal \\begin. \\n = newline character.
+            local tex = ''
+            tex = tex .. '\\begin{figure}[H]\n'
+            tex = tex .. '\\centering\n'
+            tex = tex .. '\\includegraphics[width=' .. latex_width .. ']{' .. fname .. '}\n'
+            if caption_text then
+                tex = tex .. '\\caption{' .. caption_text .. '}\n'
+            end
+            tex = tex .. '\\end{figure}'
+
+            return pandoc.RawBlock('latex', tex)
+        else
+            -- Fallback for HTML/Docx (Standard Pandoc Behavior)
+            local img_attr = pandoc.Attr(block.identifier, block.classes, attributes)
+            attributes['width'] = width
+            
+            local caption_content = {}
+            local img_title = ''
+            if caption_text then
+                caption_content = { pandoc.Str(caption_text) }
+                img_title = 'fig:'
+            end
+            return pandoc.Para({ pandoc.Image(caption_content, fname, img_title, img_attr) })
+        end
     end
 end
