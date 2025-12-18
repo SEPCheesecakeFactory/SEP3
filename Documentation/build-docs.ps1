@@ -295,17 +295,20 @@ function Build-Generic {
 }
 
 function Build-Combined {
-  Log-Build "Combining PDFs..."
-  $pd = Join-Path $FinalDir "ProjectDescription.pdf"
+  Log-Build "Combining PDFs (Project Report -> Process Report)..."
+  
+  # Define only the required paths
   $ps = Join-Path $FinalDir "ProcessReport.pdf"
   $pr = Join-Path $FinalDir "ProjectReport.pdf"
   $out = Join-Path $FinalDir "FinalDocument.pdf"
 
-  foreach ($f in @($pd, $ps, $pr)) {
-    if (-not (Test-Path $f)) { throw "Missing input for combined PDF: $f. Please build 'All' first." }
+  # Check existence of strictly these two files
+  foreach ($f in @($pr, $ps)) {
+    if (-not (Test-Path $f)) { throw "Missing input for combined PDF: $f. Please ensure ProjectReport and ProcessReport are built." }
   }
     
-  qpdf --empty --pages $pd 1-z $ps 1-z $pr 1-z -- $out
+  # Merge Order: Project Report ($pr) FIRST, Process Report ($ps) SECOND
+  qpdf --empty --pages $pr 1-z $ps 1-z -- $out
   Log-Success "Combined PDF created at: $out"
 }
 
@@ -322,9 +325,8 @@ switch ($Target) {
   "Combined" { Build-Combined }
   "Generic" { Build-Generic }
   "All" {
-    Build-ProjectDescription
-    Build-ProcessReport
     Build-ProjectReport
+    Build-ProcessReport
     Build-Combined
   }
 }
