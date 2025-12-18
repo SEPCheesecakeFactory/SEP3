@@ -69,15 +69,15 @@ class UserCourseProgress
     current_step
 }
 
-Course "*" -- "1" CourseCategory
-Course "*" -- "1" Language
-SystemUser "1" -- "*" SystemUserRole
-SystemUserRole "*" -- "1" Role
-Course "*" -- "1" SystemUser : approved_by ▼
-Course "*" -- "1" SystemUser : created_by ▼
+Course "0..*" -- "1" CourseCategory : belongs to ▶
+Course "0..*" -- "1" Language : is in ▶
+SystemUser "1" -- "0..*" SystemUserRole : includes ▲
+SystemUserRole "0..*" -- "1" Role : includes ▼
+Course "0..*" -- "1" SystemUser : approved_by ▼
+Course "0..*" -- "1" SystemUser : created_by ▼
 
 
-SystemUser "1" -- "*" UserCourseProgress
-Course "1" -- "*" UserCourseProgress
-LearningStep "*" -- "1" Course
-LearningStep "*" -- "1" LearningStepType
+SystemUser "1" -- "0..*" UserCourseProgress : has progress ▼
+Course "1" -- "0..*" UserCourseProgress : tracked in ▲
+LearningStep "1..*" -- "1" Course : belongs to ▼
+LearningStep "0..*" -- "1" LearningStepType : is of type ▼

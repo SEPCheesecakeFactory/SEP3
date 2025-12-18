@@ -54,7 +54,7 @@ class CourseCategory
 }
 
 Teacher "*" -down- "*" Course : Is assigned to ▼
-LearningStep "1" -right- "*" Teacher : IsCreatedBy ◀
+LearningStep "*" -right- "1" Teacher : IsCreatedBy ▶
 Administrator "*" -down- "*" Course : Manages ▼
 LearningStep "*" -down- "1" Course : Belongs to ▼
 LearningStepType "1" -up- "*" LearningStep : Is of type ▼
