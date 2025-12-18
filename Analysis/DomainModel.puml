@@ -58,7 +58,7 @@ LearningStep "1" -right- "*" Teacher : IsCreatedBy ◀
 Administrator "*" -down- "*" Course : Manages ▼
 LearningStep "*" -down- "1" Course : Belongs to ▼
 LearningStepType "1" -up- "*" LearningStep : Is of type ▼
-LearningStepContent "1" -left- "1" LearningStep : Included in ▶
+LearningStepContent "1" -left- "1" LearningStep : Included in ▲
 Teacher -up-|> User
 Administrator -up-|> User
 User "*" -left- "*" LearningStep : ◀ Completes

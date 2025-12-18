@@ -175,6 +175,20 @@ The figure below shows the SSD for UC5 - Complete Learning Activity, which highl
 
 ![Complete Learning Activity SSD (Appendix 2.3 Diagrams)](..\out\Analysis\SSDs\UC5_CompleteLearningActivity\UC5_CompleteLearningActivity.svg){width=60%}
 
+### Activity diagrams
+
+The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases and domain entities. While use case descriptions provide a structured textual representation, activity diagrams allow for a visual understanding of the logical flow, decision points, and the interaction between the user and the system's core components.
+
+A set of activity diagrams was developed to cover the most critical workflows of the Learnify platform, including user onboarding, course discovery, content creation, and the learning process itself. 
+
+The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Activity), and UC7 (View Leaderboard). 
+
+![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
+
+This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
+
+By modeling these workflows, the analysis phase ensured that the system's dynamic behavior aligns with the identified user stories and the relationships defined in the domain model.
+
 ### Test Cases
 
 Following the definition of the system’s dynamic behavior through use cases, SSDs and activity diagrams, a set of high-level test cases was derived to formalize the acceptance criteria for the Learnify system. These test cases were constructed directly from the use case descriptions, specifically targeting the preconditions, base sequences, and alternative sequences defined in the previous sections.
@@ -205,20 +219,6 @@ The objective of defining these test cases during the analysis phase - rather th
 | TC_UC_12b | Admin - Remove Role | Verify role revocation. | Target user has a specific role. | 1. Admin selects user.<br>2. Admin removes existing role. | User's permissions lack the one's that came from the removed role. |
 
 *Table 4: Test Cases (Appendix 2.4 Tests)*
-
-### Activity diagrams
-
-The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases and domain entities. While use case descriptions provide a structured textual representation, activity diagrams allow for a visual understanding of the logical flow, decision points, and the interaction between the user and the system's core components.
-
-A set of activity diagrams was developed to cover the most critical workflows of the Learnify platform, including user onboarding, course discovery, content creation, and the learning process itself. 
-
-The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Activity), and UC7 (View Leaderboard). 
-
-![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
-
-This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
-
-By modeling these workflows, the analysis phase ensured that the system's dynamic behavior aligns with the identified user stories and the relationships defined in the domain model.
 
 ### Domain model
 
@@ -380,7 +380,31 @@ SystemUser "*" -right- "*" Role : has
 @enduml
 ```
 
-The figure above is a part of domain model (Appendix 2.3 Diagrams) focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+The figure above is a part of the domain model (Appendix 2.3 Diagrams) and focuses on the relationship between the User and their Roles. This relationship in contrast to inheritance based models provides a flexible and strict way of handling user roles - their permissions and access to the system. Most importantly it does not hide the complexities of inheritance into a seemingly simple abstraction and prevents the potential issues that could arise from mindless inheritance hierarchies.
+
+Certain relationships could in theory be kept as many-to-many, however the need to attach attributes to these relationships led to the preference of a separate entity to hold the attribute thus separating the concerns and providing a more flexible design. This can be seen on, for example, the UserCourseProgress entity as shown below:
+
+```plantuml {caption="SystemUser to Role Relationship"}
+@startuml
+class SystemUser
+{
+    id
+    username
+    password_hash
+}
+class UserCourseProgress {
+    current_step
+}
+class Course {
+    id
+    title
+    description
+    total_steps
+}
+SystemUser "1" -right- "*" UserCourseProgress : has progress
+Course "1" -left- "*" UserCourseProgress : tracked in
+@enduml
+```
 
 #### Relational Schema
 

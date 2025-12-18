@@ -1,16 +1,20 @@
 @startuml
 !include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+|Admin|
 start
 fork
-    :Admin manages system settings;
-    :Admin adds new category or language;
-    :System updates platform options;
+    :Manage system settings;
+    :Add new category or language;
+    |System|
+    :Update platform options;
+|Admin|
 fork again
-    :Admin manages user roles;
-    :Admin selects target user;
-    :Admin assigns or revokes role;
-    :System updates user permissions;
+    :Manage user roles;
+    :Select target user;
+    :Assign or revoke role;
+    |System|
+    :Update user permissions;
 end fork
-:System confirms changes;
+:Confirm changes;
 stop
 @enduml
