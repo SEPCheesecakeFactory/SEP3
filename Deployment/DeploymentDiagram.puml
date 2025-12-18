@@ -1,0 +1,40 @@
+@startuml
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+title Learnify System Deployment Diagram
+
+node "User Device" {
+    [Web Browser]
+}
+
+node "Client Server" {
+    artifact "ClientApp.dll" <<artifact>>
+    component "ClientApp (Blazor Server)" as ClientApp
+}
+
+node "Logic Server" {
+    artifact "LogicServer.dll" <<artifact>>
+    component "LogicServer (ASP.NET Core)" as LogicServer
+}
+
+node "Data Server" {
+    artifact "DataServer.jar" <<artifact>>
+    component "DataServer (Spring Boot)" as DataServer
+}
+
+node "Database Server" {
+    database "PostgreSQL" as DB
+}
+
+[Web Browser] --( HTTPS : "User Interface"
+HTTPS -- ClientApp
+
+ClientApp --( "HTTP/REST" : "Business Logic Requests"
+"HTTP/REST" -- LogicServer
+
+LogicServer --( "gRPC" : "Data Access Requests"
+"gRPC" -- DataServer
+
+DataServer --( "JDBC/SQL" : "Persistence"
+"JDBC/SQL" -- DB
+
+@enduml
