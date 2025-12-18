@@ -4,19 +4,22 @@
 @using BlazorApp.Services
 @using BlazorApp.Entities
 @using BlazorApp.Utils
+@using BlazorApp.Components
 @using System.Security.Claims
+
 @inject NavigationManager navMgr
 @inject AuthenticationStateProvider AuthProvider
-@inject IAuthService AuthService
 @inject IUserService UserService
 @inject ICourseService CourseService
 
+<div class="container-fluid mt-4 content-wrapper mx-auto" style="max-width: 1200px;">
 
-<div class="container-fluid p-4">
-    <div class="row mb-4 fade-in">
-        <div class="col">
-            <h1 class="display-4">Admin Panel</h1>
-            <p class="lead">Manage your application settings and data here.</p>
+    <div class="d-flex justify-content-between align-items-end mb-4 fade-in">
+        <div>
+            <h2 class="fw-bolder text-secondary mb-0">Admin Panel</h2>
+            <p class="text-muted small mb-0 fw-bold text-uppercase" style="letter-spacing: 1px;">
+                Manage Settings & Data
+            </p>
         </div>
     </div>
 
@@ -26,210 +29,171 @@
             @if (isLoading)
             {
                 <div class="d-flex justify-content-center align-items-center" style="height: 40vh;">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                    <div class="spinner-border text-primary" role="status"></div>
                 </div>
             }
             else if (loadError)
             {
-                <div class="alert alert-danger fade-in d-flex align-items-center justify-content-between">
-                    <div>
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        <strong>Connection Error:</strong> Could not load administrative data. The data server might be
-                        down.
-                    </div>
-                    <button class="btn btn-outline-danger btn-sm" @onclick="LoadData">
-                        <i class="fas fa-sync-alt me-1"></i> Retry
-                    </button>
+                <div class="alert bg-red-100 text-red-600 border-red-200 border-2 rounded-3 fw-bold fade-in">
+                    <i class="fas fa-exclamation-triangle me-2"></i> Connection Error: Could not load data.
+                    <button class="btn btn-sm btn-outline-danger ms-3" @onclick="LoadData">Retry</button>
                 </div>
             }
             else
             {
-                @* --- 1. COURSE CATEGORIES --- *@
-                <div class="card shadow-sm mb-4 fade-in" style="animation-delay: 0.1s;">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
-                        @onclick="() => isCategoriesExpanded = !isCategoriesExpanded" style="cursor: pointer;">
-                        <h5 class="mb-0">@(isCategoriesExpanded ? "▼ " : "▶ ")Course Categories</h5>
-                    </div>
-                    @if (isCategoriesExpanded)
-                    {
-                        <div class="card-body">
-                            <div class="mb-4 p-4 bg-light rounded border">
-                                <h6 class="fw-bold text-secondary text-uppercase mb-3" style="letter-spacing: 0.5px;">Create New
-                                    Category</h6>
-                                <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold text-muted text-uppercase"
-                                            style="font-size: 0.75rem; letter-spacing: 1px;">Name</label>
-                                        <input type="text" class="form-control" placeholder="Category Name"
-                                            @bind="newCategoryName" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold text-muted text-uppercase"
-                                            style="font-size: 0.75rem; letter-spacing: 1px;">Description</label>
-                                        <input type="text" class="form-control" placeholder="Description"
-                                            @bind="newCategoryDescription" />
-                                    </div>
-                                    <div class="col-md-2 d-flex align-items-end">
-                                        <button class="btn btn-success w-100 fw-bold text-uppercase"
-                                            style="letter-spacing: 1px;" @onclick="CreateCategory">Create</button>
-                                    </div>
-                                </div>
-                            </div>
+                <AdminSection Title="Course Categories" Icon="fa-folder" IconColorClass="text-primary"
+                    @bind-IsExpanded="isCategoriesExpanded">
 
-                            @if (!categories.Any())
-                            {
-                                <div class="alert alert-info">No categories found.</div>
-                            }
-                            else
-                            {
-                                <div class="row g-3">
-                                    @foreach (CourseCategory category in categories)
-                                    {
-                                        <div class="col-md-4">
-                                            <div class="card h-100 shadow-sm border-0 bg-white">
-                                                <div class="card-body">
-                                                    <h6 class="fw-bold text-dark mb-2">@category.Name</h6>
-                                                    <p class="text-muted small mb-0">@category.Descritpion</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            }
+                    <div class="p-4 border-2 border-dashed rounded-4 mb-4" style="border-color: var(--gray);">
+                        <h6 class="fw-bold text-secondary text-uppercase mb-3 small" style="letter-spacing: 0.5px;">
+                            <i class="fas fa-plus-circle me-1"></i> Create New Category
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control game-input" placeholder="Category Name"
+                                    @bind="newCategoryName" />
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control game-input" placeholder="Description"
+                                    @bind="newCategoryDescription" />
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary fw-bold w-100 shadow-sm-hover"
+                                    @onclick="CreateCategory">Create</button>
+                            </div>
                         </div>
-                    }
-                </div>
-
-                @* --- 2. LANGUAGES --- *@
-                <div class="card shadow-sm mb-4 fade-in" style="animation-delay: 0.15s;">
-                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center"
-                        @onclick="() => isLanguagesExpanded = !isLanguagesExpanded" style="cursor: pointer;">
-                        <h5 class="mb-0">@(isLanguagesExpanded ? "▼ " : "▶ ")Languages</h5>
                     </div>
-                    @if (isLanguagesExpanded)
-                    {
-                        <div class="card-body">
-                            <div class="mb-4 p-4 bg-light rounded border">
-                                <h6 class="fw-bold text-secondary text-uppercase mb-3" style="letter-spacing: 0.5px;">Add New
-                                    Language</h6>
-                                <div class="row g-3">
-                                    <div class="col-md-3">
-                                        <label class="form-label fw-bold text-muted text-uppercase"
-                                            style="font-size: 0.75rem; letter-spacing: 1px;">Code (e.g. ENG)</label>
-                                        <input type="text" class="form-control" placeholder="Code" maxlength="3"
-                                            @bind="newLangCode" />
-                                    </div>
-                                    <div class="col-md-7">
-                                        <label class="form-label fw-bold text-muted text-uppercase"
-                                            style="font-size: 0.75rem; letter-spacing: 1px;">Name (e.g. English)</label>
-                                        <input type="text" class="form-control" placeholder="Language Name"
-                                            @bind="newLangName" />
-                                    </div>
-                                    <div class="col-md-2 d-flex align-items-end">
-                                        <button class="btn btn-success w-100 fw-bold text-uppercase"
-                                            style="letter-spacing: 1px;" @onclick="CreateLanguage">Add</button>
-                                    </div>
+
+                    <div class="row g-3">
+                        @foreach (var category in categories)
+                        {
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded-3 h-100 bg-white">
+                                    <h6 class="fw-bold text-dark mb-1">@category.Name</h6>
+                                    <p class="text-muted small mb-0 text-truncate">@category.Descritpion</p>
                                 </div>
                             </div>
+                        }
+                    </div>
+                </AdminSection>
 
-                            @if (!languages.Any())
-                            {
-                                <div class="alert alert-info">No languages found.</div>
-                            }
-                            else
-                            {
-                                <div class="row g-3">
-                                    @foreach (var lang in languages)
-                                    {
-                                        <div class="col-md-3">
-                                            <div class="card h-100 shadow-sm border-0 bg-white text-center">
-                                                <div class="card-body py-3">
-                                                    <h6 class="fw-bold text-dark mb-1">@lang.Name</h6>
-                                                    <span class="badge bg-light text-secondary border">@lang.Code</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            }
+                <AdminSection Title="Languages" Icon="fa-globe" IconColorClass="text-success"
+                    @bind-IsExpanded="isLanguagesExpanded">
+
+                    <div class="p-4 border-2 border-dashed rounded-4 mb-4" style="border-color: var(--gray);">
+                        <h6 class="fw-bold text-secondary text-uppercase mb-3 small" style="letter-spacing: 0.5px;">
+                            <i class="fas fa-plus-circle me-1"></i> Add New Language
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control game-input" placeholder="Code (e.g ENG)"
+                                    maxlength="3" @bind="newLangCode" />
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control game-input" placeholder="Language Name"
+                                    @bind="newLangName" />
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary fw-bold w-100 shadow-sm-hover"
+                                    @onclick="CreateLanguage">Add</button>
+                            </div>
                         </div>
-                    }
-                </div>
-
-                @* --- 3. REGISTERED USERS --- *@
-                <div class="card shadow-sm fade-in" style="animation-delay: 0.2s;">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
-                        @onclick="() => isUsersExpanded = !isUsersExpanded" style="cursor: pointer;">
-                        <h5 class="mb-0">@(isUsersExpanded ? "▼ " : "▶ ")Registered Users</h5>
                     </div>
-                    @if (isUsersExpanded)
-                    {
-                        <div class="card-body">
-                            <div class="mb-3 row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Filter by Username"
-                                        @bind="usernameFilter" @bind:event="oninput" />
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="number" class="form-control" placeholder="Filter by ID" @bind="idFilter"
-                                        @bind:event="oninput" />
+
+                    <div class="row g-3">
+                        @foreach (var lang in languages)
+                        {
+                            <div class="col-6 col-md-3">
+                                <div class="p-3 border rounded-3 h-100 bg-white">
+                                    <h6 class="fw-bold text-dark mb-1">@lang.Name</h6>
+                                    <span class="badge bg-light text-secondary border fw-bold">@lang.Code</span>
                                 </div>
                             </div>
+                        }
+                    </div>
+                </AdminSection>
 
-                            <div class="d-flex flex-column gap-3">
-                                @foreach (User user in FilteredUsers)
+                <AdminSection Title="Registered Users" Icon="fa-users" IconColorClass="text-warning"
+                    @bind-IsExpanded="isUsersExpanded">
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control game-input" placeholder="Filter by Username..."
+                                @bind="usernameFilter" @bind:event="oninput" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control game-input" placeholder="Filter by ID..."
+                                @bind="idFilter" @bind:event="oninput" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+                        @foreach (var user in FilteredUsers)
+                        {
+                            <div class="p-3 border rounded-3 bg-white shadow-sm-hover" style="cursor:pointer;"
+                                @onclick="() => ToggleUser(user.Id)">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-light text-muted border me-3">#@user.Id</span>
+                                        <span class="fw-bolder text-dark fs-5 me-2">@user.Username</span>
+
+                                        @if (user.IsAdmin())
+                                        {
+                                            <span class="badge bg-red-100 text-red-600 border-red-200 ms-1">ADMIN</span>
+                                        }
+
+                                        @if (user.IsTeacher())
+                                        {
+                                            <span class="badge bg-purple-100 text-purple-600 border-purple-200 ms-1">TEACHER</span>
+                                        }
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-down text-muted transition-icon @(expandedUserIds.Contains(user.Id) ? "rotate-180" : "")"></i>
+                                </div>
+
+                                @if (expandedUserIds.Contains(user.Id))
                                 {
-                                    <div class="card shadow-sm cursor-pointer" @onclick="() => ToggleUser(user.Id)"
-                                        style="cursor: pointer; transition: all 0.2s ease;">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="fw-bold text-secondary text-uppercase"
-                                                        style="letter-spacing: 0.5px;">ID: @user.Id</span>
-                                                    <span class="mx-2 text-muted">|</span>
-                                                    <span class="fw-bolder text-dark">@user.Username</span>
-                                                </div>
-                                                <div>
-                                                    <i
-                                                        class="bi @(expandedUserIds.Contains(user.Id) ? "bi-chevron-up" : "bi-chevron-down")"></i>
-                                                </div>
-                                            </div>
+                                    <div class="mt-3 pt-3 border-top d-flex justify-content-end gap-2"
+                                        style="border-color: var(--gray) !important;">
 
-                                            @if (expandedUserIds.Contains(user.Id))
+                                        <button
+                                            class="btn btn-sm fw-bold text-uppercase @(user.IsTeacher() ? "btn-danger" : "btn-outline-secondary")"
+                                            @onclick:stopPropagation="true" @onclick="() => ToggleTeacherRole(user.Id)">
+                                            @if (user.IsTeacher())
                                             {
-                                                <div class="mt-4 pt-3 border-top">
-                                                    <div class="d-flex gap-2 justify-content-end">
-                                                        <button
-                                                            class="btn @(user.IsTeacher() ? "btn-danger" : "btn-outline-secondary") fw-bold text-uppercase"
-                                                            style="letter-spacing: 1px; font-size: 0.8rem;"
-                                                            @onclick:stopPropagation="true" @onclick="() => ToggleTeacherRole(user.Id)">
-                                                            @(user.IsTeacher() ? "Remove Teacher" : "Add Teacher")
-                                                        </button>
-                                                        <button
-                                                            class="btn @(user.IsAdmin() ? "btn-danger" : "btn-primary") fw-bold text-uppercase"
-                                                            style="letter-spacing: 1px; font-size: 0.8rem;"
-                                                            @onclick:stopPropagation="true" @onclick="() => ToggleAdminRole(user.Id)">
-                                                            @(user.IsAdmin() ? "Remove Admin" : "Add Admin")
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                                <span><i class="fas fa-times me-2"></i>Remove Teacher</span>
                                             }
-                                        </div>
+                                            else
+                                            {
+
+                                                <span><i class="fas fa-chalkboard-teacher me-2"></i>Make Teacher</span>
+                                            }
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm fw-bold text-uppercase @(user.IsAdmin() ? "btn-danger" : "btn-outline-secondary")"
+                                            @onclick:stopPropagation="true" @onclick="() => ToggleAdminRole(user.Id)">
+                                            @if (user.IsAdmin())
+                                            {
+                                                <span><i class="fas fa-times me-2"></i>Remove Admin</span>
+                                            }
+                                            else
+                                            {
+
+                                                <span><i class="fas fa-user-shield me-2"></i>Make Admin</span>
+                                            }
+                                        </button>
                                     </div>
                                 }
                             </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                </AdminSection>
             }
         </Authorized>
         <NotAuthorized>
-            <div class="alert alert-danger fade-in">
-                <h4 class="alert-heading">Access Denied</h4>
-                <p>You do not have permission to view this page. Please log in as an administrator.</p>
-            </div>
+            <AccessDeniedState Title="Access Denied" Message="You do not have permission to view the admin panel."
+                Icon="fa-user-shield" />
         </NotAuthorized>
     </AuthorizeView>
 </div>
@@ -256,6 +220,46 @@
     private string newLangCode = "";
     private string newLangName = "";
 
+    private IEnumerable<User> FilteredUsers => users.Where(u =>
+    (string.IsNullOrEmpty(usernameFilter) || u.Username.Contains(usernameFilter, StringComparison.OrdinalIgnoreCase)) &&
+    (!idFilter.HasValue || u.Id == idFilter.Value)
+    );
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        loadError = false;
+        try
+        {
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            currentUserId = user.GetID() ?? 0;
+
+            var usersTask = UserService.GetUsers();
+            var categoriesTask = CourseService.GetCategories();
+            var languagesTask = CourseService.GetLanguages();
+
+            await Task.WhenAll(usersTask, categoriesTask, languagesTask);
+
+            users = usersTask.Result;
+            categories = categoriesTask.Result;
+            languages = languagesTask.Result;
+        }
+        catch (Exception)
+        {
+            loadError = true;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
     private async Task CreateCategory()
     {
         if (string.IsNullOrWhiteSpace(newCategoryName)) return;
@@ -264,8 +268,7 @@
             await CourseService.CreateCategory(new CreateCourseCategoryDto
             {
                 Name = newCategoryName,
-                Descritpion =
-            newCategoryDescription
+                Descritpion = newCategoryDescription
             });
             categories = await CourseService.GetCategories();
             newCategoryName = ""; newCategoryDescription = "";
@@ -285,72 +288,47 @@
         catch (Exception ex) { Console.WriteLine($"Error: {ex.Message}"); }
     }
 
-    private IEnumerable<User> FilteredUsers => users.Where(u =>
-    (string.IsNullOrEmpty(usernameFilter) || u.Username.Contains(usernameFilter, StringComparison.OrdinalIgnoreCase)) &&
-    (!idFilter.HasValue || u.Id == idFilter.Value)
-    );
-
     private void ToggleUser(int userId)
     {
-        if (expandedUserIds.Contains(userId)) expandedUserIds.Remove(userId); else expandedUserIds.Add(userId);
+        if (expandedUserIds.Contains(userId)) expandedUserIds.Remove(userId);
+        else expandedUserIds.Add(userId);
     }
 
     private async Task ToggleTeacherRole(int userId)
     {
         var user = users.FirstOrDefault(u => u.Id == userId);
         if (user == null) return;
-        var role = user.Roles.FirstOrDefault(r => r.RoleName == "teacher");
-        if (role != null) user.Roles.Remove(role); else user.Roles.Add(new Role { RoleName = "teacher" });
-        try { await UserService.UpdateUser(user.Id, user); } catch (Exception ex) { Console.WriteLine($"Error: {ex.Message}"); }
+
+        if (user.IsTeacher())
+        {
+            var role = user.Roles.FirstOrDefault(r => r.RoleName == "teacher");
+            if (role != null) user.Roles.Remove(role);
+        }
+        else
+        {
+            user.Roles.Add(new Role { RoleName = "teacher" });
+        }
+
+        try { await UserService.UpdateUser(user.Id, user); }
+        catch (Exception ex) { Console.WriteLine($"Error: {ex.Message}"); }
     }
 
     private async Task ToggleAdminRole(int userId)
     {
         var user = users.FirstOrDefault(u => u.Id == userId);
         if (user == null) return;
-        var role = user.Roles.FirstOrDefault(r => r.RoleName == "admin");
-        if (role != null) user.Roles.Remove(role); else user.Roles.Add(new Role { RoleName = "admin" });
-        try { await UserService.UpdateUser(user.Id, user); } catch (Exception ex) { Console.WriteLine($"Error: {ex.Message}"); }
-    }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadData();
-    }
-
-    private async Task LoadData()
-    {
-        isLoading = true;
-        loadError = false;
-        try
+        if (user.IsAdmin())
         {
-            var authState = await AuthProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var idClaim = user.FindFirst("Id") ?? user.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
-            {
-                currentUserId = uid;
-            }
-
-            // Fetch Data
-            var usersTask = UserService.GetUsers();
-            var categoriesTask = CourseService.GetCategories();
-            var languagesTask = CourseService.GetLanguages();
-
-            await Task.WhenAll(usersTask, categoriesTask, languagesTask);
-
-            users = usersTask.Result;
-            categories = categoriesTask.Result;
-            languages = languagesTask.Result;
+            var role = user.Roles.FirstOrDefault(r => r.RoleName == "admin");
+            if (role != null) user.Roles.Remove(role);
         }
-        catch (Exception)
+        else
         {
-            loadError = true;
+            user.Roles.Add(new Role { RoleName = "admin" });
         }
-        finally
-        {
-            isLoading = false;
-        }
+
+        try { await UserService.UpdateUser(user.Id, user); }
+        catch (Exception ex) { Console.WriteLine($"Error: {ex.Message}"); }
     }
 }
