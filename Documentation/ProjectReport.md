@@ -167,6 +167,10 @@ All the use case descriptions were made in the same format with:
 
 ### Test Cases
 
+Following the definition of the system’s dynamic behavior through use cases, SSDs and activity diagrams, a set of high-level test cases was derived to formalize the acceptance criteria for the Learnify system. These test cases were constructed directly from the use case descriptions, specifically targeting the preconditions, base sequences, and alternative sequences defined in the previous sections.
+
+The objective of defining these test cases during the analysis phase - rather than the testing phase - was to ensure understanding of system's functionality and to aid the definition of done.
+
 | Test Case ID | Test Case Name | Description | Precondition | Steps | Expected Result |
 | :--: | :---- | :--- | :-- | :----------- | :------ |
 | TC_UC_01a | Register User - Success | Verify a new user can register with valid data. | User does not have an account. | 1. User initiates registration.<br>2. System requests details.<br>3. User submits valid data.<br>4. System validates input.<br>5. System creates account.<br>6. System confirms registration. | Account created; user prompted to login. |
