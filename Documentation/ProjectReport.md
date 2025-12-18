@@ -536,15 +536,16 @@ At a later stage, the original database setup was split into pure DDL script and
 
 ### Methods and tools
 
-List the two languages (e.g., Go, Java, Python) and the database (e.g., PostgreSQL, MongoDB).
+Going further into implementation details, Java and C# programming languages were chosen to meet the requirements of multilanguage system. For storing information PostgreSQL database has been implemented. 
+The development team chose C# Blazor .NET for the frontend because its component-based system gave a possibility for fast GUI development without needing an additional JavaScript code. On the Logic Server, ASP.NET Core provided an intuitive environment for managing REST endpoints and gRPC services, facilitating high-speed communication. It was achieved by using shared Data Transfer Objects (DTOs) and validation logic which kept data model changes synchronized between client and server systems. 
+Java programming language was selected to run the Data Server because it met our polyglot requirements and demonstrated how .NET and Java systems can work together using gRPC protocol, which is explained further in the integration logic paragraph below.
 
-Justification: Explain why each language was chosen for its specific task. (e.g., "Go was selected for the backend service due to its concurrency handling...").
 
-### Server A Implementation (Language 1):
+### Data Server Implementation:
 
-### Server B Implementation (Language 2):
+### Logic Server Implementation: 
 
-### Server C Implementation:
+### Blazor Client App Implementation:
 
 ### Integration Logic:
 
