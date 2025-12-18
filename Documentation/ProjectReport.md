@@ -106,7 +106,7 @@ The uses cases developed are shown in a table below:
 | UC7  | View Leaderboard           |
 | UC8  | Create Course Draft        |
 | UC9  | Edit Course Content        |
-| UC10 | Manage System Metadata     |
+| UC10 | Manage System Settings     |
 | UC11 | Review Course Drafts       |
 | UC12 | Manage User Roles          |
 
