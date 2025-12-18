@@ -73,31 +73,37 @@ There are two different options for filtering, by course name and by course cate
 ### Submit a Course Draft
 [Starting point, then end of See All Courses]
 
-1. CLick on Create Draft button.
+1. Click on Create Draft button.
 ![Start Create Draft](image-20.png)
 
 2. Complete fields and click on Create Draft.
-![Basic Create Draft](image-21.png)
+![Create a Draft](image-44.png)
+
+### See the courses done by your user
+[Starting point, then end of See All Courses]
+
+1. Click on My Workspace.
+![See My courses](image-45.png)
 
 ### Manage Course Content
 
 #### Modify an existing step
 [Starting point, then end of See All Courses]
 
-1. Click on the desired course.
-![Click on Course](image-38.png)
+1. Click on the first icon from the top right corner on the desired course.
+![Start Edit](image-38.png)
 
-2. Click on Edit Step.
-![Edit Step](image-39.png)
-
-3. Complete fields and click on Save Changes.
+2. Complete fields and click on Save Changes.
 ![Edit Step information](image-40.png)
 
-4. To see what will be displayed to the user, click on Back to Preview button.
+3. To see what will be displayed to the user, click on Back to Preview button.
 ![Preview Step](image-41.png)
 
 #### Create a learning step
-[Starting point, end of 2 step of Modify an existing step]
+[Starting point, end of step 1 of Modify an existing step]
+
+1. Click on Next until you see the screen to create a new learning step.
+![Next Learning Step](image-39.png)
 
 1. Click on Add New Step button.
 ![Add new learning step](image-42.png)
@@ -123,15 +129,13 @@ There are two different options for filtering, by course name and by course cate
 ### Approve Course Draft
 [Starting point, enf of See All Drafts]
 
-1. Click on Approve Button.
-![Approve Draft](image-24.png)
-
+1. Click on Approve & Publish Button.
+![Approve & Publish](image-23.png)
 ### Disapprove Course Draft
 [Starting point, enf of See All Drafts]
 
-1. Click on Disapprove Button.
-![Disapprove Draft](image-23.png)
-
+1. Click on Reject Button.
+![Dissaprove Draft](image-24.png)
 ### Open Admin Panel
 [Starting point, end of Login]
 
@@ -151,7 +155,7 @@ There are two different options for filtering, by course name and by course cate
 [Starting point, end of Open Admin Panel]
 
 1. Click on Languages.
-![Start Languages](image-28.png)
+![Start Add Language](image-28.png)
 
 2. Complete fields and click on Add.
 ![Add Language](image-29.png)
@@ -161,7 +165,7 @@ There are two different options for filtering, by course name and by course cate
 
 #### Add Role to User
 1. Click on Registered Users.
-![Registered Users](image-30.png)
+![Registered users](image-30.png)
 
 2. Look for the user which role you want to manage.
 ![Users](image-31.png)
@@ -170,10 +174,10 @@ There are two different options for filtering, by course name and by course cate
 ![Filter Users](image-32.png)
 
 4. Click on the Users container and add the desired role.
-![Add Role to User](image-33.png)
+![Add desired role](image-33.png)
 
 #### Remove Role from User
 [Starting point, end of Add Role to User]
 
 1. Click on Remove on the desired Role.
-![Remove Role](image-35.png)
+![Remove Role](image-34.png)
