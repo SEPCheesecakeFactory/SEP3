@@ -207,7 +207,7 @@ Following the definition of the system’s dynamic behavior through use cases, S
 
 The objective of defining these test cases during the analysis phase - rather than the testing phase - was to ensure understanding of system's functionality and to aid the definition of done.
 
-The table with all test cases can be found as Apendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
+The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ### Domain model
 
@@ -848,7 +848,7 @@ For critical methods, tests were designed to cover:
 
 This approach ensured that the internal behavior of key methods was thoroughly validated, not just their external outputs. Test cases were documented to show clear intent and traceability between requirements, logic, and expected outcomes.
 
-The table of all test case results can be found in Appendix 2.4 Tests. 
+The table of all test case results can be found in (Appendix 2.4 Tests). 
 
 ### Benefits and bug detection
 
@@ -872,7 +872,7 @@ The results show that all implemented use cases behave according to their expect
 
 Regarding security-related aspects, the system communicates over HTTP during development and testing. While the application configuration includes redirection to HTTPS outside of development mode, a full HTTPS setup with proper certificate handling was not established as part of this project. Additionally, no explicit enforcement of a minimum password length (such as an 8-character requirement) is implemented in the current system.
 
-The table with all test cases can be found as Apendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
+The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ## Final Product Showcase: Screenshots of the "Learnify" app UI or console logs showing successful data processing.
 
@@ -949,9 +949,7 @@ Can be found as Application-LayerSD.png
 
 ## Appendix 2.4 Tests
 ### Test Cases
-Can be found as TestCases.pdf???? TODO:add this to the appendix
-### Test Cases Result
-Can be found as ...... TODO:add this to the appendix\
+Can be found as Tests.xlsx
 
 ## Appendix 3.1 Source Code
 ### AuthController.cs
