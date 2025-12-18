@@ -1,0 +1,66 @@
+@startuml LogicServerClass
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+scale 1
+
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+
+title "Entities LogicServer Class Diagram"
+
+package Entities
+{
+    interface IIdentifiable<ID>
+    
+    class User {
+        +int Id
+        +string Username
+        +List<Role> Roles
+    }
+    class Role {
+        +string RoleName
+    }
+    class Course {
+        +int Id
+        +string Title
+        +int AuthorId
+    }
+    class CourseCategory
+    class CourseProgress
+    class Language
+    class LeaderBoardEntry
+    class LearningStep {
+        + (int, int) Id
+        + int CourseId
+        + int StepOrder
+        + string Content
+    }
+
+    class LoginRequest
+    class RegisterRequest
+
+    package DTOs
+    {
+        class CreateCourseCategoryDto
+        class CreateCourseDto
+        class CreateLanguageDto
+        class CreateLearningStepDto
+        class UserDto
+        class ChangePasswordDto
+        class CourseProgressDto
+    }
+    
+    User *-- Role : contains >
+}
+
+
+' --- Relationships ---
+
+' Interface Implementation
+User ..|> IIdentifiable
+Course ..|> IIdentifiable
+CourseCategory ..|> IIdentifiable
+CourseProgress ..|> IIdentifiable
+Language ..|> IIdentifiable
+LearningStep ..|> IIdentifiable : <(int,int)>
+
+@enduml
