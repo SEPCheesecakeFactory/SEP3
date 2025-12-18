@@ -6,7 +6,7 @@ This work focuses on the need for scalable and adaptable digital educational sol
 
 # Introduction
 
-Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (UNESCO, 2000). The idea of mandatory education keeps its origin between late 1900s and early 2000s(Habermas, 1984), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
+Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (Habermas, 1984). The time when mandatory education became a universal global standard during late 1900s and early 2000s (UNESCO, 2000), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
 
 The aim of this project is on the ability to create a system which would be able to provide learning opportunities with main focus on simplifying the accessibility and exploring the idea of learning processes and its speed and efficiency. The goal is to also ensure security, knowledge correctness and deployment of the system.
 
