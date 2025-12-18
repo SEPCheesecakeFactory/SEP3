@@ -910,13 +910,13 @@ The project achieved success through its development of a distributed learning s
 
 ## Appendix 2.1 Requirements
 ### Requirements
-Can be found as TODO:eduard.pdf
+Can be found as requirements.png
 
 ## Appendix 2.2 Use Cases
 ### Use Case Diagram
-Can be found as TODO:eduard.pdf
+Can be found as UseCaseDiagram.svg
 ### Complete Learning Step Use Case Description
-Can be found as TODO:eduard.pdf
+Can be found as CompleteLearningStepUseCaseDescription.png
 
 ## Appendix 2.3 Diagrams
 ### System Sequence Diagrams
