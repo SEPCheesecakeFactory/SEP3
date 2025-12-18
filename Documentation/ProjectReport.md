@@ -1,18 +1,26 @@
 # Abstract
 
-This work focuses on the need for scalable and adaptable digital educational solutions by developing the Learnify system, a distributed software solution with the objective of ensuring seamless content delivery and user assessment. The primary goal is to make a durable multi-server solution that leverages the power of multiple programming languages for enhanced availability, data integrity, and optimized user response. This system was built with a polyglot microservices architecture, using programming languages such as Java and C# to ensure a strict interoperability implementation. Some of the key technical design choices are the use of gRPC for high-speed intra-service communication and HTTP for external client services, ensuring both speed and accessibility. Data storage is achieved using a PostgreSQL database, ensuring that security is taken into account using JWT authentication to overcome the potential dangers of distributed systems. This application development occurred using an iterative approach, centering around User Stories developed both using specialized analysis and interviews with the stakeholders. A functional prototype that can manage multiple user sessions concurrently in a distributed manner was developed. This prototype was verified to meet essential non-functional requirements, confirming the successful interoperability of components across Java and C#. Security compliance was established through the validation of salted password hashing algorithms using Argon2, ensuring robust data protection alongside reliable persistence in the PostgreSQL database. Moreover, the interface was validated for conformance with recognized accessibility guidelines to support complete usability by those with color vision defects. Finally, the project achieved a fully deployable distributed system, validating that the architecture provides a secure, stable, and operational foundation for scalability in the future of education.
+This work addresses the requirement for scalable and adaptable digital educational infrastructures through the development of Learnify, a distributed software system designed to ensure seamless content delivery and learning experience. 
+
+The primary objective was the construction of a resilient, multi-server solution that leverages the distinct advantages of a polyglot microservices architecture to enhance availability, data integrity, and system responsiveness. The architectural design enforces strict interoperability between Java and C# components, utilizing gRPC for high-throughput intra-service communication and HTTP for external client accessibility. 
+
+Data persistence is managed via a PostgreSQL database, while security concerns inherent to distributed systems are mitigated through the implementation of JWT authentication and Argon2 salted password hashing. 
+
+The development process followed an iterative methodology, where functional requirements were derived from User Stories established through specialized analysis and stakeholder interviews. The resulting product successfully manages concurrent user sessions within a distributed environment. 
+
+Verification procedures confirmed that the system meets essential requirements, demonstrating successful component interoperability, and robust data protection. The project concludes with a fully deployable distributed system, validating the architecture as a secure and stable foundation for the future scalability of educational technology.
 
 \newpage
 
 # Introduction
 
-Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (UNESCO, 2000). The idea of mandatory education keeps its origin between late 1900s and early 2000s(Habermas, 1984), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
+The acquisition of new knowledge is an essential part of human life and evolution. Functioning in the society necessitates communication, which in turn requires a foundational level of knowledge (Habermas, 1984). Although mandatory education became a universal global standard during the late 20th and early 21st centuries (UNESCO, 2000), significant disparities remain - approximately 40% of the global population still lacks access to education in a language they understand (PTI, 2025).
 
-The aim of this project is on the ability to create a system which would be able to provide learning opportunities with main focus on simplifying the accessibility and exploring the idea of learning processes and its speed and efficiency. The goal is to also ensure security, knowledge correctness and deployment of the system.
+The aim of this project is the development of a system which would be able to provide learning opportunities with a specific focus on accessibility, efficiency, and the optimization of learning processes. Beyond this, the system also aimed to ensure security, data integrity, and deployability of the solution among other things.
 
-With the pursuit of knowledge having been a cornerstone of human development for thousands of years, the incorporation of digital technologies into education is in perpetual evolution (Siemens, 2005). A widely accepted model for learning with digital technologies has not been identified, mainly because exponential increases in computing power and volumes of online information constantly redefine how users approach knowledge acquisition, processing, and retention (Haleem et al., 2022).
+While the pursuit of knowledge has been a cornerstone of human development for millennia, the incorporation of digital technologies into education is in perpetual evolution (Siemens, 2005). A widely accepted model for learning with digital technologies has not been identified, mainly because the exponential increases in computing power and volumes of online information constantly redefine how users approach knowledge acquisition, processing, and retention (Haleem et al., 2022).
 
-The approach of this project is to develop a distributed system implemented using at least 2 different programming languages, utilizing a database for data persistence, and adapting a hybrid communication strategy that includes technologies such as gRPC and HTTP.
+The approach of this project is to develop a distributed educational platform implemented using a polyglot architecture, utilizing a database for data persistence, and adapting a hybrid communication strategy that includes technologies such as gRPC and HTTP.
 
 \newpage
 
@@ -55,7 +63,7 @@ Admins are trusted Learners, who have the right to manage the platform. They sho
 
 #### Functional requirements
 
-The functional requirements are structured as user stories to better capture the perspective of the actor and to clarify permissions and intentions behind each requirement. This way the user stories served as the fundamental source of truth and a guide light for understanding the problem and being able to design a solution that would address the problem preserving the idea behind the intention of the actor.
+The functional requirements are structured as user stories to better capture the perspective of the actor and to clarify permissions and intentions behind each requirement. This way the user stories served as the fundamental source of truth and a guideline for understanding the problem and being able to design a solution that would address the problem preserving the idea behind the intention of the actor.
 
 |  ID   | User Story                                                                                                                |
 | :---: | :------------------------------------------------------------------------------------------------------------------------ |
@@ -199,7 +207,7 @@ Following the definition of the system’s dynamic behavior through use cases, S
 
 The objective of defining these test cases during the analysis phase - rather than the testing phase - was to ensure understanding of system's functionality and to aid the definition of done.
 
-The table with all test cases can be found as Apendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
+The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ### Domain model
 
@@ -253,7 +261,7 @@ The figure above depicts one of the wireframes created for the system - all cour
 
 The interface also includes features which are showed only to users with specific roles (Teacher, Admin); it can be seen that there are two action buttons named "Create Draft" which appears only for users with a Teacher role and "Waiting Drafts" which appears only for users who are an Administrator. These buttons give Teachers and Administrators quick access to content creation and moderation tool while keeping the learner view free from unnecessary elements.
 
-The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (TODO: Source puml web) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
+The fidelity of the wireframes was kept low but the transformation into the chosen technology PlantUML (Open-Source Tool That Uses Simple Textual Descriptions to Draw Beautiful UML Diagrams., n.d.) provided a more visually accurate representation with less details provided from the creation inputs; ultimately resulting in wireframes that appear of higher fidelity.
 
 ### Architectural overview
 
@@ -263,7 +271,7 @@ The architecture is a distributed, three-tier solution that aims for strict sepa
 
 The client-side application is built using Blazor in C# .NET. This layer hosts the web interface accessible to all system actors: learners, teachers, and admins. It is responsible solely for UI rendering and user input handling, delegating all business logic to the backend services.
 
-Blazor is technically a double tier as blazor web server was chosen for the project. This means that a significant part of the interactions is done on the blazor server rather than directly on the client machine. 
+The solution utilizes Blazor Server, which decouples the UI rendering from the client. This means that a significant part of the interactions is done on the blazor server rather than directly on the client machine. 
 
 #### Logic Tier
 
@@ -525,7 +533,7 @@ To showcase the path from GUI through the servers, the database, and back as wel
 
 When an user who already has an existing account tries to log in, they input their credentials into the text field and clicks the login button.
 
-![Click login as teacher](image-44.png)
+![Click login as teacher](clicklogin.png)
 
 After clicking the login button, the client side server sends a request to the Logic Server. The following json represents the HTTP request sent:
 
@@ -664,7 +672,7 @@ public void getUsers(GetUsersRequest request, StreamObserver<GetUsersResponse> r
 
 Once logged in, the teacher can create a course draft. This process involves the Client sending data to the Logic Server, which then forwards it to the Data Server.
 
-![Click Create Draft](image-45.png)
+![Click Create Draft](createdraft.png)
 
 **Client App (HttpCourseService.cs):**
 
@@ -763,11 +771,17 @@ public void addCourse(AddCourseRequest request, StreamObserver<AddCourseResponse
 
 Learnify bases its entire system security approach on the foundation of its Security Policy (Appendix 7.2 Security Policy). The document describes vital security measures which organizations employ to protect their information from unauthorized access and security breaches. The System depends on three critical security principles which include confidentiality, integrity and availability that protect its core functions through multiple essential security measures. The process needs each user to enter their personal login details for authentication. The policy specifies that users needs to create passwords which contain at least eight characters to safeguard their accounts. Role-Based Access Control (RBAC) provides additional protection through its access management system which grants specific permissions to Learners and Teachers and Administrators based on their designated roles. The Logic Server performs user role verification through generated claims to authorize only permitted actions before processing any requests. The endpoints of WebApi logic server have been secured. The team strived to achieve data security by using a well-planned system which organizes information through classification and protects it with encryption methods. The system contains three types of data which include public information that users can access through registration and login pages, internal information that requires authentication to view course catalogs and content and sensitive information which needs encryption for user passwords. The system uses Argon2 as a secure password hashing function which includes salting to protect user information. The system operates with continuous security measures and regular software updates to maintain its network security. It functions through a firewall which grants access to particular ports that are essential for operation.
 
+### Deployment
+
+A deployment diagram was created to visualize the physical deployment of the system components. The diagram illustrates how the system components are dependent on each other and how they interact once deployed. The diagram can be found as Appendix 13.1 Deployment Diagram or seen on the figure below:
+
+![Deployment Diagram (Appendix 13.1 Deployment Diagram)](../out/Deployment/DeploymentDiagram/DeploymentDiagram.svg){width=60%}
+
 ## Testing
 
 ### Testing Approach
 
-Testing in this project was structured around the V-Model (TODO: Source), where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
+Testing in this project was structured around the V-Model (Sommerville, 2016), where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
 
 The first step of the V-Model was requirement analysis, which directly maps to acceptance testing.
 
@@ -834,7 +848,7 @@ For critical methods, tests were designed to cover:
 
 This approach ensured that the internal behavior of key methods was thoroughly validated, not just their external outputs. Test cases were documented to show clear intent and traceability between requirements, logic, and expected outcomes.
 
-The table of all test case results can be found in Appendix 2.4 Tests. 
+The table of all test case results can be found in (Appendix 2.4 Tests). 
 
 ### Benefits and bug detection
 
@@ -858,28 +872,7 @@ The results show that all implemented use cases behave according to their expect
 
 Regarding security-related aspects, the system communicates over HTTP during development and testing. While the application configuration includes redirection to HTTPS outside of development mode, a full HTTPS setup with proper certificate handling was not established as part of this project. Additionally, no explicit enforcement of a minimum password length (such as an 8-character requirement) is implemented in the current system.
 
-| Use Case | Result | Comments |
-|---|---|---|
-| Register User – Success | Works | A new user can register with valid input and is prompted to log in afterward. |
-| Register User – Invalid / Duplicate | Works | The system rejects invalid or duplicate registration attempts and shows an error message. |
-| Log In – Success | Works | A registered user can log in and access their personalized dashboard. |
-| Log In – Failure | Works | Invalid credentials are rejected, and the user stays unauthenticated with a clear error message. |
-| Manage Personal Learning – Resume Course | Works | A learner can resume an enrolled course from the exact point where they stopped. |
-| Manage Personal Learning – Unenroll | Works | A learner can unenroll from a course, and it is removed from their active course list. |
-| Browse and Search Catalog – Results Found | Works | The catalog displays courses matching the user’s search terms or filters. |
-| Browse and Search Catalog – No Results | Works | The system informs the user when no courses match the selected filters/search criteria. |
-| Complete Learning Step – Correct Answer | Works | Correct answers are accepted, progress is saved, and the learner can proceed. |
-| Complete Learning Step – Incorrect Answer | Works | Incorrect answers trigger feedback, and the learner must retry before continuing. |
-| View User Profile | Works | The user can view their profile details, matching stored account information. |
-| View Leaderboard | Works | The leaderboard displays users ranked based on performance metrics. |
-| Create Course Draft | Works | A teacher can create a draft, which is saved and visible in their workspace. |
-| Edit Course Content | Works | A teacher can edit course content, and changes are saved and reflected. |
-| Admin – Manage Categories | Works | An admin can create categories that become available for course configuration. |
-| Admin – Manage Languages | Works | An admin can add languages that become available for course creation. |
-| Admin – Approve Draft | Works | Approved drafts become courses and appear in the system as available content. |
-| Admin – Disapprove Draft | Works | Disapproved drafts are removed and do not appear in the course catalog. |
-| Admin – Assign Role | Works | An admin can assign roles, and permissions update immediately. |
-| Admin – Remove Role | Works | An admin can remove roles, and permissions are revoked correctly. |
+The table with all test cases can be found as (Appendix 2.4 Tests) - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ## Final Product Showcase: Screenshots of the "Learnify" app UI or console logs showing successful data processing.
 
@@ -925,18 +918,20 @@ The project achieved success through its development of a distributed learning s
 - Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
 - Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
 - UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
+- Sommerville, I. (2016). Software Engineering Tenth Edition. https://dn790001.ca.archive.org/0/items/bme-vik-konyvek/Software%20Engineering%20-%20Ian%20Sommerville.pdf
+- Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. (n.d.). PlantUML.com. https://plantuml.com/
 
 # Appendices
 
 ## Appendix 2.1 Requirements
 ### Requirements
-Can be found as TODO:eduard.pdf
+Can be found as requirements.png
 
 ## Appendix 2.2 Use Cases
 ### Use Case Diagram
-Can be found as TODO:eduard.pdf
+Can be found as UseCaseDiagram.svg
 ### Complete Learning Step Use Case Description
-Can be found as TODO:eduard.pdf
+Can be found as CompleteLearningStepUseCaseDescription.png
 
 ## Appendix 2.3 Diagrams
 ### System Sequence Diagrams
@@ -954,9 +949,7 @@ Can be found as Application-LayerSD.png
 
 ## Appendix 2.4 Tests
 ### Test Cases
-Can be found as TestCases.pdf???? TODO:add this to the appendix
-### Test Cases Result
-Can be found as ...... TODO:add this to the appendix\
+Can be found as Tests.xlsx
 
 ## Appendix 3.1 Source Code
 ### AuthController.cs
@@ -1003,4 +996,8 @@ Can be found as Interview_121025.pdf
 ## Appendix 11.1 Architecture
 ### Architectural Overview 
 Can be found as ArchitecturalOverview.png
+
+## Appendix 13.1 Deployment Diagram
+### Deployment Diagram
+Can be found as DeploymentDiagram.svg
 
