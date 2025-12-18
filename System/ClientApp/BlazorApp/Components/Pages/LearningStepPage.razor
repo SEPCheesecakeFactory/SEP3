@@ -4,61 +4,28 @@
 @using BlazorApp.Utils
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
-@using BlazorApp.Components 
 
 @inject ILearningStepService StepService
 @inject NavigationManager NavManager
 @inject ICourseService CourseService
 @inject AuthenticationStateProvider AuthStateProvider
 
-<PageTitle>Learning View</PageTitle>
+<PageTitle>Learning Step @StepOrder</PageTitle>
 
-@if (isLoading)
+@if (!string.IsNullOrWhiteSpace(errorMessage))
 {
-    <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
-        <div class="spinner-border text-primary" role="status"></div>
+    <div class="alert alert-danger text-center">
+        @errorMessage
     </div>
 }
-else if (!string.IsNullOrEmpty(errorMessage))
+
+@if (currentStep == null || isLoading || wasError)
 {
-    <div class="container mt-5" style="max-width: 600px;">
-        <div class="alert alert-danger text-center border-2 rounded-4 p-4 shadow-sm">
-            <i class="fas fa-exclamation-circle fa-2x mb-3"></i>
-            <h4 class="fw-bold">Something went wrong</h4>
-            <p>@errorMessage</p>
-            <button class="btn btn-outline-danger mt-2" @onclick='() => NavManager.NavigateTo("/")'>
-                Return Home
-            </button>
-        </div>
-    </div>
+    <LoadingSpinner />
 }
-else if (totalSteps == 0)
+else
 {
-    @* EMPTY / PENDING STATE *@
-    <div class="container mt-5" style="max-width: 700px;">
-        <div class="text-center py-5 border-2 border-dashed rounded-4 bg-light fade-in" 
-             style="border-color: var(--gray);">
-            <div class="mb-3">
-                <i class="fas fa-user-clock fa-4x text-muted opacity-50"></i>
-            </div>
-            <h2 class="fw-bold text-secondary mb-2">Under Review</h2>
-            <p class="lead text-muted mb-4 px-4">
-                This course content is currently <strong>waiting for approval</strong>. 
-                Steps will appear here once the course is live.
-            </p>
-            <div class="d-flex justify-content-center">
-                <button class="btn btn-outline-secondary fw-bold shadow-sm-hover" @onclick='() => NavManager.NavigateTo("all-courses")'>
-                    <i class="fas fa-arrow-left me-2"></i> Back to Library
-                </button>
-            </div>
-        </div>
-    </div>
-}
-else if (currentStep != null)
-{
-    @* --- NORMAL LEARNING VIEW --- *@
     <div class="d-flex flex-column h-100 mx-auto" style="max-width: 800px;">
-        
         <LearningStepHeader CurrentStep="@StepOrder"
                             TotalSteps="@totalSteps"
                             SavedProgress="@savedProgress"
@@ -67,71 +34,75 @@ else if (currentStep != null)
 
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
 
-            @* CHANGED: justify-content-center ensures the Title and Button are grouped 
-               in the middle, rather than spread apart.
-            *@
-            <div class="mb-5 d-flex align-items-center justify-content-center gap-3 w-100">
-                <h2 class="fw-bolder text-dark fs-1 mb-0">Step @StepOrder</h2>
+            <div class="mb-5 d-flex align-items-center justify-content-between gap-3">
+                <h2 class="fw-bolder text-dark fs-1 mb-0">@($"Step {StepOrder}")</h2>
 
                 <AuthorizeView Context="authState">
                     <Authorized>
-                        @if (authState.User.IsTeacher())
+                                                @if (authState.User.IsTeacher())
                         {
-                            <button class="btn btn-outline-secondary btn-sm px-3 py-2 fw-bold text-uppercase"
-                                    style="font-size: 0.8rem; letter-spacing: 1px;"
+                            <button class="btn btn-outline-secondary btn-sm px-2 py-1 ms-3"
                                     @onclick="GoToEditStep">
-                                <i class="fas fa-pen me-2"></i> Edit Step
+                                EDIT STEP
                             </button>
                         }
                     </Authorized>
                 </AuthorizeView>
             </div>
 
-            @* CONTENT RENDERING *@
             @if (IsMultipleChoiceQuestion)
             {
                 <div class="card w-100 border-2 rounded-4 p-4 shadow-sm">
                     <h4 class="fw-bold mb-4 text-center">@McQuestion</h4>
                     @foreach (var option in ShuffledOptions)
                     {
-                        <button class="btn btn-outline-primary w-100 mb-3 text-start p-3 fw-bold"
+                        <button class="btn btn-outline-success w-100 mb-3"
                                 @onclick="() => SelectMcOption(option)">
                             @option
                         </button>
                     }
                     @if (McAnswered)
                     {
-                        <div class="alert @(McCorrect ? "alert-success" : "alert-danger") text-center mt-3 fw-bold">
-                            @(McCorrect ? "Correct! 🎉" : "Incorrect, try again.")
+                        <div class="alert @(McCorrect ? "alert-success" : "alert-danger") text-center mt-3">
+                            @(McCorrect ? "Correct!" : "Incorrect!")
                         </div>
                     }
                 </div>
             }
             else if (IsFillBlankQuestion)
             {
-                <div class="card w-100 border-2 rounded-4 p-5 shadow-sm text-center">
+                <div class="card w-100 border-2 rounded-4 p-4 shadow-sm text-center">
                     <h4 class="fw-bold mb-4">@FillQuestion</h4>
-                    <input class="form-control game-input form-control-lg mb-4 text-center"
+                    <input class="form-control form-control-lg mb-3"
                            @bind="FillAnswer"
                            placeholder="Type your answer..." />
-                    
                     @if (!CanContinue)
                     {
-                        <button class="btn btn-primary px-5 py-2 shadow-sm-hover" @onclick="CheckFillAnswer">
-                            Check Answer
+                        <button class="btn btn-primary px-4" @onclick="CheckFillAnswer">
+                            SUBMIT
                         </button>
                     }
                     @if (FillAnswered)
                     {
-                        <div class="alert @(FillCorrect ? "alert-success" : "alert-danger") text-center mt-4 fw-bold">
-                            @(FillCorrect ? "Correct! 🎉" : "Try again.")
+                        <div class="alert @(FillCorrect ? "alert-success" : "alert-danger") text-center mt-3">
+                            @(FillCorrect ? "Correct!" : "Try again!")
                         </div>
                     }
                 </div>
             }
-            else if (currentStep?.Type == "Video")
+            else if (string.Equals(currentStep?.Type, "image", StringComparison.OrdinalIgnoreCase))
             {
-                <div class="ratio ratio-16x9 mb-4 rounded-4 overflow-hidden border border-2 shadow-sm">
+                <div class="w-100 text-center mb-4">
+                    <img src="@currentStep!.Content!"
+                         class="img-fluid rounded-4 border border-2"
+                         alt="visual"
+                         style="max-height:400px;">
+                </div>
+            }
+            else if (currentStep?.Content?.Contains("youtube.com") == true ||
+                     currentStep?.Content?.Contains("youtu.be") == true)
+            {
+                <div class="ratio ratio-16x9 mb-4 rounded-4 overflow-hidden border border-2">
                     <iframe src="@GetYouTubeEmbedUrl(currentStep!.Content!)"
                             frameborder="0"
                             allowfullscreen
@@ -142,7 +113,7 @@ else if (currentStep != null)
             else
             {
                 <div class="card w-100 border-2 rounded-4 p-5 text-center shadow-sm">
-                    <p class="fs-4 text-secondary mb-0 lh-base">@(currentStep?.Content ?? "")</p>
+                    <p class="fs-3 text-secondary mb-0 lh-base">@(currentStep?.Content ?? "")</p>
                 </div>
             }
         </div>
@@ -166,12 +137,14 @@ else if (currentStep != null)
     private LearningStep? currentStep;
     private int savedProgress = 1;
     private int currentUserId = 0;
-    private int totalSteps = 0; 
+    private int totalSteps = 1;
+    private bool isAuthenticated = false;
+
     private bool isLoading = true;
     private bool wasError = false;
-    private string? errorMessage;
 
-    // ... [Question Logic Variables] ...
+    private string? errorMessage; 
+
     private bool IsMultipleChoiceQuestion => currentStep?.Type == "QuestionMC";
     private bool IsFillBlankQuestion => currentStep?.Type == "QuestionFILL";
     private bool IsQuestion => IsMultipleChoiceQuestion || IsFillBlankQuestion;
@@ -202,130 +175,207 @@ else if (currentStep != null)
             {
                 var authState = await AuthState;
                 var user = authState.User;
-                currentUserId = user.GetID() ?? 0;
+                isAuthenticated = user.Identity?.IsAuthenticated ?? false;
+
+                if (isAuthenticated)
+                {
+                    var idClaim = user.Claims.FirstOrDefault(c => c.Type == "id")
+                                  ?? user.Claims.FirstOrDefault(c => c.Type == "Id");
+
+                    if (idClaim != null && int.TryParse(idClaim.Value, out int uid))
+                        currentUserId = uid;
+                }
+            }
+
+            if (currentUserId > 0)
+            {
+                var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, CourseId);
+
+                if (progressResult.HasError)
+                {
+                    if (progressResult.ErrorMessage == "NO_CONNECTION")
+                        {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        }
+                    else
+                        errorMessage = progressResult.ErrorMessage;
+
+                    isLoading = false;
+                    return;
+                }
+
+                savedProgress = progressResult.HasValue ? progressResult.Value : 1;
             }
 
             var courseResult = await CourseService.GetCourses();
+
             if (courseResult.HasError)
             {
-                HandleError(courseResult.ErrorMessage);
+                if (courseResult.ErrorMessage == "NO_CONNECTION")
+                    {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                    }
+                else
+                    errorMessage = courseResult.ErrorMessage;
+
+                isLoading = false;
                 return;
             }
 
             var allCourses = courseResult.Value ?? new List<Course>();
             var thisCourse = allCourses.FirstOrDefault(c => c.Id == CourseId);
 
-            if (thisCourse == null)
-            {
-                errorMessage = "Course not found.";
-                isLoading = false;
-                return;
-            }
-
-            totalSteps = thisCourse.TotalSteps;
-
-            if (totalSteps == 0)
-            {
-                isLoading = false;
-                return; 
-            }
-
-            if (currentUserId > 0)
-            {
-                var progressResult = await CourseService.GetCourseProgressAsync(currentUserId, CourseId);
-                if (!progressResult.HasError) savedProgress = progressResult.Value;
-            }
+            if (thisCourse != null)
+                totalSteps = thisCourse.TotalSteps;
 
             var stepResult = await StepService.GetLearningStepAsync(CourseId, StepOrder);
-            
+
             if (stepResult.HasError)
             {
-                HandleError(stepResult.ErrorMessage);
+                if (stepResult.ErrorMessage == "NO_CONNECTION")
+                    {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                    }
+                else
+                    errorMessage = stepResult.ErrorMessage;
+
+                isLoading = false;
                 return;
             }
 
             if (stepResult.Value == null)
             {
-                errorMessage = $"Step {StepOrder} content not found.";
+                errorMessage = $"Step {StepOrder} does not exist for this course.";
                 isLoading = false;
                 return;
             }
 
             currentStep = stepResult.Value;
-            if (currentStep?.Content != null) ParseQuestion(currentStep.Content);
+
+            if (currentStep?.Content != null)
+                ParseQuestion(currentStep.Content);
 
             isLoading = false;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Console.Error.WriteLine($"Error fetching step: {ex.Message}");
             wasError = true;
-            errorMessage = "Unexpected error loading course.";
-            isLoading = false;
-        }
-    }
-
-    private void HandleError(string error)
-    {
-        if (error == "NO_CONNECTION")
-        {
-            var returnUrl = Uri.EscapeDataString(NavManager.Uri);
-            NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
-        }
-        else
-        {
-            errorMessage = error;
+            errorMessage = "Unexpected error while loading this step.";
             isLoading = false;
         }
     }
 
     private void ParseQuestion(string content)
     {
-        McAnswered = false; McCorrect = false;
-        FillAnswered = false; FillCorrect = false; FillAnswer = "";
+        McAnswered = false;
+        McCorrect = false;
+        FillAnswered = false;
+        FillCorrect = false;
+        FillAnswer = string.Empty;
 
         if (IsMultipleChoiceQuestion)
         {
             var parts = content.Split('|');
-            if(parts.Length > 1) {
-                McQuestion = parts[0];
-                CorrectMcAnswer = parts[1];
-                ShuffledOptions = parts.Skip(1).OrderBy(x => Guid.NewGuid()).ToList();
-            }
+            McQuestion = parts[0];
+            CorrectMcAnswer = parts[1];
+            ShuffledOptions = parts.Skip(1).OrderBy(x => Guid.NewGuid()).ToList();
         }
         else if (IsFillBlankQuestion)
         {
             var parts = content.Split('|');
-            if(parts.Length > 1) {
-                FillQuestion = parts[0];
-                FillCorrectAnswer = parts[1];
-            }
+            FillQuestion = parts[0];
+            FillCorrectAnswer = parts[1];
         }
     }
 
-    private void SelectMcOption(string option) { McAnswered = true; McCorrect = option == CorrectMcAnswer; }
-    
-    private void CheckFillAnswer() {
-        FillAnswered = true;
-        FillCorrect = string.Equals(FillAnswer.Trim(), FillCorrectAnswer.Trim(), StringComparison.OrdinalIgnoreCase);
+    private void SelectMcOption(string option)
+    {
+        McAnswered = true;
+        McCorrect = option == CorrectMcAnswer;
     }
 
-    private void GoPrevious() { if (StepOrder > 1) NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder - 1}"); }
+    private void CheckFillAnswer()
+    {
+        FillAnswered = true;
+        FillCorrect = string.Equals(
+            FillAnswer.Trim(),
+            FillCorrectAnswer.Trim(),
+            StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void GoPrevious()
+    {
+        if (StepOrder > 1)
+            NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder - 1}");
+    }
 
     private async Task GoNext()
     {
-        if (StepOrder >= totalSteps) { await FinishCourse(); return; }
+        if (StepOrder >= totalSteps)
+        {
+            await FinishCourse();
+            return;
+        }
 
         if (currentUserId > 0 && (StepOrder + 1) > savedProgress)
         {
-            await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, StepOrder + 1);
+            var updateResult = await CourseService.UpdateCourseProgressAsync(
+                currentUserId, CourseId, StepOrder + 1);
+
+            if (updateResult.HasError)
+            {
+                if (updateResult.ErrorMessage == "NO_CONNECTION")
+                    {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        }
+                else
+                    errorMessage = updateResult.ErrorMessage;
+
+                return;
+            }
         }
+
         NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder + 1}");
     }
 
     private async Task FinishCourse()
     {
-        if (currentUserId > 0) await CourseService.UpdateCourseProgressAsync(currentUserId, CourseId, totalSteps + 1);
+        if (currentUserId > 0)
+        {
+            try
+            {
+                int targetStep = totalSteps + 1;
+
+                var result = await CourseService.UpdateCourseProgressAsync(
+                    currentUserId, CourseId, targetStep);
+
+                if (result.HasError)
+                {
+                    if (result.ErrorMessage == "NO_CONNECTION")
+                        {
+                        var returnUrl = Uri.EscapeDataString(NavManager.Uri);
+                        NavManager.NavigateTo($"/no-connection?returnUrl={returnUrl}");
+                        }
+                    else
+                        errorMessage = result.ErrorMessage;
+
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Finish update FAILED: {ex.Message}");
+                errorMessage = "Unexpected error while finishing the course.";
+                return;
+            }
+        }
+
+        await Task.Delay(100);
         NavManager.NavigateTo("/");
     }
 
@@ -333,9 +383,16 @@ else if (currentStep != null)
     {
         if (string.IsNullOrWhiteSpace(url)) return "";
         if (url.Contains("watch?v=")) return url.Replace("watch?v=", "embed/");
-        if (url.Contains("youtu.be")) return $"https://www.youtube.com/embed/{url.Split('/').Last()}";
+        if (url.Contains("youtu.be"))
+        {
+            var id = url.Split('/').Last();
+            return $"https://www.youtube.com/embed/{id}";
+        }
         return url;
     }
 
-    private void GoToEditStep() => NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}/edit");
+    private void GoToEditStep()
+    {
+        NavManager.NavigateTo($"/courses/{CourseId}/steps/{StepOrder}/edit");
+    }
 }
