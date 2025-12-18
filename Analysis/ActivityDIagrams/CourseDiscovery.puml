@@ -1,0 +1,11 @@
+@startuml
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+start
+:Learner accesses course catalog;
+:System provides available categories and languages;
+:Learner applies search filters;
+:System filters courses based on criteria;
+:Learner selects course for overview;
+:Learner enrolls in course;
+stop
+@enduml
