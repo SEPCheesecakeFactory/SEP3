@@ -6,7 +6,7 @@ This work focuses on the need for scalable and adaptable digital educational sol
 
 # Introduction
 
-Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (UNESCO, 2000). The idea of mandatory education keeps its origin between late 1900s and early 2000s(Habermas, 1984), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
+Acquiring new knowledge is essential part of human life and evolution. Living in the population equals communicating within it and that requires some minimum level of knowledge (Habermas, 1984). The time when mandatory education became a universal global standard during late 1900s and early 2000s (UNESCO, 2000), nonetheless around 40% of the global population still does not have access to proper education in a language they understand (PTI, 2025).
 
 The aim of this project is on the ability to create a system which would be able to provide learning opportunities with main focus on simplifying the accessibility and exploring the idea of learning processes and its speed and efficiency. The goal is to also ensure security, knowledge correctness and deployment of the system.
 
@@ -767,7 +767,7 @@ Learnify bases its entire system security approach on the foundation of its Secu
 
 ### Testing Approach
 
-Testing in this project was structured around the V-Model (TODO: Source), where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
+Testing in this project was structured around the V-Model (Sommerville, 2016), where testing activities are planned in parallel with developments phases. Instead of treating testings as a final step, test considerations were introduced early, starting at the requirement analyses, and refined as the system design evolved. This approach ensured that development decision had a corresponding verification strategy.
 
 The first step of the V-Model was requirement analysis, which directly maps to acceptance testing.
 
@@ -858,28 +858,7 @@ The results show that all implemented use cases behave according to their expect
 
 Regarding security-related aspects, the system communicates over HTTP during development and testing. While the application configuration includes redirection to HTTPS outside of development mode, a full HTTPS setup with proper certificate handling was not established as part of this project. Additionally, no explicit enforcement of a minimum password length (such as an 8-character requirement) is implemented in the current system.
 
-| Use Case | Result | Comments |
-|---|---|---|
-| Register User – Success | Works | A new user can register with valid input and is prompted to log in afterward. |
-| Register User – Invalid / Duplicate | Works | The system rejects invalid or duplicate registration attempts and shows an error message. |
-| Log In – Success | Works | A registered user can log in and access their personalized dashboard. |
-| Log In – Failure | Works | Invalid credentials are rejected, and the user stays unauthenticated with a clear error message. |
-| Manage Personal Learning – Resume Course | Works | A learner can resume an enrolled course from the exact point where they stopped. |
-| Manage Personal Learning – Unenroll | Works | A learner can unenroll from a course, and it is removed from their active course list. |
-| Browse and Search Catalog – Results Found | Works | The catalog displays courses matching the user’s search terms or filters. |
-| Browse and Search Catalog – No Results | Works | The system informs the user when no courses match the selected filters/search criteria. |
-| Complete Learning Step – Correct Answer | Works | Correct answers are accepted, progress is saved, and the learner can proceed. |
-| Complete Learning Step – Incorrect Answer | Works | Incorrect answers trigger feedback, and the learner must retry before continuing. |
-| View User Profile | Works | The user can view their profile details, matching stored account information. |
-| View Leaderboard | Works | The leaderboard displays users ranked based on performance metrics. |
-| Create Course Draft | Works | A teacher can create a draft, which is saved and visible in their workspace. |
-| Edit Course Content | Works | A teacher can edit course content, and changes are saved and reflected. |
-| Admin – Manage Categories | Works | An admin can create categories that become available for course configuration. |
-| Admin – Manage Languages | Works | An admin can add languages that become available for course creation. |
-| Admin – Approve Draft | Works | Approved drafts become courses and appear in the system as available content. |
-| Admin – Disapprove Draft | Works | Disapproved drafts are removed and do not appear in the course catalog. |
-| Admin – Assign Role | Works | An admin can assign roles, and permissions update immediately. |
-| Admin – Remove Role | Works | An admin can remove roles, and permissions are revoked correctly. |
+The table with all test cases can be found as Apendix 2.4 Tests - the table provided there also contains the test case results as these test cases were used during the testing phase as well.
 
 ## Final Product Showcase: Screenshots of the "Learnify" app UI or console logs showing successful data processing.
 
@@ -925,6 +904,7 @@ The project achieved success through its development of a distributed learning s
 - Siemens, G. (n.d.). Connectivism: A Learning Theory for the Digital Age. https://static1.squarespace.com/static/6820668911e3e5617c36c48c/t/682dadc9690ec5749004d96d/1747824073835/connectivism.pdf
 - Habermas, J. (1984). The theory of communicative action: Vol. 1. Reason and the rationalization of society (T. McCarthy, Trans.). https://teddykw2.wordpress.com/wp-content/uploads/2012/07/jurgen-habermas-theory-of-communicative-action-volume-1.pdf
 - UNESCO. (2000). The Dakar framework for action: Education for all: Meeting our collective commitments. UNESCO Digital Library. https://unesdoc.unesco.org/ark:/48223/pf0000121147
+- Sommerville, I. (2016). Software Engineering Tenth Edition. https://dn790001.ca.archive.org/0/items/bme-vik-konyvek/Software%20Engineering%20-%20Ian%20Sommerville.pdf
 
 # Appendices
 
