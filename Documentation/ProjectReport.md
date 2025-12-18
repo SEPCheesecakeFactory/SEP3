@@ -192,15 +192,19 @@ All the use case descriptions were made in the same format with:
 
 *Table 4: Test Cases (Appendix 2.4 Tests)*
 
-### Activity diagram
+### Activity diagrams
 
-The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases. 
+The development of activity diagrams was crucial in understanding the dynamic behaviour and the interplay of several use cases and domain entities. While use case descriptions provide a structured textual representation, activity diagrams allow for a visual understanding of the logical flow, decision points, and the interaction between the user and the system's core components.
 
-The activity diagram below shows the workflow of the given "Complete Learning Activity" use case. The diagram highlights the sequence of operations performed by the user and the system, which begin with the display of a question or an exercise. Validation logic is highlighted in this activity diagram where the system analyzes the response of the user. Based on this, if a wrong solution is provided, a "feedback loop" is initiated where a message prompts the user to try again. As a result, a learning activity will be marked accomplished only when a correct answer is given, which demonstrates a mastery learning technique.
+A set of activity diagrams was developed to cover the most critical workflows of the Learnify platform, including user onboarding, course discovery, content creation, and the learning process itself. 
 
-![Complete Learning Activity Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\CompleteLearningActivity\CompleteLearningActivity.png)
+The activity diagram below illustrates the core workflow of a Learner interacting with the platform. It demonstrates the interplay between UC3 (Manage Personal Learning), UC5 (Complete Learning Activity), and UC7 (View Leaderboard). 
 
-(TODO: not just one use case!!)
+![Learning and Achievement Activity Diagram (Appendix 2.3 Diagrams)](..\out\Analysis\ActivityDIagrams\LearningAndAchievement\LearningAndAchievement.svg)
+
+This diagram is arguably one of the most important aspects of the application as it demonstrates something similar to a core loop of the system - a typical path a user takes within a session.
+
+By modeling these workflows, the analysis phase ensured that the system's dynamic behavior aligns with the identified user stories and the relationships defined in the domain model.
 
 ### Domain model
 
@@ -579,8 +583,8 @@ Can be found as TODO:eduard.pdf
 Can be found as TODO:eduard.pdf
 
 ## Appendix 2.3 Diagrams
-### Complete Learning Activity Activity Diagram
-Can be found as CompleteLearningAcitivity.png
+### Learning and Achievement Activity Diagram
+Can be found as LearningAndAchievement.png
 ### Domain Model
 Can be found as DomainModel.png
 ### Enhanced Entity Relationship Diagram
