@@ -1,0 +1,92 @@
+@startuml LogicServerClass
+!include https://raw.githubusercontent.com/fredoslav2004/MinimalThemePUML/refs/heads/main/minimal-theme.puml
+scale 1
+
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+
+title "Summary LogicServer Class Diagram"
+
+
+package RepositoryContracts
+{
+    interface IRepositoryID<T, TAdd, TUpdate, ID> {
+        + GetSingleAsync(ID)
+        + GetMany()
+        + AddAsync(TAdd)
+        + UpdateAsync(TUpdate)
+        + DeleteAsync(ID)
+    }
+    
+    interface ICourseProgressRepository
+    interface ICourseRepository
+    interface ILeaderboardRepository
+    class NotFoundException
+}
+
+package gRPCRepo
+{
+    class gRPCRepository<T, TAdd, TUpdate, ID>
+}
+
+package RESTAPI
+{
+    package Auth
+    {
+        class AuthorizationPolicies
+    }
+    
+    package Services
+    {
+        interface IAuthService {
+            + ValidateUser()
+            + RegisterUser()
+            + ChangePasswordAsync()
+        }
+        class SecureAuthService
+    }
+
+    package Controllers
+    {
+        ' Base Generic Controllers
+        class GenericController<T, TAdd, TUpdate, ID>
+        class "GenericDefaultController<T, TAdd, TUpdate, ID>" as GenericDefaultControllerFull
+        class "GenericDefaultController<MainType, ID>" as GenericDefaultControllerSimp
+                
+        ' Utility/Test Controllers
+        class StatusController {
+            + GetStatus()
+        }
+        class TestController {
+            + GetAsAuthorized()
+            + GetAsAnon()
+            + GetAsVia()
+        }
+    }
+}
+
+' --- Relationships ---
+
+' Repository Hierarchy
+ICourseRepository --|> IRepositoryID
+ICourseProgressRepository --|> IRepositoryID
+ILeaderboardRepository --|> IRepositoryID
+
+gRPCRepository ..|> IRepositoryID
+
+' Services
+SecureAuthService ..|> IAuthService
+SecureAuthService --> IRepositoryID : "uses User Repo"
+
+' Controllers Hierarchy
+GenericDefaultControllerFull --|> GenericController
+GenericDefaultControllerSimp --|> GenericDefaultControllerFull : "TAdd/TUpd = MainType"
+
+' Controller Associations (Injected Services/Repos)
+GenericController --> IRepositoryID : _repository
+AuthController --> IAuthService : _authService
+CoursesController --> ICourseRepository
+CourseProgressController --> ICourseProgressRepository
+LeaderboardController --> ILeaderboardRepository
+
+@enduml
